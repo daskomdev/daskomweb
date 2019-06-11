@@ -1,0 +1,59 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateNilaisTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('nilais', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->smallInteger('tp');
+            $table->smallInteger('ta');
+            $table->smallInteger('tk');
+            $table->smallInteger('jurnal');
+            $table->bigInteger('modul_id');
+            $table->bigInteger('asisten_id');
+            $table->bigInteger('kelas_id');
+            $table->bigInteger('praktikan_id');
+            $table->timestamps();
+
+            $table->foreign('modul_id')
+                ->references('id')
+                ->on('moduls')
+                ->onDelete('cascade');
+
+            $table->foreign('asisten_id')
+                ->references('id')
+                ->on('asistens')
+                ->onDelete('cascade');
+
+            $table->foreign('kelas_id')
+                ->references('id')
+                ->on('kelas')
+                ->onDelete('cascade');
+
+            $table->foreign('praktikan_id')
+                ->references('id')
+                ->on('prakitkans')
+                ->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('nilais');
+    }
+}
