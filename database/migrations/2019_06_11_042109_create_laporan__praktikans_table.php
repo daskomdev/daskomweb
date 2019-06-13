@@ -18,8 +18,8 @@ class CreateLaporanPraktikansTable extends Migration
             $table->text('pesan');
             $table->smallInteger('rating_asisten');
             $table->smallInteger('rating_praktikum');
-            $table->bigInteger('asisten_id');
-            $table->bigInteger('modul_id');
+            $table->unsignedBigInteger('asisten_id');
+            $table->unsignedBigInteger('modul_id');
             $table->timestamps();
 
             $table->foreign('asisten_id')

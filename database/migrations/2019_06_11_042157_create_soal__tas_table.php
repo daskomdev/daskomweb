@@ -15,7 +15,7 @@ class CreateSoalTasTable extends Migration
     {
         Schema::create('soal__tas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('modul_id');
+            $table->unsignedBigInteger('modul_id');
             $table->text('pertanyaan');
             $table->string('jawaban_benar');
             $table->string('jawaban_salah1');

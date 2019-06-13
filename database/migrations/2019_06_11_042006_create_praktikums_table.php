@@ -15,10 +15,10 @@ class CreatePraktikumsTable extends Migration
     {
         Schema::create('praktikums', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('modul_id');
-            $table->bigInteger('kelas_id');
-            $table->bigInteger('pj_id');
-            $table->bigInteger('laporan_id');
+            $table->unsignedBigInteger('modul_id');
+            $table->unsignedBigInteger('kelas_id');
+            $table->unsignedBigInteger('pj_id');
+            $table->unsignedBigInteger('laporan_id');
             $table->timestamps();
 
             $table->foreign('modul_id')

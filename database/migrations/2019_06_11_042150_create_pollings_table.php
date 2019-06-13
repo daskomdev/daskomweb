@@ -15,14 +15,14 @@ class CreatePollingsTable extends Migration
     {
         Schema::create('pollings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('polling_id');
-            $table->bigInteger('asisten_id');
+            $table->unsignedBigInteger('polling_id');
+            $table->unsignedBigInteger('asisten_id');
             $table->integer('jumlah_polling')->default(0);
             $table->timestamps();
 
             $table->foreign('polling_id')
                 ->references('id')
-                ->on('jenis_pollings')
+                ->on('jenis__pollings')
                 ->onDelete('cascade');
 
             $table->foreign('asisten_id')

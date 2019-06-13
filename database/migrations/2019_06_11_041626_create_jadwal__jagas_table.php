@@ -18,7 +18,7 @@ class CreateJadwalJagasTable extends Migration
             $table->string('hari');
             $table->integer('shift');
             $table->boolean('pj')->default(false);
-            $table->bigInteger('asisten_id');
+            $table->unsignedBigInteger('asisten_id');
             $table->timestamps();
 
             $table->foreign('asisten_id')

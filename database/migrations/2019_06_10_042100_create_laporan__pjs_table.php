@@ -19,7 +19,7 @@ class CreateLaporanPjsTable extends Migration
             $table->text('laporan');
             $table->string('hari');
             $table->integer('shift');
-            $table->bigInteger('modul_id');
+            $table->unsignedBigInteger('modul_id');
             $table->timestamps();
 
             $table->foreign('modul_id')

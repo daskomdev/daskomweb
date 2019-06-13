@@ -15,7 +15,7 @@ class CreateSoalJurnalsTable extends Migration
     {
         Schema::create('soal__jurnals', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('modul_id');
+            $table->unsignedBigInteger('modul_id');
             $table->text('soal');
             $table->timestamps();
 

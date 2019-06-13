@@ -19,10 +19,10 @@ class CreateNilaisTable extends Migration
             $table->smallInteger('ta');
             $table->smallInteger('tk');
             $table->smallInteger('jurnal');
-            $table->bigInteger('modul_id');
-            $table->bigInteger('asisten_id');
-            $table->bigInteger('kelas_id');
-            $table->bigInteger('praktikan_id');
+            $table->unsignedBigInteger('modul_id');
+            $table->unsignedBigInteger('asisten_id');
+            $table->unsignedBigInteger('kelas_id');
+            $table->unsignedBigInteger('praktikan_id');
             $table->timestamps();
 
             $table->foreign('modul_id')
@@ -42,7 +42,7 @@ class CreateNilaisTable extends Migration
 
             $table->foreign('praktikan_id')
                 ->references('id')
-                ->on('prakitkans')
+                ->on('praktikans')
                 ->onDelete('cascade');
         });
     }

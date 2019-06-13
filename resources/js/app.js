@@ -1,6 +1,8 @@
 import Inertia from 'inertia-vue'
 import Vue from 'vue'
+import VueAnime from 'vue-animejs';
 
+Vue.use(VueAnime)
 Vue.use(Inertia)
 
 const app = document.getElementById('app')

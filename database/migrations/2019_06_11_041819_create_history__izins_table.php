@@ -25,8 +25,8 @@ class CreateHistoryIzinsTable extends Migration
             // 3 => alfa
             /***************/
 
-            $table->bigInteger('asisten_id');
-            $table->bigInteger('modul_id');
+            $table->unsignedBigInteger('asisten_id');
+            $table->unsignedBigInteger('modul_id');
             $table->timestamps();
 
             $table->foreign('asisten_id')

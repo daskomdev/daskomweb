@@ -15,8 +15,8 @@ class CreatePelanggaransTable extends Migration
     {
         Schema::create('pelanggarans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('pelanggaran_id');
-            $table->bigInteger('asisten_id');
+            $table->unsignedBigInteger('pelanggaran_id');
+            $table->unsignedBigInteger('asisten_id');
             $table->timestamps();
 
             $table->foreign('pelanggaran_id')

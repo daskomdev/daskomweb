@@ -18,7 +18,7 @@ class CreatePraktikansTable extends Migration
             $table->string('nama', 50);
             $table->string('nim', 20)->unique();
             $table->string('password');
-            $table->integer('kelas_id');
+            $table->unsignedBigInteger('kelas_id');
             $table->text('alamat');
             $table->integer('nomor_telepon');
             $table->string('email')->unique();

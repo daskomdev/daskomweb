@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"af65201ec4101202e607","1":"75beafab1c0d0d2ae131","2":"4d8f4a4c7f32ea8e591a"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"9a5f26477932526fbb8d","1":"9efcde1e61642fffcde2","2":"0a7b570009d0ed013fb7"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -200,33 +200,1568 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/index.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/index.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/animejs/lib/anime.es.js":
+/*!**********************************************!*\
+  !*** ./node_modules/animejs/lib/anime.es.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/inertia-vue/node_modules/axios/lib/axios.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*
+ * anime.js v3.0.1
+ * (c) 2019 Julian Garnier
+ * Released under the MIT license
+ * animejs.com
+ */
+
+// Defaults
+
+var defaultInstanceSettings = {
+  update: null,
+  begin: null,
+  loopBegin: null,
+  changeBegin: null,
+  change: null,
+  changeComplete: null,
+  loopComplete: null,
+  complete: null,
+  loop: 1,
+  direction: 'normal',
+  autoplay: true,
+  timelineOffset: 0
+};
+
+var defaultTweenSettings = {
+  duration: 1000,
+  delay: 0,
+  endDelay: 0,
+  easing: 'easeOutElastic(1, .5)',
+  round: 0
+};
+
+var validTransforms = ['translateX', 'translateY', 'translateZ', 'rotate', 'rotateX', 'rotateY', 'rotateZ', 'scale', 'scaleX', 'scaleY', 'scaleZ', 'skew', 'skewX', 'skewY', 'perspective'];
+
+// Caching
+
+var cache = {
+  CSS: {},
+  springs: {}
+};
+
+// Utils
+
+function minMax(val, min, max) {
+  return Math.min(Math.max(val, min), max);
+}
+
+function stringContains(str, text) {
+  return str.indexOf(text) > -1;
+}
+
+function applyArguments(func, args) {
+  return func.apply(null, args);
+}
+
+var is = {
+  arr: function (a) { return Array.isArray(a); },
+  obj: function (a) { return stringContains(Object.prototype.toString.call(a), 'Object'); },
+  pth: function (a) { return is.obj(a) && a.hasOwnProperty('totalLength'); },
+  svg: function (a) { return a instanceof SVGElement; },
+  inp: function (a) { return a instanceof HTMLInputElement; },
+  dom: function (a) { return a.nodeType || is.svg(a); },
+  str: function (a) { return typeof a === 'string'; },
+  fnc: function (a) { return typeof a === 'function'; },
+  und: function (a) { return typeof a === 'undefined'; },
+  hex: function (a) { return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(a); },
+  rgb: function (a) { return /^rgb/.test(a); },
+  hsl: function (a) { return /^hsl/.test(a); },
+  col: function (a) { return (is.hex(a) || is.rgb(a) || is.hsl(a)); },
+  key: function (a) { return !defaultInstanceSettings.hasOwnProperty(a) && !defaultTweenSettings.hasOwnProperty(a) && a !== 'targets' && a !== 'keyframes'; }
+};
+
+// Easings
+
+function parseEasingParameters(string) {
+  var match = /\(([^)]+)\)/.exec(string);
+  return match ? match[1].split(',').map(function (p) { return parseFloat(p); }) : [];
+}
+
+// Spring solver inspired by Webkit Copyright © 2016 Apple Inc. All rights reserved. https://webkit.org/demos/spring/spring.js
+
+function spring(string, duration) {
+
+  var params = parseEasingParameters(string);
+  var mass = minMax(is.und(params[0]) ? 1 : params[0], .1, 100);
+  var stiffness = minMax(is.und(params[1]) ? 100 : params[1], .1, 100);
+  var damping = minMax(is.und(params[2]) ? 10 : params[2], .1, 100);
+  var velocity =  minMax(is.und(params[3]) ? 0 : params[3], .1, 100);
+  var w0 = Math.sqrt(stiffness / mass);
+  var zeta = damping / (2 * Math.sqrt(stiffness * mass));
+  var wd = zeta < 1 ? w0 * Math.sqrt(1 - zeta * zeta) : 0;
+  var a = 1;
+  var b = zeta < 1 ? (zeta * w0 + -velocity) / wd : -velocity + w0;
+
+  function solver(t) {
+    var progress = duration ? (duration * t) / 1000 : t;
+    if (zeta < 1) {
+      progress = Math.exp(-progress * zeta * w0) * (a * Math.cos(wd * progress) + b * Math.sin(wd * progress));
+    } else {
+      progress = (a + b * progress) * Math.exp(-progress * w0);
+    }
+    if (t === 0 || t === 1) { return t; }
+    return 1 - progress;
+  }
+
+  function getDuration() {
+    var cached = cache.springs[string];
+    if (cached) { return cached; }
+    var frame = 1/6;
+    var elapsed = 0;
+    var rest = 0;
+    while(true) {
+      elapsed += frame;
+      if (solver(elapsed) === 1) {
+        rest++;
+        if (rest >= 16) { break; }
+      } else {
+        rest = 0;
+      }
+    }
+    var duration = elapsed * frame * 1000;
+    cache.springs[string] = duration;
+    return duration;
+  }
+
+  return duration ? solver : getDuration;
+
+}
+
+// Elastic easing adapted from jQueryUI http://api.jqueryui.com/easings/
+
+function elastic(amplitude, period) {
+  if ( amplitude === void 0 ) amplitude = 1;
+  if ( period === void 0 ) period = .5;
+
+  var a = minMax(amplitude, 1, 10);
+  var p = minMax(period, .1, 2);
+  return function (t) {
+    return (t === 0 || t === 1) ? t : 
+      -a * Math.pow(2, 10 * (t - 1)) * Math.sin((((t - 1) - (p / (Math.PI * 2) * Math.asin(1 / a))) * (Math.PI * 2)) / p);
+  }
+}
+
+// Basic steps easing implementation https://developer.mozilla.org/fr/docs/Web/CSS/transition-timing-function
+
+function steps(steps) {
+  if ( steps === void 0 ) steps = 10;
+
+  return function (t) { return Math.round(t * steps) * (1 / steps); };
+}
+
+// BezierEasing https://github.com/gre/bezier-easing
+
+var bezier = (function () {
+
+  var kSplineTableSize = 11;
+  var kSampleStepSize = 1.0 / (kSplineTableSize - 1.0);
+
+  function A(aA1, aA2) { return 1.0 - 3.0 * aA2 + 3.0 * aA1 }
+  function B(aA1, aA2) { return 3.0 * aA2 - 6.0 * aA1 }
+  function C(aA1)      { return 3.0 * aA1 }
+
+  function calcBezier(aT, aA1, aA2) { return ((A(aA1, aA2) * aT + B(aA1, aA2)) * aT + C(aA1)) * aT }
+  function getSlope(aT, aA1, aA2) { return 3.0 * A(aA1, aA2) * aT * aT + 2.0 * B(aA1, aA2) * aT + C(aA1) }
+
+  function binarySubdivide(aX, aA, aB, mX1, mX2) {
+    var currentX, currentT, i = 0;
+    do {
+      currentT = aA + (aB - aA) / 2.0;
+      currentX = calcBezier(currentT, mX1, mX2) - aX;
+      if (currentX > 0.0) { aB = currentT; } else { aA = currentT; }
+    } while (Math.abs(currentX) > 0.0000001 && ++i < 10);
+    return currentT;
+  }
+
+  function newtonRaphsonIterate(aX, aGuessT, mX1, mX2) {
+    for (var i = 0; i < 4; ++i) {
+      var currentSlope = getSlope(aGuessT, mX1, mX2);
+      if (currentSlope === 0.0) { return aGuessT; }
+      var currentX = calcBezier(aGuessT, mX1, mX2) - aX;
+      aGuessT -= currentX / currentSlope;
+    }
+    return aGuessT;
+  }
+
+  function bezier(mX1, mY1, mX2, mY2) {
+
+    if (!(0 <= mX1 && mX1 <= 1 && 0 <= mX2 && mX2 <= 1)) { return; }
+    var sampleValues = new Float32Array(kSplineTableSize);
+
+    if (mX1 !== mY1 || mX2 !== mY2) {
+      for (var i = 0; i < kSplineTableSize; ++i) {
+        sampleValues[i] = calcBezier(i * kSampleStepSize, mX1, mX2);
+      }
+    }
+
+    function getTForX(aX) {
+
+      var intervalStart = 0;
+      var currentSample = 1;
+      var lastSample = kSplineTableSize - 1;
+
+      for (; currentSample !== lastSample && sampleValues[currentSample] <= aX; ++currentSample) {
+        intervalStart += kSampleStepSize;
+      }
+
+      --currentSample;
+
+      var dist = (aX - sampleValues[currentSample]) / (sampleValues[currentSample + 1] - sampleValues[currentSample]);
+      var guessForT = intervalStart + dist * kSampleStepSize;
+      var initialSlope = getSlope(guessForT, mX1, mX2);
+
+      if (initialSlope >= 0.001) {
+        return newtonRaphsonIterate(aX, guessForT, mX1, mX2);
+      } else if (initialSlope === 0.0) {
+        return guessForT;
+      } else {
+        return binarySubdivide(aX, intervalStart, intervalStart + kSampleStepSize, mX1, mX2);
+      }
+
+    }
+
+    return function (x) {
+      if (mX1 === mY1 && mX2 === mY2) { return x; }
+      if (x === 0 || x === 1) { return x; }
+      return calcBezier(getTForX(x), mY1, mY2);
+    }
+
+  }
+
+  return bezier;
+
+})();
+
+var penner = (function () {
+
+  var names = ['Quad', 'Cubic', 'Quart', 'Quint', 'Sine', 'Expo', 'Circ', 'Back', 'Elastic'];
+
+  // Approximated Penner equations http://matthewlein.com/ceaser/
+
+  var curves = {
+    In: [
+      [0.550, 0.085, 0.680, 0.530], /* inQuad */
+      [0.550, 0.055, 0.675, 0.190], /* inCubic */
+      [0.895, 0.030, 0.685, 0.220], /* inQuart */
+      [0.755, 0.050, 0.855, 0.060], /* inQuint */
+      [0.470, 0.000, 0.745, 0.715], /* inSine */
+      [0.950, 0.050, 0.795, 0.035], /* inExpo */
+      [0.600, 0.040, 0.980, 0.335], /* inCirc */
+      [0.600,-0.280, 0.735, 0.045], /* inBack */
+      elastic /* inElastic */
+    ],
+    Out: [
+      [0.250, 0.460, 0.450, 0.940], /* outQuad */
+      [0.215, 0.610, 0.355, 1.000], /* outCubic */
+      [0.165, 0.840, 0.440, 1.000], /* outQuart */
+      [0.230, 1.000, 0.320, 1.000], /* outQuint */
+      [0.390, 0.575, 0.565, 1.000], /* outSine */
+      [0.190, 1.000, 0.220, 1.000], /* outExpo */
+      [0.075, 0.820, 0.165, 1.000], /* outCirc */
+      [0.175, 0.885, 0.320, 1.275], /* outBack */
+      function (a, p) { return function (t) { return 1 - elastic(a, p)(1 - t); }; } /* outElastic */
+    ],
+    InOut: [
+      [0.455, 0.030, 0.515, 0.955], /* inOutQuad */
+      [0.645, 0.045, 0.355, 1.000], /* inOutCubic */
+      [0.770, 0.000, 0.175, 1.000], /* inOutQuart */
+      [0.860, 0.000, 0.070, 1.000], /* inOutQuint */
+      [0.445, 0.050, 0.550, 0.950], /* inOutSine */
+      [1.000, 0.000, 0.000, 1.000], /* inOutExpo */
+      [0.785, 0.135, 0.150, 0.860], /* inOutCirc */
+      [0.680,-0.550, 0.265, 1.550], /* inOutBack */
+      function (a, p) { return function (t) { return t < .5 ? elastic(a, p)(t * 2) / 2 : 1 - elastic(a, p)(t * -2 + 2) / 2; }; } /* inOutElastic */
+    ]
+  };
+
+  var eases = { 
+    linear: [0.250, 0.250, 0.750, 0.750]
+  };
+
+  var loop = function ( coords ) {
+    curves[coords].forEach(function (ease, i) {
+      eases['ease'+coords+names[i]] = ease;
+    });
+  };
+
+  for (var coords in curves) loop( coords );
+
+  return eases;
+
+})();
+
+function parseEasings(easing, duration) {
+  if (is.fnc(easing)) { return easing; }
+  var name = easing.split('(')[0];
+  var ease = penner[name];
+  var args = parseEasingParameters(easing);
+  switch (name) {
+    case 'spring' : return spring(easing, duration);
+    case 'cubicBezier' : return applyArguments(bezier, args);
+    case 'steps' : return applyArguments(steps, args);
+    default : return is.fnc(ease) ? applyArguments(ease, args) : applyArguments(bezier, ease);
+  }
+}
+
+// Strings
+
+function selectString(str) {
+  try {
+    var nodes = document.querySelectorAll(str);
+    return nodes;
+  } catch(e) {
+    return;
+  }
+}
+
+// Arrays
+
+function filterArray(arr, callback) {
+  var len = arr.length;
+  var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+  var result = [];
+  for (var i = 0; i < len; i++) {
+    if (i in arr) {
+      var val = arr[i];
+      if (callback.call(thisArg, val, i, arr)) {
+        result.push(val);
+      }
+    }
+  }
+  return result;
+}
+
+function flattenArray(arr) {
+  return arr.reduce(function (a, b) { return a.concat(is.arr(b) ? flattenArray(b) : b); }, []);
+}
+
+function toArray(o) {
+  if (is.arr(o)) { return o; }
+  if (is.str(o)) { o = selectString(o) || o; }
+  if (o instanceof NodeList || o instanceof HTMLCollection) { return [].slice.call(o); }
+  return [o];
+}
+
+function arrayContains(arr, val) {
+  return arr.some(function (a) { return a === val; });
+}
+
+// Objects
+
+function cloneObject(o) {
+  var clone = {};
+  for (var p in o) { clone[p] = o[p]; }
+  return clone;
+}
+
+function replaceObjectProps(o1, o2) {
+  var o = cloneObject(o1);
+  for (var p in o1) { o[p] = o2.hasOwnProperty(p) ? o2[p] : o1[p]; }
+  return o;
+}
+
+function mergeObjects(o1, o2) {
+  var o = cloneObject(o1);
+  for (var p in o2) { o[p] = is.und(o1[p]) ? o2[p] : o1[p]; }
+  return o;
+}
+
+// Colors
+
+function rgbToRgba(rgbValue) {
+  var rgb = /rgb\((\d+,\s*[\d]+,\s*[\d]+)\)/g.exec(rgbValue);
+  return rgb ? ("rgba(" + (rgb[1]) + ",1)") : rgbValue;
+}
+
+function hexToRgba(hexValue) {
+  var rgx = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  var hex = hexValue.replace(rgx, function (m, r, g, b) { return r + r + g + g + b + b; } );
+  var rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  var r = parseInt(rgb[1], 16);
+  var g = parseInt(rgb[2], 16);
+  var b = parseInt(rgb[3], 16);
+  return ("rgba(" + r + "," + g + "," + b + ",1)");
+}
+
+function hslToRgba(hslValue) {
+  var hsl = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(hslValue) || /hsla\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+)\)/g.exec(hslValue);
+  var h = parseInt(hsl[1], 10) / 360;
+  var s = parseInt(hsl[2], 10) / 100;
+  var l = parseInt(hsl[3], 10) / 100;
+  var a = hsl[4] || 1;
+  function hue2rgb(p, q, t) {
+    if (t < 0) { t += 1; }
+    if (t > 1) { t -= 1; }
+    if (t < 1/6) { return p + (q - p) * 6 * t; }
+    if (t < 1/2) { return q; }
+    if (t < 2/3) { return p + (q - p) * (2/3 - t) * 6; }
+    return p;
+  }
+  var r, g, b;
+  if (s == 0) {
+    r = g = b = l;
+  } else {
+    var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    var p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+  return ("rgba(" + (r * 255) + "," + (g * 255) + "," + (b * 255) + "," + a + ")");
+}
+
+function colorToRgb(val) {
+  if (is.rgb(val)) { return rgbToRgba(val); }
+  if (is.hex(val)) { return hexToRgba(val); }
+  if (is.hsl(val)) { return hslToRgba(val); }
+}
+
+// Units
+
+function getUnit(val) {
+  var split = /([\+\-]?[0-9#\.]+)(%|px|pt|em|rem|in|cm|mm|ex|ch|pc|vw|vh|vmin|vmax|deg|rad|turn)?$/.exec(val);
+  if (split) { return split[2]; }
+}
+
+function getTransformUnit(propName) {
+  if (stringContains(propName, 'translate') || propName === 'perspective') { return 'px'; }
+  if (stringContains(propName, 'rotate') || stringContains(propName, 'skew')) { return 'deg'; }
+}
+
+// Values
+
+function getFunctionValue(val, animatable) {
+  if (!is.fnc(val)) { return val; }
+  return val(animatable.target, animatable.id, animatable.total);
+}
+
+function getAttribute(el, prop) {
+  return el.getAttribute(prop);
+}
+
+function convertPxToUnit(el, value, unit) {
+  var valueUnit = getUnit(value);
+  if (arrayContains([unit, 'deg', 'rad', 'turn'], valueUnit)) { return value; }
+  var cached = cache.CSS[value + unit];
+  if (!is.und(cached)) { return cached; }
+  var baseline = 100;
+  var tempEl = document.createElement(el.tagName);
+  var parentEl = (el.parentNode && (el.parentNode !== document)) ? el.parentNode : document.body;
+  parentEl.appendChild(tempEl);
+  tempEl.style.position = 'absolute';
+  tempEl.style.width = baseline + unit;
+  var factor = baseline / tempEl.offsetWidth;
+  parentEl.removeChild(tempEl);
+  var convertedUnit = factor * parseFloat(value);
+  cache.CSS[value + unit] = convertedUnit;
+  return convertedUnit;
+}
+
+function getCSSValue(el, prop, unit) {
+  if (prop in el.style) {
+    var uppercasePropName = prop.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    var value = el.style[prop] || getComputedStyle(el).getPropertyValue(uppercasePropName) || '0';
+    return unit ? convertPxToUnit(el, value, unit) : value;
+  }
+}
+
+function getAnimationType(el, prop) {
+  if (is.dom(el) && !is.inp(el) && (getAttribute(el, prop) || (is.svg(el) && el[prop]))) { return 'attribute'; }
+  if (is.dom(el) && arrayContains(validTransforms, prop)) { return 'transform'; }
+  if (is.dom(el) && (prop !== 'transform' && getCSSValue(el, prop))) { return 'css'; }
+  if (el[prop] != null) { return 'object'; }
+}
+
+function getElementTransforms(el) {
+  if (!is.dom(el)) { return; }
+  var str = el.style.transform || '';
+  var reg  = /(\w+)\(([^)]*)\)/g;
+  var transforms = new Map();
+  var m; while (m = reg.exec(str)) { transforms.set(m[1], m[2]); }
+  return transforms;
+}
+
+function getTransformValue(el, propName, animatable, unit) {
+  var defaultVal = stringContains(propName, 'scale') ? 1 : 0 + getTransformUnit(propName);
+  var value = getElementTransforms(el).get(propName) || defaultVal;
+  if (animatable) {
+    animatable.transforms.list.set(propName, value);
+    animatable.transforms['last'] = propName;
+  }
+  return unit ? convertPxToUnit(el, value, unit) : value;
+}
+
+function getOriginalTargetValue(target, propName, unit, animatable) {
+  switch (getAnimationType(target, propName)) {
+    case 'transform': return getTransformValue(target, propName, animatable, unit);
+    case 'css': return getCSSValue(target, propName, unit);
+    case 'attribute': return getAttribute(target, propName);
+    default: return target[propName] || 0;
+  }
+}
+
+function getRelativeValue(to, from) {
+  var operator = /^(\*=|\+=|-=)/.exec(to);
+  if (!operator) { return to; }
+  var u = getUnit(to) || 0;
+  var x = parseFloat(from);
+  var y = parseFloat(to.replace(operator[0], ''));
+  switch (operator[0][0]) {
+    case '+': return x + y + u;
+    case '-': return x - y + u;
+    case '*': return x * y + u;
+  }
+}
+
+function validateValue(val, unit) {
+  if (is.col(val)) { return colorToRgb(val); }
+  var originalUnit = getUnit(val);
+  var unitLess = originalUnit ? val.substr(0, val.length - originalUnit.length) : val;
+  return unit && !/\s/g.test(val) ? unitLess + unit : unitLess;
+}
+
+// getTotalLength() equivalent for circle, rect, polyline, polygon and line shapes
+// adapted from https://gist.github.com/SebLambla/3e0550c496c236709744
+
+function getDistance(p1, p2) {
+  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+}
+
+function getCircleLength(el) {
+  return Math.PI * 2 * getAttribute(el, 'r');
+}
+
+function getRectLength(el) {
+  return (getAttribute(el, 'width') * 2) + (getAttribute(el, 'height') * 2);
+}
+
+function getLineLength(el) {
+  return getDistance(
+    {x: getAttribute(el, 'x1'), y: getAttribute(el, 'y1')}, 
+    {x: getAttribute(el, 'x2'), y: getAttribute(el, 'y2')}
+  );
+}
+
+function getPolylineLength(el) {
+  var points = el.points;
+  var totalLength = 0;
+  var previousPos;
+  for (var i = 0 ; i < points.numberOfItems; i++) {
+    var currentPos = points.getItem(i);
+    if (i > 0) { totalLength += getDistance(previousPos, currentPos); }
+    previousPos = currentPos;
+  }
+  return totalLength;
+}
+
+function getPolygonLength(el) {
+  var points = el.points;
+  return getPolylineLength(el) + getDistance(points.getItem(points.numberOfItems - 1), points.getItem(0));
+}
+
+// Path animation
+
+function getTotalLength(el) {
+  if (el.getTotalLength) { return el.getTotalLength(); }
+  switch(el.tagName.toLowerCase()) {
+    case 'circle': return getCircleLength(el);
+    case 'rect': return getRectLength(el);
+    case 'line': return getLineLength(el);
+    case 'polyline': return getPolylineLength(el);
+    case 'polygon': return getPolygonLength(el);
+  }
+}
+
+function setDashoffset(el) {
+  var pathLength = getTotalLength(el);
+  el.setAttribute('stroke-dasharray', pathLength);
+  return pathLength;
+}
+
+// Motion path
+
+function getParentSvgEl(el) {
+  var parentEl = el.parentNode;
+  while (is.svg(parentEl)) {
+    parentEl = parentEl.parentNode;
+    if (!is.svg(parentEl.parentNode)) { break; }
+  }
+  return parentEl;
+}
+
+function getParentSvg(pathEl, svgData) {
+  var svg = svgData || {};
+  var parentSvgEl = svg.el || getParentSvgEl(pathEl);
+  var rect = parentSvgEl.getBoundingClientRect();
+  var viewBoxAttr = getAttribute(parentSvgEl, 'viewBox');
+  var width = rect.width;
+  var height = rect.height;
+  var viewBox = svg.viewBox || (viewBoxAttr ? viewBoxAttr.split(' ') : [0, 0, width, height]);
+  return {
+    el: parentSvgEl,
+    viewBox: viewBox,
+    x: viewBox[0] / 1,
+    y: viewBox[1] / 1,
+    w: width / viewBox[2],
+    h: height / viewBox[3]
+  }
+}
+
+function getPath(path, percent) {
+  var pathEl = is.str(path) ? selectString(path)[0] : path;
+  var p = percent || 100;
+  return function(property) {
+    return {
+      property: property,
+      el: pathEl,
+      svg: getParentSvg(pathEl),
+      totalLength: getTotalLength(pathEl) * (p / 100)
+    }
+  }
+}
+
+function getPathProgress(path, progress) {
+  function point(offset) {
+    if ( offset === void 0 ) offset = 0;
+
+    var l = progress + offset >= 1 ? progress + offset : 0;
+    return path.el.getPointAtLength(l);
+  }
+  var svg = getParentSvg(path.el, path.svg);
+  var p = point();
+  var p0 = point(-1);
+  var p1 = point(+1);
+  switch (path.property) {
+    case 'x': return (p.x - svg.x) * svg.w;
+    case 'y': return (p.y - svg.y) * svg.h;
+    case 'angle': return Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180 / Math.PI;
+  }
+}
+
+// Decompose value
+
+function decomposeValue(val, unit) {
+  var rgx = /-?\d*\.?\d+/g;
+  var value = validateValue((is.pth(val) ? val.totalLength : val), unit) + '';
+  return {
+    original: value,
+    numbers: value.match(rgx) ? value.match(rgx).map(Number) : [0],
+    strings: (is.str(val) || unit) ? value.split(rgx) : []
+  }
+}
+
+// Animatables
+
+function parseTargets(targets) {
+  var targetsArray = targets ? (flattenArray(is.arr(targets) ? targets.map(toArray) : toArray(targets))) : [];
+  return filterArray(targetsArray, function (item, pos, self) { return self.indexOf(item) === pos; });
+}
+
+function getAnimatables(targets) {
+  var parsed = parseTargets(targets);
+  return parsed.map(function (t, i) {
+    return {target: t, id: i, total: parsed.length, transforms: { list: getElementTransforms(t) } };
+  });
+}
+
+// Properties
+
+function normalizePropertyTweens(prop, tweenSettings) {
+  var settings = cloneObject(tweenSettings);
+  // Override duration if easing is a spring
+  if (/^spring/.test(settings.easing)) { settings.duration = spring(settings.easing); }
+  if (is.arr(prop)) {
+    var l = prop.length;
+    var isFromTo = (l === 2 && !is.obj(prop[0]));
+    if (!isFromTo) {
+      // Duration divided by the number of tweens
+      if (!is.fnc(tweenSettings.duration)) { settings.duration = tweenSettings.duration / l; }
+    } else {
+      // Transform [from, to] values shorthand to a valid tween value
+      prop = {value: prop};
+    }
+  }
+  var propArray = is.arr(prop) ? prop : [prop];
+  return propArray.map(function (v, i) {
+    var obj = (is.obj(v) && !is.pth(v)) ? v : {value: v};
+    // Default delay value should only be applied to the first tween
+    if (is.und(obj.delay)) { obj.delay = !i ? tweenSettings.delay : 0; }
+    // Default endDelay value should only be applied to the last tween
+    if (is.und(obj.endDelay)) { obj.endDelay = i === propArray.length - 1 ? tweenSettings.endDelay : 0; }
+    return obj;
+  }).map(function (k) { return mergeObjects(k, settings); });
+}
+
+
+function flattenKeyframes(keyframes) {
+  var propertyNames = filterArray(flattenArray(keyframes.map(function (key) { return Object.keys(key); })), function (p) { return is.key(p); })
+  .reduce(function (a,b) { if (a.indexOf(b) < 0) { a.push(b); } return a; }, []);
+  var properties = {};
+  var loop = function ( i ) {
+    var propName = propertyNames[i];
+    properties[propName] = keyframes.map(function (key) {
+      var newKey = {};
+      for (var p in key) {
+        if (is.key(p)) {
+          if (p == propName) { newKey.value = key[p]; }
+        } else {
+          newKey[p] = key[p];
+        }
+      }
+      return newKey;
+    });
+  };
+
+  for (var i = 0; i < propertyNames.length; i++) loop( i );
+  return properties;
+}
+
+function getProperties(tweenSettings, params) {
+  var properties = [];
+  var keyframes = params.keyframes;
+  if (keyframes) { params = mergeObjects(flattenKeyframes(keyframes), params); }
+  for (var p in params) {
+    if (is.key(p)) {
+      properties.push({
+        name: p,
+        tweens: normalizePropertyTweens(params[p], tweenSettings)
+      });
+    }
+  }
+  return properties;
+}
+
+// Tweens
+
+function normalizeTweenValues(tween, animatable) {
+  var t = {};
+  for (var p in tween) {
+    var value = getFunctionValue(tween[p], animatable);
+    if (is.arr(value)) {
+      value = value.map(function (v) { return getFunctionValue(v, animatable); });
+      if (value.length === 1) { value = value[0]; }
+    }
+    t[p] = value;
+  }
+  t.duration = parseFloat(t.duration);
+  t.delay = parseFloat(t.delay);
+  return t;
+}
+
+function normalizeTweens(prop, animatable) {
+  var previousTween;
+  return prop.tweens.map(function (t) {
+    var tween = normalizeTweenValues(t, animatable);
+    var tweenValue = tween.value;
+    var to = is.arr(tweenValue) ? tweenValue[1] : tweenValue;
+    var toUnit = getUnit(to);
+    var originalValue = getOriginalTargetValue(animatable.target, prop.name, toUnit, animatable);
+    var previousValue = previousTween ? previousTween.to.original : originalValue;
+    var from = is.arr(tweenValue) ? tweenValue[0] : previousValue;
+    var fromUnit = getUnit(from) || getUnit(originalValue);
+    var unit = toUnit || fromUnit;
+    if (is.und(to)) { to = previousValue; }
+    tween.from = decomposeValue(from, unit);
+    tween.to = decomposeValue(getRelativeValue(to, from), unit);
+    tween.start = previousTween ? previousTween.end : 0;
+    tween.end = tween.start + tween.delay + tween.duration + tween.endDelay;
+    tween.easing = parseEasings(tween.easing, tween.duration);
+    tween.isPath = is.pth(tweenValue);
+    tween.isColor = is.col(tween.from.original);
+    if (tween.isColor) { tween.round = 1; }
+    previousTween = tween;
+    return tween;
+  });
+}
+
+// Tween progress
+
+var setProgressValue = {
+  css: function (t, p, v) { return t.style[p] = v; },
+  attribute: function (t, p, v) { return t.setAttribute(p, v); },
+  object: function (t, p, v) { return t[p] = v; },
+  transform: function (t, p, v, transforms, manual) {
+    transforms.list.set(p, v);
+    if (p === transforms.last || manual) {
+      var str = '';
+      transforms.list.forEach(function (value, prop) { str += prop + "(" + value + ") "; });
+      t.style.transform = str;
+    }
+  }
+};
+
+// Set Value helper
+
+function setTargetsValue(targets, properties) {
+  var animatables = getAnimatables(targets);
+  animatables.forEach(function (animatable) {
+    for (var property in properties) {
+      var value = getFunctionValue(properties[property], animatable);
+      var target = animatable.target;
+      var valueUnit = getUnit(value);
+      var originalValue = getOriginalTargetValue(target, property, valueUnit, animatable);
+      var unit = valueUnit || getUnit(originalValue);
+      var to = getRelativeValue(validateValue(value, unit), originalValue);
+      var animType = getAnimationType(target, property);
+      setProgressValue[animType](target, property, to, animatable.transforms, true);
+    }
+  });
+}
+
+// Animations
+
+function createAnimation(animatable, prop) {
+  var animType = getAnimationType(animatable.target, prop.name);
+  if (animType) {
+    var tweens = normalizeTweens(prop, animatable);
+    var lastTween = tweens[tweens.length - 1];
+    return {
+      type: animType,
+      property: prop.name,
+      animatable: animatable,
+      tweens: tweens,
+      duration: lastTween.end,
+      delay: tweens[0].delay,
+      endDelay: lastTween.endDelay
+    }
+  }
+}
+
+function getAnimations(animatables, properties) {
+  return filterArray(flattenArray(animatables.map(function (animatable) {
+    return properties.map(function (prop) {
+      return createAnimation(animatable, prop);
+    });
+  })), function (a) { return !is.und(a); });
+}
+
+// Create Instance
+
+function getInstanceTimings(animations, tweenSettings) {
+  var animLength = animations.length;
+  var getTlOffset = function (anim) { return anim.timelineOffset ? anim.timelineOffset : 0; };
+  var timings = {};
+  timings.duration = animLength ? Math.max.apply(Math, animations.map(function (anim) { return getTlOffset(anim) + anim.duration; })) : tweenSettings.duration;
+  timings.delay = animLength ? Math.min.apply(Math, animations.map(function (anim) { return getTlOffset(anim) + anim.delay; })) : tweenSettings.delay;
+  timings.endDelay = animLength ? timings.duration - Math.max.apply(Math, animations.map(function (anim) { return getTlOffset(anim) + anim.duration - anim.endDelay; })) : tweenSettings.endDelay;
+  return timings;
+}
+
+var instanceID = 0;
+
+function createNewInstance(params) {
+  var instanceSettings = replaceObjectProps(defaultInstanceSettings, params);
+  var tweenSettings = replaceObjectProps(defaultTweenSettings, params);
+  var properties = getProperties(tweenSettings, params);
+  var animatables = getAnimatables(params.targets);
+  var animations = getAnimations(animatables, properties);
+  var timings = getInstanceTimings(animations, tweenSettings);
+  var id = instanceID;
+  instanceID++;
+  return mergeObjects(instanceSettings, {
+    id: id,
+    children: [],
+    animatables: animatables,
+    animations: animations,
+    duration: timings.duration,
+    delay: timings.delay,
+    endDelay: timings.endDelay
+  });
+}
+
+// Core
+
+var activeInstances = [];
+var pausedInstances = [];
+var raf;
+
+var engine = (function () {
+  function play() { 
+    raf = requestAnimationFrame(step);
+  }
+  function step(t) {
+    var activeInstancesLength = activeInstances.length;
+    if (activeInstancesLength) {
+      var i = 0;
+      while (i < activeInstancesLength) {
+        var activeInstance = activeInstances[i];
+        if (!activeInstance.paused) {
+          activeInstance.tick(t);
+        } else {
+          var instanceIndex = activeInstances.indexOf(activeInstance);
+          if (instanceIndex > -1) {
+            activeInstances.splice(instanceIndex, 1);
+            activeInstancesLength = activeInstances.length;
+          }
+        }
+        i++;
+      }
+      play();
+    } else {
+      raf = cancelAnimationFrame(raf);
+    }
+  }
+  return play;
+})();
+
+function handleVisibilityChange() {
+  if (document.hidden) {
+    activeInstances.forEach(function (ins) { return ins.pause(); });
+    pausedInstances = activeInstances.slice(0);
+    activeInstances = [];
+  } else {
+    pausedInstances.forEach(function (ins) { return ins.play(); });
+  }
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
+// Public Instance
+
+function anime(params) {
+  if ( params === void 0 ) params = {};
+
+
+  var startTime = 0, lastTime = 0, now = 0;
+  var children, childrenLength = 0;
+  var resolve = null;
+
+  function makePromise(instance) {
+    var promise = window.Promise && new Promise(function (_resolve) { return resolve = _resolve; });
+    instance.finished = promise;
+    return promise;
+  }
+
+  var instance = createNewInstance(params);
+  var promise = makePromise(instance);
+
+  function toggleInstanceDirection() {
+    var direction = instance.direction;
+    if (direction !== 'alternate') {
+      instance.direction = direction !== 'normal' ? 'normal' : 'reverse';
+    }
+    instance.reversed = !instance.reversed;
+    children.forEach(function (child) { return child.reversed = instance.reversed; });
+  }
+
+  function adjustTime(time) {
+    return instance.reversed ? instance.duration - time : time;
+  }
+
+  function resetTime() {
+    startTime = 0;
+    lastTime = adjustTime(instance.currentTime) * (1 / anime.speed);
+  }
+
+  function seekCild(time, child) {
+    if (child) { child.seek(time - child.timelineOffset); }
+  }
+
+  function syncInstanceChildren(time) {
+    if (!instance.reversePlayback) {
+      for (var i = 0; i < childrenLength; i++) { seekCild(time, children[i]); }
+    } else {
+      for (var i$1 = childrenLength; i$1--;) { seekCild(time, children[i$1]); }
+    }
+  }
+
+  function setAnimationsProgress(insTime) {
+    var i = 0;
+    var animations = instance.animations;
+    var animationsLength = animations.length;
+    while (i < animationsLength) {
+      var anim = animations[i];
+      var animatable = anim.animatable;
+      var tweens = anim.tweens;
+      var tweenLength = tweens.length - 1;
+      var tween = tweens[tweenLength];
+      // Only check for keyframes if there is more than one tween
+      if (tweenLength) { tween = filterArray(tweens, function (t) { return (insTime < t.end); })[0] || tween; }
+      var elapsed = minMax(insTime - tween.start - tween.delay, 0, tween.duration) / tween.duration;
+      var eased = isNaN(elapsed) ? 1 : tween.easing(elapsed);
+      var strings = tween.to.strings;
+      var round = tween.round;
+      var numbers = [];
+      var toNumbersLength = tween.to.numbers.length;
+      var progress = (void 0);
+      for (var n = 0; n < toNumbersLength; n++) {
+        var value = (void 0);
+        var toNumber = tween.to.numbers[n];
+        var fromNumber = tween.from.numbers[n] || 0;
+        if (!tween.isPath) {
+          value = fromNumber + (eased * (toNumber - fromNumber));
+        } else {
+          value = getPathProgress(tween.value, eased * toNumber);
+        }
+        if (round) {
+          if (!(tween.isColor && n > 2)) {
+            value = Math.round(value * round) / round;
+          }
+        }
+        numbers.push(value);
+      }
+      // Manual Array.reduce for better performances
+      var stringsLength = strings.length;
+      if (!stringsLength) {
+        progress = numbers[0];
+      } else {
+        progress = strings[0];
+        for (var s = 0; s < stringsLength; s++) {
+          var a = strings[s];
+          var b = strings[s + 1];
+          var n$1 = numbers[s];
+          if (!isNaN(n$1)) {
+            if (!b) {
+              progress += n$1 + ' ';
+            } else {
+              progress += n$1 + b;
+            }
+          }
+        }
+      }
+      setProgressValue[anim.type](animatable.target, anim.property, progress, animatable.transforms);
+      anim.currentValue = progress;
+      i++;
+    }
+  }
+
+  function setCallback(cb) {
+    if (instance[cb] && !instance.passThrough) { instance[cb](instance); }
+  }
+
+  function countIteration() {
+    if (instance.remaining && instance.remaining !== true) {
+      instance.remaining--;
+    }
+  }
+
+  function setInstanceProgress(engineTime) {
+    var insDuration = instance.duration;
+    var insDelay = instance.delay;
+    var insEndDelay = insDuration - instance.endDelay;
+    var insTime = adjustTime(engineTime);
+    instance.progress = minMax((insTime / insDuration) * 100, 0, 100);
+    instance.reversePlayback = insTime < instance.currentTime;
+    if (children) { syncInstanceChildren(insTime); }
+    if (!instance.began && instance.currentTime > 0) {
+      instance.began = true;
+      setCallback('begin');
+      setCallback('loopBegin');
+    }
+    if (insTime <= insDelay && instance.currentTime !== 0) {
+      setAnimationsProgress(0);
+    }
+    if ((insTime >= insEndDelay && instance.currentTime !== insDuration) || !insDuration) {
+      setAnimationsProgress(insDuration);
+    }
+    if (insTime > insDelay && insTime < insEndDelay) {
+      if (!instance.changeBegan) {
+        instance.changeBegan = true;
+        instance.changeCompleted = false;
+        setCallback('changeBegin');
+      }
+      setCallback('change');
+      setAnimationsProgress(insTime);
+    } else {
+      if (instance.changeBegan) {
+        instance.changeCompleted = true;
+        instance.changeBegan = false;
+        setCallback('changeComplete');
+      }
+    }
+    instance.currentTime = minMax(insTime, 0, insDuration);
+    if (instance.began) { setCallback('update'); }
+    if (engineTime >= insDuration) {
+      lastTime = 0;
+      countIteration();
+      if (instance.remaining) {
+        startTime = now;
+        setCallback('loopComplete');
+        setCallback('loopBegin');
+        if (instance.direction === 'alternate') { toggleInstanceDirection(); }
+      } else {
+        instance.paused = true;
+        if (!instance.completed) {
+          instance.completed = true;
+          setCallback('loopComplete');
+          setCallback('complete');
+          if (!instance.passThrough && 'Promise' in window) {
+            resolve();
+            promise = makePromise(instance);
+          }
+        }
+      }
+    }
+  }
+
+  instance.reset = function() {
+    var direction = instance.direction;
+    instance.passThrough = false;
+    instance.currentTime = 0;
+    instance.progress = 0;
+    instance.paused = true;
+    instance.began = false;
+    instance.changeBegan = false;
+    instance.completed = false;
+    instance.changeCompleted = false;
+    instance.reversePlayback = false;
+    instance.reversed = direction === 'reverse';
+    instance.remaining = instance.loop;
+    children = instance.children;
+    childrenLength = children.length;
+    for (var i = childrenLength; i--;) { instance.children[i].reset(); }
+    if (instance.reversed && instance.loop !== true || (direction === 'alternate' && instance.loop === 1)) { instance.remaining++; }
+    setAnimationsProgress(0);
+  };
+
+  // Set Value helper
+
+  instance.set = function(targets, properties) {
+    setTargetsValue(targets, properties);
+    return instance;
+  };
+
+  instance.tick = function(t) {
+    now = t;
+    if (!startTime) { startTime = now; }
+    setInstanceProgress((now + (lastTime - startTime)) * anime.speed);
+  };
+
+  instance.seek = function(time) {
+    setInstanceProgress(adjustTime(time));
+  };
+
+  instance.pause = function() {
+    instance.paused = true;
+    resetTime();
+  };
+
+  instance.play = function() {
+    if (!instance.paused) { return; }
+    if (instance.completed) { instance.reset(); }
+    instance.paused = false;
+    activeInstances.push(instance);
+    resetTime();
+    if (!raf) { engine(); }
+  };
+
+  instance.reverse = function() {
+    toggleInstanceDirection();
+    resetTime();
+  };
+
+  instance.restart = function() {
+    instance.reset();
+    instance.play();
+  };
+
+  instance.reset();
+
+  if (instance.autoplay) { instance.play(); }
+
+  return instance;
+
+}
+
+// Remove targets from animation
+
+function removeTargetsFromAnimations(targetsArray, animations) {
+  for (var a = animations.length; a--;) {
+    if (arrayContains(targetsArray, animations[a].animatable.target)) {
+      animations.splice(a, 1);
+    }
+  }
+}
+
+function removeTargets(targets) {
+  var targetsArray = parseTargets(targets);
+  for (var i = activeInstances.length; i--;) {
+    var instance = activeInstances[i];
+    var animations = instance.animations;
+    var children = instance.children;
+    removeTargetsFromAnimations(targetsArray, animations);
+    for (var c = children.length; c--;) {
+      var child = children[c];
+      var childAnimations = child.animations;
+      removeTargetsFromAnimations(targetsArray, childAnimations);
+      if (!childAnimations.length && !child.children.length) { children.splice(c, 1); }
+    }
+    if (!animations.length && !children.length) { instance.pause(); }
+  }
+}
+
+// Stagger helpers
+
+function stagger(val, params) {
+  if ( params === void 0 ) params = {};
+
+  var direction = params.direction || 'normal';
+  var easing = params.easing ? parseEasings(params.easing) : null;
+  var grid = params.grid;
+  var axis = params.axis;
+  var fromIndex = params.from || 0;
+  var fromFirst = fromIndex === 'first';
+  var fromCenter = fromIndex === 'center';
+  var fromLast = fromIndex === 'last';
+  var isRange = is.arr(val);
+  var val1 = isRange ? parseFloat(val[0]) : parseFloat(val);
+  var val2 = isRange ? parseFloat(val[1]) : 0;
+  var unit = getUnit(isRange ? val[1] : val) || 0;
+  var start = params.start || 0 + (isRange ? val1 : 0);
+  var values = [];
+  var maxValue = 0;
+  return function (el, i, t) {
+    if (fromFirst) { fromIndex = 0; }
+    if (fromCenter) { fromIndex = (t - 1) / 2; }
+    if (fromLast) { fromIndex = t - 1; }
+    if (!values.length) {
+      for (var index = 0; index < t; index++) {
+        if (!grid) {
+          values.push(Math.abs(fromIndex - index));
+        } else {
+          var fromX = !fromCenter ? fromIndex%grid[0] : (grid[0]-1)/2;
+          var fromY = !fromCenter ? Math.floor(fromIndex/grid[0]) : (grid[1]-1)/2;
+          var toX = index%grid[0];
+          var toY = Math.floor(index/grid[0]);
+          var distanceX = fromX - toX;
+          var distanceY = fromY - toY;
+          var value = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+          if (axis === 'x') { value = -distanceX; }
+          if (axis === 'y') { value = -distanceY; }
+          values.push(value);
+        }
+        maxValue = Math.max.apply(Math, values);
+      }
+      if (easing) { values = values.map(function (val) { return easing(val / maxValue) * maxValue; }); }
+      if (direction === 'reverse') { values = values.map(function (val) { return axis ? (val < 0) ? val * -1 : -val : Math.abs(maxValue - val); }); }
+    }
+    var spacing = isRange ? (val2 - val1) / maxValue : val1;
+    return start + (spacing * (Math.round(values[i] * 100) / 100)) + unit;
+  }
+}
+
+// Timeline
+
+function timeline(params) {
+  if ( params === void 0 ) params = {};
+
+  var tl = anime(params);
+  tl.duration = 0;
+  tl.add = function(instanceParams, timelineOffset) {
+    var tlIndex = activeInstances.indexOf(tl);
+    var children = tl.children;
+    if (tlIndex > -1) { activeInstances.splice(tlIndex, 1); }
+    function passThrough(ins) { ins.passThrough = true; }
+    for (var i = 0; i < children.length; i++) { passThrough(children[i]); }
+    var insParams = mergeObjects(instanceParams, replaceObjectProps(defaultTweenSettings, params));
+    insParams.targets = insParams.targets || params.targets;
+    var tlDuration = tl.duration;
+    insParams.autoplay = false;
+    insParams.direction = tl.direction;
+    insParams.timelineOffset = is.und(timelineOffset) ? tlDuration : getRelativeValue(timelineOffset, tlDuration);
+    passThrough(tl);
+    tl.seek(insParams.timelineOffset);
+    var ins = anime(insParams);
+    passThrough(ins);
+    children.push(ins);
+    var timings = getInstanceTimings(children, params);
+    tl.delay = timings.delay;
+    tl.endDelay = timings.endDelay;
+    tl.duration = timings.duration;
+    tl.seek(0);
+    tl.reset();
+    if (tl.autoplay) { tl.play(); }
+    return tl;
+  };
+  return tl;
+}
+
+anime.version = '3.0.1';
+anime.speed = 1;
+anime.running = activeInstances;
+anime.remove = removeTargets;
+anime.get = getOriginalTargetValue;
+anime.set = setTargetsValue;
+anime.convertPx = convertPxToUnit;
+anime.path = getPath;
+anime.setDashoffset = setDashoffset;
+anime.stagger = stagger;
+anime.timeline = timeline;
+anime.easing = parseEasings;
+anime.penner = penner;
+anime.random = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; };
+
+/* harmony default export */ __webpack_exports__["default"] = (anime);
+
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/adapters/xhr.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/adapters/xhr.js ***!
-  \*************************************************************************/
+/***/ "./node_modules/inertia-vue/src/app.js":
+/*!*********************************************!*\
+  !*** ./node_modules/inertia-vue/src/app.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
+/* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./link */ "./node_modules/inertia-vue/src/link.js");
+/* harmony import */ var _remember__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./remember */ "./node_modules/inertia-vue/src/remember.js");
+
+
+
+
+let app = {}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'Inertia',
+  props: {
+    initialPage: {
+      type: Object,
+      required: true,
+    },
+    resolveComponent: {
+      type: Function,
+      required: true,
+    },
+    transformProps: {
+      type: Function,
+      default: props => props,
+    },
+  },
+  data() {
+    return {
+      component: null,
+      props: {},
+      key: null,
+    }
+  },
+  created() {
+    app = this
+    inertia__WEBPACK_IMPORTED_MODULE_0__["default"].init({
+      initialPage: this.initialPage,
+      resolveComponent: this.resolveComponent,
+      updatePage: (component, props, { preserveState }) => {
+        this.component = component
+        this.props = this.transformProps(props)
+        this.key = preserveState ? this.key : Date.now()
+      },
+    })
+  },
+  render(h) {
+    if (this.component) {
+      return h(this.component, {
+        key: this.key,
+        props: this.props,
+      })
+    }
+  },
+  install(Vue) {
+    Object.defineProperty(Vue.prototype, '$inertia', { get: () => inertia__WEBPACK_IMPORTED_MODULE_0__["default"] })
+    Object.defineProperty(Vue.prototype, '$page', { get: () => app.props })
+    Vue.mixin(_remember__WEBPACK_IMPORTED_MODULE_2__["default"])
+    Vue.component('InertiaLink', _link__WEBPACK_IMPORTED_MODULE_1__["default"])
+  },
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/inertia-vue/src/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/inertia-vue/src/index.js ***!
+  \***********************************************/
+/*! exports provided: default, Inertia, InertiaLink */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Inertia", function() { return inertia__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./node_modules/inertia-vue/src/app.js");
+/* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./link */ "./node_modules/inertia-vue/src/link.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "InertiaLink", function() { return _link__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (_app__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/inertia-vue/src/link.js":
+/*!**********************************************!*\
+  !*** ./node_modules/inertia-vue/src/link.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  functional: true,
+  props: {
+    data: {
+      type: Object,
+      default: () => ({}),
+    },
+    href: {
+      type: String,
+      required: true,
+    },
+    method: {
+      type: String,
+      default: 'get',
+    },
+    replace: {
+      type: Boolean,
+      default: false,
+    },
+    preserveScroll: {
+      type: Boolean,
+      default: false,
+    },
+    preserveState: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  render(h, { props, data, children }) {
+    return h('a', {
+      ...data,
+      attrs: {
+        ...data.attrs,
+        href: props.href,
+      },
+      on: {
+        ...(data.on || {}),
+        click: event => {
+          if (data.on && data.on.click) {
+            data.on.click(event)
+          }
+
+          if (Object(inertia__WEBPACK_IMPORTED_MODULE_0__["shouldIntercept"])(event)) {
+            event.preventDefault()
+
+            inertia__WEBPACK_IMPORTED_MODULE_0__["default"].visit(props.href, {
+              data: props.data,
+              method: props.method,
+              replace: props.replace,
+              preserveScroll: props.preserveScroll,
+              preserveState: props.preserveState,
+            })
+          }
+        },
+      },
+    }, children)
+  },
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/inertia-vue/src/remember.js":
+/*!**************************************************!*\
+  !*** ./node_modules/inertia-vue/src/remember.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created() {
+    if (!this.$options.remember) {
+      return
+    }
+
+    if (Array.isArray(this.$options.remember)) {
+      this.$options.remember = { data: this.$options.remember }
+    }
+
+    if (typeof this.$options.remember === 'string') {
+      this.$options.remember = { data: [this.$options.remember] }
+    }
+
+    if (typeof this.$options.remember.data === 'string') {
+      this.$options.remember = { data: [this.$options.remember.data] }
+    }
+
+    const stateKey = this.$options.remember.key instanceof Function
+      ? this.$options.remember.key()
+      : this.$options.remember.key
+
+    const restored = inertia__WEBPACK_IMPORTED_MODULE_0__["default"].restore(stateKey)
+
+    this.$options.remember.data.forEach(key => {
+      if (restored !== undefined && restored[key] !== undefined) {
+        this[key] = restored[key]
+      }
+
+      this.$watch(key, () => {
+        inertia__WEBPACK_IMPORTED_MODULE_0__["default"].remember(
+          this.$options.remember.data.reduce((data, key) => ({ ...data, [key]: this[key] }), {}),
+          stateKey
+        )
+      }, { immediate: true, deep: true })
+    })
+  },
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/inertia/node_modules/axios/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/inertia/node_modules/axios/lib/axios.js");
+
+/***/ }),
+
+/***/ "./node_modules/inertia/node_modules/axios/lib/adapters/xhr.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/adapters/xhr.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
-var settle = __webpack_require__(/*! ./../core/settle */ "./node_modules/inertia-vue/node_modules/axios/lib/core/settle.js");
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/buildURL.js");
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/parseHeaders.js");
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/isURLSameOrigin.js");
-var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/inertia-vue/node_modules/axios/lib/core/createError.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
+var settle = __webpack_require__(/*! ./../core/settle */ "./node_modules/inertia/node_modules/axios/lib/core/settle.js");
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/inertia/node_modules/axios/lib/helpers/buildURL.js");
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/inertia/node_modules/axios/lib/helpers/parseHeaders.js");
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/inertia/node_modules/axios/lib/helpers/isURLSameOrigin.js");
+var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/inertia/node_modules/axios/lib/core/createError.js");
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -306,7 +1841,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/cookies.js");
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/inertia/node_modules/axios/lib/helpers/cookies.js");
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -385,20 +1920,20 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/axios.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/axios.js ***!
-  \******************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/axios.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/axios.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
-var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/bind.js");
-var Axios = __webpack_require__(/*! ./core/Axios */ "./node_modules/inertia-vue/node_modules/axios/lib/core/Axios.js");
-var defaults = __webpack_require__(/*! ./defaults */ "./node_modules/inertia-vue/node_modules/axios/lib/defaults.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
+var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/inertia/node_modules/axios/lib/helpers/bind.js");
+var Axios = __webpack_require__(/*! ./core/Axios */ "./node_modules/inertia/node_modules/axios/lib/core/Axios.js");
+var defaults = __webpack_require__(/*! ./defaults */ "./node_modules/inertia/node_modules/axios/lib/defaults.js");
 
 /**
  * Create an instance of Axios
@@ -431,15 +1966,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/Cancel.js");
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/CancelToken.js");
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/isCancel.js");
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ "./node_modules/inertia/node_modules/axios/lib/cancel/Cancel.js");
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ "./node_modules/inertia/node_modules/axios/lib/cancel/CancelToken.js");
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ "./node_modules/inertia/node_modules/axios/lib/cancel/isCancel.js");
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/spread.js");
+axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/inertia/node_modules/axios/lib/helpers/spread.js");
 
 module.exports = axios;
 
@@ -449,10 +1984,10 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/Cancel.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/cancel/Cancel.js ***!
-  \**************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/cancel/Cancel.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/cancel/Cancel.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -480,17 +2015,17 @@ module.exports = Cancel;
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/CancelToken.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/cancel/CancelToken.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/cancel/CancelToken.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/cancel/CancelToken.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(/*! ./Cancel */ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/Cancel.js");
+var Cancel = __webpack_require__(/*! ./Cancel */ "./node_modules/inertia/node_modules/axios/lib/cancel/Cancel.js");
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -549,10 +2084,10 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/isCancel.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/cancel/isCancel.js ***!
-  \****************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/cancel/isCancel.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/cancel/isCancel.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -566,20 +2101,20 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/Axios.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/Axios.js ***!
-  \***********************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/Axios.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/Axios.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(/*! ./../defaults */ "./node_modules/inertia-vue/node_modules/axios/lib/defaults.js");
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/inertia-vue/node_modules/axios/lib/core/InterceptorManager.js");
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/inertia-vue/node_modules/axios/lib/core/dispatchRequest.js");
+var defaults = __webpack_require__(/*! ./../defaults */ "./node_modules/inertia/node_modules/axios/lib/defaults.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/inertia/node_modules/axios/lib/core/InterceptorManager.js");
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/inertia/node_modules/axios/lib/core/dispatchRequest.js");
 
 /**
  * Create a new instance of Axios
@@ -657,17 +2192,17 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/InterceptorManager.js":
-/*!************************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/InterceptorManager.js ***!
-  \************************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/InterceptorManager.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/InterceptorManager.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 function InterceptorManager() {
   this.handlers = [];
@@ -721,17 +2256,17 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/createError.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/createError.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/createError.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/createError.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ "./node_modules/inertia-vue/node_modules/axios/lib/core/enhanceError.js");
+var enhanceError = __webpack_require__(/*! ./enhanceError */ "./node_modules/inertia/node_modules/axios/lib/core/enhanceError.js");
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -751,22 +2286,22 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/dispatchRequest.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/dispatchRequest.js ***!
-  \*********************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/dispatchRequest.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/dispatchRequest.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
-var transformData = __webpack_require__(/*! ./transformData */ "./node_modules/inertia-vue/node_modules/axios/lib/core/transformData.js");
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ "./node_modules/inertia-vue/node_modules/axios/lib/cancel/isCancel.js");
-var defaults = __webpack_require__(/*! ../defaults */ "./node_modules/inertia-vue/node_modules/axios/lib/defaults.js");
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/isAbsoluteURL.js");
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/combineURLs.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
+var transformData = __webpack_require__(/*! ./transformData */ "./node_modules/inertia/node_modules/axios/lib/core/transformData.js");
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ "./node_modules/inertia/node_modules/axios/lib/cancel/isCancel.js");
+var defaults = __webpack_require__(/*! ../defaults */ "./node_modules/inertia/node_modules/axios/lib/defaults.js");
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ "./node_modules/inertia/node_modules/axios/lib/helpers/isAbsoluteURL.js");
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ "./node_modules/inertia/node_modules/axios/lib/helpers/combineURLs.js");
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -849,10 +2384,10 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/enhanceError.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/enhanceError.js ***!
-  \******************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/enhanceError.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/enhanceError.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -882,17 +2417,17 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/settle.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/settle.js ***!
-  \************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/settle.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/settle.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ "./node_modules/inertia-vue/node_modules/axios/lib/core/createError.js");
+var createError = __webpack_require__(/*! ./createError */ "./node_modules/inertia/node_modules/axios/lib/core/createError.js");
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -920,17 +2455,17 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/core/transformData.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/core/transformData.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/core/transformData.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/core/transformData.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 /**
  * Transform the data for a request or a response
@@ -952,18 +2487,18 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/defaults.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/defaults.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/defaults.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/defaults.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(/*! ./utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/normalizeHeaderName.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/inertia/node_modules/axios/lib/helpers/normalizeHeaderName.js");
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -979,10 +2514,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/inertia-vue/node_modules/axios/lib/adapters/xhr.js");
+    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/inertia/node_modules/axios/lib/adapters/xhr.js");
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/inertia-vue/node_modules/axios/lib/adapters/xhr.js");
+    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/inertia/node_modules/axios/lib/adapters/xhr.js");
   }
   return adapter;
 }
@@ -1061,10 +2596,10 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/bind.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/bind.js ***!
-  \*************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/bind.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/bind.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1084,17 +2619,17 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/buildURL.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/buildURL.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/buildURL.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/buildURL.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -1162,10 +2697,10 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/combineURLs.js":
-/*!********************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/combineURLs.js ***!
-  \********************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/combineURLs.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/combineURLs.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1188,17 +2723,17 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/cookies.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/cookies.js ***!
-  \****************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/cookies.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/cookies.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1253,10 +2788,10 @@ module.exports = (
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/isAbsoluteURL.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/isAbsoluteURL.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1279,17 +2814,17 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/isURLSameOrigin.js":
-/*!************************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
-  \************************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/isURLSameOrigin.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1359,17 +2894,17 @@ module.exports = (
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/normalizeHeaderName.js":
-/*!****************************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
-  \****************************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/normalizeHeaderName.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -1383,17 +2918,17 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/parseHeaders.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/parseHeaders.js ***!
-  \*********************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/parseHeaders.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/parseHeaders.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/inertia/node_modules/axios/lib/utils.js");
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -1448,10 +2983,10 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/spread.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/helpers/spread.js ***!
-  \***************************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/helpers/spread.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/helpers/spread.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1487,17 +3022,17 @@ module.exports = function spread(callback) {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/axios/lib/utils.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/axios/lib/utils.js ***!
-  \******************************************************************/
+/***/ "./node_modules/inertia/node_modules/axios/lib/utils.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/inertia/node_modules/axios/lib/utils.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/inertia-vue/node_modules/axios/lib/helpers/bind.js");
+var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/inertia/node_modules/axios/lib/helpers/bind.js");
 var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
 
 /*global toString:true*/
@@ -1802,17 +3337,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/inertia/src/index.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/inertia/src/index.js ***!
-  \********************************************************************/
+/***/ "./node_modules/inertia/src/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/inertia/src/index.js ***!
+  \*******************************************/
 /*! exports provided: default, shouldIntercept */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inertia */ "./node_modules/inertia-vue/node_modules/inertia/src/inertia.js");
-/* harmony import */ var _should_intercept__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./should-intercept */ "./node_modules/inertia-vue/node_modules/inertia/src/should-intercept.js");
+/* harmony import */ var _inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inertia */ "./node_modules/inertia/src/inertia.js");
+/* harmony import */ var _should_intercept__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./should-intercept */ "./node_modules/inertia/src/should-intercept.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "shouldIntercept", function() { return _should_intercept__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
 
@@ -1824,19 +3359,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/inertia/src/inertia.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/inertia/src/inertia.js ***!
-  \**********************************************************************/
+/***/ "./node_modules/inertia/src/inertia.js":
+/*!*********************************************!*\
+  !*** ./node_modules/inertia/src/inertia.js ***!
+  \*********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/inertia-vue/node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/inertia/node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal */ "./node_modules/inertia-vue/node_modules/inertia/src/modal.js");
-/* harmony import */ var _progress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./progress */ "./node_modules/inertia-vue/node_modules/inertia/src/progress.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal */ "./node_modules/inertia/src/modal.js");
+/* harmony import */ var _progress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./progress */ "./node_modules/inertia/src/progress.js");
 
 
 
@@ -2013,10 +3548,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/inertia/src/modal.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/inertia/src/modal.js ***!
-  \********************************************************************/
+/***/ "./node_modules/inertia/src/modal.js":
+/*!*******************************************!*\
+  !*** ./node_modules/inertia/src/modal.js ***!
+  \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2074,10 +3609,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/inertia/src/progress.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/inertia/src/progress.js ***!
-  \***********************************************************************/
+/***/ "./node_modules/inertia/src/progress.js":
+/*!**********************************************!*\
+  !*** ./node_modules/inertia/src/progress.js ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2122,10 +3657,10 @@ nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.configure({ showSpinner: false 
 
 /***/ }),
 
-/***/ "./node_modules/inertia-vue/node_modules/inertia/src/should-intercept.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/inertia-vue/node_modules/inertia/src/should-intercept.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/inertia/src/should-intercept.js":
+/*!******************************************************!*\
+  !*** ./node_modules/inertia/src/should-intercept.js ***!
+  \******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2143,232 +3678,6 @@ function shouldIntercept(event) {
     || event.shiftKey
   )
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/app.js":
-/*!*********************************************!*\
-  !*** ./node_modules/inertia-vue/src/app.js ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia-vue/node_modules/inertia/src/index.js");
-/* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./link */ "./node_modules/inertia-vue/src/link.js");
-/* harmony import */ var _remember__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./remember */ "./node_modules/inertia-vue/src/remember.js");
-
-
-
-
-let app = {}
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Inertia',
-  props: {
-    initialPage: {
-      type: Object,
-      required: true,
-    },
-    resolveComponent: {
-      type: Function,
-      required: true,
-    },
-    transformProps: {
-      type: Function,
-      default: props => props,
-    },
-  },
-  data() {
-    return {
-      component: null,
-      props: {},
-      key: null,
-    }
-  },
-  created() {
-    app = this
-    inertia__WEBPACK_IMPORTED_MODULE_0__["default"].init({
-      initialPage: this.initialPage,
-      resolveComponent: this.resolveComponent,
-      updatePage: (component, props, { preserveState }) => {
-        this.component = component
-        this.props = this.transformProps(props)
-        this.key = preserveState ? this.key : Date.now()
-      },
-    })
-  },
-  render(h) {
-    if (this.component) {
-      return h(this.component, {
-        key: this.key,
-        props: this.props,
-      })
-    }
-  },
-  install(Vue) {
-    Object.defineProperty(Vue.prototype, '$inertia', { get: () => inertia__WEBPACK_IMPORTED_MODULE_0__["default"] })
-    Object.defineProperty(Vue.prototype, '$page', { get: () => app.props })
-    Vue.mixin(_remember__WEBPACK_IMPORTED_MODULE_2__["default"])
-    Vue.component('InertiaLink', _link__WEBPACK_IMPORTED_MODULE_1__["default"])
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/inertia-vue/src/index.js ***!
-  \***********************************************/
-/*! exports provided: default, Inertia, InertiaLink */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia-vue/node_modules/inertia/src/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Inertia", function() { return inertia__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./node_modules/inertia-vue/src/app.js");
-/* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./link */ "./node_modules/inertia-vue/src/link.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "InertiaLink", function() { return _link__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (_app__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/link.js":
-/*!**********************************************!*\
-  !*** ./node_modules/inertia-vue/src/link.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia-vue/node_modules/inertia/src/index.js");
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  functional: true,
-  props: {
-    data: {
-      type: Object,
-      default: () => ({}),
-    },
-    href: {
-      type: String,
-      required: true,
-    },
-    method: {
-      type: String,
-      default: 'get',
-    },
-    replace: {
-      type: Boolean,
-      default: false,
-    },
-    preserveScroll: {
-      type: Boolean,
-      default: false,
-    },
-    preserveState: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  render(h, { props, data, children }) {
-    return h('a', {
-      ...data,
-      attrs: {
-        ...data.attrs,
-        href: props.href,
-      },
-      on: {
-        ...(data.on || {}),
-        click: event => {
-          if (data.on && data.on.click) {
-            data.on.click(event)
-          }
-
-          if (Object(inertia__WEBPACK_IMPORTED_MODULE_0__["shouldIntercept"])(event)) {
-            event.preventDefault()
-
-            inertia__WEBPACK_IMPORTED_MODULE_0__["default"].visit(props.href, {
-              data: props.data,
-              method: props.method,
-              replace: props.replace,
-              preserveScroll: props.preserveScroll,
-              preserveState: props.preserveState,
-            })
-          }
-        },
-      },
-    }, children)
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/remember.js":
-/*!**************************************************!*\
-  !*** ./node_modules/inertia-vue/src/remember.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia-vue/node_modules/inertia/src/index.js");
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  created() {
-    if (!this.$options.remember) {
-      return
-    }
-
-    if (Array.isArray(this.$options.remember)) {
-      this.$options.remember = { data: this.$options.remember }
-    }
-
-    if (typeof this.$options.remember === 'string') {
-      this.$options.remember = { data: [this.$options.remember] }
-    }
-
-    if (typeof this.$options.remember.data === 'string') {
-      this.$options.remember = { data: [this.$options.remember.data] }
-    }
-
-    const stateKey = this.$options.remember.key instanceof Function
-      ? this.$options.remember.key()
-      : this.$options.remember.key
-
-    const restored = inertia__WEBPACK_IMPORTED_MODULE_0__["default"].restore(stateKey)
-
-    this.$options.remember.data.forEach(key => {
-      if (restored !== undefined && restored[key] !== undefined) {
-        this[key] = restored[key]
-      }
-
-      this.$watch(key, () => {
-        inertia__WEBPACK_IMPORTED_MODULE_0__["default"].remember(
-          this.$options.remember.data.reduce((data, key) => ({ ...data, [key]: this[key] }), {}),
-          stateKey
-        )
-      }, { immediate: true, deep: true })
-    })
-  },
-});
 
 
 /***/ }),
@@ -3347,6 +4656,38 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (this && this.clearImmediate);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vue-animejs/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/vue-animejs/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var anime = __webpack_require__(/*! animejs */ "./node_modules/animejs/lib/anime.es.js");
+if (anime.default) {
+  anime = anime.default;
+}
+
+function install(Vue) {
+  Vue.directive('anime', {
+    bind: function bind(targets, binding) {
+      var opts = Object.assign({}, binding.value, { targets: targets });
+      anime(opts);
+    }
+  });
+  Vue.prototype.$anime = anime;
+}
+
+module.exports = {
+  install: install
+};
+
 
 /***/ }),
 
@@ -11893,8 +13234,12 @@ module.exports = webpackAsyncContext;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var inertia_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia-vue */ "./node_modules/inertia-vue/src/index.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vue_animejs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-animejs */ "./node_modules/vue-animejs/index.js");
+/* harmony import */ var vue_animejs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_animejs__WEBPACK_IMPORTED_MODULE_2__);
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_animejs__WEBPACK_IMPORTED_MODULE_2___default.a);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(inertia_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var app = document.getElementById('app');
 new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
@@ -11932,8 +13277,8 @@ new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\daskom\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\daskom\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/daskom/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/daskom/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
