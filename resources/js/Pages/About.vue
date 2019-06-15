@@ -2,52 +2,65 @@
   <div class="main_container w-full h-full overflow-hidden" v-scroll="handleScroll">
 
     <!-- Background Dummy -->
-    <div class="fixed bottom-0 w-full animation-enable"
+    <div class="fixed bottom-0 w-full"
         :class="[{ 'h-12': !active }, 
               { 'h-full pt-4': active && !scrolled}, 
-              { 'h-full pt-0': active && scrolled}]" ref="bgDummy">
-      <div class="flex flex-row bg-green-900 h-full animation-enable"
+              { 'h-full pt-0': active && scrolled}, 
+              { 'animation-enable': animationEnable}]" ref="bgDummy">
+      <div class="flex flex-row bg-green-900 h-full"
         :class="[{ 'mx-8 rounded-t-large': !active }, 
               { 'mx-4 rounded-t-large': active && !scrolled}, 
-              { 'mx-0 rounded-t-none': active && scrolled}]"/>
+              { 'mx-0 rounded-t-none': active && scrolled}, 
+              { 'animation-enable': animationEnable}]"/>
     </div>
 
     <!-- About Content    -->
-    <div class="absolute flex top-0 main-content w-full h-full pt-24 px-8">
-      <div class="w-full h-full m-5">
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et quam pellentesque, vehicula velit porta, scelerisque purus. Donec tempor ultrices facilisis. In commodo auctor lectus vitae finibus. Aliquam fermentum nisl quis iaculis ultrices. Maecenas sagittis nibh id molestie aliquet. Vestibulum et semper metus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur euismod ex sit amet urna iaculis, aliquam lobortis nisi posuere. Nunc auctor porta tortor. Mauris ante mauris, vulputate et egestas sit amet, fringilla id dui.
-
-Pellentesque varius sem sit amet metus consectetur, blandit euismod nunc mollis. Nulla viverra egestas tortor. Donec volutpat auctor orci. Aliquam maximus venenatis leo, sed vestibulum magna aliquam at. Mauris velit nunc, congue eget augue ac, porta finibus odio. Quisque fringilla eget lectus a scelerisque. Sed nec mi nec elit blandit finibus ut vel felis. Maecenas a maximus leo, pulvinar venenatis risus. In hac habitasse platea dictumst. Donec iaculis pharetra leo, vel pulvinar lacus mattis ut. Mauris facilisis nunc odio, in pulvinar justo eleifend porta. Sed quis fringilla orci, ut malesuada est. Sed vestibulum nibh nec suscipit commodo.
-
-Curabitur eget convallis orci, ac elementum quam. Pellentesque rhoncus cursus odio, non elementum nisl viverra eget. Mauris mattis rhoncus lacinia. Mauris scelerisque ligula ac orci condimentum cursus. Ut nulla arcu, sollicitudin ac posuere sed, volutpat id sem. Vivamus at urna mi. Proin feugiat, diam in fermentum semper, leo odio dignissim felis, ac interdum justo diam et justo. Nulla varius augue non eros blandit congue. Vivamus erat massa, consequat pellentesque faucibus eget, blandit quis eros. Nunc dictum faucibus neque ut aliquet. Vestibulum interdum rhoncus aliquam. 
+    <div class="absolute top-0 main-content w-full h-full pt-24 z-10"
+        :class="[{ 'px-8': !scrolled },
+              { 'px-0': scrolled }, 
+              { 'animation-enable': animationEnable}]">
+      <div class="flex">
+        <div ref="aboutText" class="leading-relaxed w-full h-full m-10 font-overpass text-left text-2xl text-teal-100">
+          <span class="font-merri-bold text-3xl">Lab Dasar Komputer</span><br>
+          merupkan laboratorium di bawah naungan <a class="constant" href="https://see.telkomuniversity.ac.id/">Fakultas Teknik Elektro</a><br>
+          yang memfasilitasi semua mahasiswa tingkat satu<br>
+          <a class="constant" href="http://bpe.telkomuniversity.ac.id/">S1 Teknik Fisika</a>, <a class="constant" href="https://bte.telkomuniversity.ac.id/">S1 Teknik Telekomunikasi</a>, dan <a class="constant" href="http://bee.telkomuniversity.ac.id/">S1 Teknik Elektro</a><br>
+          untuk lebih memahami dan dapat mengaplikasikan secara langsung<br>
+          dasar dasar algoritma dan pemrograman menggunakan bahasa C
+        </div>
       </div>
     </div>
 
     <!-- Main Menu Button -->
-    <div class="fixed w-full bottom-0 animation-enable" 
-        :class="[{ 'h-20': !active }, 
-              { 'h-full pt-8': active && !scrolled}, 
-              { 'h-full pt-0': active && scrolled}]" ref="mainMenu">
-      <div class="h-16 shadow-xl flex flex-row bg-green-300 animation-enable"
+    <div class="fixed w-full z-20" 
+        :class="[{ 'bottom-0 h-20': !active }, 
+              { 'bottom-0 h-full pt-8': active && !scrolled && !animated}, 
+              { 'bottom-0 h-full pt-0': active && scrolled && !animated}, 
+              { 'top-0 h-auto pt-8': active && !scrolled && animated}, 
+              { 'top-0 h-auto pt-0': active && scrolled && animated}, 
+              { 'animation-enable': animationEnable}]" ref="mainMenu">
+      <div class="h-16 shadow-xl flex flex-row bg-green-300"
         :class="[{ 'mx-56 rounded-full': !active }, 
               { 'mx-8 rounded-full': active && !scrolled}, 
-              { 'mx-0 rounded-none': active && scrolled}]">
+              { 'mx-0 rounded-none': active && scrolled}, 
+              { 'animation-enable': animationEnable}]">
         <div @mouseover="openDaskom"
             @mouseleave="closeDaskom"
             :class="[{ 'w-56': hover }, 
                   { 'w-20': !hover}, 
                   { 'mx-56 rounded-l-full': !active }, 
                   { 'mx-8 rounded-l-full': active && !scrolled}, 
-                  { 'mx-0 rounded-l-none': active && scrolled}]"
-            class="z-0 absolute left-0 bg-green-700 h-16 cursor-pointer animation-enable" v-on:click="travel('')">
+                  { 'mx-0 rounded-l-none': active && scrolled}, 
+                  { 'animation-enable': animationEnable}]"
+            class="z-0 absolute left-0 bg-green-700 h-16 cursor-pointer" v-on:click="travel('')">
           <img class="h-16 w-16 p-3 ml-2 select-none" src="/assets/daskom.svg" alt="daskom logo">
           <span class="flex absolute top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none">Daskom</span>
         </div>
         <div class="flex flex-row self-center w-full mr-1 font-merri font-medium text-lg">
           <div class="flex-1"></div>
           <a class="chosen flex m-3 self-center cursor-pointer select-none">About</a>
-          <a class="flex m-3 self-center cursor-pointer select-none" v-on:click="travel('contact')">Contact</a>
-          <div class="flex m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none" v-on:click="travel('login')">Login</div>
+          <a class="dynamic flex m-3 self-center cursor-pointer select-none" v-on:click="travel('contact')">Contact</a>
+          <div class="button flex m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none" v-on:click="travel('login')">Login</div>
         </div>
       </div>
     </div> 
@@ -56,18 +69,22 @@ Curabitur eget convallis orci, ac elementum quam. Pellentesque rhoncus cursus od
 
 <script>
 export default {
+  props: ['comingFrom'],
   data() {
     return {
       hover: false,
       active: false,
       scrolled: false,
+      animated: false,
+      animationEnable: true,
     };
   },
 
   mounted() {
 
-    this.active = true;
+    const text = this.$refs.aboutText;
   
+    $('body').removeClass('closed');
     $('.daskom-text').each(function(){
       $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='daskom-text-letter inline-block'>$&</span>"));
     });
@@ -75,16 +92,83 @@ export default {
     this.$anime.set('.daskom-text-letter', {
       opacity: 0,
     });
+
+    this.$anime.set(text, {
+      opacity: 0,
+    });
+
+    const globe  = this;
+    if(this.comingFrom == 'contact' ||
+        this.comingFrom == 'login'){
+
+      this.animationEnable = false;
+      this.active = true;
+      this.animated = true;
+      setTimeout(
+        function() {
+          globe.animationEnable = true;
+          globe.$anime
+          .timeline({
+            duration: 500
+          }).add({
+            targets: text,
+            translateY: [25,0],
+            opacity: [0,1],
+            easing: "easeInSine"
+          });
+        }, 100);
+
+    } else {
+
+      this.active = true;
+      setTimeout(
+        function() {
+          globe.animated = true;
+          globe.$anime
+          .timeline({
+            duration: 500
+          }).add({
+            targets: text,
+            translateY: [25,0],
+            opacity: [0,1],
+            easing: "easeInSine"
+          });
+        }, 1000);
+    }
   },
 
   methods: {
     
     travel: function(destination) {
-      this.$inertia.replace('/'+destination,{
-        data: {
-          'comingFrom': 'about',
-        }
-      })
+      if(destination == 'contact'||
+          destination == 'login'){
+
+        const text = this.$refs.aboutText;
+        const globe = this;
+        this.$anime
+          .timeline({
+            duration: 500
+          }).add({
+            targets: text,
+            translateY: [0,25],
+            opacity: [1,0],
+            easing: "easeInSine",
+            complete: function(anim){
+              globe.$inertia.replace('/'+destination,{
+                data: {
+                  'comingFrom': 'about',
+                }
+              })
+            }
+          });
+      } else {
+
+        this.$inertia.replace('/'+destination,{
+          data: {
+            'comingFrom': 'about',
+          }
+        })
+      }
     },
     
     handleScroll: function (evt, el) {

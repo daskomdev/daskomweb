@@ -65,30 +65,101 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['comingFrom'],
   data: function data() {
     return {
       hover: false,
       active: false,
-      scrolled: false
+      scrolled: false,
+      animated: false,
+      animationEnable: true
     };
   },
   mounted: function mounted() {
-    this.active = true;
+    var text = this.$refs.aboutText;
+    $('body').removeClass('closed');
     $('.daskom-text').each(function () {
       $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='daskom-text-letter inline-block'>$&</span>"));
     });
     this.$anime.set('.daskom-text-letter', {
       opacity: 0
     });
+    this.$anime.set(text, {
+      opacity: 0
+    });
+    var globe = this;
+
+    if (this.comingFrom == 'contact' || this.comingFrom == 'login') {
+      this.animationEnable = false;
+      this.active = true;
+      this.animated = true;
+      setTimeout(function () {
+        globe.animationEnable = true;
+        globe.$anime.timeline({
+          duration: 500
+        }).add({
+          targets: text,
+          translateY: [25, 0],
+          opacity: [0, 1],
+          easing: "easeInSine"
+        });
+      }, 100);
+    } else {
+      this.active = true;
+      setTimeout(function () {
+        globe.animated = true;
+        globe.$anime.timeline({
+          duration: 500
+        }).add({
+          targets: text,
+          translateY: [25, 0],
+          opacity: [0, 1],
+          easing: "easeInSine"
+        });
+      }, 1000);
+    }
   },
   methods: {
     travel: function travel(destination) {
-      this.$inertia.replace('/' + destination, {
-        data: {
-          'comingFrom': 'about'
-        }
-      });
+      if (destination == 'contact' || destination == 'login') {
+        var text = this.$refs.aboutText;
+        var globe = this;
+        this.$anime.timeline({
+          duration: 500
+        }).add({
+          targets: text,
+          translateY: [0, 25],
+          opacity: [1, 0],
+          easing: "easeInSine",
+          complete: function complete(anim) {
+            globe.$inertia.replace('/' + destination, {
+              data: {
+                'comingFrom': 'about'
+              }
+            });
+          }
+        });
+      } else {
+        this.$inertia.replace('/' + destination, {
+          data: {
+            'comingFrom': 'about'
+          }
+        });
+      }
     },
     handleScroll: function handleScroll(evt, el) {
       window.scrollY > 5 ? this.scrolled = true : this.scrolled = false;
@@ -165,48 +236,138 @@ var render = function() {
         "div",
         {
           ref: "bgDummy",
-          staticClass: "fixed bottom-0 w-full animation-enable",
+          staticClass: "fixed bottom-0 w-full",
           class: [
             { "h-12": !_vm.active },
             { "h-full pt-4": _vm.active && !_vm.scrolled },
-            { "h-full pt-0": _vm.active && _vm.scrolled }
+            { "h-full pt-0": _vm.active && _vm.scrolled },
+            { "animation-enable": _vm.animationEnable }
           ]
         },
         [
           _c("div", {
-            staticClass: "flex flex-row bg-green-900 h-full animation-enable",
+            staticClass: "flex flex-row bg-green-900 h-full",
             class: [
               { "mx-8 rounded-t-large": !_vm.active },
               { "mx-4 rounded-t-large": _vm.active && !_vm.scrolled },
-              { "mx-0 rounded-t-none": _vm.active && _vm.scrolled }
+              { "mx-0 rounded-t-none": _vm.active && _vm.scrolled },
+              { "animation-enable": _vm.animationEnable }
             ]
           })
         ]
       ),
       _vm._v(" "),
-      _vm._m(0),
+      _c(
+        "div",
+        {
+          staticClass: "absolute top-0 main-content w-full h-full pt-24 z-10",
+          class: [
+            { "px-8": !_vm.scrolled },
+            { "px-0": _vm.scrolled },
+            { "animation-enable": _vm.animationEnable }
+          ]
+        },
+        [
+          _c("div", { staticClass: "flex" }, [
+            _c(
+              "div",
+              {
+                ref: "aboutText",
+                staticClass:
+                  "leading-relaxed w-full h-full m-10 font-overpass text-left text-2xl text-teal-100"
+              },
+              [
+                _c("span", { staticClass: "font-merri-bold text-3xl" }, [
+                  _vm._v("Lab Dasar Komputer")
+                ]),
+                _c("br"),
+                _vm._v("\n        merupkan laboratorium di bawah naungan "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "constant",
+                    attrs: { href: "https://see.telkomuniversity.ac.id/" }
+                  },
+                  [_vm._v("Fakultas Teknik Elektro")]
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n        yang memfasilitasi semua mahasiswa tingkat satu"
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "constant",
+                    attrs: { href: "http://bpe.telkomuniversity.ac.id/" }
+                  },
+                  [_vm._v("S1 Teknik Fisika")]
+                ),
+                _vm._v(", "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "constant",
+                    attrs: { href: "https://bte.telkomuniversity.ac.id/" }
+                  },
+                  [_vm._v("S1 Teknik Telekomunikasi")]
+                ),
+                _vm._v(", dan "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "constant",
+                    attrs: { href: "http://bee.telkomuniversity.ac.id/" }
+                  },
+                  [_vm._v("S1 Teknik Elektro")]
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n        untuk lebih memahami dan dapat mengaplikasikan secara langsung"
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n        dasar dasar algoritma dan pemrograman menggunakan bahasa C\n      "
+                )
+              ]
+            )
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c(
         "div",
         {
           ref: "mainMenu",
-          staticClass: "fixed w-full bottom-0 animation-enable",
+          staticClass: "fixed w-full z-20",
           class: [
-            { "h-20": !_vm.active },
-            { "h-full pt-8": _vm.active && !_vm.scrolled },
-            { "h-full pt-0": _vm.active && _vm.scrolled }
+            { "bottom-0 h-20": !_vm.active },
+            {
+              "bottom-0 h-full pt-8":
+                _vm.active && !_vm.scrolled && !_vm.animated
+            },
+            {
+              "bottom-0 h-full pt-0":
+                _vm.active && _vm.scrolled && !_vm.animated
+            },
+            {
+              "top-0 h-auto pt-8": _vm.active && !_vm.scrolled && _vm.animated
+            },
+            { "top-0 h-auto pt-0": _vm.active && _vm.scrolled && _vm.animated },
+            { "animation-enable": _vm.animationEnable }
           ]
         },
         [
           _c(
             "div",
             {
-              staticClass:
-                "h-16 shadow-xl flex flex-row bg-green-300 animation-enable",
+              staticClass: "h-16 shadow-xl flex flex-row bg-green-300",
               class: [
                 { "mx-56 rounded-full": !_vm.active },
                 { "mx-8 rounded-full": _vm.active && !_vm.scrolled },
-                { "mx-0 rounded-none": _vm.active && _vm.scrolled }
+                { "mx-0 rounded-none": _vm.active && _vm.scrolled },
+                { "animation-enable": _vm.animationEnable }
               ]
             },
             [
@@ -214,13 +375,14 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "z-0 absolute left-0 bg-green-700 h-16 cursor-pointer animation-enable",
+                    "z-0 absolute left-0 bg-green-700 h-16 cursor-pointer",
                   class: [
                     { "w-56": _vm.hover },
                     { "w-20": !_vm.hover },
                     { "mx-56 rounded-l-full": !_vm.active },
                     { "mx-8 rounded-l-full": _vm.active && !_vm.scrolled },
-                    { "mx-0 rounded-l-none": _vm.active && _vm.scrolled }
+                    { "mx-0 rounded-l-none": _vm.active && _vm.scrolled },
+                    { "animation-enable": _vm.animationEnable }
                   ],
                   on: {
                     mouseover: _vm.openDaskom,
@@ -269,7 +431,7 @@ var render = function() {
                     "a",
                     {
                       staticClass:
-                        "flex m-3 self-center cursor-pointer select-none",
+                        "dynamic flex m-3 self-center cursor-pointer select-none",
                       on: {
                         click: function($event) {
                           return _vm.travel("contact")
@@ -283,7 +445,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "flex m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none",
+                        "button flex m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none",
                       on: {
                         click: function($event) {
                           return _vm.travel("login")
@@ -301,26 +463,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "absolute flex top-0 main-content w-full h-full pt-24 px-8"
-      },
-      [
-        _c("div", { staticClass: "w-full h-full m-5" }, [
-          _vm._v(
-            "\n         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et quam pellentesque, vehicula velit porta, scelerisque purus. Donec tempor ultrices facilisis. In commodo auctor lectus vitae finibus. Aliquam fermentum nisl quis iaculis ultrices. Maecenas sagittis nibh id molestie aliquet. Vestibulum et semper metus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur euismod ex sit amet urna iaculis, aliquam lobortis nisi posuere. Nunc auctor porta tortor. Mauris ante mauris, vulputate et egestas sit amet, fringilla id dui.\n\nPellentesque varius sem sit amet metus consectetur, blandit euismod nunc mollis. Nulla viverra egestas tortor. Donec volutpat auctor orci. Aliquam maximus venenatis leo, sed vestibulum magna aliquam at. Mauris velit nunc, congue eget augue ac, porta finibus odio. Quisque fringilla eget lectus a scelerisque. Sed nec mi nec elit blandit finibus ut vel felis. Maecenas a maximus leo, pulvinar venenatis risus. In hac habitasse platea dictumst. Donec iaculis pharetra leo, vel pulvinar lacus mattis ut. Mauris facilisis nunc odio, in pulvinar justo eleifend porta. Sed quis fringilla orci, ut malesuada est. Sed vestibulum nibh nec suscipit commodo.\n\nCurabitur eget convallis orci, ac elementum quam. Pellentesque rhoncus cursus odio, non elementum nisl viverra eget. Mauris mattis rhoncus lacinia. Mauris scelerisque ligula ac orci condimentum cursus. Ut nulla arcu, sollicitudin ac posuere sed, volutpat id sem. Vivamus at urna mi. Proin feugiat, diam in fermentum semper, leo odio dignissim felis, ac interdum justo diam et justo. Nulla varius augue non eros blandit congue. Vivamus erat massa, consequat pellentesque faucibus eget, blandit quis eros. Nunc dictum faucibus neque ut aliquet. Vestibulum interdum rhoncus aliquam. \n      "
-          )
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

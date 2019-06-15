@@ -10,29 +10,56 @@
     </div>
 
     <!-- Background Dummy -->
-    <div class="absolute bottom-0 w-full" 
-        :class="[{ 'h-12': !active }, { 'h-full pt-4': active}, { 'animation-enable': animate}]" ref="bgDummy">
+    <div class="absolute bottom-0" 
+        :class="[{ 'h-12': !activeBig},
+                  { 'h-full pt-4': activeBig }, 
+                  { 'animation-enable': animate },
+                  { 'w-full': !activeThinX }, 
+                  { 'w-36': activeThinX }]" ref="bgDummy">
       <div class="flex flex-row bg-green-900 rounded-t-large h-full"
-        :class="[{ 'mx-8': !active }, { 'mx-4': active}, { 'animation-enable': animate}]"/>
+        :class="[{ 'mx-8': !activeThinX && !activeBig }, 
+                  { 'mx-4': activeBig },  
+                  { 'mx-4': activeThinX },
+                  { 'animation-enable': animate }]"/>
     </div>
 
     <!-- Main Menu Button -->
-    <div class="absolute bottom-0 w-full" 
-        :class="[{ 'h-20': !active }, { 'h-full pt-8': active}, { 'animation-enable': animate}]" ref="mainMenu">
+    <div class="absolute bottom-0" 
+        :class="[{ 'h-20': !activeBig },  
+                  { 'h-full pt-8': activeBig }, 
+                  { 'animation-enable': animate },
+                  { 'w-full': !activeThinX },
+                  { 'w-34': activeThinX }]" ref="mainMenu">
       <div class="h-16 shadow-xl flex flex-row bg-green-300 rounded-full"
-        :class="[{ 'mx-56': !active }, { 'mx-8': active}, { 'animation-enable': animate}]">
+        :class="[{ 'mx-56': !activeThinX && !activeBig }, 
+                  { 'mx-8': activeBig }, 
+                  { 'mx-8': activeThinX }, 
+                  { 'animation-enable': animate }]">
         <div @mouseover="openDaskom"
             @mouseleave="closeDaskom"
-            :class="[{ 'w-56': hover }, { 'w-20': !hover}, { 'mx-56': !active }, { 'mx-8': active}, { 'animation-enable': animate}]"
+            :class="[{ 'w-56': hover && !activeThinX }, 
+                      { 'w-20': !hover && !activeThinX }, 
+                      { 'mx-56 rounded-r-none': !activeThinX && !activeBig }, 
+                      { 'mx-8': activeBig }, 
+                      { 'mx-8 rounded-r-full': activeThinX }, 
+                      { 'animation-enable': animate}]"
             class="z-0 absolute left-0 bg-green-700 rounded-l-full h-16 cursor-pointer" v-on:click="travel('')">
           <img class="h-16 w-16 p-3 ml-2 select-none" src="/assets/daskom.svg" alt="daskom logo">
-          <span class="flex absolute top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none">Daskom</span>
+          <span class="absolute top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none"
+                :class="[{ 'hidden': activeThinX }, 
+                          { 'flex': !activeThinX }]">Daskom</span>
         </div>
         <div class="flex flex-row self-center w-full mr-1 font-merri font-medium text-lg">
           <div class="flex-1"></div>
-          <a class="flex m-3 self-center cursor-pointer select-none" v-on:click="travel('about')">About</a>
-          <a class="flex m-3 self-center cursor-pointer select-none" v-on:click="travel('contact')">Contact</a>
-          <div class="flex m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none" v-on:click="travel('login')">Login</div>
+          <a class="menu dynamic m-3 self-center cursor-pointer select-none"
+                :class="[{ 'hidden': activeThinX }, 
+                          { 'flex': !activeThinX }]" v-on:click="travel('about')">About</a>
+          <a class="menu dynamic m-3 self-center cursor-pointer select-none"
+                :class="[{ 'hidden': activeThinX }, 
+                          { 'flex': !activeThinX }]" v-on:click="travel('contact')">Contact</a>
+          <div class="menu button m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none"
+                :class="[{ 'hidden': activeThinX }, 
+                          { 'flex': !activeThinX }]" v-on:click="travel('login')">Login</div>
         </div>
       </div>
     </div>   
@@ -45,13 +72,15 @@ export default {
   data() {
     return {
       hover: true,
-      active: true,
+      activeBig: false,
+      activeThinX: false,
       animate: false,
     };
   },
 
   mounted() {
     
+    $('body').addClass('closed');
     $('.daskom-text').each(function(){
       $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='daskom-text-letter inline-block'>$&</span>"));
     });
@@ -66,87 +95,134 @@ export default {
     const bgDummy = this.$refs.bgDummy;
     const mainMenu = this.$refs.mainMenu;
 
-    if(this.comingFrom == ('about' || 'contact' || 'login')){
-      
-      this.animate = true;
-      this.$anime.set(text, {
-        opacity: 0,
-      })
+    if(this.comingFrom == 'about' ||
+        this.comingFrom == 'contact'){
+      this.activeBig = true;
+    } else if (this.comingFrom == 'login'){
+      this.activeBig = true;
+      this.activeThinX = true;
+    }
 
-      this.$anime.set(background, {
-        opacity: 0,
-      })
-
-      this.hover = false;
-      
-      this.$anime
-        .timeline({
-          duration: 200
-        }).add({
-          targets: '.daskom-text-letter',
-          scale: [1,0.3],
-          opacity: [1,0],
-          easing: "easeOutExpo",
-          delay: function(el, i, l) {
-            return 70 * (l-(i+1))
-          }
-        });
-       
-      setTimeout(
-        function() {
-          globe.$anime.set('.daskom-text-letter', {
+    setTimeout(
+      function() {
+        if(globe.comingFrom == 'about' ||
+            globe.comingFrom == 'contact'){
+          
+          globe.$anime.set(text, {
             opacity: 0,
           })
-        }, 1000);
-      this.active = false;
 
-    } else {
+          globe.$anime.set(background, {
+            opacity: 0,
+          })
 
-      this.hover = false;
-      this.active = false;
-      this.$anime.set(background, {
-        backgroundColor: '#000',
-      })
+          globe.animate = true;
+          globe.hover = false;
+          
+          globe.$anime
+            .timeline({
+              duration: 200
+            }).add({
+              targets: '.daskom-text-letter',
+              scale: [1,0.3],
+              opacity: [1,0],
+              easing: "easeOutExpo",
+              delay: function(el, i, l) {
+                return 70 * (l-(i+1))
+              }
+            });
+          
+          setTimeout(
+            function() {
+              globe.$anime.set('.daskom-text-letter', {
+                opacity: 0,
+              })
+            }, 1000);
 
-      this
-        .$anime
-        .timeline({
-          duration: 1500
-        })
-        .add({
-          targets: text,
-          translateY: [50,0],
-          opacity: [0,1],
-          easing: 'easeInSine',
-        })
-        .add({
-          targets: text,
-          translateY: [0,-50],
-          opacity: [1,0],
-          easing: 'easeInSine',
-        }, '+=1000')
-        .add({
-          targets: background,
-          backgroundColor: ['#000','#FFF'],
-          opacity: [1,0],
-          easing: 'easeInSine'
-        }, '-=1000')
-        .add({
-          targets: bgDummy,
-          translateY: [100,0],
-          duration: 1500,
-          easing: 'easeInSine'
-        }, '+=100')
-        .add({
-          targets: mainMenu,
-          translateY: [100,0],
-          duration: 500,
-          easing: 'easeInSine',
-          begin: function(anim) {
-            globe.animate = true;
-          }
-        }, '-=200');
-    } 
+          globe.activeBig = false;
+
+        } else if(globe.comingFrom == 'login'){
+
+          globe.$anime.set('.menu', {
+            opacity: 0,
+          })
+
+          globe.hover = false;
+          globe.animate = true;
+          globe.$anime.set(text, {
+            opacity: 0,
+          })
+
+          globe.$anime.set(background, {
+            opacity: 0,
+          })
+          globe.activeBig = false;
+
+          setTimeout(
+            function() {
+              globe.activeThinX = false;
+            }, 250);
+
+          setTimeout(
+            function() {
+
+              globe.$anime
+                .timeline({
+                  duration: 200
+                }).add({
+                  targets: '.menu',
+                  opacity: [0,1],
+                  easing: "easeInSine"
+                });
+            }, 1000);
+
+        } else {
+
+          globe.hover = false;
+          globe.$anime.set(background, {
+            backgroundColor: '#000',
+          })
+
+          globe
+            .$anime
+            .timeline({
+              duration: 1500
+            })
+            .add({
+              targets: text,
+              translateY: [50,0],
+              opacity: [0,1],
+              easing: 'easeInSine',
+            })
+            .add({
+              targets: text,
+              translateY: [0,-50],
+              opacity: [1,0],
+              easing: 'easeInSine',
+            }, '+=1000')
+            .add({
+              targets: background,
+              backgroundColor: ['#000','#FFF'],
+              opacity: [1,0],
+              easing: 'easeInSine'
+            }, '-=1000')
+            .add({
+              targets: bgDummy,
+              translateY: [100,0],
+              duration: 1500,
+              easing: 'easeInSine'
+            }, '+=100')
+            .add({
+              targets: mainMenu,
+              translateY: [100,0],
+              duration: 500,
+              easing: 'easeInSine',
+              begin: function(anim) {
+                globe.animate = true;
+              }
+            }, '-=200');
+        } 
+      }, 10);
   },
 
   methods: {
@@ -154,6 +230,9 @@ export default {
     travel: function(destination) {
       this.$inertia.replace('/'+destination, {
         preserveScroll: true,
+        data: {
+          'comingFrom': 'welcome',
+        }
       })
     },
 

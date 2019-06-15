@@ -34,6 +34,7 @@ module.exports = {
 
     inset: {
       '0': 0,
+      '5': '5rem',
       auto: 'auto',
       '1/2': '50%',
       '1/4': '25%',
@@ -44,6 +45,10 @@ module.exports = {
       margin: {
         '18': '4.8rem',
       },
+      spacing: {
+        '34': '8.5rem',
+        '36': '9rem',
+      }
     }
   },
   variants: {},

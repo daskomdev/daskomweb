@@ -50,16 +50,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom'],
   data: function data() {
     return {
       hover: true,
-      active: true,
+      activeBig: false,
+      activeThinX: false,
       animate: false
     };
   },
   mounted: function mounted() {
+    $('body').addClass('closed');
     $('.daskom-text').each(function () {
       $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='daskom-text-letter inline-block'>$&</span>"));
     });
@@ -72,75 +101,111 @@ __webpack_require__.r(__webpack_exports__);
     var bgDummy = this.$refs.bgDummy;
     var mainMenu = this.$refs.mainMenu;
 
-    if (this.comingFrom == ('about' || false || false)) {
-      this.animate = true;
-      this.$anime.set(text, {
-        opacity: 0
-      });
-      this.$anime.set(background, {
-        opacity: 0
-      });
-      this.hover = false;
-      this.$anime.timeline({
-        duration: 200
-      }).add({
-        targets: '.daskom-text-letter',
-        scale: [1, 0.3],
-        opacity: [1, 0],
-        easing: "easeOutExpo",
-        delay: function delay(el, i, l) {
-          return 70 * (l - (i + 1));
-        }
-      });
-      setTimeout(function () {
-        globe.$anime.set('.daskom-text-letter', {
+    if (this.comingFrom == 'about' || this.comingFrom == 'contact') {
+      this.activeBig = true;
+    } else if (this.comingFrom == 'login') {
+      this.activeBig = true;
+      this.activeThinX = true;
+    }
+
+    setTimeout(function () {
+      if (globe.comingFrom == 'about' || globe.comingFrom == 'contact') {
+        globe.$anime.set(text, {
           opacity: 0
         });
-      }, 1000);
-      this.active = false;
-    } else {
-      this.hover = false;
-      this.active = false;
-      this.$anime.set(background, {
-        backgroundColor: '#000'
-      });
-      this.$anime.timeline({
-        duration: 1500
-      }).add({
-        targets: text,
-        translateY: [50, 0],
-        opacity: [0, 1],
-        easing: 'easeInSine'
-      }).add({
-        targets: text,
-        translateY: [0, -50],
-        opacity: [1, 0],
-        easing: 'easeInSine'
-      }, '+=1000').add({
-        targets: background,
-        backgroundColor: ['#000', '#FFF'],
-        opacity: [1, 0],
-        easing: 'easeInSine'
-      }, '-=1000').add({
-        targets: bgDummy,
-        translateY: [100, 0],
-        duration: 1500,
-        easing: 'easeInSine'
-      }, '+=100').add({
-        targets: mainMenu,
-        translateY: [100, 0],
-        duration: 500,
-        easing: 'easeInSine',
-        begin: function begin(anim) {
-          globe.animate = true;
-        }
-      }, '-=200');
-    }
+        globe.$anime.set(background, {
+          opacity: 0
+        });
+        globe.animate = true;
+        globe.hover = false;
+        globe.$anime.timeline({
+          duration: 200
+        }).add({
+          targets: '.daskom-text-letter',
+          scale: [1, 0.3],
+          opacity: [1, 0],
+          easing: "easeOutExpo",
+          delay: function delay(el, i, l) {
+            return 70 * (l - (i + 1));
+          }
+        });
+        setTimeout(function () {
+          globe.$anime.set('.daskom-text-letter', {
+            opacity: 0
+          });
+        }, 1000);
+        globe.activeBig = false;
+      } else if (globe.comingFrom == 'login') {
+        globe.$anime.set('.menu', {
+          opacity: 0
+        });
+        globe.hover = false;
+        globe.animate = true;
+        globe.$anime.set(text, {
+          opacity: 0
+        });
+        globe.$anime.set(background, {
+          opacity: 0
+        });
+        globe.activeBig = false;
+        setTimeout(function () {
+          globe.activeThinX = false;
+        }, 250);
+        setTimeout(function () {
+          globe.$anime.timeline({
+            duration: 200
+          }).add({
+            targets: '.menu',
+            opacity: [0, 1],
+            easing: "easeInSine"
+          });
+        }, 1000);
+      } else {
+        globe.hover = false;
+        globe.$anime.set(background, {
+          backgroundColor: '#000'
+        });
+        globe.$anime.timeline({
+          duration: 1500
+        }).add({
+          targets: text,
+          translateY: [50, 0],
+          opacity: [0, 1],
+          easing: 'easeInSine'
+        }).add({
+          targets: text,
+          translateY: [0, -50],
+          opacity: [1, 0],
+          easing: 'easeInSine'
+        }, '+=1000').add({
+          targets: background,
+          backgroundColor: ['#000', '#FFF'],
+          opacity: [1, 0],
+          easing: 'easeInSine'
+        }, '-=1000').add({
+          targets: bgDummy,
+          translateY: [100, 0],
+          duration: 1500,
+          easing: 'easeInSine'
+        }, '+=100').add({
+          targets: mainMenu,
+          translateY: [100, 0],
+          duration: 500,
+          easing: 'easeInSine',
+          begin: function begin(anim) {
+            globe.animate = true;
+          }
+        }, '-=200');
+      }
+    }, 10);
   },
   methods: {
     travel: function travel(destination) {
       this.$inertia.replace('/' + destination, {
-        preserveScroll: true
+        preserveScroll: true,
+        data: {
+          'comingFrom': 'welcome'
+        }
       });
     },
     openDaskom: function openDaskom(event) {
@@ -216,19 +281,22 @@ var render = function() {
         "div",
         {
           ref: "bgDummy",
-          staticClass: "absolute bottom-0 w-full",
+          staticClass: "absolute bottom-0",
           class: [
-            { "h-12": !_vm.active },
-            { "h-full pt-4": _vm.active },
-            { "animation-enable": _vm.animate }
+            { "h-12": !_vm.activeBig },
+            { "h-full pt-4": _vm.activeBig },
+            { "animation-enable": _vm.animate },
+            { "w-full": !_vm.activeThinX },
+            { "w-36": _vm.activeThinX }
           ]
         },
         [
           _c("div", {
             staticClass: "flex flex-row bg-green-900 rounded-t-large h-full",
             class: [
-              { "mx-8": !_vm.active },
-              { "mx-4": _vm.active },
+              { "mx-8": !_vm.activeThinX && !_vm.activeBig },
+              { "mx-4": _vm.activeBig },
+              { "mx-4": _vm.activeThinX },
               { "animation-enable": _vm.animate }
             ]
           })
@@ -239,11 +307,13 @@ var render = function() {
         "div",
         {
           ref: "mainMenu",
-          staticClass: "absolute bottom-0 w-full",
+          staticClass: "absolute bottom-0",
           class: [
-            { "h-20": !_vm.active },
-            { "h-full pt-8": _vm.active },
-            { "animation-enable": _vm.animate }
+            { "h-20": !_vm.activeBig },
+            { "h-full pt-8": _vm.activeBig },
+            { "animation-enable": _vm.animate },
+            { "w-full": !_vm.activeThinX },
+            { "w-34": _vm.activeThinX }
           ]
         },
         [
@@ -253,8 +323,9 @@ var render = function() {
               staticClass:
                 "h-16 shadow-xl flex flex-row bg-green-300 rounded-full",
               class: [
-                { "mx-56": !_vm.active },
-                { "mx-8": _vm.active },
+                { "mx-56": !_vm.activeThinX && !_vm.activeBig },
+                { "mx-8": _vm.activeBig },
+                { "mx-8": _vm.activeThinX },
                 { "animation-enable": _vm.animate }
               ]
             },
@@ -265,10 +336,13 @@ var render = function() {
                   staticClass:
                     "z-0 absolute left-0 bg-green-700 rounded-l-full h-16 cursor-pointer",
                   class: [
-                    { "w-56": _vm.hover },
-                    { "w-20": !_vm.hover },
-                    { "mx-56": !_vm.active },
-                    { "mx-8": _vm.active },
+                    { "w-56": _vm.hover && !_vm.activeThinX },
+                    { "w-20": !_vm.hover && !_vm.activeThinX },
+                    {
+                      "mx-56 rounded-r-none": !_vm.activeThinX && !_vm.activeBig
+                    },
+                    { "mx-8": _vm.activeBig },
+                    { "mx-8 rounded-r-full": _vm.activeThinX },
                     { "animation-enable": _vm.animate }
                   ],
                   on: {
@@ -289,7 +363,11 @@ var render = function() {
                     "span",
                     {
                       staticClass:
-                        "flex absolute top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none"
+                        "absolute top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none",
+                      class: [
+                        { hidden: _vm.activeThinX },
+                        { flex: !_vm.activeThinX }
+                      ]
                     },
                     [_vm._v("Daskom")]
                   )
@@ -309,7 +387,11 @@ var render = function() {
                     "a",
                     {
                       staticClass:
-                        "flex m-3 self-center cursor-pointer select-none",
+                        "menu dynamic m-3 self-center cursor-pointer select-none",
+                      class: [
+                        { hidden: _vm.activeThinX },
+                        { flex: !_vm.activeThinX }
+                      ],
                       on: {
                         click: function($event) {
                           return _vm.travel("about")
@@ -323,7 +405,11 @@ var render = function() {
                     "a",
                     {
                       staticClass:
-                        "flex m-3 self-center cursor-pointer select-none",
+                        "menu dynamic m-3 self-center cursor-pointer select-none",
+                      class: [
+                        { hidden: _vm.activeThinX },
+                        { flex: !_vm.activeThinX }
+                      ],
                       on: {
                         click: function($event) {
                           return _vm.travel("contact")
@@ -337,7 +423,11 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "flex m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none",
+                        "menu button m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none",
+                      class: [
+                        { hidden: _vm.activeThinX },
+                        { flex: !_vm.activeThinX }
+                      ],
                       on: {
                         click: function($event) {
                           return _vm.travel("login")

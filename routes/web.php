@@ -21,9 +21,22 @@ Route::get('/', function () {
 });
 
 Route::get('/about', function () {
-    return Inertia::render('About');
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    return Inertia::render('About', [
+        'comingFrom' => $comingFrom
+    ]);
 });
 
 Route::get('/contact', function () {
-    return Inertia::render('Contact');
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    return Inertia::render('Contact', [
+        'comingFrom' => $comingFrom
+    ]);
+});
+
+Route::get('/login', function () {
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    return Inertia::render('Login', [
+        'comingFrom' => $comingFrom
+    ]);
 });

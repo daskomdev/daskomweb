@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"5db9e0b4903123e31d1e","1":"5ae73c297a54a1551252","2":"77c7855fa3879eb8fbd6"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"522de9c77abd778b077e","1":"8fab522df749d25d722b","2":"9370d9913462093e1e01","3":"b95698d6d6311906a821"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -23801,6 +23801,14 @@ var map = {
 	"./Contact.vue": [
 		"./resources/js/Pages/Contact.vue",
 		1
+	],
+	"./Login": [
+		"./resources/js/Pages/Login.vue",
+		3
+	],
+	"./Login.vue": [
+		"./resources/js/Pages/Login.vue",
+		3
 	],
 	"./Welcome": [
 		"./resources/js/Pages/Welcome.vue",
