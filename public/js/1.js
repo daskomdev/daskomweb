@@ -54,17 +54,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    var targets = this.$refs.welcomeText;
-    this.$anime.timeline().add({
-      targets: targets,
-      translateX: 250,
-      easing: 'easeOutExpo'
-    });
-    /* ... etc ... */
-  }
-});
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -109,16 +99,37 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex h-full w-full bg-black" }, [
-    _c(
-      "div",
-      {
-        ref: "welcomeText",
-        staticClass: "font-merri m-auto text-white text-4xl"
-      },
-      [_vm._v("\n    Welcome To\n  ")]
-    )
-  ])
+  return _c(
+    "div",
+    { ref: "mainBg", staticClass: "flex h-full w-full mainBg" },
+    [
+      _c(
+        "header",
+        [
+          _c("inertia-link", { attrs: { href: "/" } }, [_vm._v("Home")]),
+          _vm._v(" "),
+          _c("inertia-link", { attrs: { href: "/about" } }, [_vm._v("About")]),
+          _vm._v(" "),
+          _c("inertia-link", { attrs: { href: "/contact" } }, [
+            _vm._v("Contact")
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          ref: "welcomeText",
+          staticClass: "font-merri m-auto text-white text-4xl"
+        },
+        [_vm._v("\n    Welcome To\n  ")]
+      ),
+      _vm._v("\n  \n  for inputting all the props \n  "),
+      _vm._t("default")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -22,7 +22,29 @@ module.exports = {
       'overpass-mono-bold': ['overpass-mono-bold'],
       'overpass-mono-thin': ['overpass-mono-thin'],
     },
-    extend: {}
+    
+    borderRadius: {
+      default: '.25rem',
+      'none': '0',
+      'sm': '.125rem',
+      'lg': '.5rem',
+      'full': '9999px',
+      'large': '25px',
+    },
+
+    inset: {
+      '0': 0,
+      auto: 'auto',
+      '1/2': '50%',
+      '1/4': '25%',
+    },
+
+    extend: {
+
+      margin: {
+        '18': '4.8rem',
+      },
+    }
   },
   variants: {},
   plugins: []

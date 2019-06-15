@@ -14,16 +14,16 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome')
-        ->with('foo', 'welcome');
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    return Inertia::render('Welcome', [
+        'comingFrom' => $comingFrom
+    ]);
 });
 
 Route::get('/about', function () {
-    return Inertia::render('About')
-        ->with('foo', 'about');
+    return Inertia::render('About');
 });
 
 Route::get('/contact', function () {
-    return Inertia::render('Contact')
-        ->with('foo', 'contact');
+    return Inertia::render('Contact');
 });
