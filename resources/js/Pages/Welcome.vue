@@ -1,65 +1,55 @@
 <template>
   <div class="main_container w-full h-full overflow-hidden"> 
 
+    <!-- Main Background -->
+    <div class="h-full w-full fixed top-0 bg-gray-400"/>
+
     <!-- Animation Part -->
     <!-- TODO: Do more here <14 June 02:09 PM> -->
-    <div class="flex h-full w-full" ref="mainBg">
+    <div class="fixed flex h-full w-full" ref="mainBg">
       <div class="font-merri m-auto text-white text-4xl" ref="welcomeText">
         Welcome To
       </div>
     </div>
 
     <!-- Background Dummy -->
-    <div class="absolute bottom-0" 
+    <div class="absolute w-full bottom-0" 
         :class="[{ 'h-12': !activeBig},
                   { 'h-full pt-4': activeBig }, 
-                  { 'animation-enable': animate },
-                  { 'w-full': !activeThinX }, 
-                  { 'w-36': activeThinX }]" ref="bgDummy">
+                  { 'animation-enable': animate }]" ref="bgDummy">
       <div class="flex flex-row bg-green-900 rounded-t-large h-full"
-        :class="[{ 'mx-8': !activeThinX && !activeBig }, 
-                  { 'mx-4': activeBig },  
-                  { 'mx-4': activeThinX },
+        :class="[{ 'mx-8': !activeBig }, 
+                  { 'mx-4': activeBig }, 
                   { 'animation-enable': animate }]"/>
     </div>
 
     <!-- Main Menu Button -->
-    <div class="absolute bottom-0" 
+    <div class="absolute w-full bottom-0" 
         :class="[{ 'h-20': !activeBig },  
                   { 'h-full pt-8': activeBig }, 
-                  { 'animation-enable': animate },
-                  { 'w-full': !activeThinX },
-                  { 'w-34': activeThinX }]" ref="mainMenu">
+                  { 'animation-enable': animate }]" ref="mainMenu">
       <div class="h-16 shadow-xl flex flex-row bg-green-300 rounded-full"
-        :class="[{ 'mx-56': !activeThinX && !activeBig }, 
+        :class="[{ 'mx-56': !activeBig }, 
                   { 'mx-8': activeBig }, 
-                  { 'mx-8': activeThinX }, 
                   { 'animation-enable': animate }]">
         <div @mouseover="openDaskom"
             @mouseleave="closeDaskom"
-            :class="[{ 'w-56': hover && !activeThinX }, 
-                      { 'w-20': !hover && !activeThinX }, 
-                      { 'mx-56 rounded-r-none': !activeThinX && !activeBig }, 
+            :class="[{ 'w-56': hover }, 
+                      { 'w-20': !hover }, 
+                      { 'mx-56': !activeBig }, 
                       { 'mx-8': activeBig }, 
-                      { 'mx-8 rounded-r-full': activeThinX }, 
                       { 'animation-enable': animate}]"
-            class="z-0 absolute left-0 bg-green-700 rounded-l-full h-16 cursor-pointer" v-on:click="travel('')">
+            class="z-0 absolute left-0 bg-green-700 rounded-l-full h-16 cursor-pointer">
           <img class="h-16 w-16 p-3 ml-2 select-none" src="/assets/daskom.svg" alt="daskom logo">
-          <span class="absolute top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none"
-                :class="[{ 'hidden': activeThinX }, 
-                          { 'flex': !activeThinX }]">Daskom</span>
+          <span class="absolute flex top-0 mt-3 ml-18 daskom-text font-monda-bold text-green-300 text-3xl select-none">
+            Daskom
+          </span>
         </div>
         <div class="flex flex-row self-center w-full mr-1 font-merri font-medium text-lg">
           <div class="flex-1"></div>
-          <a class="menu dynamic m-3 self-center cursor-pointer select-none"
-                :class="[{ 'hidden': activeThinX }, 
-                          { 'flex': !activeThinX }]" v-on:click="travel('about')">About</a>
-          <a class="menu dynamic m-3 self-center cursor-pointer select-none"
-                :class="[{ 'hidden': activeThinX }, 
-                          { 'flex': !activeThinX }]" v-on:click="travel('contact')">Contact</a>
-          <div class="menu button m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none"
-                :class="[{ 'hidden': activeThinX }, 
-                          { 'flex': !activeThinX }]" v-on:click="travel('login')">Login</div>
+          <a class="menu flex dynamic m-3 self-center cursor-pointer select-none" v-on:click="travel('about')">About</a>
+          <a class="menu flex dynamic m-3 self-center cursor-pointer select-none" v-on:click="travel('contact')">Contact</a>
+          <div class="menu flex button m-3 bg-green-700 text-white rounded-full py-2 px-4 cursor-pointer select-none" v-on:click="travel('login')">Login</div>
         </div>
       </div>
     </div>   
@@ -73,7 +63,6 @@ export default {
     return {
       hover: true,
       activeBig: false,
-      activeThinX: false,
       animate: false,
     };
   },
@@ -95,26 +84,48 @@ export default {
     const bgDummy = this.$refs.bgDummy;
     const mainMenu = this.$refs.mainMenu;
 
+    // Initialization Page Based on this.comingFrom data
     if(this.comingFrom == 'about' ||
         this.comingFrom == 'contact'){
+          
+      this.$anime.set(text, {
+        opacity: 0,
+      })
+
+      this.$anime.set(background, {
+        opacity: 0,
+      })
+
       this.activeBig = true;
+      
     } else if (this.comingFrom == 'login'){
-      this.activeBig = true;
-      this.activeThinX = true;
+
+      this.hover = false;
+      this.$anime.set('.menu', {
+        opacity: 0,
+      })
+
+      this.$anime.set(text, {
+        opacity: 0,
+      })
+
+      this.$anime.set(background, {
+        opacity: 0,
+      })
+
+    } else {
+
+      this.$anime.set(background, {
+        backgroundColor: '#000',
+      })
     }
 
+    // Animate Page Based on this.comingFrom data
+    // Wait for 10ms to make sure the Animation start after initialization
     setTimeout(
       function() {
         if(globe.comingFrom == 'about' ||
             globe.comingFrom == 'contact'){
-          
-          globe.$anime.set(text, {
-            opacity: 0,
-          })
-
-          globe.$anime.set(background, {
-            opacity: 0,
-          })
 
           globe.animate = true;
           globe.hover = false;
@@ -143,45 +154,19 @@ export default {
 
         } else if(globe.comingFrom == 'login'){
 
-          globe.$anime.set('.menu', {
-            opacity: 0,
-          })
-
-          globe.hover = false;
           globe.animate = true;
-          globe.$anime.set(text, {
-            opacity: 0,
-          })
-
-          globe.$anime.set(background, {
-            opacity: 0,
-          })
-          globe.activeBig = false;
-
-          setTimeout(
-            function() {
-              globe.activeThinX = false;
-            }, 250);
-
-          setTimeout(
-            function() {
-
-              globe.$anime
-                .timeline({
-                  duration: 200
-                }).add({
-                  targets: '.menu',
-                  opacity: [0,1],
-                  easing: "easeInSine"
-                });
-            }, 1000);
+          globe.$anime
+            .timeline({
+              duration: 400
+            }).add({
+              targets: '.menu',
+              opacity: [0,1],
+              easing: "easeInSine"
+            });
 
         } else {
 
           globe.hover = false;
-          globe.$anime.set(background, {
-            backgroundColor: '#000',
-          })
 
           globe
             .$anime

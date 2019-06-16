@@ -38,19 +38,37 @@ module.exports = {
       auto: 'auto',
       '1/2': '50%',
       '1/4': '25%',
+      'minFull': '-100%',
+      '36full': 'calc(100% - 9rem)',
     },
 
     extend: {
 
+      borderWidth: {
+        '6': '6px',
+      },
+
       margin: {
         '18': '4.8rem',
       },
+
       spacing: {
         '34': '8.5rem',
         '36': '9rem',
+        '36full': 'calc(100% - 9rem)',
+        '24full': 'calc(100% - 6rem)',
+      },
+
+      height: {
+        '1/4': '25%',
+        '1/3': '33.33333%',
+        '2/3': '66.66667%',
+        '1/2': '50%',
       }
     }
   },
-  variants: {},
+  variants: {
+    borderWidth: ['responsive', 'hover', 'focus'],
+  },
   plugins: []
 }

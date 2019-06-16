@@ -78,6 +78,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom'],
   data: function data() {
@@ -232,6 +235,8 @@ var render = function() {
       staticClass: "main_container w-full h-full overflow-hidden"
     },
     [
+      _c("div", { staticClass: "w-full h-full fixed top-0 bg-gray-400" }),
+      _vm._v(" "),
       _c(
         "div",
         {

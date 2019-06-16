@@ -1,6 +1,9 @@
 <template>
   <div class="main_container w-full h-full overflow-hidden" v-scroll="handleScroll">
 
+    <!-- Main Background -->
+    <div class="w-full h-full fixed top-0 bg-gray-400"/>
+
     <!-- Background Dummy -->
     <div class="fixed bottom-0 w-full"
         :class="[{ 'h-12': !active }, 
@@ -14,7 +17,7 @@
               { 'animation-enable': animationEnable}]"/>
     </div>
 
-    <!-- About Content    -->
+    <!-- Contact Content    -->
     <div class="absolute top-0 main-content w-full h-full pt-24 z-10"
         :class="[{ 'px-8': !scrolled },
               { 'px-0': scrolled }, 
