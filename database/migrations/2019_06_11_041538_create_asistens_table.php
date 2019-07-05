@@ -22,9 +22,14 @@ class CreateAsistensTable extends Migration
                 ->unique()
                 ->nullable()
                 ->default(null);
-            $table->integer('role');
+            $table->unsignedBigInteger('role_id');
             $table->text('deskripsi');
             $table->timestamps();
+
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('cascade');
         });
     }
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Asisten;
+use App\Role;
 use Illuminate\Http\Request;
 
-class AsistenController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,32 +35,16 @@ class AsistenController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'kode' => 'required|min:3|max:3',
-            'password' => 'required|min:6',
-            'role_id' => 'required',
-            'deskripsi' => 'required',
-        ]);
-
-        Asisten::create([
-            'name' => $request->name,
-            'name' => $request->kode,
-            'name' => $request->password,
-            'name' => $request->role_id,
-            'name' => $request->deskripsi,
-        ]);
-
-        return redirect()->route('login')->with('successMessage', 'success');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Asisten  $asisten
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Asisten $asisten)
+    public function show(Role $role)
     {
         //
     }
@@ -68,10 +52,10 @@ class AsistenController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Asisten  $asisten
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Asisten $asisten)
+    public function edit(Role $role)
     {
         //
     }
@@ -80,10 +64,10 @@ class AsistenController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Asisten  $asisten
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Asisten $asisten)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -91,10 +75,10 @@ class AsistenController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Asisten  $asisten
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Asisten $asisten)
+    public function destroy(Role $role)
     {
         //
     }

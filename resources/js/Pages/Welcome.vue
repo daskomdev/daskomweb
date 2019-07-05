@@ -118,6 +118,18 @@ export default {
       this.$anime.set(background, {
         backgroundColor: '#000',
       })
+
+      this.$anime.set(bgDummy, {
+        translateY: 100,
+      })
+
+      this.$anime.set(mainMenu, {
+        translateY: 100,
+      })
+
+      this.$anime.set(text, {
+        opacity: 0,
+      })
     }
 
     // Animate Page Based on this.comingFrom data

@@ -343,8 +343,79 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['comingFrom'],
+  props: ['comingFrom', 'all_kelas', 'roles'],
+  inject: ['page'],
   data: function data() {
     return {
       activeX: false,
@@ -352,7 +423,7 @@ __webpack_require__.r(__webpack_exports__);
       isPraktikan: true,
       animate: true,
       isLogin: true,
-      form: {
+      formPraktikan: {
         nama: '',
         nim: '',
         password: '',
@@ -360,6 +431,13 @@ __webpack_require__.r(__webpack_exports__);
         alamat: '',
         nomor_telepon: '',
         email: ''
+      },
+      formAsisten: {
+        nama: '',
+        kode: '',
+        password: '',
+        role_id: '',
+        deskripsi: ''
       }
     };
   },
@@ -415,6 +493,14 @@ __webpack_require__.r(__webpack_exports__);
     }, 1010);
   },
   methods: {
+    signupAsisten: function signupAsisten() {
+      var globe = this;
+      $inertia.post(url, data, {
+        replace: false,
+        preserveScroll: false,
+        preserveState: true
+      });
+    },
     openLoginPage: function openLoginPage(event) {
       var globe = this;
       this.$anime.timeline({
@@ -624,7 +710,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "fixed h-full",
+          staticClass: "overflow-y-scroll fixed h-full",
           class: [
             { "w-0": !_vm.activeX },
             { "w-36full": _vm.activeX },
@@ -691,8 +777,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.nama,
-                          expression: "form.nama"
+                          value: _vm.formPraktikan.nama,
+                          expression: "formPraktikan.nama"
                         }
                       ],
                       staticClass:
@@ -700,15 +786,19 @@ var render = function() {
                       attrs: {
                         id: "Nama",
                         type: "text",
-                        placeholder: "Muhammad Fakhri Putra Supriyadi"
+                        placeholder: "Sebut Saja Praktikan"
                       },
-                      domProps: { value: _vm.form.nama },
+                      domProps: { value: _vm.formPraktikan.nama },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "nama", $event.target.value)
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "nama",
+                            $event.target.value
+                          )
                         }
                       }
                     })
@@ -724,8 +814,165 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.nim,
-                          expression: "form.nim"
+                          value: _vm.formPraktikan.email,
+                          expression: "formPraktikan.email"
+                        }
+                      ],
+                      staticClass:
+                        "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                      attrs: {
+                        id: "Email",
+                        type: "email",
+                        placeholder: "praktikan@gmail.com"
+                      },
+                      domProps: { value: _vm.formPraktikan.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex items-center mb-6" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-2/3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formPraktikan.nomor_telepon,
+                          expression: "formPraktikan.nomor_telepon"
+                        }
+                      ],
+                      staticClass:
+                        "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                      attrs: {
+                        id: "NomorTelepon",
+                        type: "text",
+                        placeholder: "62**********"
+                      },
+                      domProps: { value: _vm.formPraktikan.nomor_telepon },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "nomor_telepon",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex items-center mb-6" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-2/3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formPraktikan.alamat,
+                          expression: "formPraktikan.alamat"
+                        }
+                      ],
+                      staticClass:
+                        "resize-y bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                      attrs: {
+                        id: "Alamat",
+                        type: "text",
+                        placeholder: "Asrama Telkom University"
+                      },
+                      domProps: { value: _vm.formPraktikan.alamat },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "alamat",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex items-center mb-6" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formPraktikan.kelas_id,
+                          expression: "formPraktikan.kelas_id"
+                        }
+                      ],
+                      staticClass:
+                        "block appearance-none w-2/3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                      attrs: { id: "grid-state" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "kelas_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.all_kelas, function(kelas) {
+                      return _c("option", { key: kelas.id }, [
+                        _vm._v(_vm._s(kelas.kelas))
+                      ])
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex items-center mb-6" }, [
+                  _vm._m(7),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-2/3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formPraktikan.nim,
+                          expression: "formPraktikan.nim"
                         }
                       ],
                       staticClass:
@@ -733,22 +980,61 @@ var render = function() {
                       attrs: {
                         id: "Nim",
                         type: "text",
-                        placeholder: "1102174055"
+                        placeholder: "1102112011"
                       },
-                      domProps: { value: _vm.form.nim },
+                      domProps: { value: _vm.formPraktikan.nim },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "nim", $event.target.value)
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "nim",
+                            $event.target.value
+                          )
                         }
                       }
                     })
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(4),
+                _c("div", { staticClass: "flex items-center mb-6" }, [
+                  _vm._m(8),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-2/3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formPraktikan.password,
+                          expression: "formPraktikan.password"
+                        }
+                      ],
+                      staticClass:
+                        "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                      attrs: {
+                        id: "Password",
+                        type: "password",
+                        placeholder: "******************"
+                      },
+                      domProps: { value: _vm.formPraktikan.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.formPraktikan,
+                            "password",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex items-center" }, [
                   _c("div", { staticClass: "w-4/5" }),
@@ -841,9 +1127,9 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(5),
+              _vm._m(9),
               _vm._v(" "),
-              _vm._m(6),
+              _vm._m(10),
               _vm._v(" "),
               _c("div", { staticClass: "flex items-center" }, [
                 _c("div", { staticClass: "w-4/5" }),
@@ -935,9 +1221,187 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(7),
+              _c("div", { staticClass: "flex items-center mb-6" }, [
+                _vm._m(11),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-2/3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formAsisten.nama,
+                        expression: "formAsisten.nama"
+                      }
+                    ],
+                    staticClass:
+                      "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                    attrs: {
+                      id: "Nama",
+                      type: "text",
+                      placeholder: "Sebut Saja Asisten"
+                    },
+                    domProps: { value: _vm.formAsisten.nama },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formAsisten, "nama", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(8),
+              _c("div", { staticClass: "flex items-center mb-6" }, [
+                _vm._m(12),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-2/3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formAsisten.deskripsi,
+                        expression: "formAsisten.deskripsi"
+                      }
+                    ],
+                    staticClass:
+                      "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                    attrs: {
+                      id: "Deskripsi",
+                      type: "text",
+                      placeholder: "Gitu aja"
+                    },
+                    domProps: { value: _vm.formAsisten.deskripsi },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formAsisten,
+                          "deskripsi",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center mb-6" }, [
+                _vm._m(13),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formAsisten.role_id,
+                        expression: "formAsisten.role_id"
+                      }
+                    ],
+                    staticClass:
+                      "block appearance-none w-2/3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                    attrs: { id: "grid-state" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.formAsisten,
+                          "role_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.roles, function(role) {
+                    return _c("option", { key: role.id }, [
+                      _vm._v(_vm._s(role.role))
+                    ])
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center mb-6" }, [
+                _vm._m(14),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-2/3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formAsisten.kode,
+                        expression: "formAsisten.kode"
+                      }
+                    ],
+                    staticClass:
+                      "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                    attrs: { id: "Kode", type: "text", placeholder: "TES" },
+                    domProps: { value: _vm.formAsisten.kode },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formAsisten, "kode", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center mb-6" }, [
+                _vm._m(15),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-2/3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formAsisten.password,
+                        expression: "formAsisten.password"
+                      }
+                    ],
+                    staticClass:
+                      "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                    attrs: {
+                      id: "Password",
+                      type: "password",
+                      placeholder: "******************"
+                    },
+                    domProps: { value: _vm.formAsisten.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formAsisten,
+                          "password",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "flex items-center" }, [
                 _c("div", { staticClass: "w-4/5" }),
@@ -948,7 +1412,8 @@ var render = function() {
                     {
                       staticClass:
                         "flex w-full shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
-                      attrs: { type: "button" }
+                      attrs: { type: "button" },
+                      on: { click: _vm.signupAsisten }
                     },
                     [
                       _c(
@@ -1321,9 +1786,89 @@ var staticRenderFns = [
         {
           staticClass:
             "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Email" }
+        },
+        [_vm._v("\n              Email\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "NomorTelepon" }
+        },
+        [_vm._v("\n              Nomor Telepon\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Alamat" }
+        },
+        [_vm._v("\n              Alamat\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Alamat" }
+        },
+        [_vm._v("\n              Kelas\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
           attrs: { for: "Nim" }
         },
         [_vm._v("\n              Nim\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Password" }
+        },
+        [_vm._v("\n              Password\n            ")]
       )
     ])
   },
@@ -1338,36 +1883,6 @@ var staticRenderFns = [
           {
             staticClass:
               "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
-            attrs: { for: "inline-username" }
-          },
-          [_vm._v("\n              Password\n            ")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-2/3" }, [
-        _c("input", {
-          staticClass:
-            "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-          attrs: {
-            id: "inline-username",
-            type: "password",
-            placeholder: "******************"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center mb-6" }, [
-      _c("div", { staticClass: "w-1/3" }, [
-        _c(
-          "label",
-          {
-            staticClass:
-              "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
             attrs: { for: "inline-full-name" }
           },
           [_vm._v("\n              Kode\n            ")]
@@ -1421,60 +1936,80 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center mb-6" }, [
-      _c("div", { staticClass: "w-1/3" }, [
-        _c(
-          "label",
-          {
-            staticClass:
-              "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
-            attrs: { for: "inline-full-name" }
-          },
-          [_vm._v("\n              Kode\n            ")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-2/3" }, [
-        _c("input", {
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
           staticClass:
-            "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-          attrs: {
-            id: "inline-full-name",
-            type: "text",
-            placeholder: "1102174055"
-          }
-        })
-      ])
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Nama" }
+        },
+        [_vm._v("\n              Nama\n            ")]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center mb-6" }, [
-      _c("div", { staticClass: "w-1/3" }, [
-        _c(
-          "label",
-          {
-            staticClass:
-              "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
-            attrs: { for: "inline-username" }
-          },
-          [_vm._v("\n              Password\n            ")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-2/3" }, [
-        _c("input", {
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
           staticClass:
-            "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-          attrs: {
-            id: "inline-username",
-            type: "password",
-            placeholder: "******************"
-          }
-        })
-      ])
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Deskripsi" }
+        },
+        [_vm._v("\n              Deskripsi\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Role" }
+        },
+        [_vm._v("\n              Role\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Kode" }
+        },
+        [_vm._v("\n              Kode\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4",
+          attrs: { for: "Password" }
+        },
+        [_vm._v("\n              Password\n            ")]
+      )
     ])
   }
 ]

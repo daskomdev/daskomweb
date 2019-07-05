@@ -113,6 +113,15 @@ __webpack_require__.r(__webpack_exports__);
       this.$anime.set(background, {
         backgroundColor: '#000'
       });
+      this.$anime.set(bgDummy, {
+        translateY: 100
+      });
+      this.$anime.set(mainMenu, {
+        translateY: 100
+      });
+      this.$anime.set(text, {
+        opacity: 0
+      });
     } // Animate Page Based on this.comingFrom data
     // Wait for 10ms to make sure the Animation start after initialization
 

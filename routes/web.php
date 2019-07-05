@@ -1,7 +1,8 @@
 <?php
 
 use Inertia\Inertia;
-
+use App\Role;
+use App\Kelas;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,8 +36,14 @@ Route::get('/contact', function () {
 });
 
 Route::get('/login', function () {
+    $all_kelas = Kelas::all();
+    $roles = Role::all();
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Login', [
-        'comingFrom' => $comingFrom
+        'comingFrom' => $comingFrom,
+        'all_kelas' => $all_kelas,
+        'roles' => $roles
     ]);
-});
+})->name('login');
+
+Route::post('/signupAsisten', 'AsistenController@store')->name('signupAsisten');

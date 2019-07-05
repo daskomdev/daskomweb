@@ -58,7 +58,7 @@
     </div>
 
     <!-- Signup Part (PRAKTIKAN) -->
-    <div class="fixed h-full" 
+    <div class="overflow-y-scroll fixed h-full" 
         style="background: rgb(203,213,224);
                 background: linear-gradient(90deg, rgba(226,232,240,1) 0%, rgba(226,232,240,1) 80%, rgba(203,213,224,1) 100%);"
         :class="[{ 'w-0': !activeX },
@@ -84,8 +84,48 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="form.nama" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nama" type="text" placeholder="Muhammad Fakhri Putra Supriyadi">
+              <input v-model="formPraktikan.nama" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nama" type="text" placeholder="Sebut Saja Praktikan">
             </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Email">
+                Email
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formPraktikan.email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Email" type="email" placeholder="praktikan@gmail.com">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="NomorTelepon">
+                Nomor Telepon
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formPraktikan.nomor_telepon" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="NomorTelepon" type="text" placeholder="62**********">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Alamat">
+                Alamat
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formPraktikan.alamat" class="resize-y bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Alamat" type="text" placeholder="Asrama Telkom University">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Alamat">
+                Kelas
+              </label>
+            </div>
+            <select v-model="formPraktikan.kelas_id" class="block appearance-none w-2/3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+              <option v-for="kelas in all_kelas" v-bind:key="kelas.id">{{ kelas.kelas }}</option>
+            </select>
           </div>
           <div class="flex items-center mb-6">
             <div class="w-1/3">
@@ -94,17 +134,17 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="form.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nim" type="text" placeholder="1102174055">
+              <input v-model="formPraktikan.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nim" type="text" placeholder="1102112011">
             </div>
           </div>
           <div class="flex items-center mb-6">
             <div class="w-1/3">
-              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="inline-username">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Password">
                 Password
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-username" type="password" placeholder="******************">
+              <input v-model="formPraktikan.password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Password" type="password" placeholder="******************">
             </div>
           </div>
           <div class="flex items-center">
@@ -197,28 +237,58 @@
           </span>
           <div class="flex items-center mb-6">
             <div class="w-1/3">
-              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="inline-full-name">
-                Kode
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Nama">
+                Nama
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="1102174055">
+              <input v-model="formAsisten.nama" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nama" type="text" placeholder="Sebut Saja Asisten">
             </div>
           </div>
           <div class="flex items-center mb-6">
             <div class="w-1/3">
-              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="inline-username">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Deskripsi">
+                Deskripsi
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formAsisten.deskripsi" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Deskripsi" type="text" placeholder="Gitu aja">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Role">
+                Role
+              </label>
+            </div>
+            <select v-model="formAsisten.role_id" class="block appearance-none w-2/3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+              <option v-for="role in roles" v-bind:key="role.id">{{ role.role }}</option>
+            </select>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Kode">
+                Kode
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formAsisten.kode" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Kode" type="text" placeholder="TES">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Password">
                 Password
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-username" type="password" placeholder="******************">
+              <input v-model="formAsisten.password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Password" type="password" placeholder="******************">
             </div>
           </div>
           <div class="flex items-center">
             <div class="w-4/5"></div>
             <div class="w-1/5">
-              <button class="flex w-full shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              <button v-on:click="signupAsisten" class="flex w-full shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                 <svg class="mx-auto h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <polygon fill="#000000" id="Combined-Shape-Copy" points="16.1715729 9 10.1005051 2.92893219 11.5147186 1.51471863 20 10 19.2928932 10.7071068 11.5147186 18.4852814 10.1005051 17.0710678 16.1715729 11 -5.68434189e-14 11 -5.68434189e-14 9"></polygon>
                 </svg>
@@ -334,7 +404,12 @@
 
 <script>
 export default {
-  props: ['comingFrom'],
+  props: [
+    'comingFrom',
+    'all_kelas',
+    'roles'
+  ],
+  inject: ['page'],
   data() {
     return {
       activeX: false,
@@ -343,7 +418,7 @@ export default {
       animate: true,
       isLogin: true,
 
-      form: {
+      formPraktikan: {
         nama: '',
         nim: '',
         password: '',
@@ -351,7 +426,15 @@ export default {
         alamat: '',
         nomor_telepon: '',
         email: '',
-      }
+      },
+      
+      formAsisten: {
+        nama: '',
+        kode: '',
+        password: '',
+        role_id: '',
+        deskripsi: '',
+      },
     };
   },
 
@@ -426,6 +509,12 @@ export default {
   },
   
   methods: {
+
+    signupAsisten: function(){
+
+      const globe = this;
+      $inertia.post(url, data, { replace: false, preserveScroll: false, preserveState: true })
+    },
     
     openLoginPage: function(event){
 
