@@ -24,6 +24,7 @@ class CreateAsistensTable extends Migration
                 ->default(null);
             $table->unsignedBigInteger('role_id');
             $table->text('deskripsi');
+            $table->rememberToken();
             $table->timestamps();
 
             $table->foreign('role_id')

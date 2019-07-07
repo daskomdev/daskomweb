@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use App\Role;
 use App\Kelas;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,21 +20,21 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'comingFrom' => $comingFrom
     ]);
-});
+})->middleware('guest:all');
 
 Route::get('/about', function () {
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('About', [
         'comingFrom' => $comingFrom
     ]);
-});
+})->middleware('guest:all');
 
 Route::get('/contact', function () {
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Contact', [
         'comingFrom' => $comingFrom
     ]);
-});
+})->middleware('guest:all');
 
 Route::get('/login', function () {
     $all_kelas = Kelas::all();
@@ -44,6 +45,26 @@ Route::get('/login', function () {
         'all_kelas' => $all_kelas,
         'roles' => $roles
     ]);
-})->name('login');
+})->name('login')->middleware('guest:all');
+
+Route::get('/asisten', function () {
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    return Inertia::render('Asisten', [
+        'comingFrom' => $comingFrom
+    ]);
+})->name('asisten')->middleware('loggedIn:all');
+
+Route::get('/praktikan', function () {
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    return Inertia::render('Praktikan', [
+        'comingFrom' => $comingFrom
+    ]);
+})->name('praktikan')->middleware('loggedIn:all');
+
+Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
+Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
 Route::post('/signupAsisten', 'AsistenController@store')->name('signupAsisten');
+Route::post('/signupPraktikan', 'PraktikanController@store')->name('signupPraktikan');
+Route::post('/loginPraktikan', 'Auth\PraktikanLoginController@login')->name('loginPraktikan');
+Route::post('/loginAsisten', 'Auth\AsistenLoginController@login')->name('loginAsisten');

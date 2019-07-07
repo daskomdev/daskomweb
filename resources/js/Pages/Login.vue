@@ -14,7 +14,7 @@
                   { 'right-minFull': !isLogin },
                   { 'right-0': isLogin },
                   { 'animation-enable': animate }]">
-      <div class="flex ml-2 mt-8 h-full">
+      <div class="flex h-full">
         <form class="w-full max-w-sm m-auto">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
@@ -30,7 +30,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="1102174055">
+              <input v-model="formLoginPraktikan.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="1102174055">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -40,13 +40,13 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-username" type="password" placeholder="******************">
+              <input v-model="formLoginPraktikan.password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-username" type="password" placeholder="******************">
             </div>
           </div>
           <div class="flex items-center">
             <div class="w-4/5"></div>
             <div class="w-1/5">
-              <button class="flex w-full shadow bg-teal-500 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              <button v-on:click="loginPraktikan" class="flex w-full shadow bg-teal-500 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                 <svg class="mx-auto fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <polygon id="Combined-Shape-Copy" points="16.1715729 9 10.1005051 2.92893219 11.5147186 1.51471863 20 10 19.2928932 10.7071068 11.5147186 18.4852814 10.1005051 17.0710678 16.1715729 11 -5.68434189e-14 11 -5.68434189e-14 9"></polygon>
                 </svg>
@@ -68,8 +68,8 @@
                   { 'left-minFull': isLogin },
                   { 'left-0': !isLogin },
                   { 'animation-enable': animate }]">
-      <div class="flex ml-2 mt-8 h-full">
-        <form class="w-full max-w-sm m-auto" action="/thisistheurl" method="POST" @submit.prevent="createNewPraktikan">
+      <div class="flex h-full">
+        <form id="signupPraktikanForm" class="w-full max-w-sm m-auto">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
             SIGNUP
@@ -124,7 +124,7 @@
               </label>
             </div>
             <select v-model="formPraktikan.kelas_id" class="block appearance-none w-2/3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-              <option v-for="kelas in all_kelas" v-bind:key="kelas.id">{{ kelas.kelas }}</option>
+              <option v-for="kelas in all_kelas" v-bind:key="kelas.id" :value="kelas.id">{{ kelas.kelas }}</option>
             </select>
           </div>
           <div class="flex items-center mb-6">
@@ -150,7 +150,7 @@
           <div class="flex items-center">
             <div class="w-4/5"></div>
             <div class="w-1/5">
-              <button class="flex w-full shadow bg-teal-500 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              <button v-on:click="signupPraktikan" class="flex w-full shadow bg-teal-500 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                 <svg class="mx-auto fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <polygon id="Combined-Shape-Copy" points="16.1715729 9 10.1005051 2.92893219 11.5147186 1.51471863 20 10 19.2928932 10.7071068 11.5147186 18.4852814 10.1005051 17.0710678 16.1715729 11 -5.68434189e-14 11 -5.68434189e-14 9"></polygon>
                 </svg>
@@ -172,7 +172,7 @@
                   { 'right-minFull': !isLogin },
                   { 'right-0': isLogin },
                   { 'animation-enable': animate }]">
-      <div class="flex ml-2 mt-8 h-full">
+      <div class="flex h-full">
         <form class="w-full max-w-sm m-auto">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
@@ -188,7 +188,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="1102174055">
+              <input v-model="formLoginAsisten.kode" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="TES">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -198,13 +198,13 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-username" type="password" placeholder="******************">
+              <input v-model="formLoginAsisten.password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-username" type="password" placeholder="******************">
             </div>
           </div>
           <div class="flex items-center">
             <div class="w-4/5"></div>
             <div class="w-1/5">
-              <button class="flex w-full shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              <button v-on:click="loginAsisten" class="flex w-full shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                 <svg class="mx-auto h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <polygon fill="#000000" id="Combined-Shape-Copy" points="16.1715729 9 10.1005051 2.92893219 11.5147186 1.51471863 20 10 19.2928932 10.7071068 11.5147186 18.4852814 10.1005051 17.0710678 16.1715729 11 -5.68434189e-14 11 -5.68434189e-14 9"></polygon>
                 </svg>
@@ -226,8 +226,8 @@
                   { 'left-minFull': isLogin },
                   { 'left-0': !isLogin },
                   { 'animation-enable': animate }]">
-      <div class="flex ml-2 mt-8 h-full">
-        <form class="w-full max-w-sm m-auto">
+      <div class="flex h-full">
+        <form id="signupAsistenForm" class="w-full max-w-sm m-auto">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
             SIGNUP
@@ -262,7 +262,7 @@
               </label>
             </div>
             <select v-model="formAsisten.role_id" class="block appearance-none w-2/3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-              <option v-for="role in roles" v-bind:key="role.id">{{ role.role }}</option>
+              <option v-for="role in roles" v-bind:key="role.id" :value="role.id">{{ role.role }}</option>
             </select>
           </div>
           <div class="flex items-center mb-6">
@@ -407,9 +407,8 @@ export default {
   props: [
     'comingFrom',
     'all_kelas',
-    'roles'
+    'roles',
   ],
-  inject: ['page'],
   data() {
     return {
       activeX: false,
@@ -417,6 +416,8 @@ export default {
       isPraktikan: true,
       animate: true,
       isLogin: true,
+
+      errors: {},
 
       formPraktikan: {
         nama: '',
@@ -435,6 +436,18 @@ export default {
         role_id: '',
         deskripsi: '',
       },
+
+      formLoginAsisten: {
+        kode: '',
+        password: '',
+      },
+
+      formLoginPraktikan: {
+        nim: '',
+        password: '',
+      },
+
+      hostname: "http://localhost:3000"
     };
   },
 
@@ -510,10 +523,74 @@ export default {
   
   methods: {
 
+    loginAsisten: function() {
+
+      const globe = this;
+
+      this.$axios.post('/loginAsisten', this.formLoginAsisten).then(response => {
+        //TODO: make animation to go to other layout
+        console.log(response)
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          globe.errors = error.response.data.errors
+        }
+      });
+    },
+
+    loginPraktikan: function() {
+
+      const globe = this;
+
+      this.$axios.post('/loginPraktikan', this.formLoginPraktikan).then(response => {
+        //TODO: make animation to go to other layout
+        console.log(response)
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          globe.errors = error.response.data.errors
+        }
+      });
+    },
+
     signupAsisten: function(){
 
       const globe = this;
-      $inertia.post(url, data, { replace: false, preserveScroll: false, preserveState: true })
+
+      this.$axios.post('/signupAsisten', this.formAsisten).then(response => {
+        globe.$toasted.global.showSuccess({
+          message: "Registrasi berhasil, silahkan login"
+        });
+        $("#signupAsistenForm")[0].reset();
+        globe.openLoginPage();
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          globe.errors = error.response.data.errors
+        }
+      });
+    },
+
+    signupPraktikan: function(){
+
+      const globe = this;
+
+      this.$axios.post('/signupPraktikan', this.formPraktikan).then(response => {
+        globe.$toasted.global.showSuccess({
+          message: "Registrasi berhasil, silahkan login"
+        });
+        $("#signupPraktikanForm")[0].reset();
+        globe.openLoginPage();
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          globe.errors = error.response.data.errors
+        }
+      });
     },
     
     openLoginPage: function(event){

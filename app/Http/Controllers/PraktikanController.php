@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Praktikan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PraktikanController extends Controller
 {
@@ -35,7 +36,27 @@ class PraktikanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama'          => 'required|unique:praktikans|unique:asistens|string',
+            'nim'           => 'required|unique:praktikans|size:10|string',
+            'password'      => 'required|min:6|string',
+            'kelas_id'      => 'required|integer',
+            'alamat'        => 'required|min:10|string',
+            'nomor_telepon' => 'required|min:9|string',
+            'email'         => 'required|email|unique:praktikans|string',
+        ]);
+
+        Praktikan::create([
+            'nama'          => $request->nama,
+            'nim'           => $request->nim,
+            'password'      => Hash::make($request->password),
+            'kelas_id'      => $request->kelas_id,
+            'alamat'        => $request->alamat,
+            'nomor_telepon' => $request->nomor_telepon,
+            'email'         => $request->email,
+        ]);
+
+        return redirect()->route('login')->with('successMessage', 'success');
     }
 
     /**

@@ -46,6 +46,28 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        
+        'asisten' => [
+            'driver' => 'session',
+            'provider' => 'asistens',
+        ],
+
+        'asisten-api' => [
+            'driver' => 'token',
+            'provider' => 'asistens',
+            'hash' => false,
+        ],
+        
+        'praktikan' => [
+            'driver' => 'session',
+            'provider' => 'praktikans',
+        ],
+        
+        'praktikan-api' => [
+            'driver' => 'token',
+            'provider' => 'praktikans',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -69,6 +91,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+        
+        'asistens' => [
+            'driver' => 'eloquent',
+            'model' => App\Asisten::class,
+        ],
+        
+        'praktikans' => [
+            'driver' => 'eloquent',
+            'model' => App\Praktikan::class,
         ],
 
         // 'users' => [

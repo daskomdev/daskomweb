@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asisten;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AsistenController extends Controller
 {
@@ -36,22 +37,22 @@ class AsistenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'kode' => 'required|min:3|max:3',
-            'password' => 'required|min:6',
-            'role_id' => 'required',
-            'deskripsi' => 'required',
+            'nama'      => 'required|unique:asistens|unique:praktikans|string',
+            'kode'      => 'required|unique:asistens|size:3|string',
+            'password'  => 'required|min:6|string',
+            'role_id'   => 'required|integer',
+            'deskripsi' => 'required|min:10|string',
         ]);
 
         Asisten::create([
-            'name' => $request->name,
-            'name' => $request->kode,
-            'name' => $request->password,
-            'name' => $request->role_id,
-            'name' => $request->deskripsi,
+            'nama'      => $request->nama,
+            'kode'      => $request->kode,
+            'password'  => Hash::make($request->password),
+            'role_id'   => $request->role_id,
+            'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('login')->with('successMessage', 'success');
+        return '{"message": "success"}';
     }
 
     /**
