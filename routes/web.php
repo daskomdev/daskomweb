@@ -48,16 +48,22 @@ Route::get('/login', function () {
 })->name('login')->middleware('guest:all');
 
 Route::get('/asisten', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Asisten', [
-        'comingFrom' => $comingFrom
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'userRole' => $userRole->role,
     ]);
 })->name('asisten')->middleware('loggedIn:all');
 
 Route::get('/praktikan', function () {
+    $user = Auth::guard('praktikan')->user();
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Praktikan', [
-        'comingFrom' => $comingFrom
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user
     ]);
 })->name('praktikan')->middleware('loggedIn:all');
 

@@ -28,8 +28,10 @@
     },
     "dependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@fortawesome/fontawesome-svg-core": "^1.2.19",
+        "@fortawesome/free-solid-svg-icons": "^5.9.0",
+        "@fortawesome/vue-fontawesome": "^0.1.6",
         "inertia-vue": "github:inertiajs/inertia-vue",
-        "material-design-icons": "^3.0.1",
         "vue-animejs": "^2.1.1",
         "vue-toasted": "^1.1.27"
     }

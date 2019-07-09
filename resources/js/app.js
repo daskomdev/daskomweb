@@ -3,10 +3,33 @@ import Vue from 'vue'
 import VueAnime from 'vue-animejs';
 import Toasted from 'vue-toasted';
 import Axios from 'axios';
+import { library, dom } from '@fortawesome/fontawesome-svg-core';
+import { faExclamationCircle, 
+        faCheckCircle, 
+        faUserEdit, 
+        faSignOutAlt, 
+        faCode, 
+        faFileCode,
+        faListAlt,
+        faHistory,
+        faChartArea,
+        faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faExclamationCircle);
+library.add(faCheckCircle);
+library.add(faUserEdit);
+library.add(faSignOutAlt);
+library.add(faCode);
+library.add(faFileCode);
+library.add(faListAlt);
+library.add(faHistory);
+library.add(faChartArea);
+library.add(faEnvelopeOpen);
+dom.watch(); 
 
 Vue.use(VueAnime)
 Vue.use(Inertia)
-Vue.use(Toasted)
+Vue.use(Toasted);
 
 Vue.prototype.$axios = Axios
 window.$ = window.jQuery = require('jquery')
@@ -21,10 +44,10 @@ Vue.toasted.register('showError',
     },
     {
       type: "error",
-      icon: "warning",
+      iconPack : 'fontawesome',
+      icon: "exclamation-circle",
       theme: "outline", 
       position: "bottom-center",
-      singleton: true,
       duration : 2000
     }
 )
@@ -38,10 +61,10 @@ Vue.toasted.register('showSuccess',
     },
     {
       type: "success",
-      icon: "done",
+      iconPack : 'fontawesome',
+      icon: "check-circle",
       theme: "outline", 
       position: "bottom-center",
-      singleton: true,
       duration : 2000
     }
 )

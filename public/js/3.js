@@ -413,6 +413,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'all_kelas', 'roles'],
   data: function data() {
@@ -422,6 +424,7 @@ __webpack_require__.r(__webpack_exports__);
       isPraktikan: true,
       animate: true,
       isLogin: true,
+      loggedInState: false,
       errors: {},
       formPraktikan: {
         nama: '',
@@ -471,6 +474,25 @@ __webpack_require__.r(__webpack_exports__);
         globe.animate = true;
         globe.activeX = true;
       }, 10);
+    } else if (this.comingFrom == 'asisten') {
+      this.activeX = false;
+      this.activeY = true;
+      this.loggedInState = true;
+      this.$anime.set(globe.$refs.mainMenu, {
+        translateY: -100
+      });
+      setTimeout(function () {
+        globe.animate = true;
+        globe.activeX = true;
+        globe.loggedInState = false;
+        globe.$anime.timeline({
+          duration: 200
+        }).add({
+          targets: globe.$refs.mainMenu,
+          translateY: 0,
+          easing: 'easeInSine'
+        });
+      }, 10);
     } else {
       setTimeout(function () {
         globe.animate = true;
@@ -505,8 +527,14 @@ __webpack_require__.r(__webpack_exports__);
     loginAsisten: function loginAsisten() {
       var globe = this;
       this.$axios.post('/loginAsisten', this.formLoginAsisten).then(function (response) {
-        //TODO: make animation to go to other layout
-        console.log(response);
+        if (response.data.message == "Login Failed") {
+          globe.$toasted.global.showError({
+            message: "Login gagal, kode atau password salah"
+          });
+        } else {
+          //Login Success
+          globe.startLoggedInAnim("asisten");
+        }
       })["catch"](function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -518,8 +546,14 @@ __webpack_require__.r(__webpack_exports__);
     loginPraktikan: function loginPraktikan() {
       var globe = this;
       this.$axios.post('/loginPraktikan', this.formLoginPraktikan).then(function (response) {
-        //TODO: make animation to go to other layout
-        console.log(response);
+        if (response.data.message == "Login Failed") {
+          globe.$toasted.global.showError({
+            message: "Login gagal, nim atau password salah"
+          });
+        } else {
+          //Login Success
+          globe.startLoggedInAnim("praktikan");
+        }
       })["catch"](function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -558,6 +592,36 @@ __webpack_require__.r(__webpack_exports__);
           // that falls out of the range of 2xx
           globe.errors = error.response.data.errors;
         }
+      });
+    },
+    startLoggedInAnim: function startLoggedInAnim(whereTo) {
+      var globe = this;
+      this.$anime.timeline({
+        duration: 200
+      }).add({
+        targets: globe.$refs.signupMenu,
+        translateY: [0, 100],
+        easing: 'easeInSine',
+        complete: function complete(anim) {
+          globe.animate = true;
+          globe.activeX = false;
+          globe.loggedInState = true;
+          setTimeout(function () {
+            globe.$inertia.replace('/' + whereTo, {
+              data: {
+                'comingFrom': 'login'
+              }
+            });
+          }, 1100);
+        }
+      }).add({
+        targets: globe.$refs.roleMenu,
+        opacity: [1, 0],
+        easing: 'easeInSine'
+      }, '-=200').add({
+        targets: globe.$refs.mainMenu,
+        translateY: -100,
+        easing: 'easeInSine'
       });
     },
     openLoginPage: function openLoginPage(event) {
@@ -840,7 +904,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "overflow-y-scroll fixed h-full",
+          staticClass: "overflow-y-auto fixed h-full",
           class: [
             { "w-0": !_vm.activeX },
             { "w-36full": _vm.activeX },
@@ -1671,7 +1735,8 @@ var render = function() {
           staticClass: "absolute bottom-0",
           class: [
             { "h-12": !_vm.activeY },
-            { "h-full pt-4": _vm.activeY },
+            { "h-full": _vm.activeY },
+            { "pt-4": _vm.activeY && !_vm.loggedInState },
             { "animation-enable": _vm.animate },
             { "left-36full": !_vm.isLogin && _vm.activeX },
             { "right-0": !_vm.isLogin && !_vm.activeX },
@@ -1682,11 +1747,12 @@ var render = function() {
         },
         [
           _c("div", {
-            staticClass: "flex flex-row bg-green-900 rounded-t-large h-full",
+            staticClass: "flex flex-row bg-green-900 h-full",
             class: [
               { "mx-8": !_vm.activeX && !_vm.activeY },
-              { "mx-4": _vm.activeY },
-              { "mx-4": _vm.activeX },
+              { "rounded-t-large": !_vm.loggedInState },
+              { "rounded-t-none": _vm.loggedInState },
+              { "mx-4": (_vm.activeY || _vm.activeX) && !_vm.loggedInState },
               { "animation-enable": _vm.animate }
             ]
           })
@@ -1763,6 +1829,7 @@ var render = function() {
           _c(
             "div",
             {
+              ref: "mainMenu",
               staticClass:
                 "h-16 shadow-xl flex flex-row bg-green-300 rounded-full",
               class: [

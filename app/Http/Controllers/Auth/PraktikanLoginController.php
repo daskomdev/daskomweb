@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 
 class PraktikanLoginController extends Controller
 {
-    //TODO: Change every route using the inertia routes
     public function __construct(){
         $this->middleware('guest:praktikan', ['except' => ['logout']]);
     }

@@ -16,6 +16,10 @@ body.closed{
   overflow: hidden;
 }
 
+.toasted > svg:first-child {
+  margin-right: .7rem;
+}
+
 a.dynamic {
   text-decoration: none;
   position: relative;

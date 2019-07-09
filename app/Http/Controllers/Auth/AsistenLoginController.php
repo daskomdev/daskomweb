@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 
 class AsistenLoginController extends Controller
 {
-	//TODO: Change every route using the inertia routes
 	public function __construct(){
 		$this->middleware('guest:asisten', ['except' => ['logout']]);
 	}
@@ -42,6 +41,6 @@ class AsistenLoginController extends Controller
 	public function logout(){
 
 		Auth::guard('asisten')->logout();
-		return redirect('/login');
+		return redirect('/login?comingFrom=asisten');
 	}
 }

@@ -58,7 +58,7 @@
     </div>
 
     <!-- Signup Part (PRAKTIKAN) -->
-    <div class="overflow-y-scroll fixed h-full" 
+    <div class="overflow-y-auto fixed h-full" 
         style="background: rgb(203,213,224);
                 background: linear-gradient(90deg, rgba(226,232,240,1) 0%, rgba(226,232,240,1) 80%, rgba(203,213,224,1) 100%);"
         :class="[{ 'w-0': !activeX },
@@ -310,18 +310,20 @@
 
     <!-- Background Dummy -->
     <div class="absolute bottom-0" 
-        :class="[{ 'h-12': !activeY }, 
-                  { 'h-full pt-4': activeY }, 
-                  { 'animation-enable': animate }, 
+        :class="[{ 'h-12': !activeY },
+                  { 'h-full': activeY },
+                  { 'pt-4': activeY && !loggedInState },
+                  { 'animation-enable': animate },
                   { 'left-36full': !isLogin && activeX },
                   { 'right-0': !isLogin && !activeX },
                   { 'left-0': isLogin },
                   { 'w-full': !activeX }, 
                   { 'w-36': activeX }]" ref="bgDummy">
-      <div class="flex flex-row bg-green-900 rounded-t-large h-full"
-        :class="[{ 'mx-8': !activeX && !activeY }, 
-                  { 'mx-4': activeY }, 
-                  { 'mx-4': activeX }, 
+      <div class="flex flex-row bg-green-900 h-full"
+        :class="[{ 'mx-8': !activeX && !activeY },
+                  { 'rounded-t-large': !loggedInState },
+                  { 'rounded-t-none': loggedInState }, 
+                  { 'mx-4': (activeY || activeX) && !loggedInState },
                   { 'animation-enable': animate}]"/>
     </div>
 
@@ -351,7 +353,7 @@
                   { 'left-0': isLogin },
                   { 'w-full': !activeX },
                   { 'w-36': activeX }]" ref="mainMenu">
-      <div class="h-16 shadow-xl flex flex-row bg-green-300 rounded-full"
+      <div class="h-16 shadow-xl flex flex-row bg-green-300 rounded-full" ref="mainMenu"
         :class="[{ 'mx-56': !activeX && !activeY }, 
                   { 'mx-8': activeY }, 
                   { 'mx-8': activeX }, 
@@ -416,6 +418,7 @@ export default {
       isPraktikan: true,
       animate: true,
       isLogin: true,
+      loggedInState: false,
 
       errors: {},
 
@@ -478,6 +481,34 @@ export default {
           globe.activeX = true;
         }, 10);
 
+    } else if(this.comingFrom == 'asisten'){
+
+      this.activeX = false;
+      this.activeY = true;
+      this.loggedInState = true;
+
+      this.$anime.set(globe.$refs.mainMenu, {
+        translateY: -100,
+      })
+
+      setTimeout(
+        function() {
+          globe.animate = true;
+          globe.activeX = true;
+          globe.loggedInState = false;
+
+          globe
+            .$anime
+            .timeline({
+              duration: 200
+            })
+            .add({
+              targets: globe.$refs.mainMenu,
+              translateY: 0,
+              easing: 'easeInSine'
+            })
+        }, 10);
+
     } else {
 
       setTimeout(
@@ -528,8 +559,15 @@ export default {
       const globe = this;
 
       this.$axios.post('/loginAsisten', this.formLoginAsisten).then(response => {
-        //TODO: make animation to go to other layout
-        console.log(response)
+        
+        if(response.data.message == "Login Failed"){
+          globe.$toasted.global.showError({
+            message: "Login gagal, kode atau password salah"
+          });
+        } else {
+          //Login Success
+          globe.startLoggedInAnim("asisten");
+        }
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -544,8 +582,15 @@ export default {
       const globe = this;
 
       this.$axios.post('/loginPraktikan', this.formLoginPraktikan).then(response => {
-        //TODO: make animation to go to other layout
-        console.log(response)
+        
+        if(response.data.message == "Login Failed"){
+          globe.$toasted.global.showError({
+            message: "Login gagal, nim atau password salah"
+          });
+        } else {
+          //Login Success
+          globe.startLoggedInAnim("praktikan");
+        }
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -591,6 +636,44 @@ export default {
           globe.errors = error.response.data.errors
         }
       });
+    },
+
+    startLoggedInAnim: function(whereTo) {
+      const globe = this;
+      this
+        .$anime
+        .timeline({
+          duration: 200
+        })
+        .add({
+          targets: globe.$refs.signupMenu,
+          translateY: [0,100],
+          easing: 'easeInSine',
+          complete: function(anim){
+            globe.animate = true;
+            globe.activeX = false;
+            globe.loggedInState = true;
+
+            setTimeout(
+              function() {
+                globe.$inertia.replace('/'+whereTo, {
+                  data: {
+                    'comingFrom': 'login',
+                  }
+                })
+              }, 1100);
+          }
+        })
+        .add({
+          targets: globe.$refs.roleMenu,
+          opacity: [1,0],
+          easing: 'easeInSine'
+        }, '-=200')
+        .add({
+          targets: globe.$refs.mainMenu,
+          translateY: -100,
+          easing: 'easeInSine'
+        })
     },
     
     openLoginPage: function(event){

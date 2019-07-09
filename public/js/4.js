@@ -12,7 +12,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['comingFrom', 'currentUser'],
+  data: function data() {
+    return {
+      pageActive: false
+    };
+  }
+});
 
 /***/ }),
 
@@ -31,9 +47,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("HI PRAKTIKAN")])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "main_container bg-green-900 w-full h-full overflow-hidden"
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "absolute right-0 my-auto h-full w-24full flex" },
+          [
+            _c("div", {
+              staticClass:
+                "rounded-l-large my-auto h-24full w-full bg-yellow-200"
+            })
+          ]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
