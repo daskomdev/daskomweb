@@ -13,7 +13,13 @@ import { faExclamationCircle,
         faListAlt,
         faHistory,
         faChartArea,
-        faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
+        faEnvelopeOpen,
+        faArrowCircleDown,
+        faEnvelope,
+        faWindowMaximize,
+        faWindowClose,  
+        faPaperPlane, 
+        faAddressCard} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faExclamationCircle);
 library.add(faCheckCircle);
@@ -25,6 +31,12 @@ library.add(faListAlt);
 library.add(faHistory);
 library.add(faChartArea);
 library.add(faEnvelopeOpen);
+library.add(faArrowCircleDown);
+library.add(faEnvelope);
+library.add(faWindowClose);
+library.add(faPaperPlane);
+library.add(faAddressCard);
+library.add(faWindowMaximize);
 dom.watch(); 
 
 Vue.use(VueAnime)

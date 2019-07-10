@@ -46,7 +46,7 @@ class AsistenController extends Controller
 
         Asisten::create([
             'nama'      => $request->nama,
-            'kode'      => $request->kode,
+            'kode'      => strtoupper($request->kode),
             'password'  => Hash::make($request->password),
             'role_id'   => $request->role_id,
             'deskripsi' => $request->deskripsi,

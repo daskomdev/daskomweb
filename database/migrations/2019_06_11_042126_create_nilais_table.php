@@ -19,6 +19,7 @@ class CreateNilaisTable extends Migration
             $table->smallInteger('ta');
             $table->smallInteger('tk');
             $table->smallInteger('jurnal');
+            $table->integer('rating');
             $table->unsignedBigInteger('modul_id');
             $table->unsignedBigInteger('asisten_id');
             $table->unsignedBigInteger('kelas_id');

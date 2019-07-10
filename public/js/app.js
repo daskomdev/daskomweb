@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"6cdb2191a48196d51645","1":"ae2aabd5093d9678d886","2":"a60e8add37ec8420ec08","3":"93df2eb72f5c7d6eedc4","4":"5f6a190461284c726b0f","5":"953b8e060ed7a02e6bf5"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a7bf88db98f48177c46b","1":"4111b388f8ea11e4b7ec","2":"989552426f0a8e193241","3":"b6b67e2ec56a916c752d","4":"6b0df49041f01fe48dbc","5":"953b8e060ed7a02e6bf5"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -34639,43 +34639,43 @@ module.exports = g;
 var map = {
 	"./About": [
 		"./resources/js/Pages/About.vue",
-		0
+		2
 	],
 	"./About.vue": [
 		"./resources/js/Pages/About.vue",
-		0
+		2
 	],
 	"./Asisten": [
 		"./resources/js/Pages/Asisten.vue",
-		1
+		0
 	],
 	"./Asisten.vue": [
 		"./resources/js/Pages/Asisten.vue",
-		1
+		0
 	],
 	"./Contact": [
 		"./resources/js/Pages/Contact.vue",
-		2
+		3
 	],
 	"./Contact.vue": [
 		"./resources/js/Pages/Contact.vue",
-		2
+		3
 	],
 	"./Login": [
 		"./resources/js/Pages/Login.vue",
-		3
+		4
 	],
 	"./Login.vue": [
 		"./resources/js/Pages/Login.vue",
-		3
+		4
 	],
 	"./Praktikan": [
 		"./resources/js/Pages/Praktikan.vue",
-		4
+		1
 	],
 	"./Praktikan.vue": [
 		"./resources/js/Pages/Praktikan.vue",
-		4
+		1
 	],
 	"./Welcome": [
 		"./resources/js/Pages/Welcome.vue",
@@ -34744,6 +34744,12 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_f
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faHistory"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faChartArea"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faEnvelopeOpen"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faArrowCircleDown"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faEnvelope"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faWindowClose"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faPaperPlane"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faAddressCard"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faWindowMaximize"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["dom"].watch();
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_animejs__WEBPACK_IMPORTED_MODULE_2___default.a);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(inertia_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);

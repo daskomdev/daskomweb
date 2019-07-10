@@ -28,7 +28,7 @@ class AsistenLoginController extends Controller
 		if (Auth::guard('asisten')->attempt(
 			['kode' => $request->kode, 'password' => $request->password], false)) {
 
-			$asisten = Asisten::where('kode', $request->kode)->first();
+			$asisten = Asisten::where('kode', strtoupper($request->kode))->first();
 			$asisten->api_token = hash('sha256', Str::random(60));
 			$asisten->save();
 			

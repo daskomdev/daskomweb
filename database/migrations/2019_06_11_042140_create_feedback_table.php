@@ -16,15 +16,10 @@ class CreateFeedbackTable extends Migration
         Schema::create('feedback', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('asisten_id');
-            $table->unsignedBigInteger('praktikan_id');
+            $table->text('nama_praktikan');
             $table->text('pesan');
             $table->unsignedBigInteger('kelas_id');
             $table->timestamps();
-
-            $table->foreign('praktikan_id')
-                ->references('id')
-                ->on('praktikans')
-                ->onDelete('cascade');
 
             $table->foreign('asisten_id')
                 ->references('id')

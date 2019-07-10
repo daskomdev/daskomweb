@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Feedback;
 use Illuminate\Http\Request;
+use App\Asisten;
 
 class FeedbackController extends Controller
 {
@@ -35,7 +36,23 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode'  => 'required|size:3|string',
+            'pesan' => 'required|string',
+        ]);
+
+        $asisten = Asisten::where('kode', strtoupper($request->kode))->first();
+
+        if($asisten != null)
+            Feedback::create([
+                'asisten_id'    => $asisten->id,
+                'nama_praktikan'=> $request->nama_praktikan,
+                'pesan'         => $request->pesan,
+                'kelas_id'      => $request->kelas_id,
+            ]);
+        else return '{"message": "Asisten '. $request->kode .' tidak ditemukan"}';
+
+        return '{"message": "success"}';
     }
 
     /**

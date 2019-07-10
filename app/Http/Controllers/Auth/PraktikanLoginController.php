@@ -41,6 +41,6 @@ class PraktikanLoginController extends Controller
     public function logout(){
 
         Auth::guard('praktikan')->logout();
-        return redirect('/login');
+		return redirect('/login?comingFrom=praktikan');
     }
 }

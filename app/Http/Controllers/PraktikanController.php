@@ -56,7 +56,7 @@ class PraktikanController extends Controller
             'email'         => $request->email,
         ]);
 
-        return redirect()->route('login')->with('successMessage', 'success');
+        return '{"message": "success"}';
     }
 
     /**

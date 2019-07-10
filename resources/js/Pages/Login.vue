@@ -188,7 +188,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="formLoginAsisten.kode" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="TES">
+              <input v-model="formLoginAsisten.kode" class="uppercase bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="TES">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -272,7 +272,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="formAsisten.kode" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Kode" type="text" placeholder="TES">
+              <input v-model="formAsisten.kode" class="uppercase bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Kode" type="text" placeholder="TES">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -481,7 +481,8 @@ export default {
           globe.activeX = true;
         }, 10);
 
-    } else if(this.comingFrom == 'asisten'){
+    } else if(this.comingFrom == 'asisten' ||
+              this.comingFrom == 'praktikan'){
 
       this.activeX = false;
       this.activeY = true;

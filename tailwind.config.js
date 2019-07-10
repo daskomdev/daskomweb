@@ -36,6 +36,7 @@ module.exports = {
         '1/4': '25%',
         'minFull': '-100%',
         'min20rem': '-20rem',
+        'min4rem': '-4rem',
         '32full': 'calc(100% - 8rem)',
         '36full': 'calc(100% - 9rem)',
       },
@@ -54,8 +55,12 @@ module.exports = {
         '72': '17rem',
         '20percent': '20%',
         '120': '20rem',
+        '200': '40rem',
+        '1/11': '9.0909090909%',
+        '9/11': '81.8181818181%',
         '1/2min': 'calc(50% - 0.125rem)',
         '4full': 'calc(100% - 2rem)',
+        '48full': 'calc(100% - 12rem)',
         '36full': 'calc(100% - 9rem)',
         '24full': 'calc(100% - 6rem)',
         '120full': 'calc(100% - 20rem)',
@@ -74,6 +79,7 @@ module.exports = {
   },
   variants: {
     borderWidth: ['responsive', 'hover', 'focus'],
+    padding: ['responsive', 'hover', 'focus'],
   },
   plugins: []
 }

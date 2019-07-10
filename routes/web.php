@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use App\Role;
 use App\Kelas;
+use App\Feedback;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -49,11 +50,13 @@ Route::get('/login', function () {
 
 Route::get('/asisten', function () {
     $user = Auth::guard('asisten')->user();
+    $messages = Feedback::where('asisten_id', $user->id);
     $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Asisten', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
+        'messages' => $messages,
         'userRole' => $userRole->role,
     ]);
 })->name('asisten')->middleware('loggedIn:all');
@@ -74,3 +77,5 @@ Route::post('/signupAsisten', 'AsistenController@store')->name('signupAsisten');
 Route::post('/signupPraktikan', 'PraktikanController@store')->name('signupPraktikan');
 Route::post('/loginPraktikan', 'Auth\PraktikanLoginController@login')->name('loginPraktikan');
 Route::post('/loginAsisten', 'Auth\AsistenLoginController@login')->name('loginAsisten');
+
+Route::post('/sendPesan', 'FeedbackController@store')->name('sendPesan');
