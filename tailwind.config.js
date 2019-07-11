@@ -37,6 +37,7 @@ module.exports = {
         'minFull': '-100%',
         'min20rem': '-20rem',
         'min4rem': '-4rem',
+        'min1rem': '-1rem',
         '32full': 'calc(100% - 8rem)',
         '36full': 'calc(100% - 9rem)',
       },
@@ -64,6 +65,12 @@ module.exports = {
         '36full': 'calc(100% - 9rem)',
         '24full': 'calc(100% - 6rem)',
         '120full': 'calc(100% - 20rem)',
+      },
+
+      minHeight: {
+        '0': '0',
+        '24': '6rem',
+        'full': '100%',
       },
 
       height: {

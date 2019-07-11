@@ -12,6 +12,6 @@ class Feedback extends Model
      * @var array
      */
     protected $fillable = [
-        'asisten_id', 'nama_praktikan', 'pesan', 'kelas_id',
+        'asisten_id', 'nama_praktikan', 'pesan', 'kelas', 'read',
     ];
 }

@@ -50,7 +50,8 @@ Route::get('/login', function () {
 
 Route::get('/asisten', function () {
     $user = Auth::guard('asisten')->user();
-    $messages = Feedback::where('asisten_id', $user->id);
+    $messages = Feedback::where('asisten_id', $user->id)
+                    ->orderBy('created_at', 'desc')->get();
     $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Asisten', [
@@ -79,3 +80,4 @@ Route::post('/loginPraktikan', 'Auth\PraktikanLoginController@login')->name('log
 Route::post('/loginAsisten', 'Auth\AsistenLoginController@login')->name('loginAsisten');
 
 Route::post('/sendPesan', 'FeedbackController@store')->name('sendPesan');
+Route::post('/readPesan', 'FeedbackController@index')->name('readPesan');

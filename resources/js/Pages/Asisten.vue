@@ -9,73 +9,77 @@
     </div>
 
     <!-- Main Menu -->
-    <div class="absolute w-120 h-48full bottom-0 flex-row overflow-y-auto animation-enable"
+    <div class="absolute w-120 h-48full bottom-0 right-0 animation-enable"
         :class="[{ 'right-0': pageActive },
                 { 'right-min20rem': !pageActive }]" @mouseover="isMenuShown = false">
-      <div class="w-full p-4 h-24 flex select-none bg-yellow-500 text-white">
-        <div class="w-7/12 my-2 flex">
-          <div class="w-4/6"/>
-          <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
+      <div class="w-full h-full" v-bar>
+        <div>
+          <div class="w-full p-4 h-24 flex select-none bg-yellow-500 text-white">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Profil
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-code">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Praktikum
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Soal
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              List TP
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-history">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              History
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Polling
+            </span>
+          </div>
+
+          <!-- Role Based Menu -->
+          <!-- TODO: Change Role Layout -->
+          <div v-if="currentUser.role_id == 2">
+
+          </div>
         </div>
-        <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-          Profil
-        </span>
-      </div>
-
-      <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-        <div class="w-7/12 my-2 flex">
-          <div class="w-4/6"/>
-          <img class="select-none m-auto w-2/6 h-auto fas fa-code">
-        </div>
-        <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-          Praktikum
-        </span>
-      </div>
-
-      <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-        <div class="w-7/12 my-2 flex">
-          <div class="w-4/6"/>
-          <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
-        </div>
-        <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-          Soal
-        </span>
-      </div>
-
-      <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-        <div class="w-7/12 my-2 flex">
-          <div class="w-4/6"/>
-          <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-        </div>
-        <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-          List TP
-        </span>
-      </div>
-
-      <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-        <div class="w-7/12 my-2 flex">
-          <div class="w-4/6"/>
-          <img class="select-none m-auto w-2/6 h-auto fas fa-history">
-        </div>
-        <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-          History
-        </span>
-      </div>
-
-      <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-        <div class="w-7/12 my-2 flex">
-          <div class="w-4/6"/>
-          <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
-        </div>
-        <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-          Polling
-        </span>
-      </div>
-
-      <!-- Role Based Menu -->
-      <!-- TODO: Change Role Layout -->
-      <div v-if="currentUser.role_id == 2">
-
       </div>
     </div>
 
@@ -129,7 +133,7 @@
       </div>
     </div>
 
-    <!-- Message Layout -->
+    <!-- Message Menu -->
     <div class="absolute left-0 h-full w-120full flex" @mouseover="isMenuShown = false">
 
       <!-- Dummy Message Animation -->
@@ -140,7 +144,7 @@
                   { 'top-minFull': !pageActive }]">
         <div class="w-full h-full flex rounded-br-large bg-green-600">
           <div class="w-11/12 h-full"/>
-          <div class="w-1/12 h-10 mt-auto mb-3 z-10 cursor-pointer" v-on:click="isMessageShown = !isMessageShown">
+          <div class="w-1/12 h-10 mt-auto mb-3 z-10 cursor-pointer" v-on:click="openMessage">
             <div class="animation-enable" 
                 :class="[{ 'unrotated ml-0': !isMessageShown }, { 'rotated ml-8': isMessageShown }]">
               <span class="animation-enable" 
@@ -152,17 +156,59 @@
         </div>
       </div>
 
-      <!-- Message Menu -->
-      <div class="absolute top-0 left-0 w-full pointer-events-none animation-enable"
+      <!-- Message Layout -->
+      <div class="absolute top-0 left-0 w-full animation-enable"
           :class="[{ 'h-48full pr-16': isMessageShown },
                   { 'h-16 pr-32': !isMessageShown },
                   { 'top-0': pageActive },
                   { 'top-minFull': !pageActive }]">
-        <div class="bg-green-300 border-green-600 w-full h-full flex animation-enable"
+        <div class="bg-green-300 border-green-600 w-full h-full relative animation-enable"
           :class="[{ 'rounded-br-large border-r-4 border-b-4': isMessageShown },
                   { 'rounded-0 border-r-0 border-b-0': !isMessageShown },]">
-          <span v-if="newMessage > 0" class="m-auto">Ada {{ newMessage }} pesan baru</span>
-          <span v-else class="m-auto font-monda-bold text-2xl tracking-wide">Tidak ada pesan baru</span>
+          <div class="flex w-full h-full"
+              :class="[{ 'visible': !isMessageShown },
+                      { 'hidden': isMessageShown }]">
+            <span v-if="unreadMessages > 0" class="m-auto font-monda-bold text-2xl tracking-wide">
+              Ada 
+              <span class="text-yellow-700">
+                {{ unreadMessages }}
+              </span> 
+              pesan baru
+            </span>
+            <span v-else class="m-auto font-monda-bold text-2xl tracking-wide">
+              Tidak ada pesan baru
+            </span>
+          </div>
+
+          <div class="absolute w-full h-full" v-bar>
+            <div class="flex-row w-full h-full"
+                :class="[{ 'visible': isMessageShown },
+                        { 'hidden': !isMessageShown }]">
+
+              <div class="w-4full px-4 h-auto min-h-24 mb-16 my-4 flex relative"
+                  v-for="message in userMessages" v-bind:key="message.id">
+                <div class="flex pl-4 pr-4 pt-2 rounded-lg bg-gray-500 w-4full font-overpass-mono-bold text-2xl">
+                  <div class="w-full h-full break-words">
+                    {{ message.pesan }}
+                    <div class="w-full h-8"/>
+                  </div>
+                </div>
+                <div class="flex absolute pt-1 h-8 font-merri text-lg pl-4 pr-2 pb-1 left-0 ml-8 rounded-full bottom-min1rem bg-yellow-500 w-7/12">
+                  <span class="w-10/12">
+                    {{ message.nama_praktikan }}
+                  </span>
+                  <div class="w-2/12 flex" v-if="!message.read">
+                    <span class="w-auto px-4 py-1 font-overpass-bold text-sm rounded-full bg-red-500 ml-auto">
+                      New !
+                    </span>
+                  </div>
+                </div>
+                <div class="absolute pt-1 h-8 font-merri text-lg px-4 right-0 mr-8 rounded-full bottom-min1rem bg-yellow-500 text-center w-2/12">
+                  {{ message.kelas }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -191,8 +237,26 @@ export default {
     return {
       pageActive: false,
       isMenuShown: false,
-      newMessage: "",
       isMessageShown: false,
+      userMessages: this.messages,
+    }
+  },
+
+  computed: {
+    
+    unreadMessages: function () {
+
+      var i = 0;
+
+      if(this.isEmpty(this.userMessages)){
+        return 0;
+      }
+
+      this.userMessages.forEach(function(element) {
+        if(!element.read)
+          i++
+      });
+      return i;
     }
   },
 
@@ -201,6 +265,7 @@ export default {
     $('body').addClass('closed');
 
     const globe = this;
+
     if(this.comingFrom == 'login'){
 
       setTimeout(
@@ -211,6 +276,29 @@ export default {
   },
 
   methods: {
+
+    openMessage: function(){
+
+      this.$axios.post('/readPesan').then(response => {
+        //Do nothing 
+      }).catch(function (error) {
+        if (error.response) {
+          globe.$toasted.global.showError({
+            message: error.response.data.errors
+          });
+        }
+      });
+
+      this.isMessageShown = !this.isMessageShown
+    },
+
+    isEmpty: function (obj) {
+      for(var key in obj) {
+          if(obj.hasOwnProperty(key))
+              return false;
+      }
+      return true;
+    },
 
     signOut: function(){
 

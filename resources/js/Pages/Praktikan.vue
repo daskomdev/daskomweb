@@ -18,18 +18,37 @@
 
         <!-- Dummy For Animation -->
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <!------------------------->
+
+        <div class="h-full flex animation-enable pointer-events-none"
+            :class="[{ 'w-1/11': !isProfil },
+                    { 'w-9/11': isProfil }]"
+            v-on:click="showProfil">
+          <div class="h-full flex animation-enable pointer-events-none"
+              :class="[{ 'w-full': !isProfil },
+                      { 'w-1/2': isProfil }]">
+            <div class="h-full animation-enable pointer-events-none"
+              :class="[{ 'w-0': !isProfil },
+                      { 'w-9/12': isProfil }]"/>
+            <img class="profilIcon w-full iconYellowHover select-none cursor-pointer pointer-events-auto self-center h-8 fas fa-address-card animation-enable">
+          </div>
+          <span class="self-center text-left font-monda-bold text-lg text-white animation-enable-short"
+              :class="[{ 'w-0 opacity-0 tracking-tighter': !isProfil },
+                      { 'w-1/2 opacity-100 tracking-widest': isProfil }]">
+            Profil
+          </span>
+        </div>
 
         <div class="h-full flex animation-enable pointer-events-none"
             :class="[{ 'w-1/11': !isPraktikum },
@@ -90,17 +109,17 @@
 
         <!-- Dummy For Animation -->
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP },
-                    { 'w-0': isPraktikum || isNilai || isTP }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
         <!------------------------->
 
       </div>
@@ -113,12 +132,11 @@
       <div class="m-auto h-full w-56 flex-row bg-gray-600 mt-2 rounded-lg">
         <div class="w-full h-2/3"/>
         <div class="w-full h-1/3 flex">
-          <div class="rounded-bl-lg bg-gray-400 flex hover:bg-gray-500 w-1/2min h-full cursor-pointer">
-            <img class="select-none p-2 h-full w-auto m-auto fas fa-user-edit">
-          </div>
-          <div class="w-1 h-full bg-gray-500"/>
-          <div class="rounded-br-lg bg-gray-400 flex hover:bg-gray-500 w-1/2min h-full cursor-pointer" v-on:click="signOut">
-            <img class="select-none p-2 h-full w-auto m-auto fas fa-sign-out-alt">
+          <div class="rounded-b-lg bg-gray-400 flex hover:bg-gray-500 w-full h-full cursor-pointer" v-on:click="signOut">
+            <span class="m-auto font-monda-bold text-sm text-right w-full">
+              Logout
+            </span>
+            <img class="select-none p-2 h-full w-auto mr-16 m-auto fas fa-sign-out-alt">
           </div>
         </div>
       </div>
@@ -185,7 +203,7 @@
     </span>
 
     <!-- Message Menu (CLOSE) -->
-    <span class="messageIcon z-20 absolute left-0 mt-20 ml-5 w-12 h-12 p-0 hover:p-12 cursor-pointer animation-enable"
+    <span class="messageIcon z-20 absolute left-0 mt-20 ml-5 w-12 h-12 p-0 hover:p-1 cursor-pointer animation-enable"
         :class="[{ 'top-0': messageOpened },
                 { 'top-min20rem': !messageOpened }]"
         v-on:click="messageOpened = false">
@@ -228,6 +246,7 @@ export default {
       isPraktikum: false,
       isTP: false,
       isNilai: false,
+      isProfil: false,
       isMenuShown: false,
       messageOpened: false,
 
@@ -245,6 +264,7 @@ export default {
   mounted() {
 
     $('body').addClass('closed');
+    this.showProfil();
 
     const globe = this;
     if(this.comingFrom == 'login'){
@@ -258,18 +278,15 @@ export default {
 
   methods: {
 
-    openMessageMenu: function(){
-      
-    },
-
     showPraktikum: function(){
       this.isPraktikum = true;
       this.isTP = false;
       this.isNilai = false;
-      $('.tpIcon , .nilaiIcon').removeClass('w-3/12');
-      $('.tpIcon , .nilaiIcon').removeClass('youngYellowIcon');
-      $('.tpIcon , .nilaiIcon').addClass('iconYellowHover');
-      $('.tpIcon , .nilaiIcon').addClass('w-full');
+      this.isProfil = false;
+      $('.tpIcon , .nilaiIcon , .profilIcon').removeClass('w-3/12');
+      $('.tpIcon , .nilaiIcon , .profilIcon').removeClass('youngYellowIcon');
+      $('.tpIcon , .nilaiIcon , .profilIcon').addClass('iconYellowHover');
+      $('.tpIcon , .nilaiIcon , .profilIcon').addClass('w-full');
       
       $('.praktikumIcon').removeClass('w-full');
       $('.praktikumIcon').removeClass('iconYellowHover');
@@ -281,10 +298,11 @@ export default {
       this.isPraktikum = false;
       this.isTP = false;
       this.isNilai = true;
-      $('.praktikumIcon , .tpIcon').removeClass('w-3/12');
-      $('.praktikumIcon , .tpIcon').removeClass('youngYellowIcon');
-      $('.praktikumIcon , .tpIcon').addClass('iconYellowHover');
-      $('.praktikumIcon , .tpIcon').addClass('w-full');
+      this.isProfil = false;
+      $('.praktikumIcon , .tpIcon , .profilIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .tpIcon , .profilIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .tpIcon , .profilIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .tpIcon , .profilIcon').addClass('w-full');
       
       $('.nilaiIcon').removeClass('w-full');
       $('.nilaiIcon').removeClass('iconYellowHover');
@@ -296,15 +314,32 @@ export default {
       this.isPraktikum = false;
       this.isTP = true;
       this.isNilai = false;
-      $('.praktikumIcon , .nilaiIcon').removeClass('w-3/12');
-      $('.praktikumIcon , .nilaiIcon').removeClass('youngYellowIcon');
-      $('.praktikumIcon , .nilaiIcon').addClass('iconYellowHover');
-      $('.praktikumIcon , .nilaiIcon').addClass('w-full');
+      this.isProfil = false;
+      $('.praktikumIcon , .nilaiIcon , .profilIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .nilaiIcon , .profilIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .nilaiIcon , .profilIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .nilaiIcon , .profilIcon').addClass('w-full');
       
       $('.tpIcon').removeClass('iconYellowHover');
       $('.tpIcon').removeClass('w-full');
       $('.tpIcon').addClass('youngYellowIcon');
       $('.tpIcon').addClass('w-3/12');
+    },
+
+    showProfil: function(){
+      this.isPraktikum = false;
+      this.isTP = false;
+      this.isNilai = false;
+      this.isProfil = true;
+      $('.praktikumIcon , .nilaiIcon , .tpIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon').addClass('w-full');
+      
+      $('.profilIcon').removeClass('iconYellowHover');
+      $('.profilIcon').removeClass('w-full');
+      $('.profilIcon').addClass('youngYellowIcon');
+      $('.profilIcon').addClass('w-3/12');
     },
 
     signOut: function() {

@@ -33,6 +33,7 @@
         "@fortawesome/vue-fontawesome": "^0.1.6",
         "inertia-vue": "github:inertiajs/inertia-vue",
         "vue-animejs": "^2.1.1",
-        "vue-toasted": "^1.1.27"
+        "vue-toasted": "^1.1.27",
+        "vuebar": "0.0.20"
     }
 }

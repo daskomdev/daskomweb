@@ -20,6 +20,7 @@ import { faExclamationCircle,
         faWindowClose,  
         faPaperPlane, 
         faAddressCard} from '@fortawesome/free-solid-svg-icons';
+import Vuebar from 'vuebar';
 
 library.add(faExclamationCircle);
 library.add(faCheckCircle);
@@ -42,10 +43,12 @@ dom.watch();
 Vue.use(VueAnime)
 Vue.use(Inertia)
 Vue.use(Toasted);
+Vue.use(Vuebar);
 
 Vue.prototype.$axios = Axios
 window.$ = window.jQuery = require('jquery')
 const app = document.getElementById('app')
+const files = require.context('./', true, /\.vue$/i)
 
 Vue.toasted.register('showError',
     (payload) => {
@@ -96,7 +99,7 @@ new Vue({
   render: h => h(Inertia, {
     props: {
       initialPage: JSON.parse(app.dataset.page),
-      resolveComponent: name => import(`@/Pages/${name}`).then(module => module.default),
+      resolveComponent: page => files(`./Pages/${page}.vue`).default,
     },
-  })
+  }),
 }).$mount(app)

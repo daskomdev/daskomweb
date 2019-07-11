@@ -114,3 +114,53 @@ a.constant {
     letter-spacing: 0.125rem;
   }
 }
+
+//Vue Bar (Custom Scrollbar)
+.vb > .vb-dragger {
+  z-index: 5;
+  width: 12px;
+  right: 0;
+}
+
+.vb > .vb-dragger > .vb-dragger-styler {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: rotate3d(0,0,0,0);
+  transform: rotate3d(0,0,0,0);
+  -webkit-transition:
+    background-color 100ms ease-out,
+    margin 100ms ease-out,
+    height 100ms ease-out;
+  transition:
+    background-color 100ms ease-out,
+    margin 100ms ease-out,
+    height 100ms ease-out;
+  background-color: rgba(48, 244, 130, 0);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  margin-left: 0px;
+  border-radius: 20px;
+  height: calc(100% - 20px);
+  display: block;
+}
+
+.vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
+  background-color: rgba(34, 84, 61, 0.5);
+}
+
+.vb > .vb-dragger:hover > .vb-dragger-styler {
+  background-color: rgba(34, 84, 61, 0.5);
+  margin-right: 0px;
+  height: calc(100% - 20px);
+}
+
+.vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
+  background-color: rgba(34, 84, 61, 0.5);
+  margin-right: 0px;
+  height: calc(100% - 20px);
+}
+
+.vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
+  background-color: rgba(34, 84, 61, 0.5);
+}

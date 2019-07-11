@@ -18,17 +18,13 @@ class CreateFeedbackTable extends Migration
             $table->unsignedBigInteger('asisten_id');
             $table->text('nama_praktikan');
             $table->text('pesan');
-            $table->unsignedBigInteger('kelas_id');
+            $table->text('kelas');
+            $table->boolean('read')->nullable()->default(false);
             $table->timestamps();
 
             $table->foreign('asisten_id')
                 ->references('id')
                 ->on('asistens')
-                ->onDelete('cascade');
-
-            $table->foreign('kelas_id')
-                ->references('id')
-                ->on('kelas')
                 ->onDelete('cascade');
         });
     }
