@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeedbackTable extends Migration
+class CreateKumpulTpsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('kumpul__tps', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('asisten_id');
-            $table->unsignedBigInteger('praktikan_id');
-            $table->text('pesan');
+            $table->unsignedBigInteger('modul_id');
             $table->unsignedBigInteger('kelas_id');
-            $table->boolean('read')->nullable()->default(false);
+            $table->unsignedBigInteger('praktikan_id');
+            $table->boolean('kumpul')->nullable()->default(false);
             $table->timestamps();
 
-            $table->foreign('praktikan_id')
+            $table->foreign('modul_id')
                 ->references('id')
-                ->on('praktikans')
+                ->on('moduls')
                 ->onDelete('cascade');
 
             $table->foreign('kelas_id')
@@ -32,9 +31,9 @@ class CreateFeedbackTable extends Migration
                 ->on('kelas')
                 ->onDelete('cascade');
 
-            $table->foreign('asisten_id')
+            $table->foreign('praktikan_id')
                 ->references('id')
-                ->on('asistens')
+                ->on('praktikans')
                 ->onDelete('cascade');
         });
     }
@@ -46,6 +45,6 @@ class CreateFeedbackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('kumpul__tps');
     }
 }

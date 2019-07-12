@@ -21,8 +21,73 @@
     <div class="absolute top-0 main-content w-full h-full pt-24 z-10"
         :class="[{ 'px-8': !scrolled },
               { 'px-0': scrolled }, 
-              { 'animation-enable': animationEnable}]">
-        WORK IN PROGRESS
+              { 'animation-enable': animationEnable }, 
+              { 'opacity-0 mt-4': !pageActive }, 
+              { 'opacity-100 mt-0': pageActive }]">
+        <div class="w-full h-full p-8 flex">
+          <div class="w-full h-full flex-row text-white">
+            <div class="font-monda-bold text-2xl">
+              Official Account (OA) Lab Daskom
+            </div>
+
+            <div class="pl-4 font-overpass-mono text-xl flex h-8">
+              <span class="w-8 h-full">
+                <img class="fab fa-line w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                OA LINE
+              </div>
+            </div>
+
+            <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
+              <span class="w-8 h-full">
+                <img class="fab fa-instagram w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                telu.daskom
+              </div>
+            </div>
+
+            <div class="font-monda-bold text-2xl mt-8">
+              Muhammad Elang Iqbal Yuhana [ PRO ]
+            </div>
+
+            <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
+              <span class="w-8 h-full">
+                <img class="fas fa-phone w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                081222243668
+              </div>
+            </div>
+
+            <div class="font-monda-bold text-2xl mt-8">
+              Reynald Coundro [ REY ]
+            </div>
+
+            <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
+              <span class="w-8 h-full">
+                <img class="fas fa-phone w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                081914308345
+              </div>
+            </div>
+
+            <div class="font-monda-bold text-2xl mt-8">
+              Email Lab Daskom
+            </div>
+
+            <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
+              <span class="w-8 h-full">
+                <img class="fas fa-at w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                daskomlab@telkomuniversity.ac.id
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
     <!-- Main Menu Button -->
@@ -71,6 +136,7 @@ export default {
       scrolled: false,
       animated: false,
       animationEnable: true,
+      pageActive: false,
     };
   },
 
@@ -86,8 +152,7 @@ export default {
     });
 
     const globe  = this;
-    if(this.comingFrom == 'about' ||
-        this.comingFrom == 'login'){
+    if(this.comingFrom == 'about'){
 
       this.animationEnable = false;
       this.active = true;
@@ -95,6 +160,7 @@ export default {
       setTimeout(
         function() {
           globe.animationEnable = true;
+          globe.pageActive = true;
         }, 100);
 
     } else {
@@ -103,18 +169,29 @@ export default {
       setTimeout(
         function() {
           globe.animated = true;
+          globe.pageActive = true;
         }, 1000);
     }
+    setTimeout(() => {
+  
+      $('body').removeClass('closed'); 
+    }, 1010);
   },
 
   methods: {
     
     travel: function(destination) {
-      this.$inertia.replace('/'+destination,{
-        data: {
-          'comingFrom': 'contact',
-        }
-      })
+      const globe = this;
+      $('body').addClass('closed');
+      this.pageActive = false;
+  
+      setTimeout(() => {
+        globe.$inertia.replace('/'+destination,{
+          data: {
+            'comingFrom': 'contact',
+          }
+        })
+      }, 300);
     },
     
     handleScroll: function (evt, el) {

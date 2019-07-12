@@ -36,7 +36,28 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kelas'  => 'required|unique:kelas|size:8|string',
+            'hari'   => 'required|string',
+            'shift'  => 'required|size:1|string',
+        ]);
+
+        $allKelas = Kelas::all();
+        foreach ($allKelas as $kelas => $value) {
+            if($value->hari == $request->hari &&
+                $value->shift == $request->shift)
+                return '{"message": "Terdapat kelas '. strtoupper($value->kelas) .' pada hari '. strtoupper($request->hari) .' shift '. $request->shift .'"}';
+        }
+
+        Kelas::create([
+            'kelas'  => strtoupper($request->kelas),
+            'hari'   => strtoupper($request->hari),
+            'shift'  => $request->shift,
+        ]);
+
+        $id = Kelas::where('kelas', $request->kelas)->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
     /**
@@ -65,22 +86,60 @@ class KelasController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'kelas'  => 'required|size:8|string',
+            'hari'   => 'required|string',
+            'shift'  => 'required|size:1|string',
+        ]);
+
+        if($request->oldKelas == null)
+            return '{"message": "Pilih salah satu kelas yang ingin di edit terlebih dahulu"}';
+
+        foreach (Kelas::all() as $kelas => $value) {
+            if($value->kelas == $request->kelas &&
+                $request->kelas != $request->oldKelas)
+                return '{"message": "Kelas '. $request->kelas .' sudah terdaftar"}';
+            if($value->hari == strtoupper($request->hari) &&
+                $value->shift == strtoupper($request->shift))
+                return '{"message": "Hari '. strtoupper($request->hari) .' shift '. $request->shift .' sudah terdaftar"}';
+        }    
+        
+        $kelas = Kelas::where('kelas', $request->oldKelas)->first();
+
+        if($kelas == null)
+            return '{"message": "Kelas '. $request->oldKelas .'"}';
+
+        $kelas->kelas = strtoupper($request->kelas);
+        $kelas->hari = strtoupper($request->hari);
+        $kelas->shift = $request->shift;
+        $kelas->save();
+
+        return '{
+                    "message": "success", 
+                    "kelas": {
+                        "id": "'. $request->id .'",
+                        "kelas": "'. $request->kelas .'",
+                        "hari": "'. $request->hari .'",
+                        "shift": "'. $request->shift .'"
+                    }
+                }';
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Kelas  $kelas
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy(Request $request)
     {
-        //
+        $kelas = Kelas::where('kelas', $request->kelas)->first();
+        $kelas->delete();
+
+        return '{"message": "success"}';
     }
 }

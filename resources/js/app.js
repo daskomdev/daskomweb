@@ -19,8 +19,17 @@ import { faExclamationCircle,
         faWindowMaximize,
         faWindowClose,  
         faPaperPlane, 
-        faAddressCard} from '@fortawesome/free-solid-svg-icons';
+        faPhone,
+        faAddressCard,
+        faAt,
+        faChalkboardTeacher,
+        faPlus,
+        faTrash,
+        faPen} from '@fortawesome/free-solid-svg-icons';
+import { faLine,
+        faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
+import StarRating from 'vue-star-rating'
 
 library.add(faExclamationCircle);
 library.add(faCheckCircle);
@@ -38,12 +47,21 @@ library.add(faWindowClose);
 library.add(faPaperPlane);
 library.add(faAddressCard);
 library.add(faWindowMaximize);
+library.add(faLine);
+library.add(faInstagram);
+library.add(faPhone);
+library.add(faAt);
+library.add(faChalkboardTeacher);
+library.add(faPlus);
+library.add(faTrash);
+library.add(faPen);
 dom.watch(); 
 
 Vue.use(VueAnime)
 Vue.use(Inertia)
 Vue.use(Toasted);
 Vue.use(Vuebar);
+Vue.component('star-rating', StarRating);
 
 Vue.prototype.$axios = Axios
 window.$ = window.jQuery = require('jquery')
@@ -53,7 +71,7 @@ const files = require.context('./', true, /\.vue$/i)
 Vue.toasted.register('showError',
     (payload) => {
         if(! payload.message) {
-    	    return "Maaf, telah terjadi sesuatu<br>(Panggil <b>FAI</b> untuk dilihat lebih lanjut)"
+    	    return "Maaf, telah terjadi sesuatu<br>(Panggil FAI untuk dilihat lebih lanjut)"
         }
         return payload.message;
     },

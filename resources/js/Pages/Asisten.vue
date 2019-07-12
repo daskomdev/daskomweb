@@ -2,93 +2,141 @@
   <div class="main_container bg-green-900 w-full h-full overflow-hidden">
 
     <!-- Main Layout -->
-    <div class="absolute bottom-0 flex h-48full w-4full rounded-tl-large bg-yellow-500 animation-enable"
+    <div class="absolute z-10 bottom-0 flex h-48full w-4full rounded-tl-large bg-yellow-500 animation-enable"
         :class="[{ 'right-0': pageActive },
-                { 'right-minFull': !pageActive }]">
-
+                { 'right-minFull': !pageActive || changePage }]">
+      <div class="w-120full flex-row">
+        <div class="mx-auto mt-4 text-green-800 font-merri-bold text-4xl text-center">
+          {{ currentUser.nama }}
+        </div>
+        <div class="relative w-full h-full">
+          <div class="absolute w-full h-full px-8 pt-8">
+            <div class="bg-yellow-800 rounded-t-lg w-full h-full flex">
+              <div class="w-full h-auto pt-16 text-center text-yellow-200 font-merri text-2xl p-8">
+                {{ currentUser.deskripsi }}
+              </div>
+            </div>
+          </div>
+          <div class="absolute w-full h-16 px-16 pt-2">
+            <div class="bg-yellow-700 rounded-lg w-full h-full flex">
+              <div class="flex w-1/2min">
+                <!-- TODO: fix the rating system based on practicum activity -->
+                <star-rating class="ml-auto mr-4"
+                  style="width: 150px;" 
+                  :read-only="true"
+                  :show-rating="false"
+                  :rating="5"
+                  :star-size='30'/>
+              </div>
+              <div class="w-1 h-3/4 my-auto bg-yellow-500"/>
+              <div class="flex w-1/2min mr-auto h-full pt-1 items-center font-overpass-bold text-2xl text-white ml-4">
+                Rp. 25000
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Main Menu -->
-    <div class="absolute w-120 h-48full bottom-0 right-0 animation-enable"
+    <div class="absolute w-120 z-20 h-48full bottom-0 right-0"
         :class="[{ 'right-0': pageActive },
-                { 'right-min20rem': !pageActive }]" @mouseover="isMenuShown = false">
-      <div class="w-full h-full" v-bar>
-        <div>
-          <div class="w-full p-4 h-24 flex select-none bg-yellow-500 text-white">
+                { 'right-min20rem': !pageActive },
+                { 'animation-enable': animate }]" @mouseover="isMenuShown = false">
+      <div class="w-full h-full animation-enable overflow-y-auto"
+          :class="[{ 'rounded-none': !changePage },
+                  { 'rounded-tl-large': changePage }]" ref="menu">
+        <div class="w-full p-4 h-24 flex select-none animation-enable"
+            :class="[{ 'bg-yellow-500 text-white': !changePage },
+                    { 'bg-yellow-400 text-black': changePage }]">
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Profil
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-code">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Praktikum
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
+                    { 'bg-yellow-500 text-white': changePage && menuSoal }]"
+            v-on:click='travel("soal")'>
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Soal
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            List TP
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-history">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            History
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Polling
+          </span>
+        </div>
+
+        <!-- Role Based Menu -->
+        <!-- TODO: Change Role Layout -->
+        <div v-if="currentUser.role_id == 2">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
+                      { 'bg-yellow-500 text-white': changePage && menuKelas }]"
+              v-on:click='travel("kelas")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Profil
+              Kelas
             </span>
-          </div>
-
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-code">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Praktikum
-            </span>
-          </div>
-
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Soal
-            </span>
-          </div>
-
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              List TP
-            </span>
-          </div>
-
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-history">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              History
-            </span>
-          </div>
-
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Polling
-            </span>
-          </div>
-
-          <!-- Role Based Menu -->
-          <!-- TODO: Change Role Layout -->
-          <div v-if="currentUser.role_id == 2">
-
           </div>
         </div>
       </div>
     </div>
 
     <!-- Profile Menu -->
-    <div class="w-72 bg-gray-200 absolute top-0 mr-6 mt-4 h-40 rounded-lg flex-row animation-enable"
+    <div class="w-72 bg-gray-200 absolute top-0 mr-6 mt-4 h-40 rounded-lg flex-row"
         :class="[{ 'hidden': !isMenuShown },
                 { 'visible': isMenuShown },
                 { 'right-min20rem': !pageActive },
-                { 'right-0': pageActive }]" @mouseover="isMenuShown = true" @mouseleave="isMenuShown = false">
+                { 'right-0': pageActive },
+                { 'animation-enable': animate }]" @mouseover="isMenuShown = true" @mouseleave="isMenuShown = false">
         <div class="w-full h-3/4"/>
         <div class="w-full h-1/4 flex">
           <div class="rounded-b-lg bg-gray-400 flex hover:bg-gray-500 w-full h-full cursor-pointer" v-on:click="signOut">
@@ -101,11 +149,12 @@
     </div>
 
     <!-- Assistant's Profile -->
-    <div class="absolute top-0 w-120 flex animation-enable"
+    <div class="absolute top-0 w-120 flex"
         :class="[{ 'right-0': pageActive },
                 { 'right-min20rem': !pageActive },
                 { 'h-48': !isMenuShown },
-                { 'h-36': isMenuShown }]" @mouseover="isMenuShown = true">
+                { 'h-36': isMenuShown },
+                { 'animation-enable': animate }]" @mouseover="isMenuShown = true">
       <div class="w-auto m-auto h-full flex">
         <div class="w-24 h-full flex mr-4">
           <div class="flex w-24 h-24 m-auto rounded-full"
@@ -141,10 +190,10 @@
           :class="[{ 'h-48full': isMessageShown },
                   { 'h-16': !isMessageShown },
                   { 'top-0': pageActive },
-                  { 'top-minFull': !pageActive }]">
+                  { 'top-minFull': !pageActive || changePage }]">
         <div class="w-full h-full flex rounded-br-large bg-green-600">
           <div class="w-11/12 h-full"/>
-          <div class="w-1/12 h-10 mt-auto mb-3 z-10 cursor-pointer" v-on:click="openMessage">
+          <div class="w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer" v-on:click="openMessage">
             <div class="animation-enable" 
                 :class="[{ 'unrotated ml-0': !isMessageShown }, { 'rotated ml-8': isMessageShown }]">
               <span class="animation-enable" 
@@ -157,11 +206,11 @@
       </div>
 
       <!-- Message Layout -->
-      <div class="absolute top-0 left-0 w-full animation-enable"
+      <div class="absolute top-0 left-0 w-full z-30 animation-enable"
           :class="[{ 'h-48full pr-16': isMessageShown },
                   { 'h-16 pr-32': !isMessageShown },
                   { 'top-0': pageActive },
-                  { 'top-minFull': !pageActive }]">
+                  { 'top-minFull': !pageActive || changePage }]">
         <div class="bg-green-300 border-green-600 w-full h-full relative animation-enable"
           :class="[{ 'rounded-br-large border-r-4 border-b-4': isMessageShown },
                   { 'rounded-0 border-r-0 border-b-0': !isMessageShown },]">
@@ -225,6 +274,7 @@
 </style>
 
 <script>
+import { setTimeout } from 'timers';
 export default {
   props: [
     'comingFrom',
@@ -238,7 +288,16 @@ export default {
       pageActive: false,
       isMenuShown: false,
       isMessageShown: false,
+      animate: true,
       userMessages: this.messages,
+      changePage: false,
+
+      menuPraktikum: false,
+      menuSoal: false,
+      menuListTp: false,
+      menuHistory: false,
+      menuPolling: false,
+      menuKelas: false,
     }
   },
 
@@ -266,16 +325,56 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'login'){
+    if(this.comingFrom == 'login' ||
+        this.comingFrom == 'none'){
 
       setTimeout(
         function() {
           globe.pageActive = true;
         }, 10); 
+    } else if(this.comingFrom == 'kelas' ||
+              this.comingFrom == 'soal' ){
+
+      this.animate = false;
+      this.pageActive = true;
+      this.changePage = true;
+      this.setCurrentMenu(this.comingFrom, true);
+      setTimeout(
+        function() {
+          globe.changePage = false;
+          globe.setCurrentMenu(globe.comingFrom, false);
+          globe.animate = true;
+        }, 10); 
     }
   },
 
   methods: {
+
+    setCurrentMenu: function($whereTo, $bool){
+
+      if($whereTo == "praktikum")
+        this.menuPraktikum = $bool;
+      if($whereTo == "soal")
+        this.menuSoal = $bool;
+      if($whereTo == "listTp")
+        this.menuListTp = $bool;
+      if($whereTo == "history")
+        this.menuHistory = $bool;
+      if($whereTo == "polling")
+        this.menuPolling = $bool;
+      if($whereTo == "kelas")
+        this.menuKelas = $bool;
+    },
+
+    travel: function($whereTo){
+      const globe = this;
+      this.setCurrentMenu($whereTo, true);
+      this.changePage = true;
+      setTimeout(
+        function() {
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=asisten&position='+globe.$refs.menu.scrollTop);
+        }, 501); 
+    },
 
     openMessage: function(){
 

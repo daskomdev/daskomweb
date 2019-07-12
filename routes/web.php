@@ -71,6 +71,34 @@ Route::get('/praktikan', function () {
     ]);
 })->name('praktikan')->middleware('loggedIn:all');
 
+Route::get('/soal', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $position = request('position') == null ? 0:request('position');
+    return Inertia::render('Soal', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+    ]);
+})->name('soal')->middleware('loggedIn:asisten');
+
+Route::get('/kelas', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $allKelas = Kelas::all();
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $position = request('position') == null ? 0:request('position');
+    return Inertia::render('Kelas', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allKelas' => $allKelas,
+    ]);
+})->name('kelas')->middleware('loggedIn:asisten');
+
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
@@ -81,3 +109,7 @@ Route::post('/loginAsisten', 'Auth\AsistenLoginController@login')->name('loginAs
 
 Route::post('/sendPesan', 'FeedbackController@store')->name('sendPesan');
 Route::post('/readPesan', 'FeedbackController@index')->name('readPesan');
+
+Route::post('/createKelas', 'KelasController@store')->name('createPesan');
+Route::post('/deleteKelas', 'KelasController@destroy')->name('deletePesan');
+Route::post('/updateKelas', 'KelasController@update')->name('updatePesan');
