@@ -77,7 +77,7 @@
         <!-- TODO: Change Role Layout -->
         <div v-if="currentUser.role_id == 2">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || menuKelas },
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
               v-on:click="travel('kelas')">
             <div class="w-7/12 my-2 flex">
@@ -86,6 +86,19 @@
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               Kelas
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
+                      { 'bg-yellow-500 text-white': changePage && menuModul }]"
+              v-on:click='travel("modul")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-book">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Modul
             </span>
           </div>
         </div>
@@ -146,8 +159,62 @@
     <div class="absolute py-8 pr-8 h-full w-120full flex animation-enable"
         :class="[{ 'left-0': currentPage },
                 { 'left-minFull': !currentPage }]" @mouseover="isMenuShown = false">
-      <div class="rounded-r-large bg-yellow-500 w-full h-full">
+      <div class="rounded-r-large bg-yellow-500 text-center font-monda-bold text-3xl w-full h-full flex-row">
+        <div class="relative w-full h-16 flex">
+          <div class="w-1/6 h-16 p-3 hover:bg-yellow-400 cursor-pointer"
+              v-on:click='setActiveSoal("TP")'>
+            TP
+          </div>
+          <div class="w-1/6 h-16 p-3 hover:bg-yellow-400 cursor-pointer"
+              v-on:click='setActiveSoal("TA")'>
+            TA
+          </div>
+          <div class="w-1/6 h-16 p-3 hover:bg-yellow-400 cursor-pointer"
+              v-on:click='setActiveSoal("TK")'>
+            TK
+          </div>
+          <div class="w-1/6 h-16 p-3 hover:bg-yellow-400 cursor-pointer"
+              v-on:click='setActiveSoal("Jurnal")'>
+            Jurnal
+          </div>
+          <div class="w-1/6 h-16 p-3 hover:bg-yellow-400 cursor-pointer"
+              v-on:click='setActiveSoal("Mandiri")'>
+            Mandiri
+          </div>
+          <div class="w-1/6 h-16 p-3 hover:bg-yellow-400 cursor-pointer rounded-tr-large"
+              v-on:click='setActiveSoal("FITB")'>
+            FITB
+          </div>
+          <div class="absolute pointer-events-none w-full h-16">
+            <div class="absolute bottom-0 w-full flex h-1">
+              <div class="h-full animation-enable-medium"
+                  :class="[{ 'w-1/6': isTA },
+                          { 'w-0': !isTA }]"/>
+              <div class="h-full animation-enable-medium"
+                  :class="[{ 'w-2/6': isTK },
+                          { 'w-0': !isTK }]"/>
+              <div class="h-full animation-enable-medium"
+                  :class="[{ 'w-3/6': isJurnal },
+                          { 'w-0': !isJurnal }]"/>
+              <div class="h-full animation-enable-medium"
+                  :class="[{ 'w-4/6': isMandiri },
+                          { 'w-0': !isMandiri }]"/>
+              <div class="h-full animation-enable-medium"
+                  :class="[{ 'w-5/6': isFITB },
+                          { 'w-0': !isFITB }]"/>
+              <div class="w-1/6 px-4 h-full">
+                <div class="w-full h-full rounded-full bg-black"/>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <!-- Active Soal Layout -->
+        <div class="w-full h-full pb-16">
+          <div class="w-full h-full p-4">
+
+          </div>
+        </div>
       </div>   
     </div>
   </div>
@@ -173,12 +240,19 @@ export default {
       changePage: false,
       currentPage: false,
 
+      isTA: false,
+      isTK: false,
+      isJurnal: false,
+      isMandiri: false,
+      isFITB: false,
+
       menuProfil: false,
       menuPraktikum: false,
       menuListTp: false,
       menuHistory: false,
       menuPolling: false,
       menuKelas: false,
+      menuModul: false,
     }
   },
 
@@ -191,7 +265,8 @@ export default {
 
     if(this.comingFrom == 'asisten' ||
         this.comingFrom == 'none' ||
-        this.comingFrom == 'kelas'){
+        this.comingFrom == 'kelas' ||
+        this.comingFrom == 'modul'){
 
       setTimeout(
         function() {
@@ -215,6 +290,48 @@ export default {
         this.menuPolling = $bool;
       if($whereTo == "kelas")
         this.menuKelas = $bool;
+      if($whereTo == "modul")
+        this.menuModul = $bool;
+    },
+
+    setActiveSoal: function($soalMenu){
+      if($soalMenu == "TA"){
+        this.isTA = true;
+        this.isTK = false;
+        this.isJurnal = false;
+        this.isMandiri = false;
+        this.isFITB = false;
+      } else if($soalMenu == "TK"){
+        this.isTA = false;
+        this.isTK = true;
+        this.isJurnal = false;
+        this.isMandiri = false;
+        this.isFITB = false;
+      } else if($soalMenu == "Jurnal"){
+        this.isTA = false;
+        this.isTK = false;
+        this.isJurnal = true;
+        this.isMandiri = false;
+        this.isFITB = false;
+      } else if($soalMenu == "Mandiri"){
+        this.isTA = false;
+        this.isTK = false;
+        this.isJurnal = false;
+        this.isMandiri = true;
+        this.isFITB = false;
+      } else if($soalMenu == "FITB"){
+        this.isTA = false;
+        this.isTK = false;
+        this.isJurnal = false;
+        this.isMandiri = false;
+        this.isFITB = true;
+      } else if($soalMenu == "TP"){
+        this.isTA = false;
+        this.isTK = false;
+        this.isJurnal = false;
+        this.isMandiri = false;
+        this.isFITB = false;
+      }
     },
 
     travel: function($whereTo){

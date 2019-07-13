@@ -35,18 +35,27 @@ class ModulController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul'     => 'required|unique:moduls|string',
+            'deskripsi' => 'required|string',
+            'isi'       => 'required|string',
+        ]);
+
+        Modul::create([
+            'judul'     => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'isi'       => $request->isi,
+        ]);
+
+        $id = Modul::where('judul', $request->judul)->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Modul  $modul
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Modul $modul)
+    public function show()
     {
-        //
+        $allModul = Modul::all();
+        return $allModul;
     }
 
     /**
@@ -64,12 +73,36 @@ class ModulController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Modul  $modul
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Modul $modul)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'judul'       => 'required|string',
+            'deskripsi'   => 'required|string',
+            'isi'         => 'required|string',
+        ]);    
+
+        if($request->judul != $request->oldJudul)
+            foreach (Modul::all() as $modul => $value) 
+                if($value->judul == $request->judul)
+                    return '{"message": "Judul '. $request->judul .' sudah terdaftar"}';
+
+        $modul = Modul::find($request->id);
+        $modul->judul = $request->judul;
+        $modul->deskripsi = $request->deskripsi;
+        $modul->isi = $request->isi;
+        $modul->save();
+
+        return '{
+            "message": "success", 
+            "modul": {
+                "id": "'. $request->id .'",
+                "judul": "'. $request->judul .'",
+                "deskripsi": "'. $request->deskripsi .'",
+                "isi": "'. $request->isi .'"
+            }
+        }';
     }
 
     /**
@@ -78,8 +111,11 @@ class ModulController extends Controller
      * @param  \App\Modul  $modul
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Modul $modul)
+    public function destroy($id)
     {
-        //
+        $modul = Modul::find($id);
+        $modul->delete();
+
+        return '{"message": "success"}';
     }
 }

@@ -55619,6 +55619,10 @@ a.dynamic:hover:before {
   transition: all 0.3s cubic-bezier(0.36, 0.84, 0.21, 0.96) 0s;
 }
 
+.animation-enable-medium {
+  transition: all 0.5s cubic-bezier(0.36, 0.84, 0.21, 0.96) 0s;
+}
+
 a.chosen {
   text-decoration: none;
   position: relative;

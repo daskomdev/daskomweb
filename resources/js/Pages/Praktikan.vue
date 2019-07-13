@@ -250,12 +250,10 @@ export default {
       isMenuShown: false,
       messageOpened: false,
 
-      formMessageError: [],
-
       formMessage: {
         kode: '',
         pesan: '',
-        nama_praktikan: this.currentUser.nama,
+        praktikan_id: this.currentUser.id,
         kelas_id: this.currentUser.kelas_id,
       },
     }
@@ -375,7 +373,16 @@ export default {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          globe.formMessageError = error.response.data.errors
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.kode != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.kode[0]
+              });
+            if(error.response.data.errors.pesan != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.pesan[0]
+              });
+          } 
         }
       });
     }

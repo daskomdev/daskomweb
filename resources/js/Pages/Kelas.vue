@@ -88,6 +88,19 @@
               Kelas
             </span>
           </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
+                      { 'bg-yellow-500 text-white': changePage && menuModul }]"
+              v-on:click='travel("modul")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-book">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Modul
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -156,7 +169,7 @@
             <div v-for="kelas in listAllKelas" v-bind:key="kelas.id" 
                 class="animation-enable-short pr-8 hover:pr-4 opacity-75 cursor-pointer z-50 w-full h-16 flex text-center my-4 font-merri-bold text-3xl text-yellow-400"
                 :class="'kelas-'+kelas.id"
-                v-on:click="changeForm(kelas)">
+                v-on:click="kelas != chosenKelas ? changeForm(kelas): resetForm(kelas)">
               <div class="w-3/6 h-full uppercase py-2 bg-green-700">
                 {{ kelas.kelas }}
               </div>
@@ -314,6 +327,7 @@ export default {
       menuHistory: false,
       menuPolling: false,
       menuSoal: false,
+      menuModul: false,
 
       listAllKelas: this.allKelas == null ? [] : this.allKelas,
 
@@ -326,6 +340,7 @@ export default {
       },
 
       chosenKelas: {
+        id: '',
         kelas: '',
         hari: '',
         shift: '',
@@ -342,7 +357,8 @@ export default {
 
     if(this.comingFrom == 'asisten' ||
         this.comingFrom == 'none' ||
-        this.comingFrom == 'soal'){
+        this.comingFrom == 'soal'||
+        this.comingFrom == 'modul'){
 
       setTimeout(
         function() {
@@ -367,6 +383,21 @@ export default {
         this.menuPolling = $bool;
       if($whereTo == "asisten")
         this.menuProfil = $bool;
+      if($whereTo == "modul")
+        this.menuModul = $bool;
+    },
+
+    resetForm: function($kelas){
+      $('.kelas-'+this.chosenKelas.id).removeClass('opacity-100 pr-4');
+      $('.kelas-'+this.chosenKelas.id).addClass('opacity-75 pr-8 hover:pr-4');
+
+      this.formKelas.id = "";
+      this.formKelas.oldKelas = "";
+      this.formKelas.kelas = "";
+      this.formKelas.hari = "";
+      this.formKelas.shift = "";
+
+      $("#kelasForm")[0].reset();
     },
 
     changeForm: function($kelas) {
@@ -479,9 +510,16 @@ export default {
     deleteKelas: function(){
 
       const globe = this;
+
       if(this.chosenKelas.id != null){
         $('.kelas-'+this.chosenKelas.id).removeClass('opacity-100 pr-4');
         $('.kelas-'+this.chosenKelas.id).addClass('opacity-75 pr-8 hover:pr-4');
+      } else {
+
+        globe.$toasted.global.showError({
+          message: "Pilih salah satu kelas yang ingin di hapus terlebih dahulu"
+        });
+        return;
       }
       this.$axios.post('/deleteKelas', this.formKelas).then(response => {
         

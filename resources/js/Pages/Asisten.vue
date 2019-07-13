@@ -126,6 +126,19 @@
               Kelas
             </span>
           </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
+                      { 'bg-yellow-500 text-white': changePage && menuModul }]"
+              v-on:click='travel("modul")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-book">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Modul
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -244,7 +257,7 @@
                 </div>
                 <div class="flex absolute pt-1 h-8 font-merri text-lg pl-4 pr-2 pb-1 left-0 ml-8 rounded-full bottom-min1rem bg-yellow-500 w-7/12">
                   <span class="w-10/12">
-                    {{ message.nama_praktikan }}
+                    {{ message.nama }}
                   </span>
                   <div class="w-2/12 flex" v-if="!message.read">
                     <span class="w-auto px-4 py-1 font-overpass-bold text-sm rounded-full bg-red-500 ml-auto">
@@ -298,6 +311,7 @@ export default {
       menuHistory: false,
       menuPolling: false,
       menuKelas: false,
+      menuModul: false,
     }
   },
 
@@ -333,7 +347,8 @@ export default {
           globe.pageActive = true;
         }, 10); 
     } else if(this.comingFrom == 'kelas' ||
-              this.comingFrom == 'soal' ){
+              this.comingFrom == 'soal'  ||
+              this.comingFrom == 'modul' ){
 
       this.animate = false;
       this.pageActive = true;
@@ -364,6 +379,8 @@ export default {
         this.menuPolling = $bool;
       if($whereTo == "kelas")
         this.menuKelas = $bool;
+      if($whereTo == "modul")
+        this.menuModul = $bool;
     },
 
     travel: function($whereTo){

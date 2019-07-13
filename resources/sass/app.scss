@@ -56,6 +56,11 @@ a.dynamic {
   transition: $thetransition-short;
 }
 
+.animation-enable-medium {
+  -webkit-transition: $thetransition;
+  transition: $thetransition;
+}
+
 a.chosen {
   text-decoration: none;
   position: relative;

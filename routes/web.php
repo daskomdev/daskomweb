@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use App\Role;
 use App\Kelas;
 use App\Feedback;
+use App\Modul;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,9 @@ Route::get('/login', function () {
 Route::get('/asisten', function () {
     $user = Auth::guard('asisten')->user();
     $messages = Feedback::where('asisten_id', $user->id)
-                    ->orderBy('created_at', 'desc')->get();
+                    ->leftJoin('kelas', 'feedback.kelas_id', '=', 'kelas.id')
+                    ->leftJoin('praktikans', 'feedback.praktikan_id', '=', 'praktikans.id')
+                    ->orderBy('feedback.created_at', 'desc')->get();
     $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Asisten', [
@@ -99,6 +102,21 @@ Route::get('/kelas', function () {
     ]);
 })->name('kelas')->middleware('loggedIn:asisten');
 
+Route::get('/modul', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $allModul = Modul::all();
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $position = request('position') == null ? 0:request('position');
+    return Inertia::render('Modul', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allModul' => $allModul,
+    ]);
+})->name('modul')->middleware('loggedIn:asisten');
+
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
@@ -107,9 +125,14 @@ Route::post('/signupPraktikan', 'PraktikanController@store')->name('signupPrakti
 Route::post('/loginPraktikan', 'Auth\PraktikanLoginController@login')->name('loginPraktikan');
 Route::post('/loginAsisten', 'Auth\AsistenLoginController@login')->name('loginAsisten');
 
-Route::post('/sendPesan', 'FeedbackController@store')->name('sendPesan');
-Route::post('/readPesan', 'FeedbackController@index')->name('readPesan');
+Route::post('/sendPesan', 'FeedbackController@store')->name('sendPesan')->middleware('loggedIn:praktikan');
+Route::post('/readPesan', 'FeedbackController@index')->name('readPesan')->middleware('loggedIn:asisten');
 
-Route::post('/createKelas', 'KelasController@store')->name('createPesan');
-Route::post('/deleteKelas', 'KelasController@destroy')->name('deletePesan');
-Route::post('/updateKelas', 'KelasController@update')->name('updatePesan');
+Route::post('/createKelas', 'KelasController@store')->name('createPesan')->middleware('loggedIn:asisten');
+Route::post('/deleteKelas', 'KelasController@destroy')->name('deletePesan')->middleware('loggedIn:asisten');
+Route::post('/updateKelas', 'KelasController@update')->name('updatePesan')->middleware('loggedIn:asisten');
+
+Route::post('/createModul', 'ModulController@store')->name('createModul')->middleware('loggedIn:asisten');
+Route::post('/deleteModul/{id}', 'ModulController@destroy')->name('deleteModul')->middleware('loggedIn:asisten');
+Route::post('/updateModul', 'ModulController@update')->name('updateModul')->middleware('loggedIn:asisten');
+Route::post('/readModul', 'ModulController@show')->name('readModul')->middleware('loggedIn:asisten');

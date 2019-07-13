@@ -49,14 +49,13 @@ class FeedbackController extends Controller
         ]);
 
         $asisten = Asisten::where('kode', strtoupper($request->kode))->first();
-        $kelas = Kelas::where('id', $request->kelas_id)->first();
 
         if($asisten != null)
             Feedback::create([
                 'asisten_id'    => $asisten->id,
-                'nama_praktikan'=> $request->nama_praktikan,
+                'praktikan_id'  => $request->praktikan_id,
                 'pesan'         => $request->pesan,
-                'kelas'         => $kelas->kelas,
+                'kelas_id'      => $request->kelas_id,
             ]);
         else return '{"message": "Asisten '. $request->kode .' tidak ditemukan"}';
 

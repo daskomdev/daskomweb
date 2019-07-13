@@ -25,7 +25,12 @@ import { faExclamationCircle,
         faChalkboardTeacher,
         faPlus,
         faTrash,
-        faPen} from '@fortawesome/free-solid-svg-icons';
+        faPen,
+        faBook,
+        faCaretDown,
+        faCaretUp,
+        faCheck,
+        faTimes} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
@@ -55,6 +60,11 @@ library.add(faChalkboardTeacher);
 library.add(faPlus);
 library.add(faTrash);
 library.add(faPen);
+library.add(faBook);
+library.add(faCaretDown);
+library.add(faCaretUp);
+library.add(faCheck);
+library.add(faTimes);
 dom.watch(); 
 
 Vue.use(VueAnime)

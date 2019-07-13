@@ -111,7 +111,7 @@ class KelasController extends Controller
         $kelas = Kelas::where('kelas', $request->oldKelas)->first();
 
         if($kelas == null)
-            return '{"message": "Kelas '. $request->oldKelas .'"}';
+            return '{"message": "Kelas '. $request->oldKelas .' tidak ditemukan"}';
 
         $kelas->kelas = strtoupper($request->kelas);
         $kelas->hari = strtoupper($request->hari);
@@ -119,14 +119,14 @@ class KelasController extends Controller
         $kelas->save();
 
         return '{
-                    "message": "success", 
-                    "kelas": {
-                        "id": "'. $request->id .'",
-                        "kelas": "'. $request->kelas .'",
-                        "hari": "'. $request->hari .'",
-                        "shift": "'. $request->shift .'"
-                    }
-                }';
+            "message": "success", 
+            "kelas": {
+                "id": "'. $request->id .'",
+                "kelas": "'. $request->kelas .'",
+                "hari": "'. $request->hari .'",
+                "shift": "'. $request->shift .'"
+            }
+        }';
     }
 
     /**
