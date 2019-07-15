@@ -118,15 +118,15 @@ class KelasController extends Controller
         $kelas->shift = $request->shift;
         $kelas->save();
 
-        return '{
-            "message": "success", 
-            "kelas": {
-                "id": "'. $request->id .'",
-                "kelas": "'. $request->kelas .'",
-                "hari": "'. $request->hari .'",
-                "shift": "'. $request->shift .'"
-            }
-        }';
+        $kelas->id = $request->id;
+        $kelas->kelas = strtoupper($request->kelas);
+        $kelas->hari = strtoupper($request->hari);
+        $kelas->shift = $request->shift;
+
+        return response()->json([
+            'message'=> 'success',
+            'kelas' => $kelas,
+        ], 200);
     }
 
     /**

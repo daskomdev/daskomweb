@@ -161,11 +161,12 @@
 
       <!-- Modul Menu -->
       <div class="absolute z-20 w-full h-120 animation-enable pointer-events-none"
-          :class="[{ 'top-0': modulMenuShown },
-                  { 'top-min20rem': !modulMenuShown },
+          :class="[{ 'top-0': modulMenuShown || openedMenu },
+                  { 'top-min20rem': !modulMenuShown && !openedMenu },
+                  { 'top-min18rem': !modulMenuShown && openedMenu },
                   { 'left-0': currentPage },
                   { 'left-minFull': !currentPage }]">
-        <div class="w-full h-full p-8 pointer-events-none">
+        <div class="w-full h-full relative p-8 pointer-events-none">
           <form id="modulForm" class="pointer-events-auto relative flex w-full h-full bg-gray-400 rounded-lg">
             <div class="h-full w-1/3">
               <div class="w-full py-2 px-5 h-1/3 flex-row">
@@ -217,6 +218,22 @@
               </span>
             </div>
           </form>
+          <div class="absolute bottom-0 w-full h-8 pr-16 flex">
+            <div class="w-8 h-8 text-white m-auto">
+              <span class="w-full h-full flex cursor-pointer pointer-events-auto"
+                    :class="[{ 'visible': modulMenuShown },
+                            { 'hidden': !modulMenuShown }]"
+                    v-on:click="modulMenuShown = false">
+                <img class="w-full h-full fas fa-caret-up">
+              </span>
+              <span class="w-full h-full flex cursor-pointer pointer-events-auto"
+                    :class="[{ 'visible': !modulMenuShown },
+                            { 'hidden': modulMenuShown }]"
+                    v-on:click="modulMenuShown = true">
+                <img class="w-full h-full fas fa-caret-down">
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -237,8 +254,8 @@
               <div class="w-4full absolute flex-row animation-enable"
                   :class="[{ 'h-4full pb-8 pt-40': moreOpened },
                           { 'h-0 pb-0 pt-0': !moreOpened }]">
-                <div class="w-full h-full bg-gray-200 flex overflow-y-auto">
-                  <span class="w-full h-full px-8 pt-16 pb-8 text-2xl font-overpass-bold text-justify">
+                <div class="w-full h-full bg-gray-200 rounded-br-lg flex overflow-y-auto">
+                  <span class="w-full h-full px-8 pt-8 whitespace-pre-line pb-8 text-2xl font-overpass-bold text-justify">
                     {{ modul.isi }}
                   </span>
                 </div>
@@ -339,6 +356,7 @@ export default {
       changePage: false,
       currentPage: false,
 
+      openedMenu: true,
       modulMenuShown: true,
       moreOpened: false,
       editing: false,
@@ -461,9 +479,9 @@ export default {
 
       this.$axios.post('/updateModul', this.formModul).then(response => {
 
+        console.log(response.data.modul);
         if(response.data.message == "success") {
 
-          $("#modulForm")[0].reset();
           globe.editing = false;
           $(".editClose-"+globe.formModul.id).removeClass("visible");
           $(".editClose-"+globe.formModul.id).addClass("hidden");
@@ -480,6 +498,12 @@ export default {
               break;
             }
           }
+
+          globe.formModul.id = "";
+          globe.formModul.oldJudul = "";
+          globe.formModul.judul = "";
+          globe.formModul.deskripsi = "";
+          globe.formModul.isi = "";
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
@@ -513,6 +537,7 @@ export default {
 
       if($open){
         this.modulMenuShown = false;
+        this.openedMenu = false;
         $(".moreOpen-"+$id).removeClass("visible");
         $(".moreOpen-"+$id).addClass("hidden");
         $(".moreClose-"+$id).removeClass("hidden");
@@ -544,6 +569,7 @@ export default {
           })
 
           globe.modulMenuShown = true;
+          globe.openedMenu = true;
           $(".moreClose-"+$id).removeClass("visible");
           $(".moreClose-"+$id).addClass("hidden");
           $(".moreOpen-"+$id).removeClass("hidden");

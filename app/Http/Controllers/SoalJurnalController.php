@@ -35,7 +35,19 @@ class SoalJurnalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'soal'        => 'required|unique:soal__jurnals|string',
+            'modul_id'    => 'required',
+        ]);
+
+        Soal_Jurnal::create([
+            'soal'        => $request->soal,
+            'modul_id'    => $request->modul_id,
+        ]);
+
+        $id = Soal_Jurnal::where('soal', $request->soal)->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
     /**
@@ -67,9 +79,31 @@ class SoalJurnalController extends Controller
      * @param  \App\Soal_Jurnal  $soal_Jurnal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Soal_Jurnal $soal_Jurnal)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'soal'        => 'required|string',
+            'modul_id'    => 'required',
+        ]);
+
+        if($request->soal != $request->oldSoal)
+            foreach (Soal_Jurnal::all() as $soal => $value) 
+                if($value->soal == $request->soal)
+                    return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
+
+        $soal = Soal_Jurnal::find($request->id);
+        $soal->soal = $request->soal;
+        $soal->modul_id = $request->modul_id;
+        $soal->save();
+
+        $soal->id = $request->id;
+        $soal->soal = $request->soal;
+        $soal->modul_id = $request->modul_id;
+
+        return response()->json([
+            'message'=> 'success',
+            'soal' => $soal,
+        ], 200);
     }
 
     /**

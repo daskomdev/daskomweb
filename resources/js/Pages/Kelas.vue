@@ -468,6 +468,7 @@ export default {
       const globe = this;
       this.$axios.post('/updateKelas', this.formKelas).then(response => {
         
+        console.log(response.data)
         if(response.data.message == "success") {
 
           globe.$toasted.global.showSuccess({
@@ -480,6 +481,13 @@ export default {
               break;
             }
           }
+
+          globe.formKelas.id = "";
+          globe.formKelas.oldKelas = "";
+          globe.formKelas.kelas = "";
+          globe.formKelas.hari = "";
+          globe.formKelas.shift = "";
+
         } else {
           globe.$toasted.global.showError({
             message: response.data.message

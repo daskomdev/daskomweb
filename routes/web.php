@@ -5,6 +5,14 @@ use App\Role;
 use App\Kelas;
 use App\Feedback;
 use App\Modul;
+
+use App\Soal_Tp;
+use App\Soal_Ta;
+use App\Soal_Tk;
+use App\Soal_Jurnal;
+use App\Soal_Mandiri;
+use App\Soal_Fitb;
+
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +85,26 @@ Route::get('/praktikan', function () {
 Route::get('/soal', function () {
     $user = Auth::guard('asisten')->user();
     $userRole = Role::where('id', $user->role_id)->first();
+    $allModul = Modul::all();
+    $allTP = DB::table('soal__tps')
+            ->join('moduls', 'soal__tps.modul_id', '=', 'moduls.id')
+            ->select('soal__tps.*', 'moduls.judul')->get();
+    $allTA = DB::table('soal__tas')
+            ->join('moduls', 'soal__tas.modul_id', '=', 'moduls.id')
+            ->select('soal__tas.*', 'moduls.judul')->get();
+    $allTK = DB::table('soal__tks')
+            ->join('moduls', 'soal__tks.modul_id', '=', 'moduls.id')
+            ->select('soal__tks.*', 'moduls.judul')->get();
+    $allJurnal = DB::table('soal__jurnals')
+            ->join('moduls', 'soal__jurnals.modul_id', '=', 'moduls.id')
+            ->select('soal__jurnals.*', 'moduls.judul')->get();
+    $allMandiri = DB::table('soal__mandiris')
+            ->join('moduls', 'soal__mandiris.modul_id', '=', 'moduls.id')
+            ->select('soal__mandiris.*', 'moduls.judul')->get();
+    $allFITB = DB::table('soal__fitbs')
+            ->join('moduls', 'soal__fitbs.modul_id', '=', 'moduls.id')
+            ->select('soal__fitbs.*', 'moduls.judul')->get();
+
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     $position = request('position') == null ? 0:request('position');
     return Inertia::render('Soal', [
@@ -84,6 +112,14 @@ Route::get('/soal', function () {
         'currentUser' => $user,
         'position' => $position,
         'userRole' => $userRole->role,
+        'allModul' => $allModul,
+
+        'allTP' => $allTP,
+        'allTA' => $allTA,
+        'allTK' => $allTK,
+        'allJurnal' => $allJurnal,
+        'allMandiri' => $allMandiri,
+        'allFITB' => $allFITB,
     ]);
 })->name('soal')->middleware('loggedIn:asisten');
 
@@ -136,3 +172,27 @@ Route::post('/createModul', 'ModulController@store')->name('createModul')->middl
 Route::post('/deleteModul/{id}', 'ModulController@destroy')->name('deleteModul')->middleware('loggedIn:asisten');
 Route::post('/updateModul', 'ModulController@update')->name('updateModul')->middleware('loggedIn:asisten');
 Route::post('/readModul', 'ModulController@show')->name('readModul')->middleware('loggedIn:asisten');
+
+Route::post('/createTP', 'SoalTpController@store')->name('createTP')->middleware('loggedIn:asisten');
+Route::post('/deleteTP/{id}', 'SoalTpController@destroy')->name('deleteTP')->middleware('loggedIn:asisten');
+Route::post('/updateTP', 'SoalTpController@update')->name('updateTP')->middleware('loggedIn:asisten');
+
+Route::post('/createTA', 'SoalTaController@store')->name('createTA')->middleware('loggedIn:asisten');
+Route::post('/deleteTA/{id}', 'SoalTaController@destroy')->name('deleteTA')->middleware('loggedIn:asisten');
+Route::post('/updateTA', 'SoalTaController@update')->name('updateTA')->middleware('loggedIn:asisten');
+
+Route::post('/createTK', 'SoalTkController@store')->name('createTK')->middleware('loggedIn:asisten');
+Route::post('/deleteTK/{id}', 'SoalTkController@destroy')->name('deleteTK')->middleware('loggedIn:asisten');
+Route::post('/updateTK', 'SoalTkController@update')->name('updateTK')->middleware('loggedIn:asisten');
+
+Route::post('/createJurnal', 'SoalJurnalController@store')->name('createJurnal')->middleware('loggedIn:asisten');
+Route::post('/deleteJurnal/{id}', 'SoalJurnalController@destroy')->name('deleteJurnal')->middleware('loggedIn:asisten');
+Route::post('/updateJurnal', 'SoalJurnalController@update')->name('updateJurnal')->middleware('loggedIn:asisten');
+
+Route::post('/createMandiri', 'SoalMandiriController@store')->name('createMandiri')->middleware('loggedIn:asisten');
+Route::post('/deleteMandiri/{id}', 'SoalMandiriController@destroy')->name('deleteMandiri')->middleware('loggedIn:asisten');
+Route::post('/updateMandiri', 'SoalMandiriController@update')->name('updateMandiri')->middleware('loggedIn:asisten');
+
+Route::post('/createFitb', 'SoalFitbController@store')->name('createFitb')->middleware('loggedIn:asisten');
+Route::post('/deleteFitb/{id}', 'SoalFitbController@destroy')->name('deleteFitb')->middleware('loggedIn:asisten');
+Route::post('/updateFitb', 'SoalFitbController@update')->name('updateFitb')->middleware('loggedIn:asisten');

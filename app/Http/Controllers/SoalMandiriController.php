@@ -35,7 +35,19 @@ class SoalMandiriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'soal'        => 'required|unique:soal__mandiris|string',
+            'modul_id'    => 'required',
+        ]);
+
+        Soal_Mandiri::create([
+            'soal'        => $request->soal,
+            'modul_id'    => $request->modul_id,
+        ]);
+
+        $id = Soal_Mandiri::where('soal', $request->soal)->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
     /**
@@ -67,9 +79,31 @@ class SoalMandiriController extends Controller
      * @param  \App\Soal_Mandiri  $soal_Mandiri
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Soal_Mandiri $soal_Mandiri)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'soal'        => 'required|string',
+            'modul_id'    => 'required',
+        ]);
+
+        if($request->soal != $request->oldSoal)
+            foreach (Soal_Mandiri::all() as $soal => $value) 
+                if($value->soal == $request->soal)
+                    return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
+
+        $soal = Soal_Mandiri::find($request->id);
+        $soal->soal = $request->soal;
+        $soal->modul_id = $request->modul_id;
+        $soal->save();
+
+        $soal->id = $request->id;
+        $soal->soal = $request->soal;
+        $soal->modul_id = $request->modul_id;
+
+        return response()->json([
+            'message'=> 'success',
+            'soal' => $soal,
+        ], 200);
     }
 
     /**

@@ -94,15 +94,15 @@ class ModulController extends Controller
         $modul->isi = $request->isi;
         $modul->save();
 
-        return '{
-            "message": "success", 
-            "modul": {
-                "id": "'. $request->id .'",
-                "judul": "'. $request->judul .'",
-                "deskripsi": "'. $request->deskripsi .'",
-                "isi": "'. $request->isi .'"
-            }
-        }';
+        $modul->id = $request->id;
+        $modul->judul = $request->judul;
+        $modul->deskripsi = $request->deskripsi;
+        $modul->isi = $request->isi;
+
+        return response()->json([
+            'message'=> 'success',
+            'modul' => $modul,
+        ], 200);
     }
 
     /**

@@ -36,6 +36,7 @@ module.exports = {
         '1/4': '25%',
         'minFull': '-100%',
         'min20rem': '-20rem',
+        'min18rem': '-18rem',
         'min4rem': '-4rem',
         'min1rem': '-1rem',
         '32full': 'calc(100% - 8rem)',
@@ -65,6 +66,7 @@ module.exports = {
         '48full': 'calc(100% - 12rem)',
         '36full': 'calc(100% - 9rem)',
         '24full': 'calc(100% - 6rem)',
+        '16full': 'calc(100% - 4rem)',
         '120full': 'calc(100% - 20rem)',
       },
 
@@ -76,9 +78,11 @@ module.exports = {
 
       height: {
         '1/4': '25%',
+        '1/5': '20%',
         '1/3': '33.33333%',
         '2/3': '66.66667%',
         '3/5': '60%',
+        '4/5': '80%',
         '3/4': '75%',
         '2/5': '40%',
         '1/2': '50%',

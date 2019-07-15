@@ -35,7 +35,19 @@ class SoalFitbController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'soal'        => 'required|unique:soal__fitbs|string',
+            'modul_id'    => 'required',
+        ]);
+
+        Soal_Fitb::create([
+            'soal'        => $request->soal,
+            'modul_id'    => $request->modul_id,
+        ]);
+
+        $id = Soal_Fitb::where('soal', $request->soal)->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
     /**
@@ -64,12 +76,33 @@ class SoalFitbController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Soal_Fitb  $soal_Fitb
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Soal_Fitb $soal_Fitb)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'soal'        => 'required|string',
+            'modul_id'    => 'required',
+        ]);
+
+        if($request->soal != $request->oldSoal)
+            foreach (Soal_Fitb::all() as $soal => $value) 
+                if($value->soal == $request->soal)
+                    return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
+
+        $soal = Soal_Fitb::find($request->id);
+        $soal->soal = $request->soal;
+        $soal->modul_id = $request->modul_id;
+        $soal->save();
+
+        $soal->id = $request->id;
+        $soal->soal = $request->soal;
+        $soal->modul_id = $request->modul_id;
+
+        return response()->json([
+            'message'=> 'success',
+            'soal' => $soal,
+        ], 200);
     }
 
     /**
