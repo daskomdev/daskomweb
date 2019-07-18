@@ -4075,6 +4075,10 @@ video {
   height: 14rem !important;
 }
 
+.h-60 {
+  height: 15rem !important;
+}
+
 .h-64 {
   height: 16rem !important;
 }
@@ -15244,6 +15248,10 @@ video {
 
   .sm\:h-56 {
     height: 14rem !important;
+  }
+
+  .sm\:h-60 {
+    height: 15rem !important;
   }
 
   .sm\:h-64 {
@@ -26418,6 +26426,10 @@ video {
     height: 14rem !important;
   }
 
+  .md\:h-60 {
+    height: 15rem !important;
+  }
+
   .md\:h-64 {
     height: 16rem !important;
   }
@@ -37588,6 +37600,10 @@ video {
 
   .lg\:h-56 {
     height: 14rem !important;
+  }
+
+  .lg\:h-60 {
+    height: 15rem !important;
   }
 
   .lg\:h-64 {
@@ -48762,6 +48778,10 @@ video {
     height: 14rem !important;
   }
 
+  .xl\:h-60 {
+    height: 15rem !important;
+  }
+
   .xl\:h-64 {
     height: 16rem !important;
   }
@@ -56618,6 +56638,10 @@ a.dynamic:hover:before {
   transition: all 0.5s cubic-bezier(0.36, 0.84, 0.21, 0.96) 0s;
 }
 
+.animation-enable-long {
+  transition: all 2s cubic-bezier(0.36, 0.84, 0.21, 0.96) 0s;
+}
+
 a.chosen {
   text-decoration: none;
   position: relative;
@@ -56697,21 +56721,21 @@ a.constant:hover {
 }
 
 .vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
 }
 
 .vb > .vb-dragger:hover > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
   margin-right: 0px;
   height: calc(100% - 20px);
 }
 
 .vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
   margin-right: 0px;
   height: calc(100% - 20px);
 }
 
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
 }

@@ -3,8 +3,8 @@
 
     <!-- Main Layout -->
     <div class="absolute z-10 bottom-0 flex h-48full w-4full rounded-tl-large bg-yellow-500 animation-enable"
-        :class="[{ 'right-0': pageActive },
-                { 'right-minFull': !pageActive || changePage }]">
+        :class="[{ 'right-0': pageActive && !isMessageShown },
+                { 'right-minFull': !pageActive || changePage || isMessageShown }]">
       <div class="w-120full flex-row">
         <div class="mx-auto mt-4 text-green-800 font-merri-bold text-4xl text-center">
           {{ currentUser.nama }}
@@ -45,7 +45,7 @@
                 { 'animation-enable': animate }]" @mouseover="isMenuShown = false">
       <div class="w-full h-full animation-enable overflow-y-auto"
           :class="[{ 'rounded-none': !changePage },
-                  { 'rounded-tl-large': changePage }]" ref="menu">
+                  { 'rounded-tl-large': changePage || isMessageShown }]" ref="menu">
         <div class="w-full p-4 h-24 flex select-none animation-enable"
             :class="[{ 'bg-yellow-500 text-white': !changePage },
                     { 'bg-yellow-400 text-black': changePage }]">
@@ -58,7 +58,10 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPraktikum },
+                    { 'bg-yellow-500 text-white': changePage && menuPraktikum }]"
+            v-on:click='travel("praktikum")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-code">
@@ -124,6 +127,19 @@
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               Kelas
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
+                      { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
+              v-on:click='travel("plotting")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Plotting
             </span>
           </div>
 
@@ -200,13 +216,13 @@
 
       <!-- Dummy Message Animation -->
       <div class="absolute top-0 left-0 w-full pr-16 animation-enable"
-          :class="[{ 'h-48full': isMessageShown },
+          :class="[{ 'h-16full': isMessageShown },
                   { 'h-16': !isMessageShown },
                   { 'top-0': pageActive },
                   { 'top-minFull': !pageActive || changePage }]">
         <div class="w-full h-full flex rounded-br-large bg-green-600">
           <div class="w-11/12 h-full"/>
-          <div class="w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer" v-on:click="openMessage">
+          <div class="w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto" v-on:click="openMessage">
             <div class="animation-enable" 
                 :class="[{ 'unrotated ml-0': !isMessageShown }, { 'rotated ml-8': isMessageShown }]">
               <span class="animation-enable" 
@@ -220,7 +236,7 @@
 
       <!-- Message Layout -->
       <div class="absolute top-0 left-0 w-full z-30 animation-enable"
-          :class="[{ 'h-48full pr-16': isMessageShown },
+          :class="[{ 'h-16full pr-16': isMessageShown },
                   { 'h-16 pr-32': !isMessageShown },
                   { 'top-0': pageActive },
                   { 'top-minFull': !pageActive || changePage }]">
@@ -311,6 +327,7 @@ export default {
       menuHistory: false,
       menuPolling: false,
       menuKelas: false,
+      menuPlotting: false,
       menuModul: false,
     }
   },
@@ -348,7 +365,9 @@ export default {
         }, 10); 
     } else if(this.comingFrom == 'kelas' ||
               this.comingFrom == 'soal'  ||
-              this.comingFrom == 'modul' ){
+              this.comingFrom == 'modul'||
+              this.comingFrom == 'plotting'||
+              this.comingFrom == 'praktikum' ){
 
       this.animate = false;
       this.pageActive = true;
@@ -381,6 +400,8 @@ export default {
         this.menuKelas = $bool;
       if($whereTo == "modul")
         this.menuModul = $bool;
+      if($whereTo == "plotting")
+        this.menuPlotting = $bool;
     },
 
     travel: function($whereTo){

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Kelas;
+use App\Asisten;
+use App\Jadwal_Jaga;
+use App\Praktikan;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -63,12 +66,24 @@ class KelasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Kelas  $kelas
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show($kelas_id)
     {
-        //
+         
+        $all_jadwal = Jadwal_Jaga::where('kelas_id', $kelas_id)->get();
+
+        foreach ($all_jadwal as $jadwal => $value) {
+            $all_asisten[] = Asisten::where('id', $value->asisten_id)->first();
+        }
+        $all_praktikan = Praktikan::where('kelas_id', $kelas_id)->get();
+
+        return response()->json([
+            'message' => 'success',
+            'all_asisten' => $all_asisten,
+            'all_praktikan' => $all_praktikan,
+        ], 200);
     }
 
     /**

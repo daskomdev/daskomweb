@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJadwalJagasTable extends Migration
+class CreateCurrentPraktikumsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateJadwalJagasTable extends Migration
      */
     public function up()
     {
-        Schema::create('jadwal__jagas', function (Blueprint $table) {
+        Schema::create('current__praktikums', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('kelas_id');
             $table->unsignedBigInteger('asisten_id');
+            $table->unsignedBigInteger('kelas_id');
+            $table->integer('status');
             $table->timestamps();
 
             $table->foreign('asisten_id')
@@ -38,6 +39,6 @@ class CreateJadwalJagasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jadwal__jagas');
+        Schema::dropIfExists('current__praktikums');
     }
 }

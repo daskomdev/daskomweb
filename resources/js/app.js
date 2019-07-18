@@ -32,7 +32,8 @@ import { faExclamationCircle,
         faCheck,
         faTimes,
         faCaretLeft,
-        faCaretRight} from '@fortawesome/free-solid-svg-icons';
+        faCaretRight,
+        faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
@@ -69,6 +70,7 @@ library.add(faCheck);
 library.add(faTimes);
 library.add(faCaretLeft);
 library.add(faCaretRight);
+library.add(faCalendarAlt);
 dom.watch(); 
 
 Vue.use(VueAnime)

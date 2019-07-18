@@ -21,7 +21,10 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPraktikum },
+                    { 'bg-yellow-500 text-white': changePage && menuPraktikum }]"
+            v-on:click="travel('praktikum')">
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-code">
@@ -86,6 +89,19 @@
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               Kelas
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
+                      { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
+              v-on:click='travel("plotting")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Plotting
             </span>
           </div>
 
@@ -216,7 +232,7 @@
               <div v-if="!isTA && !isTK && !isJurnal && !isMandiri && !isFITB" class="w-full h-full flex-row">
                 <transition-group name="soal-list" tag="div">
                   <div v-for="soal in listAllTP" v-bind:key="soal.id"
-                      class="animation-enable w-full h-32 mb-4">
+                      class="animation-enable w-full h-48 mb-4">
                     <div class="w-full h-full flex rounded-lg bg-yellow-200">
                       <div class="w-2/5 h-full flex-row">
                         <div class="w-full h-2/3 flex rounded-tl-lg font-merri-bold text-2xl bg-yellow-400">
@@ -268,7 +284,7 @@
                 <div v-if="isTA" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
                     <div v-for="soal in listAllTA" v-bind:key="soal.id"
-                        class="animation-enable w-full h-48 mb-4">
+                        class="animation-enable w-full h-64 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
                           <div class="w-full h-1/3 flex rounded-tl-lg font-merri-bold text-xl bg-yellow-400">
@@ -282,7 +298,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="w-16full h-full flex">
+                        <div class="w-1/2 h-full flex">
                           <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-xl">
                             <div class="w-full h-32 mb-4 p-4 bg-green-500 rounded-lg">
                               {{ soal.jawaban_benar }}
@@ -325,7 +341,7 @@
                 <div v-if="isTK" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
                     <div v-for="soal in listAllTK" v-bind:key="soal.id"
-                        class="animation-enable w-full h-48 mb-4">
+                        class="animation-enable w-full h-64 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
                           <div class="w-full h-1/3 flex rounded-tl-lg font-merri-bold text-xl bg-yellow-400">
@@ -339,7 +355,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="w-16full h-full flex">
+                        <div class="w-1/2 h-full flex">
                           <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-xl">
                             <div class="w-full h-32 mb-4 p-4 bg-green-500 rounded-lg">
                               {{ soal.jawaban_benar }}
@@ -384,17 +400,17 @@
                 <div v-if="isJurnal" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
                     <div v-for="soal in listAllJurnal" v-bind:key="soal.id"
-                        class="animation-enable w-full h-48 mb-4">
+                        class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
-                          <div class="w-full h-full flex rounded-tl-lg font-merri-bold text-3xl bg-yellow-400">
+                          <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
                               {{ soal.judul }}
                             </div>
                           </div>
                         </div>
                         <div class="w-16full h-full flex">
-                          <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
+                          <div class="w-full h-full whitespace-pre-line flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
                             {{ soal.soal }}
                           </div>
                         </div>
@@ -425,10 +441,10 @@
                 <div v-if="isMandiri" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
                     <div v-for="soal in listAllMandiri" v-bind:key="soal.id"
-                        class="animation-enable w-full h-48 mb-4">
+                        class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
-                          <div class="w-full h-full flex rounded-tl-lg font-merri-bold text-3xl bg-yellow-400">
+                          <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
                               {{ soal.judul }}
                             </div>
@@ -466,10 +482,10 @@
                 <div v-if="isFITB" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
                     <div v-for="soal in listAllFITB" v-bind:key="soal.id"
-                        class="animation-enable w-full h-48 mb-4">
+                        class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
-                          <div class="w-full h-full flex rounded-tl-lg font-merri-bold text-3xl bg-yellow-400">
+                          <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
                               {{ soal.judul }}
                             </div>
@@ -809,6 +825,7 @@ export default {
       menuPolling: false,
       menuKelas: false,
       menuModul: false,
+      menuPlotting: false,
 
       // Form for TA and TK
       formTATK: {
@@ -856,7 +873,9 @@ export default {
     if(this.comingFrom == 'asisten' ||
         this.comingFrom == 'none' ||
         this.comingFrom == 'kelas' ||
-        this.comingFrom == 'modul'){
+        this.comingFrom == 'modul'||
+        this.comingFrom == 'plotting' ||
+        this.comingFrom == 'praktikum'){
 
       setTimeout(
         function() {
@@ -882,6 +901,8 @@ export default {
         this.menuKelas = $bool;
       if($whereTo == "modul")
         this.menuModul = $bool;
+      if($whereTo == "plotting")
+        this.menuPlotting = $bool;
     },
 
     deleteSoal: function($id){

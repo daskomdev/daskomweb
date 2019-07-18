@@ -61,6 +61,11 @@ a.dynamic {
   transition: $thetransition;
 }
 
+.animation-enable-long {
+  -webkit-transition: $thetransition-2s;
+  transition: $thetransition-2s;
+}
+
 a.chosen {
   text-decoration: none;
   position: relative;
@@ -151,21 +156,21 @@ a.constant {
 }
 
 .vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
 }
 
 .vb > .vb-dragger:hover > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
   margin-right: 0px;
   height: calc(100% - 20px);
 }
 
 .vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
   margin-right: 0px;
   height: calc(100% - 20px);
 }
 
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
-  background-color: rgba(34, 84, 61, 0.5);
+  background-color: rgba(216, 206, 61, 0.5);
 }

@@ -21,7 +21,10 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPraktikum },
+                    { 'bg-yellow-500 text-white': changePage && menuPraktikum }]"
+            v-on:click='travel("praktikum")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-code">
@@ -87,6 +90,19 @@
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               Kelas
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
+                      { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
+              v-on:click='travel("plotting")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Plotting
             </span>
           </div>
 
@@ -368,6 +384,7 @@ export default {
       menuPolling: false,
       menuSoal: false,
       menuKelas: false,
+      menuPlotting: false,
 
       listAllModul: this.allModul == null ? [] : this.allModul,
 
@@ -391,7 +408,9 @@ export default {
     if(this.comingFrom == 'asisten' ||
         this.comingFrom == 'none' ||
         this.comingFrom == 'kelas'||
-        this.comingFrom == 'soal'){
+        this.comingFrom == 'soal'||
+        this.comingFrom == 'praktikum'||
+        this.comingFrom == 'plotting'){
 
       setTimeout(
         function() {
@@ -418,6 +437,8 @@ export default {
         this.menuProfil = $bool;
       if($whereTo == "kelas")
         this.menuKelas = $bool;
+      if($whereTo == "plotting")
+        this.menuPlotting = $bool;
     },
 
     travel: function($whereTo){

@@ -15755,6 +15755,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser', 'messages', 'userRole'],
@@ -15772,6 +15788,7 @@ __webpack_require__.r(__webpack_exports__);
       menuHistory: false,
       menuPolling: false,
       menuKelas: false,
+      menuPlotting: false,
       menuModul: false
     };
   },
@@ -15797,7 +15814,7 @@ __webpack_require__.r(__webpack_exports__);
       Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
         globe.pageActive = true;
       }, 10);
-    } else if (this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'modul') {
+    } else if (this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'modul' || this.comingFrom == 'plotting' || this.comingFrom == 'praktikum') {
       this.animate = false;
       this.pageActive = true;
       this.changePage = true;
@@ -15818,6 +15835,7 @@ __webpack_require__.r(__webpack_exports__);
       if ($whereTo == "polling") this.menuPolling = $bool;
       if ($whereTo == "kelas") this.menuKelas = $bool;
       if ($whereTo == "modul") this.menuModul = $bool;
+      if ($whereTo == "plotting") this.menuPlotting = $bool;
     },
     travel: function travel($whereTo) {
       var globe = this;
@@ -16404,6 +16422,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser', 'position', 'userRole', 'allKelas'],
   data: function data() {
@@ -16421,6 +16455,7 @@ __webpack_require__.r(__webpack_exports__);
       menuPolling: false,
       menuSoal: false,
       menuModul: false,
+      menuPlotting: false,
       listAllKelas: this.allKelas == null ? [] : this.allKelas,
       formKelas: {
         id: '',
@@ -16442,7 +16477,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'soal' || this.comingFrom == 'modul') {
+    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'soal' || this.comingFrom == 'modul' || this.comingFrom == 'praktikum' || this.comingFrom == 'plotting') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -16457,6 +16492,7 @@ __webpack_require__.r(__webpack_exports__);
       if ($whereTo == "polling") this.menuPolling = $bool;
       if ($whereTo == "asisten") this.menuProfil = $bool;
       if ($whereTo == "modul") this.menuModul = $bool;
+      if ($whereTo == "plotting") this.menuPlotting = $bool;
     },
     resetForm: function resetForm($kelas) {
       $('.kelas-' + this.chosenKelas.id).removeClass('opacity-100 pr-4');
@@ -17731,6 +17767,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser', 'position', 'userRole', 'allModul'],
   data: function data() {
@@ -17750,6 +17802,7 @@ __webpack_require__.r(__webpack_exports__);
       menuPolling: false,
       menuSoal: false,
       menuKelas: false,
+      menuPlotting: false,
       listAllModul: this.allModul == null ? [] : this.allModul,
       formModul: {
         id: '',
@@ -17765,7 +17818,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal') {
+    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'praktikum' || this.comingFrom == 'plotting') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -17780,6 +17833,7 @@ __webpack_require__.r(__webpack_exports__);
       if ($whereTo == "polling") this.menuPolling = $bool;
       if ($whereTo == "asisten") this.menuProfil = $bool;
       if ($whereTo == "kelas") this.menuKelas = $bool;
+      if ($whereTo == "plotting") this.menuPlotting = $bool;
     },
     travel: function travel($whereTo) {
       this.setCurrentMenu($whereTo, true);
@@ -17984,6 +18038,520 @@ __webpack_require__.r(__webpack_exports__);
             });
             if (error.response.data.errors.isi != null) globe.$toasted.global.showError({
               message: error.response.data.errors.isi[0]
+            });
+          }
+        }
+      });
+    },
+    signOut: function signOut() {
+      var globe = this;
+      this.pageActive = false;
+      this.currentPage = false;
+      setTimeout(function () {
+        globe.$inertia.replace('/logoutAsisten');
+      }, 1010);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Plotting.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['comingFrom', 'currentUser', 'position', 'userRole', 'allJaga', 'allKelas', 'allAsisten'],
+  data: function data() {
+    return {
+      pageActive: true,
+      isMenuShown: false,
+      changePage: false,
+      currentPage: false,
+      formHovered: false,
+      buttonHovered: false,
+      plottingMenuShown: true,
+      menuProfil: false,
+      menuPraktikum: false,
+      menuListTp: false,
+      menuHistory: false,
+      menuPolling: false,
+      menuSoal: false,
+      menuKelas: false,
+      menuModul: false,
+      listAllJaga: this.allJaga == null ? [] : this.allJaga,
+      formJaga: {
+        id: '',
+        asisten_id: '',
+        kelas_id: ''
+      }
+    };
+  },
+  mounted: function mounted() {
+    $('body').addClass('closed');
+    this.$refs.menu.scrollTop = this.position;
+    var globe = this;
+
+    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'praktikum' || this.comingFrom == 'modul') {
+      setTimeout(function () {
+        globe.currentPage = true;
+      }, 10);
+    }
+  },
+  methods: {
+    setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
+      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo == "soal") this.menuSoal = $bool;
+      if ($whereTo == "listTp") this.menuListTp = $bool;
+      if ($whereTo == "history") this.menuHistory = $bool;
+      if ($whereTo == "polling") this.menuPolling = $bool;
+      if ($whereTo == "asisten") this.menuProfil = $bool;
+      if ($whereTo == "kelas") this.menuKelas = $bool;
+      if ($whereTo == "modul") this.menuModul = $bool;
+    },
+    openMoreMenu: function openMoreMenu($id) {
+      $(".moreMenu-" + $id).removeClass("opacity-0");
+      $(".moreMenu-" + $id).addClass("opacity-100");
+    },
+    closeMoreMenu: function closeMoreMenu($id) {
+      $(".moreMenu-" + $id).addClass("opacity-0");
+      $(".moreMenu-" + $id).removeClass("opacity-100");
+    },
+    travel: function travel($whereTo) {
+      this.setCurrentMenu($whereTo, true);
+      this.changePage = true;
+      var globe = this;
+      this.currentPage = false;
+      setTimeout(function () {
+        globe.$inertia.replace('/' + $whereTo + '?comingFrom=plotting&position=' + globe.$refs.menu.scrollTop);
+      }, 501);
+    },
+    deleteJadwalJaga: function deleteJadwalJaga() {
+      var _this = this;
+
+      var globe = this;
+
+      if (this.formJaga.asisten_id == null || this.formJaga.kelas_id == null) {
+        globe.$toasted.global.showError({
+          message: "Pilih asisten & kelas terlebih dahulu"
+        });
+      }
+
+      this.$axios.post('/deleteJadwalJaga', this.formJaga).then(function (response) {
+        if (response.data.message == "success") {
+          globe.$toasted.global.showSuccess({
+            message: "Jadwal Jaga berhasil dihapus"
+          });
+          var i;
+
+          for (i = 0; i < globe.listAllJaga.length; i++) {
+            if (globe.listAllJaga[i].asisten_id == _this.formJaga.asisten_id && globe.listAllJaga[i].kelas_id == _this.formJaga.kelas_id) {
+              break;
+            }
+          }
+
+          globe.listAllJaga.splice(i, 1);
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      })["catch"](function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          if (error.response.data.errors != null) {
+            if (error.response.data.errors.hari != null) globe.$toasted.global.showError({
+              message: error.response.data.errors.hari[0]
+            });
+            if (error.response.data.errors.shift != null) globe.$toasted.global.showError({
+              message: error.response.data.errors.shift[0]
+            });
+            if (error.response.data.errors.asisten_id != null) globe.$toasted.global.showError({
+              message: error.response.data.errors.asisten_id[0]
+            });
+          }
+        }
+      });
+    },
+    createJadwalJaga: function createJadwalJaga() {
+      var globe = this;
+      this.$axios.post('/createJadwalJaga', this.formJaga).then(function (response) {
+        if (response.data.message == "success") {
+          $("#jagaForm")[0].reset();
+          globe.$toasted.global.showSuccess({
+            message: "Jadwal Jaga berhasil ditambahkan"
+          });
+          var kode;
+          globe.allAsisten.forEach(function (element) {
+            if (element.id == globe.formJaga.asisten_id) kode = element.kode;
+          });
+          var kelas, hari, shift;
+          globe.allKelas.forEach(function (element) {
+            if (element.id == globe.formJaga.kelas_id) {
+              kelas = element.kelas;
+              hari = element.hari;
+              shift = element.shift;
+            }
+          });
+          globe.listAllJaga.push({
+            id: response.data.id,
+            kelas_id: globe.formJaga.kelas_id,
+            asisten_id: globe.formJaga.asisten_id,
+            kode: kode,
+            kelas: kelas,
+            hari: hari,
+            shift: shift
+          });
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      })["catch"](function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          if (error.response.data.errors != null) {
+            if (error.response.data.errors.hari != null) globe.$toasted.global.showError({
+              message: error.response.data.errors.hari[0]
+            });
+            if (error.response.data.errors.shift != null) globe.$toasted.global.showError({
+              message: error.response.data.errors.shift[0]
+            });
+            if (error.response.data.errors.asisten_id != null) globe.$toasted.global.showError({
+              message: error.response.data.errors.asisten_id[0]
             });
           }
         }
@@ -18374,6 +18942,456 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Praktikum.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['comingFrom', 'currentUser', 'position', 'userRole', 'allKelas', 'allModul'],
+  data: function data() {
+    return {
+      pageActive: true,
+      isMenuShown: false,
+      changePage: false,
+      currentPage: false,
+      formHovered: false,
+      buttonHovered: false,
+      menuProfil: false,
+      menuListTp: false,
+      menuHistory: false,
+      menuPolling: false,
+      menuSoal: false,
+      menuKelas: false,
+      menuModul: false,
+      menuPlotting: false,
+      listAllAsisten: [],
+      listAllPraktikan: [],
+      oldKelasID: '',
+      chosenKelasID: '',
+      chosenModulID: '',
+      praktikanComplete: '',
+      praktikanLeft: ''
+    };
+  },
+  mounted: function mounted() {
+    $('body').addClass('closed');
+    this.$refs.menu.scrollTop = this.position;
+    var globe = this;
+
+    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'plotting' || this.comingFrom == 'modul') {
+      setTimeout(function () {
+        globe.currentPage = true;
+      }, 10);
+    }
+  },
+  methods: {
+    setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
+      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo == "soal") this.menuSoal = $bool;
+      if ($whereTo == "listTp") this.menuListTp = $bool;
+      if ($whereTo == "history") this.menuHistory = $bool;
+      if ($whereTo == "polling") this.menuPolling = $bool;
+      if ($whereTo == "asisten") this.menuProfil = $bool;
+      if ($whereTo == "kelas") this.menuKelas = $bool;
+      if ($whereTo == "modul") this.menuModul = $bool;
+      if ($whereTo == "plotting") this.menuPlotting = $bool;
+    },
+    travel: function travel($whereTo) {
+      this.setCurrentMenu($whereTo, true);
+      this.changePage = true;
+      var globe = this;
+      this.currentPage = false;
+      setTimeout(function () {
+        globe.$inertia.replace('/' + $whereTo + '?comingFrom=praktikum&position=' + globe.$refs.menu.scrollTop);
+      }, 501);
+    },
+    shuffleEmAll: function shuffleEmAll() {
+      var globe = this;
+
+      if (this.chosenKelasID == "") {
+        globe.$toasted.global.showError({
+          message: "Pilih kelas terlebih dahulu"
+        });
+        return;
+      }
+
+      if (this.listAllAsisten == "") {
+        globe.$toasted.global.showError({
+          message: "Tidak terdapat asisten di kelas ini"
+        });
+        return;
+      }
+
+      if (this.listAllPraktikan == "") {
+        globe.$toasted.global.showError({
+          message: "Tidak terdapat praktikan di kelas ini"
+        });
+        return;
+      }
+
+      for (var i = this.listAllAsisten.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var _ref = [this.listAllAsisten[j], this.listAllAsisten[i]];
+        this.listAllAsisten[i] = _ref[0];
+        this.listAllAsisten[j] = _ref[1];
+      }
+
+      for (var _i = this.listAllPraktikan.length - 1; _i > 0; _i--) {
+        var _j = Math.floor(Math.random() * (_i + 1));
+
+        var _ref2 = [this.listAllPraktikan[_j], this.listAllPraktikan[_i]];
+        this.listAllPraktikan[_i] = _ref2[0];
+        this.listAllPraktikan[_j] = _ref2[1];
+      }
+    },
+    getAllAsistenPraktikan: function getAllAsistenPraktikan() {
+      var globe = this;
+      if (this.chosenKelasID == "" || this.chosenKelasID == this.oldKelasID) return;
+      this.oldKelasID = this.chosenKelasID;
+      this.$axios.post('/readDataKelas/' + this.chosenKelasID).then(function (response) {
+        if (response.data.message == "success") {
+          globe.listAllAsisten = response.data.all_asisten;
+          globe.listAllPraktikan = response.data.all_praktikan;
+          globe.praktikanLeft = response.data.all_praktikan.length % response.data.all_asisten.length;
+          globe.praktikanComplete = parseInt(response.data.all_praktikan.length / response.data.all_asisten.length);
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      })["catch"](function (error) {
+        if (error.response) {
+          globe.$toasted.global.showError({
+            message: error.response.data
+          });
+        }
+      });
+    },
+    signOut: function signOut() {
+      var globe = this;
+      this.pageActive = false;
+      this.currentPage = false;
+      setTimeout(function () {
+        globe.$inertia.replace('/logoutAsisten');
+      }, 1010);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Soal.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Soal.vue?vue&type=script&lang=js& ***!
@@ -18383,6 +19401,22 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -19175,6 +20209,7 @@ __webpack_require__.r(__webpack_exports__);
       menuPolling: false,
       menuKelas: false,
       menuModul: false,
+      menuPlotting: false,
       // Form for TA and TK
       formTATK: {
         id: '',
@@ -19213,7 +20248,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'modul') {
+    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'modul' || this.comingFrom == 'plotting' || this.comingFrom == 'praktikum') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -19228,6 +20263,7 @@ __webpack_require__.r(__webpack_exports__);
       if ($whereTo == "polling") this.menuPolling = $bool;
       if ($whereTo == "kelas") this.menuKelas = $bool;
       if ($whereTo == "modul") this.menuModul = $bool;
+      if ($whereTo == "plotting") this.menuPlotting = $bool;
     },
     deleteSoal: function deleteSoal($id) {
       var globe = this;
@@ -20450,6 +21486,25 @@ exports.push([module.i, ".modul-list-enter, .modul-list-leave-to{\n  opacity: 0;
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".plotting-list-enter, .plotting-list-leave-to{\n  opacity: 0;\n  -webkit-transform: translateY(100%);\n          transform: translateY(100%);\n}\n.plotting-list-leave-active {\n  position: absolute;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikan.vue?vue&type=style&index=0&lang=css&":
 /*!**********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Praktikan.vue?vue&type=style&index=0&lang=css& ***!
@@ -20463,6 +21518,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, ".youngYellowIcon {\n  color: #faf089;\n}\n.iconGreenHover {\n  color: #c6f6d5;\n}\n.iconGreenHover:hover {\n  color: #48bb78;\n}\n.iconYellowHover {\n  color: #d69e2e;\n}\n.iconYellowHover:hover{\n  color: #faf089;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".asisten-list-enter, .asisten-list-leave-to{\n  opacity: 0;\n  -webkit-transform: translateY(100%);\n          transform: translateY(100%);\n}\n.asisten-list-leave-active {\n  position: absolute;\n}\n", ""]);
 
 // exports
 
@@ -34351,6 +35425,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Plotting.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikan.vue?vue&type=style&index=0&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Praktikan.vue?vue&type=style&index=0&lang=css& ***!
@@ -34360,6 +35464,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Praktikan.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikan.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Praktikum.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -35323,8 +36457,11 @@ var render = function() {
           staticClass:
             "absolute z-10 bottom-0 flex h-48full w-4full rounded-tl-large bg-yellow-500 animation-enable",
           class: [
-            { "right-0": _vm.pageActive },
-            { "right-minFull": !_vm.pageActive || _vm.changePage }
+            { "right-0": _vm.pageActive && !_vm.isMessageShown },
+            {
+              "right-minFull":
+                !_vm.pageActive || _vm.changePage || _vm.isMessageShown
+            }
           ]
         },
         [
@@ -35432,7 +36569,7 @@ var render = function() {
               staticClass: "w-full h-full animation-enable overflow-y-auto",
               class: [
                 { "rounded-none": !_vm.changePage },
-                { "rounded-tl-large": _vm.changePage }
+                { "rounded-tl-large": _vm.changePage || _vm.isMessageShown }
               ]
             },
             [
@@ -35460,7 +36597,40 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(1),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuPraktikum
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuPraktikum
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("praktikum")
+                    }
+                  }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Praktikum\n        ")]
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
@@ -35547,6 +36717,41 @@ var render = function() {
                         class: [
                           {
                             "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuPlotting
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuPlotting
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("plotting")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Plotting\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
                               !_vm.changePage || !_vm.menuModul
                           },
                           {
@@ -35561,7 +36766,7 @@ var render = function() {
                         }
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c(
                           "span",
@@ -35743,7 +36948,7 @@ var render = function() {
               staticClass:
                 "absolute top-0 left-0 w-full pr-16 animation-enable",
               class: [
-                { "h-48full": _vm.isMessageShown },
+                { "h-16full": _vm.isMessageShown },
                 { "h-16": !_vm.isMessageShown },
                 { "top-0": _vm.pageActive },
                 { "top-minFull": !_vm.pageActive || _vm.changePage }
@@ -35763,7 +36968,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer",
+                        "w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto",
                       on: { click: _vm.openMessage }
                     },
                     [
@@ -35807,7 +37012,7 @@ var render = function() {
             {
               staticClass: "absolute top-0 left-0 w-full z-30 animation-enable",
               class: [
-                { "h-48full pr-16": _vm.isMessageShown },
+                { "h-16full pr-16": _vm.isMessageShown },
                 { "h-16 pr-32": !_vm.isMessageShown },
                 { "top-0": _vm.pageActive },
                 { "top-minFull": !_vm.pageActive || _vm.changePage }
@@ -36006,31 +37211,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
-      },
-      [
-        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
-          _c("div", { staticClass: "w-4/6" }),
-          _vm._v(" "),
-          _c("img", {
-            staticClass: "select-none m-auto w-2/6 h-auto fas fa-code"
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass:
-              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
-          },
-          [_vm._v("\n          Praktikum\n        ")]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-code" })
+    ])
   },
   function() {
     var _vm = this
@@ -36143,6 +37328,18 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("img", {
         staticClass: "select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-calendar-alt"
       })
     ])
   },
@@ -36546,7 +37743,40 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(1),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuPraktikum
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuPraktikum
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("praktikum")
+                    }
+                  }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Praktikum\n        ")]
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
@@ -36622,6 +37852,41 @@ var render = function() {
                         class: [
                           {
                             "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuPlotting
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuPlotting
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("plotting")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Plotting\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
                               !_vm.changePage || !_vm.menuModul
                           },
                           {
@@ -36636,7 +37901,7 @@ var render = function() {
                         }
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c(
                           "span",
@@ -37176,7 +38441,7 @@ var render = function() {
                           click: _vm.createKelas
                         }
                       },
-                      [_vm._m(8)]
+                      [_vm._m(9)]
                     ),
                     _vm._v(" "),
                     _c(
@@ -37196,7 +38461,7 @@ var render = function() {
                           click: _vm.deleteKelas
                         }
                       },
-                      [_vm._m(9)]
+                      [_vm._m(10)]
                     ),
                     _vm._v(" "),
                     _c(
@@ -37216,7 +38481,7 @@ var render = function() {
                           click: _vm.updateKelas
                         }
                       },
-                      [_vm._m(10)]
+                      [_vm._m(11)]
                     ),
                     _vm._v(" "),
                     _c("div", { staticClass: "w-3/12 h-full" })
@@ -37247,31 +38512,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
-      },
-      [
-        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
-          _c("div", { staticClass: "w-4/6" }),
-          _vm._v(" "),
-          _c("img", {
-            staticClass: "select-none m-auto w-2/6 h-auto fas fa-code"
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass:
-              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
-          },
-          [_vm._v("\n          Praktikum\n        ")]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-code" })
+    ])
   },
   function() {
     var _vm = this
@@ -37384,6 +38629,18 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("img", {
         staticClass: "select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-calendar-alt"
       })
     ])
   },
@@ -39087,7 +40344,40 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(1),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuPraktikum
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuPraktikum
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("praktikum")
+                    }
+                  }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Praktikum\n        ")]
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
@@ -39170,6 +40460,41 @@ var render = function() {
                       "div",
                       {
                         staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuPlotting
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuPlotting
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("plotting")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Plotting\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
                           "w-full p-4 h-24 flex select-none animation-enable",
                         class: [
                           { "bg-yellow-500 text-white": !_vm.changePage },
@@ -39177,7 +40502,7 @@ var render = function() {
                         ]
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c(
                           "span",
@@ -39989,31 +41314,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
-      },
-      [
-        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
-          _c("div", { staticClass: "w-4/6" }),
-          _vm._v(" "),
-          _c("img", {
-            staticClass: "select-none m-auto w-2/6 h-auto fas fa-code"
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass:
-              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
-          },
-          [_vm._v("\n          Praktikum\n        ")]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-code" })
+    ])
   },
   function() {
     var _vm = this
@@ -40136,8 +41441,1122 @@ var staticRenderFns = [
     return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
       _c("div", { staticClass: "w-4/6" }),
       _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-calendar-alt"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
       _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-book" })
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=template&id=4e35e310&":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Plotting.vue?vue&type=template&id=4e35e310& ***!
+  \******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "main_container bg-green-900 w-full h-full overflow-hidden"
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable",
+          class: [
+            { "right-0": _vm.pageActive },
+            { "right-min20rem": !_vm.pageActive }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = false
+            }
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              ref: "menu",
+              staticClass: "w-full h-full animation-enable overflow-y-auto",
+              class: [
+                { "rounded-none": _vm.changePage && _vm.menuProfil },
+                { "rounded-tl-large": !_vm.changePage || !_vm.menuProfil }
+              ]
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuProfil
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuProfil
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("asisten")
+                    }
+                  }
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Profil\n        ")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuPraktikum
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuPraktikum
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("praktikum")
+                    }
+                  }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Praktikum\n        ")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuSoal
+                    },
+                    {
+                      "bg-yellow-500 text-white": _vm.changePage && _vm.menuSoal
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("soal")
+                    }
+                  }
+                },
+                [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Soal\n        ")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._m(5),
+              _vm._v(" "),
+              _vm.currentUser.role_id == 2
+                ? _c("div", [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuKelas
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuKelas
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("kelas")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Kelas\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none animation-enable",
+                        class: [
+                          { "bg-yellow-500 text-white": !_vm.changePage },
+                          { "bg-yellow-400 text-black": _vm.changePage }
+                        ]
+                      },
+                      [
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Plotting\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuModul
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuModul
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("modul")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(8),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Modul\n          ")]
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "w-72 bg-gray-200 absolute top-0 mr-6 mt-4 h-40 rounded-lg flex-row animation-enable",
+          class: [
+            { hidden: !_vm.isMenuShown },
+            { visible: _vm.isMenuShown },
+            { "right-min20rem": !_vm.pageActive },
+            { "right-0": _vm.pageActive }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = true
+            },
+            mouseleave: function($event) {
+              _vm.isMenuShown = false
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "w-full h-3/4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-full h-1/4 flex" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "rounded-b-lg bg-gray-400 flex hover:bg-gray-500 w-full h-full cursor-pointer",
+                on: { click: _vm.signOut }
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "m-auto font-monda-bold text-lg text-right w-full"
+                  },
+                  [_vm._v("\n            Logout\n          ")]
+                ),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass:
+                    "select-none p-3 h-full w-auto mr-20 m-auto fas fa-sign-out-alt"
+                })
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "absolute top-0 w-120 flex animation-enable",
+          class: [
+            { "right-0": _vm.pageActive },
+            { "right-min20rem": !_vm.pageActive },
+            { "h-48": !_vm.isMenuShown },
+            { "h-36": _vm.isMenuShown }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = true
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "w-auto m-auto h-full flex" }, [
+            _c("div", { staticClass: "w-24 h-full flex mr-4" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "flex w-24 h-24 m-auto rounded-full",
+                  class: [
+                    { "bg-green-400": !_vm.isMenuShown },
+                    { "bg-green-600": _vm.isMenuShown }
+                  ]
+                },
+                [
+                  _c("img", {
+                    staticClass:
+                      "select-none w-20 h-20 m-auto rounded-full bg-white",
+                    attrs: { src: "/assets/daskom.svg", alt: "daskom logo" }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "w-auto h-full flex-row ml-4 cursor-default" },
+              [
+                _c("div", { staticClass: "h-3/5 w-full flex" }, [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "select-none3 font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest",
+                      class: [
+                        { "text-black": _vm.isMenuShown },
+                        { "text-white ": !_vm.isMenuShown }
+                      ]
+                    },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.currentUser.kode) +
+                          "\n          "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "h-2/5 text-xl w-full text-left -mt-2" },
+                  [
+                    _c(
+                      "span",
+                      {
+                        staticClass:
+                          "selec-none font-overpass-thin font-semibold capitalize",
+                        class: [
+                          { "text-black": _vm.isMenuShown },
+                          { "text-white ": !_vm.isMenuShown }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "\n            [ " +
+                            _vm._s(_vm.userRole) +
+                            " ]\n          "
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "relative top-0 h-full w-120full flex animation-enable",
+          class: [
+            { "top-0": _vm.currentPage },
+            { "top-minFull": !_vm.currentPage }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = false
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "w-full h-full px-8 py-4" }, [
+            _c(
+              "div",
+              {
+                directives: [{ name: "bar", rawName: "v-bar" }],
+                staticClass: "w-full h-full"
+              },
+              [
+                _c(
+                  "div",
+                  [
+                    _c(
+                      "transition-group",
+                      {
+                        staticClass: "flex-wrap flex w-full h-auto",
+                        attrs: { name: "plotting-list", tag: "div" }
+                      },
+                      _vm._l(_vm.listAllJaga, function(plotting) {
+                        return _c(
+                          "div",
+                          {
+                            key: plotting.id,
+                            staticClass:
+                              "animation-enable relative w-1/3 h-24 flex py-2 px-4 bg",
+                            on: {
+                              mouseover: function($event) {
+                                return _vm.openMoreMenu(plotting.id)
+                              },
+                              mouseleave: function($event) {
+                                return _vm.closeMoreMenu(plotting.id)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "w-full h-full flex" }, [
+                              _c("div", { staticClass: "w-2/5 h-full" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full h-full bg-gray-300 items-center flex rounded-l-large"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "w-auto h-auto font-overpass-bold text-5xl pt-2 text-green-600 text-center m-auto"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                      " +
+                                            _vm._s(plotting.kode) +
+                                            "\n                    "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-3/5 h-full" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full h-full bg-gray-400 items-center flex rounded-r-large"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "w-auto h-auto font-overpass-bold text-3xl text-green-600 text-center m-auto"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                      " +
+                                            _vm._s(plotting.kelas) +
+                                            "\n                    "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "w-full h-full absolute flex" },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "w-full h-full pb-4 pr-8 flex"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "w-full h-full animation-enable-short cursor-pointer opacity-0 flex",
+                                        class: "moreMenu-" + plotting.id,
+                                        on: {
+                                          click: function($event) {
+                                            _vm.formJaga = plotting
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "w-3/4 h-full flex rounded-l-large bg-yellow-400"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                        " +
+                                                    _vm._s(plotting.hari) +
+                                                    "\n                      "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "w-1/4 h-full flex rounded-r-large bg-yellow-500"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                        " +
+                                                    _vm._s(plotting.shift) +
+                                                    "\n                      "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ],
+                  1
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "absolute m-8 bottom-0 w-1/2 h-48 flex animation-enable",
+              class: [
+                { "left-0": _vm.currentPage && _vm.plottingMenuShown },
+                { "left-minFull": !_vm.currentPage || !_vm.plottingMenuShown }
+              ]
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-16full h-full flex bg-gray-400 rounded-l-lg animation-enable-short",
+                  class: [
+                    { "opacity-100": _vm.formHovered || _vm.buttonHovered },
+                    { "opacity-25": !_vm.formHovered && !_vm.buttonHovered }
+                  ]
+                },
+                [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "w-full h-full flex-row",
+                      attrs: { id: "jagaForm" },
+                      on: {
+                        mouseover: function($event) {
+                          _vm.formHovered = true
+                        },
+                        mouseleave: function($event) {
+                          _vm.formHovered = false
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "w-full h-1/2 flex" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "w-full px-4 pt-2 pb-2 h-full flex-row"
+                          },
+                          [
+                            _vm._m(9),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "w-full h-2/3" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.formJaga.asisten_id,
+                                      expression: "formJaga.asisten_id"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                  attrs: { id: "grid-state" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.formJaga,
+                                        "asisten_id",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.allAsisten, function(asisten) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: asisten.id,
+                                      domProps: { value: asisten.id }
+                                    },
+                                    [_vm._v(_vm._s(asisten.kode))]
+                                  )
+                                }),
+                                0
+                              )
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full h-1/2 flex" }, [
+                        _c(
+                          "div",
+                          { staticClass: "w-full px-4 pb-4 h-full flex-row" },
+                          [
+                            _vm._m(10),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "w-full h-2/3" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.formJaga.kelas_id,
+                                      expression: "formJaga.kelas_id"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                  attrs: { id: "grid-state" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.formJaga,
+                                        "kelas_id",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.allKelas, function(kelas) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: kelas.id,
+                                      domProps: { value: kelas.id }
+                                    },
+                                    [_vm._v(_vm._s(kelas.kelas))]
+                                  )
+                                }),
+                                0
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-16 h-full flex bg-gray-600 rounded-r-lg animation-enable-short",
+                  class: [
+                    { "opacity-100": _vm.formHovered || _vm.buttonHovered },
+                    { "opacity-25": !_vm.formHovered && !_vm.buttonHovered }
+                  ],
+                  on: {
+                    mouseover: function($event) {
+                      _vm.buttonHovered = true
+                    },
+                    mouseleave: function($event) {
+                      _vm.buttonHovered = false
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "w-full h-full flex-row" }, [
+                    _c("div", { staticClass: "w-full h-1/2 flex" }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "w-8 h-8 m-auto animation-enable-short text-gray-400 p-0 hover:p-1 cursor-pointer",
+                          on: { click: _vm.createJadwalJaga }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "w-full h-full fas fa-plus"
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-full h-1/2 flex" }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "w-8 h-8 m-auto animation-enable-short text-gray-400 p-0 hover:p-1 cursor-pointer",
+                          on: { click: _vm.deleteJadwalJaga }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "w-full h-full fas fa-trash"
+                          })
+                        ]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "w-1/2 absolute right-0 bottom-0 my-8 pl-8 h-48 animation-enable flex pointer-events-none",
+              class: [
+                {
+                  "opacity-100":
+                    _vm.formHovered ||
+                    _vm.buttonHovered ||
+                    !_vm.plottingMenuShown
+                },
+                {
+                  "opacity-25":
+                    !_vm.formHovered &&
+                    !_vm.buttonHovered &&
+                    _vm.plottingMenuShown
+                },
+                { "w-1/2": _vm.plottingMenuShown },
+                { "w-full": !_vm.plottingMenuShown }
+              ]
+            },
+            [
+              _c("div", { staticClass: "w-16 h-full flex" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "w-12 h-12 p-0 hover:p-1 mr-auto my-auto animation-enable-short pointer-events-auto",
+                    on: {
+                      click: function($event) {
+                        _vm.plottingMenuShown = !_vm.plottingMenuShown
+                      },
+                      mouseover: function($event) {
+                        _vm.formHovered = true
+                      },
+                      mouseleave: function($event) {
+                        _vm.formHovered = false
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "w-full h-full cursor-pointer text-white",
+                        class: [
+                          { visible: _vm.plottingMenuShown },
+                          { hidden: !_vm.plottingMenuShown }
+                        ]
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "w-full h-full fas fa-caret-left"
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "w-full h-full cursor-pointer text-white",
+                        class: [
+                          { visible: !_vm.plottingMenuShown },
+                          { hidden: _vm.plottingMenuShown }
+                        ]
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "w-full h-full fas fa-caret-right"
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-address-card"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-code" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-file-code"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
+      },
+      [
+        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+          _c("div", { staticClass: "w-4/6" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "select-none m-auto w-2/6 h-auto fas fa-list-alt"
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass:
+              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+          },
+          [_vm._v("\n          List TP\n        ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
+      },
+      [
+        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+          _c("div", { staticClass: "w-4/6" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "select-none m-auto w-2/6 h-auto fas fa-history"
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass:
+              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+          },
+          [_vm._v("\n          History\n        ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
+      },
+      [
+        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+          _c("div", { staticClass: "w-4/6" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "select-none m-auto w-2/6 h-auto fas fa-chart-area"
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass:
+              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+          },
+          [_vm._v("\n          Polling\n        ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-calendar-alt"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-book" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "font-merri w-full flex text-left text-gray-700 text-lg h-1/3"
+      },
+      [
+        _c("span", { staticClass: "h-auto my-auto" }, [
+          _vm._v("\n                  Asisten\n                ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "font-merri w-full flex text-left text-gray-700 text-lg h-1/3"
+      },
+      [
+        _c("span", { staticClass: "h-auto my-auto" }, [
+          _vm._v("\n                  Kelas\n                ")
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -40818,6 +43237,1075 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=template&id=33581b29&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Praktikum.vue?vue&type=template&id=33581b29& ***!
+  \*******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "main_container bg-green-900 w-full h-full overflow-hidden"
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable",
+          class: [
+            { "right-0": _vm.pageActive },
+            { "right-min20rem": !_vm.pageActive }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = false
+            }
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              ref: "menu",
+              staticClass: "w-full h-full animation-enable overflow-y-auto",
+              class: [
+                { "rounded-none": _vm.changePage && _vm.menuProfil },
+                { "rounded-tl-large": !_vm.changePage || !_vm.menuProfil }
+              ]
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuProfil
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuProfil
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("asisten")
+                    }
+                  }
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Profil\n        ")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none animation-enable",
+                  class: [
+                    { "bg-yellow-500 text-white": !_vm.changePage },
+                    { "bg-yellow-400 text-black": _vm.changePage }
+                  ]
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Praktikum\n        ")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuSoal
+                    },
+                    {
+                      "bg-yellow-500 text-white": _vm.changePage && _vm.menuSoal
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("soal")
+                    }
+                  }
+                },
+                [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Soal\n        ")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._m(5),
+              _vm._v(" "),
+              _vm.currentUser.role_id == 2
+                ? _c("div", [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuKelas
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuKelas
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("kelas")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Kelas\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuPlotting
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuPlotting
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("plotting")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Plotting\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuModul
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuModul
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("modul")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(8),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Modul\n          ")]
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "w-72 bg-gray-200 absolute top-0 mr-6 mt-4 h-40 rounded-lg flex-row animation-enable",
+          class: [
+            { hidden: !_vm.isMenuShown },
+            { visible: _vm.isMenuShown },
+            { "right-min20rem": !_vm.pageActive },
+            { "right-0": _vm.pageActive }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = true
+            },
+            mouseleave: function($event) {
+              _vm.isMenuShown = false
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "w-full h-3/4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-full h-1/4 flex" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "rounded-b-lg bg-gray-400 flex hover:bg-gray-500 w-full h-full cursor-pointer",
+                on: { click: _vm.signOut }
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "m-auto font-monda-bold text-lg text-right w-full"
+                  },
+                  [_vm._v("\n            Logout\n          ")]
+                ),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass:
+                    "select-none p-3 h-full w-auto mr-20 m-auto fas fa-sign-out-alt"
+                })
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "absolute top-0 w-120 flex animation-enable",
+          class: [
+            { "right-0": _vm.pageActive },
+            { "right-min20rem": !_vm.pageActive },
+            { "h-48": !_vm.isMenuShown },
+            { "h-36": _vm.isMenuShown }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = true
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "w-auto m-auto h-full flex" }, [
+            _c("div", { staticClass: "w-24 h-full flex mr-4" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "flex w-24 h-24 m-auto rounded-full",
+                  class: [
+                    { "bg-green-400": !_vm.isMenuShown },
+                    { "bg-green-600": _vm.isMenuShown }
+                  ]
+                },
+                [
+                  _c("img", {
+                    staticClass:
+                      "select-none w-20 h-20 m-auto rounded-full bg-white",
+                    attrs: { src: "/assets/daskom.svg", alt: "daskom logo" }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "w-auto h-full flex-row ml-4 cursor-default" },
+              [
+                _c("div", { staticClass: "h-3/5 w-full flex" }, [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "select-none3 font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest",
+                      class: [
+                        { "text-black": _vm.isMenuShown },
+                        { "text-white ": !_vm.isMenuShown }
+                      ]
+                    },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.currentUser.kode) +
+                          "\n          "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "h-2/5 text-xl w-full text-left -mt-2" },
+                  [
+                    _c(
+                      "span",
+                      {
+                        staticClass:
+                          "selec-none font-overpass-thin font-semibold capitalize",
+                        class: [
+                          { "text-black": _vm.isMenuShown },
+                          { "text-white ": !_vm.isMenuShown }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "\n            [ " +
+                            _vm._s(_vm.userRole) +
+                            " ]\n          "
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "relative h-full w-120full animation-enable",
+          class: [
+            { "left-0": _vm.currentPage },
+            { "left-minFull": !_vm.currentPage }
+          ],
+          on: {
+            mouseover: function($event) {
+              _vm.isMenuShown = false
+            }
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              directives: [{ name: "bar", rawName: "v-bar" }],
+              staticClass: "w-full h-full"
+            },
+            [
+              _c("div", [
+                _c("div", { staticClass: "w-full h-auto p-8" }, [
+                  _c("div", { staticClass: "w-full h-24 flex" }, [
+                    _c("div", { staticClass: "w-1/2 h-full flex-row" }, [
+                      _vm._m(9),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full h-1/2 tatkOption" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.chosenKelasID,
+                                expression: "chosenKelasID"
+                              }
+                            ],
+                            staticClass:
+                              "block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                            attrs: {
+                              onchange: _vm.getAllAsistenPraktikan(),
+                              id: "grid-state"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.chosenKelasID = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          _vm._l(_vm.allKelas, function(kelas) {
+                            return _c(
+                              "option",
+                              { key: kelas.id, domProps: { value: kelas.id } },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(kelas.kelas) +
+                                    " [ " +
+                                    _vm._s(kelas.hari) +
+                                    " - Shift " +
+                                    _vm._s(kelas.shift) +
+                                    " ]\n                  "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-1/2 pl-8 h-full flex-row" }, [
+                      _vm._m(10),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full h-1/2 tatkOption" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.chosenModulID,
+                                expression: "chosenModulID"
+                              }
+                            ],
+                            staticClass:
+                              "block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                            attrs: { id: "grid-state" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.chosenModulID = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          _vm._l(_vm.allModul, function(modul) {
+                            return _c(
+                              "option",
+                              { key: modul.id, domProps: { value: modul.id } },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(modul.judul) +
+                                    "\n                  "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-full h-auto mt-4 flex rounded-lg bg-gray-300"
+                    },
+                    [
+                      _vm.listAllAsisten.length > 0 &&
+                      _vm.listAllPraktikan.length > 0
+                        ? _c("div", { staticClass: "w-full h-auto flex" }, [
+                            _c(
+                              "div",
+                              { staticClass: "w-1/3 h-auto flex-row" },
+                              [
+                                _c(
+                                  "transition-group",
+                                  {
+                                    attrs: { name: "asisten-list", tag: "div" }
+                                  },
+                                  _vm._l(_vm.listAllAsisten, function(
+                                    asisten,
+                                    index
+                                  ) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: asisten.id,
+                                        staticClass:
+                                          "animation-enable w-full flex-row",
+                                        class: [
+                                          "h-" +
+                                            12 *
+                                              (_vm.praktikanComplete +
+                                                (_vm.praktikanLeft -
+                                                  (index + 1) >=
+                                                0
+                                                  ? 1
+                                                  : 0)),
+                                          {
+                                            "bg-gray-300 text-black":
+                                              index % 2 == 0
+                                          },
+                                          {
+                                            "bg-gray-600 text-white":
+                                              index % 2 != 0
+                                          },
+                                          { "rounded-tl-lg": index == 0 },
+                                          {
+                                            "rounded-bl-lg":
+                                              index + 1 ==
+                                              _vm.listAllAsisten.length
+                                          }
+                                        ]
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "w-full h-1/2 flex" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "mx-auto mt-auto font-overpass-bold pt-8 text-4xl"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                        " +
+                                                    _vm._s(asisten.kode) +
+                                                    "\n                      "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "w-full flex" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "mx-auto mb-auto font-merri text-2xl"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                        " +
+                                                    _vm._s(index) +
+                                                    "\n                      "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "w-2/3 h-auto flex-row" },
+                              [
+                                _c(
+                                  "transition-group",
+                                  {
+                                    attrs: { name: "asisten-list", tag: "div" }
+                                  },
+                                  _vm._l(_vm.listAllPraktikan, function(
+                                    praktikan,
+                                    index
+                                  ) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: praktikan.id,
+                                        staticClass:
+                                          "animation-enable w-full h-12 flex-row"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "w-full h-full flex",
+                                            class: [
+                                              { "rounded-tr-lg": index == 0 },
+                                              {
+                                                "rounded-br-lg":
+                                                  index ==
+                                                  _vm.listAllPraktikan.length -
+                                                    1
+                                              },
+                                              {
+                                                "bg-gray-600 text-white":
+                                                  parseInt(
+                                                    (_vm.praktikanLeft -
+                                                      index /
+                                                        (_vm.praktikanComplete +
+                                                          1) >
+                                                    0
+                                                      ? index
+                                                      : index +
+                                                        (_vm.praktikanComplete -
+                                                          _vm.praktikanLeft)) /
+                                                      (_vm.praktikanLeft -
+                                                        index /
+                                                          (_vm.praktikanComplete +
+                                                            1) >
+                                                      0
+                                                        ? _vm.praktikanComplete +
+                                                          1
+                                                        : _vm.praktikanComplete)
+                                                  ) %
+                                                    2 ==
+                                                  (_vm.praktikanLeft -
+                                                    index /
+                                                      (_vm.praktikanComplete +
+                                                        1) >
+                                                  0
+                                                    ? 0
+                                                    : (_vm.praktikanLeft % 2 ==
+                                                        1 &&
+                                                        _vm.praktikanLeft <
+                                                          _vm.praktikanComplete) ||
+                                                      _vm.praktikanLeft ==
+                                                        _vm.praktikanComplete
+                                                    ? 0
+                                                    : 1)
+                                              }
+                                            ]
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "m-auto font-monda text-2xl whitespace-pre-wrap"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    praktikan.nim.substring(
+                                                      0,
+                                                      6
+                                                    )
+                                                  ) +
+                                                    "   " +
+                                                    _vm._s(
+                                                      praktikan.nim.substring(
+                                                        6,
+                                                        10
+                                                      )
+                                                    )
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.listAllPraktikan < 1
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
+                            },
+                            [
+                              _vm._v(
+                                "\n              Tidak ada PRAKTIKAN di kelas ini\n            "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.listAllAsisten.length < 1 &&
+                      _vm.listAllPraktikan.length < 1
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "w-auto m-auto h-24 items-center font-merri-bold text-4xl flex"
+                            },
+                            [_vm._v("\n              &\n            ")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.listAllAsisten < 1
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
+                            },
+                            [
+                              _vm._v(
+                                "\n              Tidak ada ASISTEN di kelas ini\n            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-full h-24 mt-4 flex" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer",
+                        on: {
+                          click: function($event) {
+                            return _vm.shuffleEmAll()
+                          }
+                        }
+                      },
+                      [_vm._m(11)]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(12)
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-address-card"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-code" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-file-code"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
+      },
+      [
+        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+          _c("div", { staticClass: "w-4/6" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "select-none m-auto w-2/6 h-auto fas fa-list-alt"
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass:
+              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+          },
+          [_vm._v("\n          List TP\n        ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
+      },
+      [
+        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+          _c("div", { staticClass: "w-4/6" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "select-none m-auto w-2/6 h-auto fas fa-history"
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass:
+              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+          },
+          [_vm._v("\n          History\n        ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
+      },
+      [
+        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+          _c("div", { staticClass: "w-4/6" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "select-none m-auto w-2/6 h-auto fas fa-chart-area"
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass:
+              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+          },
+          [_vm._v("\n          Polling\n        ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-calendar-alt"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-book" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3"
+      },
+      [
+        _c("span", { staticClass: "h-auto my-auto" }, [
+          _vm._v("\n                  Kelas\n                ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3"
+      },
+      [
+        _c("span", { staticClass: "h-auto my-auto" }, [
+          _vm._v("\n                  Modul\n                ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full"
+      },
+      [
+        _c("div", { staticClass: "w-auto h-auto m-auto" }, [
+          _vm._v("\n                  SHUFFLE\n                ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full"
+          },
+          [
+            _c("div", { staticClass: "w-auto h-auto m-auto" }, [
+              _vm._v("\n                  START\n                ")
+            ])
+          ]
+        )
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Soal.vue?vue&type=template&id=660d61a0&":
 /*!**************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Soal.vue?vue&type=template&id=660d61a0& ***!
@@ -40901,7 +44389,40 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(1),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                  class: [
+                    {
+                      "bg-yellow-400 hover:bg-yellow-600":
+                        !_vm.changePage || !_vm.menuPraktikum
+                    },
+                    {
+                      "bg-yellow-500 text-white":
+                        _vm.changePage && _vm.menuPraktikum
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.travel("praktikum")
+                    }
+                  }
+                },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                    },
+                    [_vm._v("\n          Praktikum\n        ")]
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
@@ -40978,6 +44499,41 @@ var render = function() {
                         class: [
                           {
                             "bg-yellow-400 hover:bg-yellow-600":
+                              !_vm.changePage || !_vm.menuPlotting
+                          },
+                          {
+                            "bg-yellow-500 text-white":
+                              _vm.changePage && _vm.menuPlotting
+                          }
+                        ],
+                        on: {
+                          click: function($event) {
+                            return _vm.travel("plotting")
+                          }
+                        }
+                      },
+                      [
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
+                          },
+                          [_vm._v("\n            Plotting\n          ")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable",
+                        class: [
+                          {
+                            "bg-yellow-400 hover:bg-yellow-600":
                               !_vm.changePage || !_vm.menuModul
                           },
                           {
@@ -40992,7 +44548,7 @@ var render = function() {
                         }
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c(
                           "span",
@@ -41344,7 +44900,7 @@ var render = function() {
                                     {
                                       key: soal.id,
                                       staticClass:
-                                        "animation-enable w-full h-32 mb-4"
+                                        "animation-enable w-full h-48 mb-4"
                                     },
                                     [
                                       _c(
@@ -41577,7 +45133,7 @@ var render = function() {
                                           {
                                             key: soal.id,
                                             staticClass:
-                                              "animation-enable w-full h-48 mb-4"
+                                              "animation-enable w-full h-64 mb-4"
                                           },
                                           [
                                             _c(
@@ -41652,7 +45208,7 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-16full h-full flex"
+                                                      "w-1/2 h-full flex"
                                                   },
                                                   [
                                                     _c(
@@ -41865,7 +45421,7 @@ var render = function() {
                                           {
                                             key: soal.id,
                                             staticClass:
-                                              "animation-enable w-full h-48 mb-4"
+                                              "animation-enable w-full h-64 mb-4"
                                           },
                                           [
                                             _c(
@@ -41940,7 +45496,7 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-16full h-full flex"
+                                                      "w-1/2 h-full flex"
                                                   },
                                                   [
                                                     _c(
@@ -42157,7 +45713,7 @@ var render = function() {
                                           {
                                             key: soal.id,
                                             staticClass:
-                                              "animation-enable w-full h-48 mb-4"
+                                              "animation-enable w-full h-120 mb-4"
                                           },
                                           [
                                             _c(
@@ -42178,7 +45734,7 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex rounded-tl-lg font-merri-bold text-3xl bg-yellow-400"
+                                                          "w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400"
                                                       },
                                                       [
                                                         _c(
@@ -42213,7 +45769,7 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
+                                                          "w-full h-full whitespace-pre-line flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
                                                       },
                                                       [
                                                         _vm._v(
@@ -42359,7 +45915,7 @@ var render = function() {
                                           {
                                             key: soal.id,
                                             staticClass:
-                                              "animation-enable w-full h-48 mb-4"
+                                              "animation-enable w-full h-120 mb-4"
                                           },
                                           [
                                             _c(
@@ -42380,7 +45936,7 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex rounded-tl-lg font-merri-bold text-3xl bg-yellow-400"
+                                                          "w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400"
                                                       },
                                                       [
                                                         _c(
@@ -42559,7 +46115,7 @@ var render = function() {
                                           {
                                             key: soal.id,
                                             staticClass:
-                                              "animation-enable w-full h-48 mb-4"
+                                              "animation-enable w-full h-120 mb-4"
                                           },
                                           [
                                             _c(
@@ -42580,7 +46136,7 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex rounded-tl-lg font-merri-bold text-3xl bg-yellow-400"
+                                                          "w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400"
                                                       },
                                                       [
                                                         _c(
@@ -42794,7 +46350,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(8),
+                                        _vm._m(9),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -42875,7 +46431,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(9),
+                                        _vm._m(10),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -42942,7 +46498,7 @@ var render = function() {
                                           "div",
                                           { staticClass: "w-full h-full" },
                                           [
-                                            _vm._m(10),
+                                            _vm._m(11),
                                             _vm._v(" "),
                                             _c(
                                               "div",
@@ -43004,7 +46560,7 @@ var render = function() {
                                           "div",
                                           { staticClass: "w-full h-full" },
                                           [
-                                            _vm._m(11),
+                                            _vm._m(12),
                                             _vm._v(" "),
                                             _c(
                                               "div",
@@ -43066,7 +46622,7 @@ var render = function() {
                                           "div",
                                           { staticClass: "w-full h-full" },
                                           [
-                                            _vm._m(12),
+                                            _vm._m(13),
                                             _vm._v(" "),
                                             _c(
                                               "div",
@@ -43129,7 +46685,7 @@ var render = function() {
                                           "div",
                                           { staticClass: "w-full h-full" },
                                           [
-                                            _vm._m(13),
+                                            _vm._m(14),
                                             _vm._v(" "),
                                             _c(
                                               "div",
@@ -43226,7 +46782,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(14),
+                                        _vm._m(15),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -43305,7 +46861,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(15),
+                                        _vm._m(16),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -43391,7 +46947,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(16),
+                                        _vm._m(17),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -43475,7 +47031,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(17),
+                                        _vm._m(18),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -43562,7 +47118,7 @@ var render = function() {
                                           "w-full px-2 h-full flex-row"
                                       },
                                       [
-                                        _vm._m(18),
+                                        _vm._m(19),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -43635,7 +47191,7 @@ var render = function() {
                               ],
                               on: { click: _vm.createSoal }
                             },
-                            [_vm._m(19)]
+                            [_vm._m(20)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -43649,7 +47205,7 @@ var render = function() {
                               ],
                               on: { click: _vm.updateSoal }
                             },
-                            [_vm._m(20)]
+                            [_vm._m(21)]
                           )
                         ]
                       )
@@ -43751,31 +47307,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable"
-      },
-      [
-        _c("div", { staticClass: "w-7/12 my-2 flex" }, [
-          _c("div", { staticClass: "w-4/6" }),
-          _vm._v(" "),
-          _c("img", {
-            staticClass: "select-none m-auto w-2/6 h-auto fas fa-code"
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass:
-              "ml-6 font-merri-bold font-medium w-full text-start self-center text-xl"
-          },
-          [_vm._v("\n          Praktikum\n        ")]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-code" })
+    ])
   },
   function() {
     var _vm = this
@@ -43888,6 +47424,18 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("img", {
         staticClass: "select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher"
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-7/12 my-2 flex" }, [
+      _c("div", { staticClass: "w-4/6" }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "select-none m-auto w-2/6 h-auto fas fa-calendar-alt"
       })
     ])
   },
@@ -53816,7 +57364,9 @@ var map = {
 	"./Pages/Kelas.vue": "./resources/js/Pages/Kelas.vue",
 	"./Pages/Login.vue": "./resources/js/Pages/Login.vue",
 	"./Pages/Modul.vue": "./resources/js/Pages/Modul.vue",
+	"./Pages/Plotting.vue": "./resources/js/Pages/Plotting.vue",
 	"./Pages/Praktikan.vue": "./resources/js/Pages/Praktikan.vue",
+	"./Pages/Praktikum.vue": "./resources/js/Pages/Praktikum.vue",
 	"./Pages/Soal.vue": "./resources/js/Pages/Soal.vue",
 	"./Pages/Welcome.vue": "./resources/js/Pages/Welcome.vue"
 };
@@ -54311,6 +57861,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Plotting.vue":
+/*!*****************************************!*\
+  !*** ./resources/js/Pages/Plotting.vue ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Plotting_vue_vue_type_template_id_4e35e310___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Plotting.vue?vue&type=template&id=4e35e310& */ "./resources/js/Pages/Plotting.vue?vue&type=template&id=4e35e310&");
+/* harmony import */ var _Plotting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Plotting.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Plotting.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Plotting.vue?vue&type=style&index=0&lang=css& */ "./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Plotting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Plotting_vue_vue_type_template_id_4e35e310___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Plotting_vue_vue_type_template_id_4e35e310___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Plotting.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Plotting.vue?vue&type=script&lang=js&":
+/*!******************************************************************!*\
+  !*** ./resources/js/Pages/Plotting.vue?vue&type=script&lang=js& ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Plotting.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Plotting.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Plotting.vue?vue&type=template&id=4e35e310&":
+/*!************************************************************************!*\
+  !*** ./resources/js/Pages/Plotting.vue?vue&type=template&id=4e35e310& ***!
+  \************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_template_id_4e35e310___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Plotting.vue?vue&type=template&id=4e35e310& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Plotting.vue?vue&type=template&id=4e35e310&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_template_id_4e35e310___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Plotting_vue_vue_type_template_id_4e35e310___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Praktikan.vue":
 /*!******************************************!*\
   !*** ./resources/js/Pages/Praktikan.vue ***!
@@ -54393,6 +58030,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikan_vue_vue_type_template_id_1145463e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikan_vue_vue_type_template_id_1145463e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Praktikum.vue":
+/*!******************************************!*\
+  !*** ./resources/js/Pages/Praktikum.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Praktikum_vue_vue_type_template_id_33581b29___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Praktikum.vue?vue&type=template&id=33581b29& */ "./resources/js/Pages/Praktikum.vue?vue&type=template&id=33581b29&");
+/* harmony import */ var _Praktikum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Praktikum.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Praktikum.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Praktikum.vue?vue&type=style&index=0&lang=css& */ "./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Praktikum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Praktikum_vue_vue_type_template_id_33581b29___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Praktikum_vue_vue_type_template_id_33581b29___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Praktikum.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Praktikum.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/Pages/Praktikum.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Praktikum.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Praktikum.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Praktikum.vue?vue&type=template&id=33581b29&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Pages/Praktikum.vue?vue&type=template&id=33581b29& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_template_id_33581b29___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Praktikum.vue?vue&type=template&id=33581b29& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Praktikum.vue?vue&type=template&id=33581b29&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_template_id_33581b29___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praktikum_vue_vue_type_template_id_33581b29___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -54619,6 +58343,7 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_f
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faTimes"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faCaretLeft"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faCaretRight"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faCalendarAlt"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_5__["dom"].watch();
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_animejs__WEBPACK_IMPORTED_MODULE_2___default.a);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(inertia_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);

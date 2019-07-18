@@ -5,13 +5,8 @@ use App\Role;
 use App\Kelas;
 use App\Feedback;
 use App\Modul;
-
-use App\Soal_Tp;
-use App\Soal_Ta;
-use App\Soal_Tk;
-use App\Soal_Jurnal;
-use App\Soal_Mandiri;
-use App\Soal_Fitb;
+use App\Jadwal_Jaga;
+use App\Asisten;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -153,6 +148,45 @@ Route::get('/modul', function () {
     ]);
 })->name('modul')->middleware('loggedIn:asisten');
 
+Route::get('/plotting', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $allJaga = DB::table('jadwal__jagas')
+            ->join('asistens', 'jadwal__jagas.asisten_id', '=', 'asistens.id')
+            ->join('kelas', 'jadwal__jagas.kelas_id', '=', 'kelas.id')
+            ->select('jadwal__jagas.*', 'asistens.kode', 'kelas.kelas', 'kelas.hari', 'kelas.shift')->get();
+    $allKelas = Kelas::all();
+    $allAsisten = Asisten::all();
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $position = request('position') == null ? 0:request('position');
+    return Inertia::render('Plotting', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allJaga' => $allJaga,
+        'allKelas' => $allKelas,
+        'allAsisten' => $allAsisten,
+    ]);
+})->name('plotting')->middleware('loggedIn:asisten');
+
+Route::get('/praktikum', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $allKelas = Kelas::all();
+    $allModul = Modul::all();
+    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $position = request('position') == null ? 0:request('position');
+    return Inertia::render('Praktikum', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allKelas' => $allKelas,
+        'allModul' => $allModul,
+    ]);
+})->name('praktikum')->middleware('loggedIn:asisten');
+
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
@@ -196,3 +230,8 @@ Route::post('/updateMandiri', 'SoalMandiriController@update')->name('updateMandi
 Route::post('/createFitb', 'SoalFitbController@store')->name('createFitb')->middleware('loggedIn:asisten');
 Route::post('/deleteFitb/{id}', 'SoalFitbController@destroy')->name('deleteFitb')->middleware('loggedIn:asisten');
 Route::post('/updateFitb', 'SoalFitbController@update')->name('updateFitb')->middleware('loggedIn:asisten');
+
+Route::post('/createJadwalJaga', 'JadwalJagaController@store')->name('createJadwalJaga')->middleware('loggedIn:asisten');
+Route::post('/deleteJadwalJaga', 'JadwalJagaController@destroy')->name('deleteJadwalJaga')->middleware('loggedIn:asisten');
+
+Route::post('/readDataKelas/{kelas_id}', 'KelasController@show')->name('updatePesan')->middleware('loggedIn:asisten');
