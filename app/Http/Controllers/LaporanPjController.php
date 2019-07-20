@@ -35,7 +35,20 @@ class LaporanPjController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Laporan_Pj::create([
+            'allasisten_id' => $request->allasisten_id,
+            'laporan'       => $request->laporan,
+            'hari'          => $request->hari,
+            'shift'         => $request->shift,
+            'modul_id'      => $request->modul_id,
+        ]);
+
+        $id = Laporan_Pj::where('hari', $request->hari)
+            ->where('shift', $request->shift)
+            ->where('modul_id', $request->modul_id)
+            ->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
     /**
@@ -75,11 +88,12 @@ class LaporanPjController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Laporan_Pj  $laporan_Pj
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Laporan_Pj $laporan_Pj)
+    public function destroy($id)
     {
-        //
+        $laporan_Pj = Laporan_Pj::find($id);
+        if($laporan_Pj != null)
+            $laporan_Pj->delete();
     }
 }

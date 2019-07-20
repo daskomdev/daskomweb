@@ -174,3 +174,58 @@ a.constant {
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
   background-color: rgba(216, 206, 61, 0.5);
 }
+
+//TIMER STYLING
+.timer {
+  font-size: 20px;
+  color: #fff;
+  text-align:center;
+  margin-top: 50px;
+
+  .day, .hour, .min, .sec {
+    font-size: 30px;
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 5px;
+    .format {
+      font-weight: 300;
+      font-size: 14px;
+      //@include margin-start(5);
+      //display: inline-block;
+      opacity: 0.8;
+      width: 60px;
+    }
+  }
+  .number{
+    background: rgba(51, 51, 51, 0.53);
+    padding: 0 5px;
+    border-radius: 5px;
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+  }
+  .message {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 5px;
+  }
+  .status-tag{
+    width: 270px;
+    margin: 10px auto;
+    padding: 8px 0;
+    font-weight: 500;
+    color: #000;
+    text-align: center;
+    border-radius: 15px;
+    &.upcoming{
+      background-color: lightGreen;
+    }
+    &.running{
+      background-color: gold;
+    }
+    &.expired{
+      background-color: silver;
+    }
+  }
+}

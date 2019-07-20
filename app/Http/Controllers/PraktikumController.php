@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Praktikum;
+use App\Kelas;
+use App\Modul;
 use Illuminate\Http\Request;
 
 class PraktikumController extends Controller
@@ -10,11 +12,20 @@ class PraktikumController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //THIS IS TO CHECK FOR PRAKTIKUM HISTORY EXISTENCE
+        if(Praktikum::where("modul_id", $request->modul_id)
+            ->where("kelas_id", $request->kelas_id)
+            ->exists())
+            return '{"message": "Praktikum modul'. 
+                        Modul::where("id", $request->modul_id)->judul .
+                    'pada kelas'. Kelas::where("id", $request->kelas_id)->kelas .'sudah SELESAI"}';
+
+        return '{"message": "success"}';
     }
 
     /**

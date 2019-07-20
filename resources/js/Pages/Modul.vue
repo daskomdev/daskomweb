@@ -500,7 +500,6 @@ export default {
 
       this.$axios.post('/updateModul', this.formModul).then(response => {
 
-        console.log(response.data.modul);
         if(response.data.message == "success") {
 
           globe.editing = false;

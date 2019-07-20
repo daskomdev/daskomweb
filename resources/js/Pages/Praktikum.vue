@@ -1,5 +1,8 @@
 <template>
   <div class="main_container bg-green-900 w-full h-full overflow-hidden">
+    
+    <!-- Sound Part -->
+    <div id="sound"></div>
 
     <!-- Main Menu -->
     <div class="absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable"
@@ -172,47 +175,162 @@
     </div>
 
     <!-- Praktikum Layout -->
-    <div class="relative h-full w-120full animation-enable"
+    <div class="relative h-full w-120full relative animation-enable"
         :class="[{ 'left-0': currentPage },
                 { 'left-minFull': !currentPage }]"
         @mouseover="isMenuShown = false;">
-      <div class="w-full h-full" v-bar>
-        <div>
-          <div class="w-full h-auto p-8">
-            <div class="w-full h-24 flex">
-              <div class="w-1/2 h-full flex-row">
-                <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
-                  <span class="h-auto my-auto">
-                    Kelas
-                  </span>
-                </div>
-                <div class="w-full h-1/2 tatkOption">
-                  <select :onchange="getAllAsistenPraktikan()" v-model="chosenKelasID" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                    <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
-                      {{ kelas.kelas }} [ {{ kelas.hari }} - Shift {{ kelas.shift }} ]
-                    </option>
-                  </select>
-                </div>
+
+      <div v-if="statusPraktikum == 5 ||
+                 statusPraktikum == 6"
+          class="w-full h-24full flex absolute bottom-0 pointer-events-none">
+        <div class="w-full h-full flex-row">
+          <div v-if="statusPraktikum == 5" 
+              class="font-overpass-bold text-4xl text-white text-center m-auto">
+            PRAKTIKUM SELESAI <br>
+            Terimakasih atas kehadirannya <br>
+            (Silahkan rating asisten dan praktikumnya  😄 )
+          </div>
+          <div v-if="statusPraktikum == 6" 
+              class="w-3/4 h-1/2">
+            PRAKTIKUM SELESAI <br>
+            Terimakasih atas kehadirannya <br>
+            (Silahkan rating asisten dan praktikumnya  😄 )
+          </div>
+        </div>
+      </div>
+
+      <div v-if="statusPraktikum == 0 ||
+                 statusPraktikum == 1 ||
+                 statusPraktikum == 2 ||
+                 statusPraktikum == 3 ||
+                 statusPraktikum == 4" 
+          class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
+        <div class="w-full h-1/2 flex">
+          <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
+            <span class="font-overpass-bold text-3xl text-center"
+                :class="[{ 'visible': statusPraktikum == 0 },
+                        { 'hidden': statusPraktikum != 0 }]">
+              PRAKTIKUM DASKOM<br>
+              (Klik START untuk memulai TA)
+            </span> 
+            <span class="font-overpass-bold text-9xl " 
+                :class="[{ 'visible': statusPraktikum == 1 },
+                        { 'hidden': statusPraktikum != 1 }]">
+              TA
+            </span> 
+            <span class="font-overpass-bold text-9xl " 
+                :class="[{ 'visible': statusPraktikum == 2 },
+                        { 'hidden': statusPraktikum != 2 }]">
+              JURNAL
+            </span> 
+            <span class="font-overpass-bold text-9xl " 
+                :class="[{ 'visible': statusPraktikum == 3 },
+                        { 'hidden': statusPraktikum != 3 }]">
+              MANDIRI
+            </span> 
+            <span class="font-overpass-bold text-9xl " 
+                :class="[{ 'visible': statusPraktikum == 4 },
+                        { 'hidden': statusPraktikum != 4 }]">
+              TK
+            </span> 
+          </div>
+        </div>
+        <div class="w-full h-1/2 flex-row">
+          <div class="w-full h-1/3 flex">
+            <div class="w-3/4 bg-yellow-400 rounded-large font-monda-bold text-6xl h-full items-center m-auto flex">
+              <div class="w-auto h-auto text-green-600 pt-1 m-auto">
+                {{ time }}
               </div>
-              <div class="w-1/2 pl-8 h-full flex-row">
-                <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
-                  <span class="h-auto my-auto">
-                    Modul
-                  </span>
+            </div>
+          </div>
+          <div class="w-full h-24 flex">
+            <div class="w-3/4 h-full m-auto flex">
+              <div class="w-full h-full flex">
+                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                    v-on:click="rollbackPraktikum(false)">
+                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                    <div class="w-auto select-none h-full m-auto items-center flex">
+                      ROLLBACK
+                    </div>
+                  </div>
                 </div>
-                <div class="w-full h-1/2 tatkOption">
-                  <select v-model="chosenModulID"
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                    <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
-                      {{ modul.judul }}
-                    </option>
-                  </select>
+                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                    :class="[{ 'hidden': countdownStarted },
+                            { 'visible': !countdownStarted }]"
+                    v-on:click="startCountdown()">
+                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                    <div class="w-auto select-none h-full m-auto items-center flex">
+                      START
+                    </div>
+                  </div>
+                </div>
+                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                    :class="[{ 'hidden': !countdownStarted },
+                            { 'visible': countdownStarted }]"
+                    v-on:click="pauseCountdown()">
+                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                    <div class="w-auto select-none h-full m-auto items-center flex">
+                      PAUSE
+                    </div>
+                  </div>
+                </div>
+                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                    v-on:click="goToNextSection(false)">
+                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                    <div class="w-auto select-none h-full m-auto items-center flex">
+                      NEXT
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div class="w-full h-auto mt-4 flex rounded-lg bg-gray-300">
+          </div>
+        </div>
+      </div>  
+
+      <div class="w-full h-24 px-8 mt-8 flex z-20">
+        <div class="w-1/2 h-full flex-row">
+          <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
+            <span class="h-auto my-auto">
+              Kelas
+            </span>
+          </div>
+          <div class="w-full h-1/2 tatkOption">
+            <select :onchange="getAllAsistenPraktikan()" v-model="chosenKelasID" 
+                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
+                  :class="[{ 'pointer-events-none': praktikumStart },
+                          { 'pointer-events-auto': !praktikumStart }]">
+              <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
+                {{ kelas.kelas }} [ {{ kelas.hari }} - Shift {{ kelas.shift }} ]
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="w-1/2 pl-8 h-full flex-row">
+          <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
+            <span class="h-auto my-auto">
+              Modul
+            </span>
+          </div>
+          <div class="w-full h-1/2 tatkOption">
+            <select v-model="chosenModulID"
+                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
+                  :class="[{ 'pointer-events-none': praktikumStart },
+                          { 'pointer-events-auto': !praktikumStart }]">
+              <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
+                {{ modul.judul }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full h-24full absolute animation-enable pt-4 z-20"
+          :class="[{ 'bottom-0': !praktikumStart },
+                  { 'bottom-minFull': praktikumStart }]">
+        <div class="w-16full bg-green-500 rounded-t-lg mx-auto h-full" v-bar>
+          <div class="p-8">
+            <div class="w-full h-auto flex rounded-lg bg-gray-300">
               <div class="w-full h-auto flex"
                   v-if="listAllAsisten.length > 0 &&
                         listAllPraktikan.length > 0">
@@ -271,20 +389,126 @@
               </div>
             </div>
 
-            <div class="w-full h-24 mt-4 flex">
+            <div class="w-full h-24 mt-4 mb-8 flex">
               <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
                   v-on:click="shuffleEmAll()">
                 <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
-                  <div class="w-auto h-auto m-auto">
+                  <div class="w-auto select-none h-auto m-auto">
                     SHUFFLE
                   </div>
                 </div>
               </div>
-              <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer">
+              <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                  v-on:click="startThePracticum()">
                 <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
-                  <div class="w-auto h-auto m-auto">
+                  <div class="w-auto select-none h-auto m-auto">
                     START
                   </div>
+                </div>
+              </div>
+            </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
+        :class="[{ 'hidden': !bigLeaveQuestionShown },
+                { 'visible': bigLeaveQuestionShown }]">
+      <div class="w-3/4 h-60 flex-row m-auto items-end z-40">
+        <div class="w-full h-1/2 font-monda-bold text-center items-end flex text-3xl text-white">
+          <div class="mx-auto">
+            Apakah anda yakin ? (Any changes can't be revert back) <br>
+            Are you sure ? (Semua perubahan tidak bisa dikembalikkan)  
+          </div>
+        </div>
+        <div class="w-full h-1/2 flex">
+          <div class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                v-on:click="bigLeaveQuestionShown = false">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-red-600">
+                <div class="m-auto">
+                  NOPE (lanjutkan praktikumnya)
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                v-on:click="rollbackPraktikum(true)">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-green-600">
+                <div class="m-auto">
+                  YEAH (get me out)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
+        :class="[{ 'hidden': !bigNextQuestionShown },
+                { 'visible': bigNextQuestionShown }]">
+      <div class="w-3/4 h-60 flex-row m-auto items-end z-40">
+        <div class="w-full h-1/2 font-monda-bold text-center items-end flex text-3xl text-white">
+          <div class="mx-auto">
+            Waktu belum selesai !!! <br>
+            Apakah ingin tetap lanjut ?  
+          </div>
+        </div>
+        <div class="w-full h-1/2 flex">
+          <div class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                v-on:click="bigNextQuestionShown = false">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-red-600">
+                <div class="m-auto">
+                  NOPE (Salah pencet)
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                v-on:click="goToNextSection(true)">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-green-600">
+                <div class="m-auto">
+                  YEAH (Lanjut ke bagian berikutnya)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
+        :class="[{ 'hidden': !bigRatingQuestionShown },
+                { 'visible': bigRatingQuestionShown }]">
+      <div class="w-3/4 h-60 flex-row m-auto items-end z-40">
+        <div class="w-full h-1/2 font-monda-bold text-center items-end flex text-3xl text-white">
+          <div class="mx-auto">
+            Apakah semua praktikan sudah rating ? <br>
+            Jika sudah yakin maka klik "YEAH" 
+          </div>
+        </div>
+        <div class="w-full h-1/2 flex">
+          <div class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                v-on:click="bigRatingQuestionShown = false">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-red-600">
+                <div class="m-auto">
+                  NOPE (Salah pencet)
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                v-on:click="goToNextSection(true)">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-green-600">
+                <div class="m-auto">
+                  YEAH (Lanjut ke bagian berikutnya)
                 </div>
               </div>
             </div>
@@ -306,6 +530,7 @@
 </style>
 
 <script>
+import moment from 'moment';
 export default {
   props: [
     'comingFrom',
@@ -338,11 +563,84 @@ export default {
       listAllAsisten: [],
       listAllPraktikan: [],
 
+      shuffledListAllAsisten: [],
+      shuffledListAllPraktikan: [],
+
+      praktikumStart: false,
+      countdownStarted: false,
+      firstTimeCounting: true,
+      bigLeaveQuestionShown: false,
+      bigNextQuestionShown: false,
+      bigRatingQuestionShown: false,
+      soundPlayed: false,
+
       oldKelasID: '',
       chosenKelasID: '',
       chosenModulID: '',
       praktikanComplete: '',
       praktikanLeft: '',
+
+      /****************************/
+      /*  JENIS STATUS (7 Steps)  */
+      /****************************/
+      // 0: Just started (First default initialization)
+      // 1: Begin TA countdown
+      // 2: Go To Jurnal Section
+      // 3: Go To Mandiri Section
+      // 4: Go To TK section
+      // 5: Open The Laporan Praktikan 
+      //    (Tell them to rate the assistant and the prakikum)
+      // 6: Open The Laporan PJ and write down the condition of the praktikum
+      //    (Only shows "DONE" button for ending the praktikum)
+      //    (Dont forget to add data to history_jaga table)
+      statusPraktikum: 0,
+
+      formPraktikum: {
+        kelas_id: '',
+        modul_id: '',
+      },
+
+      formHistoryJaga: {
+        hari: '',
+        shift: '',
+        pj: '',
+        asisten_id: '',
+      },
+
+      formCurrentPraktikum: {
+        asisten_id: '', //Current Asisten ID (Assuming he/she is the PJ)
+        kelas_id: '',
+      },
+
+      formLaporanPj: {
+        id: '',
+        allasisten_id: '',
+        hari: '',
+        shift: '',
+        laporan: '',
+        modul_id: '',
+      },
+
+      // ***************************************************** //
+      // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
+      // ***************************************************** //
+      // TAtiming: moment().startOf('day').add(10, 'minutes'),
+      // JURNALtiming: moment().startOf('day').add(80, 'minutes'),
+      // MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
+      // TKtiming: moment().startOf('day').add(10, 'minutes'),
+      // countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
+
+      TAtiming: moment().startOf('day').add(5, 'seconds'),
+      JURNALtiming: moment().startOf('day').add(5, 'seconds'),
+      MANDIRItiming: moment().startOf('day').add(5, 'seconds'),
+      TKtiming: moment().startOf('day').add(5, 'seconds'),
+      countDown: moment().startOf('day').add(5, 'seconds'),
+    }
+  },
+
+  computed: {
+    time: function(){
+      return this.countDown.format('HH : mm : ss');
     }
   },
 
@@ -404,6 +702,78 @@ export default {
         }, 501); 
     },
 
+    playSound: function(filename){
+
+      var mp3Source = '<source src="/assets/' + filename + '.mp3" type="audio/mpeg">';
+      var oggSource = '<source src="/assets/' + filename + '.ogg" type="audio/ogg">';
+      var embedSource = '<embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3">';
+      document.getElementById("sound").innerHTML='<audio autoplay="autoplay">' + mp3Source + oggSource + embedSource + '</audio>';
+    },
+
+    countDownTimer: function() {
+
+      const globe = this;
+      setInterval(() => {
+        if(globe.countdownStarted && !globe.countDown.isSame(moment().startOf('day')))
+          globe.countDown = moment(globe.countDown.subtract(1, 'seconds'))
+        else if(globe.countdownStarted && globe.countDown.isSame(moment().startOf('day')) && !globe.soundPlayed){
+
+          globe.playSound("completeSound");
+          globe.soundPlayed = true;
+        } else
+          globe.countdownStarted = false; 
+      }, 1000);
+    },
+
+    goToNextSection: function($force){
+
+      const globe = this;
+      if(!$force){
+
+        if(!globe.countDown.isSame(moment().startOf('day'))){
+          globe.bigNextQuestionShown = true;
+          return;
+        }
+
+        if(globe.statusPraktikum == 5){
+          globe.bigRatingQuestionShown = true;
+          return;
+        }
+      }
+      globe.soundPlayed = false;
+      globe.countdownStarted = false;
+      globe.statusPraktikum++;
+
+      globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
+
+        if(response.data.message == "success") {
+            //DO NOTHING (it runs as we expected)
+
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+
+      //(If status Praktikum == 1, means all the layout condition still on its default state)
+      switch (globe.statusPraktikum) {
+        case 2:
+          globe.countDown = globe.JURNALtiming;
+          break;
+        case 3:
+          globe.countDown = globe.MANDIRItiming;
+          break;
+        case 4:
+          globe.countDown = globe.TKtiming;
+          break;
+        case 5:
+          break;
+        case 6:
+          break;
+      }
+    },
+
     shuffleEmAll: function(){
 
       const globe = this;
@@ -415,7 +785,7 @@ export default {
         return;
       }
 
-      if(this.listAllAsisten == ""){
+      if(this.listAllAsisten.length < 1){
 
         globe.$toasted.global.showError({
           message: "Tidak terdapat asisten di kelas ini"
@@ -423,23 +793,234 @@ export default {
         return;
       }
 
-      if(this.listAllPraktikan == ""){
+      if(this.listAllPraktikan.length < 1){
 
         globe.$toasted.global.showError({
           message: "Tidak terdapat praktikan di kelas ini"
         });
         return;
       }
+
+      console.log(this.listAllAsisten);
+
+      this.shuffledListAllAsisten = this.shuffleArr(this.listAllAsisten);
+      this.shuffledListAllPraktikan = this.shuffleArr(this.listAllPraktikan);
+
+      this.listAllAsisten = this.shuffledListAllAsisten;
+      this.listAllPraktikan = this.shuffledListAllPraktikan;
+      this.isMenuShown = true;
+      this.isMenuShown = false;
+    },
+
+    rollbackPraktikum: function($force){
+
+      const globe = this;
+
+      if(!$force){
+
+        if(!globe.firstTimeCounting){
+          globe.bigLeaveQuestionShown = true;
+
+        } else {
+          globe.$axios.post('/stopPraktikum');
+          globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
+
+            if(response.data.message == "success") {
+                //DO NOTHING (it runs as we expected)
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+          this.$axios.post('/deleteLaporanPJ/'+this.formLaporanPj.id).then(response => {
+
+            globe.countDown = globe.TAtiming;
+            globe.firstTimeCounting = true;
+            globe.praktikumStart = false;
+            globe.soundPlayed = false;
+            globe.statusPraktikum = 0;
+          });
+        }
+      } else { 
+        globe.bigLeaveQuestionShown = false;
+        globe.$axios.post('/stopPraktikum');
+        globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
+
+          if(response.data.message == "success") {
+              //DO NOTHING (it runs as we expected)
+
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        });
+        this.$axios.post('/deleteLaporanPJ/'+this.formLaporanPj.id).then(response => {
+
+          globe.countDown = globe.TAtiming;
+          globe.firstTimeCounting = true;
+          globe.praktikumStart = false;
+          globe.soundPlayed = false;
+          globe.statusPraktikum = 0;
+        });
+      }
+    },
+
+    startCountdown: function(){
+
+      this.countdownStarted = true;
+      const globe = this;
       
-      for (let i = this.listAllAsisten.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [this.listAllAsisten[i], this.listAllAsisten[j]] = [this.listAllAsisten[j], this.listAllAsisten[i]];
+      if(this.statusPraktikum == 0){
+        
+        this.statusPraktikum = 1;
+        globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
+
+          if(response.data.message == "success") {
+              //DO NOTHING (it runs as we expected)
+
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        });
       }
 
-      for (let i = this.listAllPraktikan.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [this.listAllPraktikan[i], this.listAllPraktikan[j]] = [this.listAllPraktikan[j], this.listAllPraktikan[i]];
+      if(this.firstTimeCounting){
+        this.countDownTimer(); // THIS IS FOR STARTING THE COUNTDOWN
+        this.firstTimeCounting = false;
       }
+    },
+
+    pauseCountdown: function(){
+
+      this.countdownStarted = false;
+    },
+
+    startThePracticum: function(){
+
+      const globe = this;
+      if(this.chosenKelasID == ""){
+
+        globe.$toasted.global.showError({
+          message: "Pilih kelas terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.listAllAsisten.length < 1){
+
+        globe.$toasted.global.showError({
+          message: "Tidak terdapat asisten di kelas ini"
+        });
+        return;
+      }
+
+      if(this.listAllPraktikan.length < 1){
+
+        globe.$toasted.global.showError({
+          message: "Tidak terdapat praktikan di kelas ini"
+        });
+        return;
+      }
+
+      if(this.chosenModulID == ''){
+
+        globe.$toasted.global.showError({
+          message: "Pilih modul terlebih dahulu"
+        });
+        return;
+      }
+
+      this.formPraktikum.kelas_id = this.chosenKelasID;
+      this.formPraktikum.modul_id = this.chosenModulID;
+      this.$axios.post('/cekPraktikum', this.formPraktikum).then(response => {
+
+        if(response.data.message == "success") {
+
+          globe.allKelas.forEach(kelas => {
+            if (kelas.id == globe.chosenKelasID)  {
+              globe.formLaporanPj.hari = kelas.hari;
+              globe.formLaporanPj.shift = kelas.shift;
+            }
+          });
+          globe.formLaporanPj.laporan = "empty";
+          globe.formLaporanPj.allasisten_id = "";
+          for (let index = 0; index < globe.listAllAsisten.length; index++) {
+            const element = globe.listAllAsisten[index];
+            globe.formLaporanPj.allasisten_id += element.id;
+            if (index != globe.listAllAsisten.length-1) 
+              globe.formLaporanPj.allasisten_id += "-";
+          }
+          globe.formLaporanPj.modul_id = this.chosenModulID;
+          
+          globe.$axios.post('/createLaporanPJ', globe.formLaporanPj).then(response => {
+
+            if(response.data.message == "success") {
+
+              globe.formLaporanPj.id = response.data.id;
+              globe.praktikumStart = true;
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+
+          globe.formCurrentPraktikum.kelas_id = globe.chosenKelasID;
+          globe.formCurrentPraktikum.asisten_id = globe.currentUser.id;
+          globe.$axios.post('/startPraktikum', globe.formCurrentPraktikum).then(response => {
+
+            if(response.data.message == "success") {
+                //DO NOTHING (it runs as we expected)
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+
+          globe.allKelas.forEach(kelas => {
+            if (kelas.id == globe.chosenKelasID)  {
+              globe.formHistoryJaga.hari = kelas.hari;
+              globe.formHistoryJaga.shift = kelas.shift;
+            }
+          });
+          globe.formHistoryJaga.pj = 1;
+          globe.formHistoryJaga.asisten_id = globe.currentUser.id;
+          globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(response => {
+
+            if(response.data.message == "success") {
+                //DO NOTHING (it runs as we expected)
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    },
+
+    shuffleArr: function($arr){
+
+      for (let i = $arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [$arr[i], $arr[j]] = [$arr[j], $arr[i]];
+      }
+
+      return $arr;
     },
 
     getAllAsistenPraktikan: function(){

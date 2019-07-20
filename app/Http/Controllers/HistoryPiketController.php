@@ -14,7 +14,15 @@ class HistoryPiketController extends Controller
      */
     public function index()
     {
-        //
+        History_Piket::create([
+            'hari'        => $request->hari,
+            'shift'       => $request->shift,
+            'status'      => $request->pj,
+            'asisten_id'  => $request->asisten_id,
+            'modul_id'    => $request->modul_id,
+        ]);
+
+        return '{"message": "success"}';
     }
 
     /**

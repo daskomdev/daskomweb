@@ -18,6 +18,14 @@ module.exports = {
     },
 
     extend: {
+
+      fontSize: {
+        '9xl': '8rem',
+      },
+
+      opacity: {
+        '90': '0.9',
+      },
     
       borderRadius: {
         default: '.25rem',

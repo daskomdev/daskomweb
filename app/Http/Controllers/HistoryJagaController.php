@@ -35,7 +35,14 @@ class HistoryJagaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        History_Jaga::create([
+            'hari'          => $request->hari,
+            'shift'         => $request->shift,
+            'pj'            => $request->pj,
+            'asisten_id'    => $request->asisten_id,
+        ]);
+
+        return '{"message": "success"}';
     }
 
     /**
@@ -75,11 +82,18 @@ class HistoryJagaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\History_Jaga  $history_Jaga
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(History_Jaga $history_Jaga)
+    public function destroy(Request $request)
     {
-        //
+        $praktikum = History_Jaga::where('hari', $request->hari)
+                ->where('shift', $request->shift)
+                ->where('pj', $request->pj)
+                ->where('asisten_id', $request->asisten_id)
+                ->first();
+        $praktikum->delete();
+
+        return '{"message": "success"}';
     }
 }
