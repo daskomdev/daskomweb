@@ -77,12 +77,15 @@ class LaporanPjController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Laporan_Pj  $laporan_Pj
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Laporan_Pj $laporan_Pj)
+    public function update(Request $request)
     {
-        //
+        $laporan_Pj = Laporan_Pj::where('id', $request->id)->first();
+        $laporan_Pj->laporan = $request->laporan;
+        $laporan_Pj->save();
+
+        return '{"message": "success"}';
     }
 
     /**

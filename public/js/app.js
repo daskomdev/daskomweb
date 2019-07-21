@@ -19475,6 +19475,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser', 'position', 'userRole', 'allKelas', 'allModul'],
@@ -19496,6 +19580,7 @@ __webpack_require__.r(__webpack_exports__);
       menuPlotting: false,
       listAllAsisten: [],
       listAllPraktikan: [],
+      pairingList: [],
       shuffledListAllAsisten: [],
       shuffledListAllPraktikan: [],
       praktikumStart: false,
@@ -19529,13 +19614,37 @@ __webpack_require__.r(__webpack_exports__);
       statusPraktikum: 0,
       formPraktikum: {
         kelas_id: '',
-        modul_id: ''
+        modul_id: '',
+        pj_id: '',
+        laporan_id: ''
       },
       formHistoryJaga: {
+        allasisten_kode: '',
         hari: '',
         shift: '',
         pj: '',
         asisten_id: ''
+      },
+      formHistoryIzin_Izin: {
+        allasisten_kode: '',
+        hari: '',
+        shift: '',
+        status: 1,
+        modul_id: ''
+      },
+      formHistoryIzin_Sakit: {
+        allasisten_kode: '',
+        hari: '',
+        shift: '',
+        status: 2,
+        modul_id: ''
+      },
+      formHistoryIzin_Alfa: {
+        allasisten_kode: '',
+        hari: '',
+        shift: '',
+        status: 3,
+        modul_id: ''
       },
       formCurrentPraktikum: {
         asisten_id: '',
@@ -19553,16 +19662,12 @@ __webpack_require__.r(__webpack_exports__);
       // ***************************************************** //
       // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
       // ***************************************************** //
-      // TAtiming: moment().startOf('day').add(10, 'minutes'),
-      // JURNALtiming: moment().startOf('day').add(80, 'minutes'),
-      // MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
-      // TKtiming: moment().startOf('day').add(10, 'minutes'),
-      // countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
-      TAtiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(5, 'seconds'),
-      JURNALtiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(5, 'seconds'),
-      MANDIRItiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(5, 'seconds'),
-      TKtiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(5, 'seconds'),
-      countDown: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(5, 'seconds')
+      TAtiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(10, 'minutes'),
+      JURNALtiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(80, 'minutes'),
+      MANDIRItiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(20, 'minutes'),
+      TKtiming: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(10, 'minutes'),
+      countDown: moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day').add(10, 'minutes') //(TIME IN MILLIS) // Default: Based on TAtiming
+
     };
   },
   computed: {
@@ -19619,10 +19724,240 @@ __webpack_require__.r(__webpack_exports__);
     },
     goToNextSection: function goToNextSection($force) {
       var globe = this;
-      if (!$force) if (!globe.countDown.isSame(moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day'))) {
-        globe.bigNextQuestionShown = true;
-        return;
-      }
+
+      if (!$force) {
+        if (!globe.countDown.isSame(moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day')) && globe.statusPraktikum != 5 && globe.statusPraktikum != 6) {
+          globe.bigNextQuestionShown = true;
+          return;
+        }
+
+        if (globe.statusPraktikum == 5) {
+          globe.bigRatingQuestionShown = true;
+          return;
+        }
+
+        if (globe.statusPraktikum == 6) {
+          var sumAllAsisten_kode = [];
+
+          if (globe.formHistoryJaga.allasisten_kode != '') {
+            var tempArr = globe.formHistoryJaga.allasisten_kode.split("-");
+
+            for (var index = 0; index < tempArr.length; index++) {
+              var data = tempArr[index];
+
+              if (data == "") {
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+
+            sumAllAsisten_kode.push(globe.formHistoryJaga.allasisten_kode.split("-"));
+          }
+
+          if (globe.formHistoryIzin_Izin.allasisten_kode != '') {
+            var tempArr = globe.formHistoryIzin_Izin.allasisten_kode.split("-");
+
+            for (var _index = 0; _index < tempArr.length; _index++) {
+              var _data = tempArr[_index];
+
+              if (_data == "") {
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+
+            sumAllAsisten_kode.push(globe.formHistoryIzin_Izin.allasisten_kode.split("-"));
+          }
+
+          if (globe.formHistoryIzin_Sakit.allasisten_kode != '') {
+            var tempArr = globe.formHistoryIzin_Sakit.allasisten_kode.split("-");
+
+            for (var _index2 = 0; _index2 < tempArr.length; _index2++) {
+              var _data2 = tempArr[_index2];
+
+              if (_data2 == "") {
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+
+            sumAllAsisten_kode.push(globe.formHistoryIzin_Sakit.allasisten_kode.split("-"));
+          }
+
+          if (globe.formHistoryIzin_Alfa.allasisten_kode != '') {
+            var tempArr = globe.formHistoryIzin_Alfa.allasisten_kode.split("-");
+
+            for (var _index3 = 0; _index3 < tempArr.length; _index3++) {
+              var _data3 = tempArr[_index3];
+
+              if (_data3 == "") {
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+
+            sumAllAsisten_kode.push(globe.formHistoryIzin_Alfa.allasisten_kode.split("-"));
+          }
+
+          sumAllAsisten_kode = [].concat.apply([], sumAllAsisten_kode); // Flatten array of arrays
+
+          sumAllAsisten_kode = sumAllAsisten_kode.map(function (x) {
+            return x.toUpperCase();
+          }); // Convert all string to uppercase
+
+          var findDuplicates = function findDuplicates(arr) {
+            return arr.filter(function (item, index) {
+              return arr.indexOf(item) != index;
+            });
+          }; // Checking for duplicates
+
+
+          if (findDuplicates(sumAllAsisten_kode).length > 0) {
+            globe.$toasted.global.showError({
+              message: "Satu asisten tidak boleh berada dalam kolom yang berbeda"
+            });
+            return;
+          }
+
+          if (sumAllAsisten_kode.length == 0) {
+            globe.$toasted.global.showError({
+              message: "Isi data terlebih dahulu"
+            });
+            return;
+          }
+
+          if (sumAllAsisten_kode.includes(globe.currentUser.kode)) {
+            globe.$toasted.global.showError({
+              message: "Asisten PJ tidak perlu ditulis disini"
+            });
+            return;
+          }
+
+          var listAllAsistenKode = [];
+          globe.listAllAsisten.forEach(function (asisten) {
+            if (asisten.kode != globe.currentUser.kode) listAllAsistenKode.push(asisten.kode);
+          });
+          var diff_FromList = sumAllAsisten_kode.filter(function (x) {
+            return !listAllAsistenKode.includes(x);
+          });
+          var diff_FromSum = listAllAsistenKode.filter(function (x) {
+            return !sumAllAsisten_kode.includes(x);
+          });
+
+          for (var _index4 = 0; _index4 < diff_FromList.length; _index4++) {
+            var element = diff_FromList[_index4];
+
+            if (sumAllAsisten_kode.includes(element)) {
+              globe.$toasted.global.showError({
+                message: "Asisten " + diff_FromList + " tidak ada dalam praktikum ini"
+              });
+              return;
+            }
+          }
+
+          for (var _index5 = 0; _index5 < diff_FromSum.length; _index5++) {
+            var _element = diff_FromSum[_index5];
+
+            if (listAllAsistenKode.includes(_element)) {
+              globe.$toasted.global.showError({
+                message: "Asisten " + diff_FromSum + " belum dimasukkan"
+              });
+              return;
+            }
+          }
+
+          globe.allKelas.forEach(function (kelas) {
+            if (kelas.id == globe.chosenKelasID) {
+              globe.formHistoryJaga.hari = kelas.hari;
+              globe.formHistoryJaga.shift = kelas.shift;
+              globe.formHistoryIzin_Izin.hari = kelas.hari;
+              globe.formHistoryIzin_Izin.shift = kelas.shift;
+              globe.formHistoryIzin_Sakit.hari = kelas.hari;
+              globe.formHistoryIzin_Sakit.shift = kelas.shift;
+              globe.formHistoryIzin_Alfa.hari = kelas.hari;
+              globe.formHistoryIzin_Alfa.shift = kelas.shift;
+            }
+          });
+          globe.formHistoryJaga.pj = 0;
+          globe.formHistoryJaga.asisten_id = null;
+          globe.formHistoryIzin_Izin.modul_id = globe.chosenModulID;
+          globe.formHistoryIzin_Sakit.modul_id = globe.chosenModulID;
+          globe.formHistoryIzin_Alfa.modul_id = globe.chosenModulID;
+          globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(function (response) {
+            if (response.data.message == "success") {
+              globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Izin).then(function (response) {
+                if (response.data.message == "success") {
+                  globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Sakit).then(function (response) {
+                    if (response.data.message == "success") {
+                      globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Alfa).then(function (response) {
+                        if (response.data.message == "success") {
+                          globe.$axios.post('/updateLaporanPJ', globe.formLaporanPj).then(function (response) {
+                            if (response.data.message == "success") {
+                              globe.formPraktikum.pj_id = globe.currentUser.id;
+                              globe.formPraktikum.laporan_id = globe.formLaporanPj.id;
+                              globe.$axios.post('/createPraktikum', globe.formPraktikum).then(function (response) {
+                                if (response.data.message == "success") {
+                                  globe.$toasted.global.showSuccess({
+                                    message: "Praktikum berhasil tersimpan"
+                                  });
+                                } else {
+                                  globe.$toasted.global.showError({
+                                    message: response.data.message
+                                  });
+                                }
+                              });
+                              globe.$axios.post('/stopPraktikum').then(function (response) {
+                                if (response.data.message == "success") {//Do nothing
+                                } else {
+                                  globe.$toasted.global.showError({
+                                    message: response.data.message
+                                  });
+                                }
+                              });
+                            } else {
+                              globe.$toasted.global.showError({
+                                message: response.data.message
+                              });
+                            }
+                          });
+                        } else {
+                          globe.$toasted.global.showError({
+                            message: response.data.message
+                          });
+                        }
+                      });
+                    } else {
+                      globe.$toasted.global.showError({
+                        message: response.data.message
+                      });
+                    }
+                  });
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              });
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+        }
+      } //TODO: then change all the asisten with izin condition with the one that exactly teach in the praktikum
+
+
+      globe.bigNextQuestionShown = false;
+      globe.bigRatingQuestionShown = false;
       globe.soundPlayed = false;
       globe.countdownStarted = false;
       globe.statusPraktikum++;
@@ -19648,10 +19983,9 @@ __webpack_require__.r(__webpack_exports__);
           globe.countDown = globe.TKtiming;
           break;
 
-        case 5:
-          break;
-
         case 6:
+          globe.praktikumStart = false;
+          globe.statusPraktikum = 0;
           break;
       }
     },
@@ -19679,11 +20013,11 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      console.log(this.listAllAsisten);
       this.shuffledListAllAsisten = this.shuffleArr(this.listAllAsisten);
       this.shuffledListAllPraktikan = this.shuffleArr(this.listAllPraktikan);
       this.listAllAsisten = this.shuffledListAllAsisten;
-      this.listAllPraktikan = this.shuffledListAllPraktikan;
+      this.listAllPraktikan = this.shuffledListAllPraktikan; //little bit hacky but works :v
+
       this.isMenuShown = true;
       this.isMenuShown = false;
     },
@@ -19785,6 +20119,18 @@ __webpack_require__.r(__webpack_exports__);
       if (this.chosenModulID == '') {
         globe.$toasted.global.showError({
           message: "Pilih modul terlebih dahulu"
+        });
+        return;
+      }
+
+      var isKodeExist = false;
+      globe.listAllAsisten.forEach(function (element) {
+        if (element.kode == globe.currentUser.kode) isKodeExist = true;
+      });
+
+      if (!isKodeExist) {
+        globe.$toasted.global.showError({
+          message: "Anda tidak ada dalam praktikum kelas ini<br>Hanya asisten dalam praktikum ini yang bisa mengaktivasinya"
         });
         return;
       }
@@ -61774,31 +62120,321 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "w-full h-24full flex absolute bottom-0 pointer-events-none"
+                    "w-full h-24full flex-row absolute bottom-0 pointer-events-none"
                 },
                 [
-                  _c("div", { staticClass: "w-full h-full flex" }, [
-                    _vm.statusPraktikum == 5
-                      ? _c(
-                          "div",
-                          {
-                            staticClass:
-                              "font-overpass-bold text-4xl text-white text-center m-auto"
-                          },
-                          [
-                            _vm._v("\n          PRAKTIKUM SELESAI "),
-                            _c("br"),
-                            _vm._v(
-                              "\n          Terimakasih atas kehadirannya "
-                            ),
-                            _c("br"),
-                            _vm._v(
-                              "\n          (Silahkan rating asisten dan praktikumnya  😄 )\n        "
-                            )
-                          ]
-                        )
-                      : _vm._e()
-                  ])
+                  _c(
+                    "div",
+                    { staticClass: "w-full h-36full flex pointer-events-auto" },
+                    [
+                      _vm.statusPraktikum == 5
+                        ? _c("div", { staticClass: "w-full h-full flex-row" }, [
+                            _vm._m(9)
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.statusPraktikum == 6
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "w-3/4 h-36full px-5 m-auto flex-row"
+                            },
+                            [
+                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                                _vm._m(10),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "w-3/4 h-full py-2 flex" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "w-full h-full" },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.formHistoryJaga
+                                                  .allasisten_kode,
+                                              expression:
+                                                "formHistoryJaga.allasisten_kode"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                          attrs: {
+                                            id: "kode",
+                                            type: "text",
+                                            placeholder:
+                                              'Pisahkan dengan tanda "-" untuk penulisan'
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.formHistoryJaga
+                                                .allasisten_kode
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.formHistoryJaga,
+                                                "allasisten_kode",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                                _vm._m(11),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "w-3/4 h-full py-2 flex" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "w-full h-full" },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.formHistoryIzin_Izin
+                                                  .allasisten_kode,
+                                              expression:
+                                                "formHistoryIzin_Izin.allasisten_kode"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                          attrs: {
+                                            id: "kode",
+                                            type: "text",
+                                            placeholder:
+                                              'Pisahkan dengan tanda "-" untuk penulisan'
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.formHistoryIzin_Izin
+                                                .allasisten_kode
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.formHistoryIzin_Izin,
+                                                "allasisten_kode",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                                _vm._m(12),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "w-3/4 h-full py-2 flex" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "w-full h-full" },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.formHistoryIzin_Sakit
+                                                  .allasisten_kode,
+                                              expression:
+                                                "formHistoryIzin_Sakit.allasisten_kode"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                          attrs: {
+                                            id: "kode",
+                                            type: "text",
+                                            placeholder:
+                                              'Pisahkan dengan tanda "-" untuk penulisan'
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.formHistoryIzin_Sakit
+                                                .allasisten_kode
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.formHistoryIzin_Sakit,
+                                                "allasisten_kode",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                                _vm._m(13),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "w-3/4 h-full py-2 flex" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "w-full h-full" },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.formHistoryIzin_Alfa
+                                                  .allasisten_kode,
+                                              expression:
+                                                "formHistoryIzin_Alfa.allasisten_kode"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                          attrs: {
+                                            id: "kode",
+                                            type: "text",
+                                            placeholder:
+                                              'Pisahkan dengan tanda "-" untuk penulisan'
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.formHistoryIzin_Alfa
+                                                .allasisten_kode
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.formHistoryIzin_Alfa,
+                                                "allasisten_kode",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.statusPraktikum == 6
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "w-1/4 py-4 px-5 h-24full m-auto flex-row"
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "font-merri w-full text-left text-white text-lg h-1/4"
+                                },
+                                [_vm._v("\n            Laporan\n          ")]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-full h-3/4" }, [
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.formLaporanPj.laporan,
+                                      expression: "formLaporanPj.laporan"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                  attrs: {
+                                    cols: "30",
+                                    rows: "10",
+                                    id: "Laporan",
+                                    type: "text",
+                                    placeholder: "Asisten FAI jaga 2 kelompok"
+                                  },
+                                  domProps: {
+                                    value: _vm.formLaporanPj.laporan
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.formLaporanPj,
+                                        "laporan",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-1/3 h-full m-auto flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
+                      on: {
+                        click: function($event) {
+                          return _vm.goToNextSection(false)
+                        }
+                      }
+                    },
+                    [_vm._m(14)]
+                  )
                 ]
               )
             : _vm._e(),
@@ -61934,7 +62570,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(9)]
+                            [_vm._m(15)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -61952,7 +62588,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(10)]
+                            [_vm._m(16)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -61970,7 +62606,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(11)]
+                            [_vm._m(17)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -61984,7 +62620,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(12)]
+                            [_vm._m(18)]
                           )
                         ])
                       ])
@@ -61996,7 +62632,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "w-full h-24 px-8 mt-8 flex z-20" }, [
             _c("div", { staticClass: "w-1/2 h-full flex-row" }, [
-              _vm._m(13),
+              _vm._m(19),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 tatkOption" }, [
                 _c(
@@ -62059,7 +62695,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "w-1/2 pl-8 h-full flex-row" }, [
-              _vm._m(14),
+              _vm._m(20),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 tatkOption" }, [
                 _c(
@@ -62415,7 +63051,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._m(15)]
+                        [_vm._m(21)]
                       ),
                       _vm._v(" "),
                       _c(
@@ -62429,7 +63065,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._m(16)]
+                        [_vm._m(22)]
                       )
                     ])
                   ])
@@ -62455,7 +63091,7 @@ var render = function() {
             "div",
             { staticClass: "w-3/4 h-60 flex-row m-auto items-end z-40" },
             [
-              _vm._m(17),
+              _vm._m(23),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 flex" }, [
                 _c("div", { staticClass: "w-1/2 h-full p-4" }, [
@@ -62470,7 +63106,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(18)]
+                    [_vm._m(24)]
                   )
                 ]),
                 _vm._v(" "),
@@ -62486,7 +63122,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(19)]
+                    [_vm._m(25)]
                   )
                 ])
               ])
@@ -62510,7 +63146,7 @@ var render = function() {
             "div",
             { staticClass: "w-3/4 h-60 flex-row m-auto items-end z-40" },
             [
-              _vm._m(20),
+              _vm._m(26),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 flex" }, [
                 _c("div", { staticClass: "w-1/2 h-full p-4" }, [
@@ -62525,7 +63161,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(21)]
+                    [_vm._m(27)]
                   )
                 ]),
                 _vm._v(" "),
@@ -62541,7 +63177,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(22)]
+                    [_vm._m(28)]
                   )
                 ])
               ])
@@ -62565,7 +63201,7 @@ var render = function() {
             "div",
             { staticClass: "w-3/4 h-60 flex-row m-auto items-end z-40" },
             [
-              _vm._m(23),
+              _vm._m(29),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 flex" }, [
                 _c("div", { staticClass: "w-1/2 h-full p-4" }, [
@@ -62580,7 +63216,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(24)]
+                    [_vm._m(30)]
                   )
                 ]),
                 _vm._v(" "),
@@ -62596,7 +63232,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(25)]
+                    [_vm._m(31)]
                   )
                 ])
               ])
@@ -62765,6 +63401,108 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("img", { staticClass: "select-none m-auto w-2/6 h-auto fas fa-book" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full h-full flex" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "font-overpass-bold text-4xl text-white text-center m-auto"
+        },
+        [
+          _vm._v("\n              PRAKTIKUM SELESAI "),
+          _c("br"),
+          _vm._v("\n              Terimakasih atas kehadirannya "),
+          _c("br"),
+          _vm._v(
+            "\n              (Silahkan rating asisten dan praktikumnya  😄 )\n            "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/4 h-full flex" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
+        },
+        [_vm._v("\n                JAGA\n              ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/4 h-full flex" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
+        },
+        [_vm._v("\n                IZIN\n              ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/4 h-full flex" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
+        },
+        [_vm._v("\n                SAKIT\n              ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/4 h-full flex" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
+        },
+        [_vm._v("\n                ALFA\n              ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full h-16 bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full"
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "w-auto select-none h-full m-auto items-center flex" },
+          [_vm._v("\n            NEXT\n          ")]
+        )
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -63036,9 +63774,9 @@ var staticRenderFns = [
       },
       [
         _c("div", { staticClass: "mx-auto" }, [
-          _vm._v("\n          Waktu belum selesai !!! "),
+          _vm._v("\n          Apakah semua praktikan sudah rating ? "),
           _c("br"),
-          _vm._v("\n          Apakah ingin tetap lanjut ?  \n        ")
+          _vm._v('\n          Jika sudah yakin maka klik "YEAH" \n        ')
         ])
       ]
     )
@@ -77206,74 +77944,6 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].directive('scroll', {
     };
 
     window.addEventListener('scroll', f);
-  }
-});
-vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('Timer', {
-  template: "\n  \t<div>\n      <div v-show =\"statusType !== 'expired'\">\n        <div class=\"day\">\n          <span class=\"number\">{{ days }}</span>\n          <div class=\"format\">{{ wordString.day }}</div>\n        </div>\n        <div class=\"hour\">\n          <span class=\"number\">{{ hours }}</span>\n          <div class=\"format\">{{ wordString.hours }}</div>\n        </div>\n        <div class=\"min\">\n          <span class=\"number\">{{ minutes }}</span>\n          <div class=\"format\">{{ wordString.minutes }}</div>\n        </div>\n        <div class=\"sec\">\n          <span class=\"number\">{{ seconds }}</span>\n          <div class=\"format\">{{ wordString.seconds }}</div>\n        </div>\n      </div>\n      <div class=\"message\">{{ message }}</div>\n      <div class=\"status-tag\" :class=\"statusType\">{{ statusText }}</div>\n    </div>\n  ",
-  props: ['starttime', 'endtime', 'trans'],
-  data: function data() {
-    return {
-      timer: "",
-      wordString: {},
-      start: "",
-      end: "",
-      interval: "",
-      days: "",
-      minutes: "",
-      hours: "",
-      seconds: "",
-      message: "",
-      statusType: "",
-      statusText: ""
-    };
-  },
-  created: function created() {
-    this.wordString = JSON.parse(this.trans);
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.start = new Date(this.starttime).getTime();
-    this.end = new Date(this.endtime).getTime(); // Update the count down every 1 second
-
-    this.timerCount(this.start, this.end);
-    this.interval = setInterval(function () {
-      _this.timerCount(_this.start, _this.end);
-    }, 1000);
-  },
-  methods: {
-    timerCount: function timerCount(start, end) {
-      // Get todays date and time
-      var now = new Date().getTime(); // Find the distance between now an the count down date
-
-      var distance = start - now;
-      var passTime = end - now;
-
-      if (distance < 0 && passTime < 0) {
-        this.message = this.wordString.expired;
-        this.statusType = "expired";
-        this.statusText = this.wordString.status.expired;
-        clearInterval(this.interval);
-        return;
-      } else if (distance < 0 && passTime > 0) {
-        this.calcTime(passTime);
-        this.message = this.wordString.running;
-        this.statusType = "running";
-        this.statusText = this.wordString.status.running;
-      } else if (distance > 0 && passTime > 0) {
-        this.calcTime(distance);
-        this.message = this.wordString.upcoming;
-        this.statusType = "upcoming";
-        this.statusText = this.wordString.status.upcoming;
-      }
-    },
-    calcTime: function calcTime(dist) {
-      // Time calculations for days, hours, minutes and seconds
-      this.days = Math.floor(dist / (1000 * 60 * 60 * 24));
-      this.hours = Math.floor(dist % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-      this.minutes = Math.floor(dist % (1000 * 60 * 60) / (1000 * 60));
-      this.seconds = Math.floor(dist % (1000 * 60) / 1000);
-    }
   }
 });
 new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({

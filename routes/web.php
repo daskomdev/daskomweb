@@ -239,7 +239,7 @@ Route::post('/cekPraktikum', 'PraktikumController@index')->name('cekPraktikum')-
 
 Route::post('/createLaporanPJ', 'LaporanPjController@store')->name('createLaporanPJ')->middleware('loggedIn:asisten');
 Route::post('/deleteLaporanPJ/{id}', 'LaporanPjController@destroy')->name('deleteLaporanPJ')->middleware('loggedIn:asisten');
-// Route::post('/createLaporanPJ', 'LaporanPjController@store')->name('createLaporanPJ')->middleware('loggedIn:asisten');
+Route::post('/updateLaporanPJ', 'LaporanPjController@update')->name('updateLaporanPJ')->middleware('loggedIn:asisten');
 
 Route::post('/startPraktikum', 'CurrentPraktikumController@store')->name('startPraktikum')->middleware('loggedIn:asisten');
 Route::post('/continuePraktikum/{status}', 'CurrentPraktikumController@update')->name('continuePraktikum')->middleware('loggedIn:asisten');
@@ -248,3 +248,5 @@ Route::post('/stopPraktikum', 'CurrentPraktikumController@destroy')->name('stopP
 Route::post('/makeHistory/jaga', 'HistoryJagaController@store')->name('createJagaHistory')->middleware('loggedIn:asisten');
 Route::post('/deleteHistory/jaga', 'HistoryJagaController@destroy')->name('deleteJagaHistory')->middleware('loggedIn:asisten');
 Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzinHistory')->middleware('loggedIn:asisten');
+
+Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');

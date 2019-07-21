@@ -182,19 +182,96 @@
 
       <div v-if="statusPraktikum == 5 ||
                  statusPraktikum == 6"
-          class="w-full h-24full flex absolute bottom-0 pointer-events-none">
-        <div class="w-full h-full flex-row">
-          <div v-if="statusPraktikum == 5" 
-              class="font-overpass-bold text-4xl text-white text-center m-auto">
-            PRAKTIKUM SELESAI <br>
-            Terimakasih atas kehadirannya <br>
-            (Silahkan rating asisten dan praktikumnya  😄 )
+          class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
+        <div class="w-full h-36full flex pointer-events-auto">
+          <div v-if="statusPraktikum == 5"  
+              class="w-full h-full flex-row">
+            <div class="w-full h-full flex">
+              <div
+                  class="font-overpass-bold text-4xl text-white text-center m-auto">
+                PRAKTIKUM SELESAI <br>
+                Terimakasih atas kehadirannya <br>
+                (Silahkan rating asisten dan praktikumnya  😄 )
+              </div>
+            </div>
           </div>
           <div v-if="statusPraktikum == 6" 
-              class="w-3/4 h-1/2">
-            PRAKTIKUM SELESAI <br>
-            Terimakasih atas kehadirannya <br>
-            (Silahkan rating asisten dan praktikumnya  😄 )
+              class="w-3/4 h-36full px-5 m-auto flex-row">
+            <div class="w-full h-1/4 flex">
+              <div class="w-1/4 h-full flex">
+                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                  JAGA
+                </div>
+              </div>
+              <div class="w-3/4 h-full py-2 flex">
+                <div class="w-full h-full">
+                  <input v-model="formHistoryJaga.allasisten_kode"
+                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                </div>
+              </div>
+            </div>
+            <div class="w-full h-1/4 flex">
+              <div class="w-1/4 h-full flex">
+                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                  IZIN
+                </div>
+              </div>
+              <div class="w-3/4 h-full py-2 flex">
+                <div class="w-full h-full">
+                  <input v-model="formHistoryIzin_Izin.allasisten_kode"
+                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                </div>
+              </div>
+            </div>
+            <div class="w-full h-1/4 flex">
+              <div class="w-1/4 h-full flex">
+                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                  SAKIT
+                </div>
+              </div>
+              <div class="w-3/4 h-full py-2 flex">
+                <div class="w-full h-full">
+                  <input v-model="formHistoryIzin_Sakit.allasisten_kode"
+                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                </div>
+              </div>
+            </div>
+            <div class="w-full h-1/4 flex">
+              <div class="w-1/4 h-full flex">
+                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                  ALFA
+                </div>
+              </div>
+              <div class="w-3/4 h-full py-2 flex">
+                <div class="w-full h-full">
+                  <input v-model="formHistoryIzin_Alfa.allasisten_kode"
+                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="statusPraktikum == 6"  
+              class="w-1/4 py-4 px-5 h-24full m-auto flex-row">
+            <span class="font-merri w-full text-left text-white text-lg h-1/4">
+              Laporan
+            </span>
+            <div class="w-full h-3/4">
+              <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
+                    class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    id="Laporan" type="text" placeholder="Asisten FAI jaga 2 kelompok"/>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/3 h-full m-auto flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+            v-on:click="goToNextSection(false)">
+          <div class="w-full h-16 bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+            <div class="w-auto select-none h-full m-auto items-center flex">
+              NEXT
+            </div>
           </div>
         </div>
       </div>
@@ -562,6 +639,7 @@ export default {
 
       listAllAsisten: [],
       listAllPraktikan: [],
+      pairingList: [],
 
       shuffledListAllAsisten: [],
       shuffledListAllPraktikan: [],
@@ -598,13 +676,40 @@ export default {
       formPraktikum: {
         kelas_id: '',
         modul_id: '',
+        pj_id: '',
+        laporan_id: '',
       },
 
       formHistoryJaga: {
+        allasisten_kode: '',
         hari: '',
         shift: '',
         pj: '',
         asisten_id: '',
+      },
+
+      formHistoryIzin_Izin: {
+        allasisten_kode: '',
+        hari: '',
+        shift: '',
+        status: 1,
+        modul_id: '',
+      },
+
+      formHistoryIzin_Sakit: {
+        allasisten_kode: '',
+        hari: '',
+        shift: '',
+        status: 2,
+        modul_id: '',
+      },
+
+      formHistoryIzin_Alfa: {
+        allasisten_kode: '',
+        hari: '',
+        shift: '',
+        status: 3,
+        modul_id: '',
       },
 
       formCurrentPraktikum: {
@@ -624,17 +729,11 @@ export default {
       // ***************************************************** //
       // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
       // ***************************************************** //
-      // TAtiming: moment().startOf('day').add(10, 'minutes'),
-      // JURNALtiming: moment().startOf('day').add(80, 'minutes'),
-      // MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
-      // TKtiming: moment().startOf('day').add(10, 'minutes'),
-      // countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
-
-      TAtiming: moment().startOf('day').add(5, 'seconds'),
-      JURNALtiming: moment().startOf('day').add(5, 'seconds'),
-      MANDIRItiming: moment().startOf('day').add(5, 'seconds'),
-      TKtiming: moment().startOf('day').add(5, 'seconds'),
-      countDown: moment().startOf('day').add(5, 'seconds'),
+      TAtiming: moment().startOf('day').add(10, 'minutes'),
+      JURNALtiming: moment().startOf('day').add(80, 'minutes'),
+      MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
+      TKtiming: moment().startOf('day').add(10, 'minutes'),
+      countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
     }
   },
 
@@ -730,7 +829,9 @@ export default {
       const globe = this;
       if(!$force){
 
-        if(!globe.countDown.isSame(moment().startOf('day'))){
+        if(!globe.countDown.isSame(moment().startOf('day')) && 
+            globe.statusPraktikum != 5 &&
+            globe.statusPraktikum != 6){
           globe.bigNextQuestionShown = true;
           return;
         }
@@ -739,7 +840,230 @@ export default {
           globe.bigRatingQuestionShown = true;
           return;
         }
+
+        if(globe.statusPraktikum == 6){
+
+          var sumAllAsisten_kode = [];
+
+          if(globe.formHistoryJaga.allasisten_kode != ''){
+            var tempArr = globe.formHistoryJaga.allasisten_kode.split("-");
+            for (let index = 0; index < tempArr.length; index++) {
+              const data = tempArr[index];
+              if(data == ""){
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+            sumAllAsisten_kode.push(globe.formHistoryJaga.allasisten_kode.split("-"));
+          }
+
+          if(globe.formHistoryIzin_Izin.allasisten_kode != ''){
+            var tempArr = globe.formHistoryIzin_Izin.allasisten_kode.split("-");
+            for (let index = 0; index < tempArr.length; index++) {
+              const data = tempArr[index];
+              if(data == ""){
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+            sumAllAsisten_kode.push(globe.formHistoryIzin_Izin.allasisten_kode.split("-"));
+          }
+
+          if(globe.formHistoryIzin_Sakit.allasisten_kode != ''){
+            var tempArr = globe.formHistoryIzin_Sakit.allasisten_kode.split("-");
+            for (let index = 0; index < tempArr.length; index++) {
+              const data = tempArr[index];
+              if(data == ""){
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+            sumAllAsisten_kode.push(globe.formHistoryIzin_Sakit.allasisten_kode.split("-"));
+          }
+
+          if(globe.formHistoryIzin_Alfa.allasisten_kode != ''){
+            var tempArr = globe.formHistoryIzin_Alfa.allasisten_kode.split("-");
+            for (let index = 0; index < tempArr.length; index++) {
+              const data = tempArr[index];
+              if(data == ""){
+                globe.$toasted.global.showError({
+                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                });
+                return;
+              }
+            }
+            sumAllAsisten_kode.push(globe.formHistoryIzin_Alfa.allasisten_kode.split("-"));
+          }
+
+          sumAllAsisten_kode = [].concat.apply([], sumAllAsisten_kode); // Flatten array of arrays
+          sumAllAsisten_kode = sumAllAsisten_kode.map(function(x){ return x.toUpperCase() }) // Convert all string to uppercase
+                    
+          let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index); // Checking for duplicates
+          if(findDuplicates(sumAllAsisten_kode).length > 0){
+            globe.$toasted.global.showError({
+              message: "Satu asisten tidak boleh berada dalam kolom yang berbeda"
+            });
+            return;
+          }
+
+          if(sumAllAsisten_kode.length == 0){
+            globe.$toasted.global.showError({
+              message: "Isi data terlebih dahulu"
+            });
+            return;
+          }
+
+          if(sumAllAsisten_kode.includes(globe.currentUser.kode)){
+            globe.$toasted.global.showError({
+              message: "Asisten PJ tidak perlu ditulis disini"
+            });
+            return;
+          }
+
+          var listAllAsistenKode = [];
+          globe.listAllAsisten.forEach(asisten => {
+            if(asisten.kode != globe.currentUser.kode)
+              listAllAsistenKode.push(asisten.kode);
+          });
+
+          let diff_FromList = sumAllAsisten_kode.filter(x => !listAllAsistenKode.includes(x));
+          let diff_FromSum = listAllAsistenKode.filter(x => !sumAllAsisten_kode.includes(x));
+
+          for (let index = 0; index < diff_FromList.length; index++) {
+            const element = diff_FromList[index];
+
+            if(sumAllAsisten_kode.includes(element)){
+              globe.$toasted.global.showError({
+                message: "Asisten "+diff_FromList+" tidak ada dalam praktikum ini"
+              });
+              return;
+            }
+          }
+
+          for (let index = 0; index < diff_FromSum.length; index++) {
+            const element = diff_FromSum[index];
+            if(listAllAsistenKode.includes(element)){
+              globe.$toasted.global.showError({
+                message: "Asisten "+diff_FromSum+" belum dimasukkan"
+              });
+              return;
+            }
+          }
+
+          globe.allKelas.forEach(kelas => {
+            if (kelas.id == globe.chosenKelasID)  {
+              globe.formHistoryJaga.hari = kelas.hari;
+              globe.formHistoryJaga.shift = kelas.shift;
+              globe.formHistoryIzin_Izin.hari = kelas.hari;
+              globe.formHistoryIzin_Izin.shift = kelas.shift;
+              globe.formHistoryIzin_Sakit.hari = kelas.hari;
+              globe.formHistoryIzin_Sakit.shift = kelas.shift;
+              globe.formHistoryIzin_Alfa.hari = kelas.hari;
+              globe.formHistoryIzin_Alfa.shift = kelas.shift;
+            }
+          });
+
+          globe.formHistoryJaga.pj = 0;
+          globe.formHistoryJaga.asisten_id = null;
+          globe.formHistoryIzin_Izin.modul_id = globe.chosenModulID;
+          globe.formHistoryIzin_Sakit.modul_id = globe.chosenModulID;
+          globe.formHistoryIzin_Alfa.modul_id = globe.chosenModulID;
+          
+          globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(response => {
+
+            if(response.data.message == "success") {
+
+              globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Izin).then(response => {
+
+                if(response.data.message == "success") {
+
+                  globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Sakit).then(response => {
+
+                    if(response.data.message == "success") {
+
+                      globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Alfa).then(response => {
+
+                        if(response.data.message == "success") {
+
+                          globe.$axios.post('/updateLaporanPJ', globe.formLaporanPj).then(response => {
+
+                            if(response.data.message == "success") {
+
+                              globe.formPraktikum.pj_id = globe.currentUser.id;
+                              globe.formPraktikum.laporan_id = globe.formLaporanPj.id;
+                              globe.$axios.post('/createPraktikum', globe.formPraktikum).then(response => {
+
+                                if(response.data.message == "success") {
+
+                                  globe.$toasted.global.showSuccess({
+                                    message: "Praktikum berhasil tersimpan"
+                                  });
+
+                                } else {
+                                  globe.$toasted.global.showError({
+                                    message: response.data.message
+                                  });
+                                }
+                              });
+                              globe.$axios.post('/stopPraktikum').then(response => {
+
+                                if(response.data.message == "success") {
+                                  //Do nothing
+                                  
+
+                                } else {
+                                  globe.$toasted.global.showError({
+                                    message: response.data.message
+                                  });
+                                }
+                              });
+
+                            } else {
+                              globe.$toasted.global.showError({
+                                message: response.data.message
+                              });
+                            }
+                          });
+
+                        } else {
+                          globe.$toasted.global.showError({
+                            message: response.data.message
+                          });
+                        }
+                      });
+
+                    } else {
+                      globe.$toasted.global.showError({
+                        message: response.data.message
+                      });
+                    }
+                  });
+
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              });
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+        }
       }
+
+      //TODO: then change all the asisten with izin condition with the one that exactly teach in the praktikum
+      globe.bigNextQuestionShown = false;
+      globe.bigRatingQuestionShown = false;
       globe.soundPlayed = false;
       globe.countdownStarted = false;
       globe.statusPraktikum++;
@@ -767,9 +1091,9 @@ export default {
         case 4:
           globe.countDown = globe.TKtiming;
           break;
-        case 5:
-          break;
         case 6:
+          globe.praktikumStart = false;
+          globe.statusPraktikum = 0;
           break;
       }
     },
@@ -801,13 +1125,13 @@ export default {
         return;
       }
 
-      console.log(this.listAllAsisten);
-
       this.shuffledListAllAsisten = this.shuffleArr(this.listAllAsisten);
       this.shuffledListAllPraktikan = this.shuffleArr(this.listAllPraktikan);
 
       this.listAllAsisten = this.shuffledListAllAsisten;
       this.listAllPraktikan = this.shuffledListAllPraktikan;
+
+      //little bit hacky but works :v
       this.isMenuShown = true;
       this.isMenuShown = false;
     },
@@ -931,6 +1255,20 @@ export default {
 
         globe.$toasted.global.showError({
           message: "Pilih modul terlebih dahulu"
+        });
+        return;
+      }
+
+      var isKodeExist = false;
+      globe.listAllAsisten.forEach(element => {
+        if(element.kode == globe.currentUser.kode)
+          isKodeExist = true;
+      });
+
+      if(!isKodeExist){
+
+        globe.$toasted.global.showError({
+          message: "Anda tidak ada dalam praktikum kelas ini<br>Hanya asisten dalam praktikum ini yang bisa mengaktivasinya"
         });
         return;
       }

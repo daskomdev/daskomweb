@@ -21,9 +21,11 @@ class PraktikumController extends Controller
         if(Praktikum::where("modul_id", $request->modul_id)
             ->where("kelas_id", $request->kelas_id)
             ->exists())
-            return '{"message": "Praktikum modul'. 
-                        Modul::where("id", $request->modul_id)->judul .
-                    'pada kelas'. Kelas::where("id", $request->kelas_id)->kelas .'sudah SELESAI"}';
+            return response()->json([
+                'message'=> 'Praktikum modul "'. 
+                            Modul::where("id", $request->modul_id)->first()->judul .
+                            '" pada kelas '. Kelas::where("id", $request->kelas_id)->first()->kelas .' sudah SELESAI',
+            ], 200);
 
         return '{"message": "success"}';
     }
@@ -46,7 +48,14 @@ class PraktikumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Praktikum::create([
+            'modul_id'    => $request->modul_id,
+            'kelas_id'    => $request->kelas_id,
+            'pj_id'       => $request->pj_id,
+            'laporan_id'  => $request->laporan_id,
+        ]); 
+
+        return '{"message": "success"}';
     }
 
     /**

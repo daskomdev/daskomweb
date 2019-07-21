@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\History_Jaga;
+use App\Asisten;
 use Illuminate\Http\Request;
 
 class HistoryJagaController extends Controller
@@ -35,12 +36,24 @@ class HistoryJagaController extends Controller
      */
     public function store(Request $request)
     {
-        History_Jaga::create([
-            'hari'          => $request->hari,
-            'shift'         => $request->shift,
-            'pj'            => $request->pj,
-            'asisten_id'    => $request->asisten_id,
-        ]);
+        if($request->asisten_id != null)
+            History_Jaga::create([
+                'hari'          => $request->hari,
+                'shift'         => $request->shift,
+                'pj'            => $request->pj,
+                'asisten_id'    => $request->asisten_id,
+            ]);
+        else {
+            foreach (explode("-", $request->allasisten_kode) as $kode => $value) {
+                
+                History_Jaga::create([
+                    'hari'          => $request->hari,
+                    'shift'         => $request->shift,
+                    'pj'            => $request->pj,
+                    'asisten_id'    => Asisten::where('kode', $value)->first()->id,
+                ]); 
+            }
+        }
 
         return '{"message": "success"}';
     }
