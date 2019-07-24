@@ -62,7 +62,7 @@ module.exports = {
       spacing: {
         '34': '8.5rem',
         '36': '9rem',
-        '72': '17rem',
+        '72': '18rem',
         '20percent': '20%',
         '120': '20rem',
         '5': '1.15rem',
@@ -75,6 +75,7 @@ module.exports = {
         '36full': 'calc(100% - 9rem)',
         '24full': 'calc(100% - 6rem)',
         '16full': 'calc(100% - 4rem)',
+        '12full': 'calc(100% - 3rem)',
         '120full': 'calc(100% - 20rem)',
       },
 

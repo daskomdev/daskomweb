@@ -17,6 +17,7 @@ class CreateCurrentPraktikumsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('asisten_id');
             $table->unsignedBigInteger('kelas_id');
+            $table->unsignedBigInteger('modul_id');
             $table->integer('status');
             $table->timestamps();
 
@@ -28,6 +29,11 @@ class CreateCurrentPraktikumsTable extends Migration
             $table->foreign('kelas_id')
                 ->references('id')
                 ->on('kelas')
+                ->onDelete('cascade');
+
+            $table->foreign('modul_id')
+                ->references('id')
+                ->on('moduls')
                 ->onDelete('cascade');
         });
     }

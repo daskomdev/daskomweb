@@ -70,6 +70,7 @@ Route::get('/asisten', function () {
 
 Route::get('/praktikan', function () {
     $user = Auth::guard('praktikan')->user();
+    $user->kelas = Kelas::where('id', $user->kelas_id)->first()->kelas;
     $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
     return Inertia::render('Praktikan', [
         'comingFrom' => $comingFrom,
@@ -240,10 +241,12 @@ Route::post('/cekPraktikum', 'PraktikumController@index')->name('cekPraktikum')-
 Route::post('/createLaporanPJ', 'LaporanPjController@store')->name('createLaporanPJ')->middleware('loggedIn:asisten');
 Route::post('/deleteLaporanPJ/{id}', 'LaporanPjController@destroy')->name('deleteLaporanPJ')->middleware('loggedIn:asisten');
 Route::post('/updateLaporanPJ', 'LaporanPjController@update')->name('updateLaporanPJ')->middleware('loggedIn:asisten');
+Route::post('/currentLaporanPJ', 'LaporanPjController@show')->name('currentLaporanPJ')->middleware('loggedIn:asisten');
 
 Route::post('/startPraktikum', 'CurrentPraktikumController@store')->name('startPraktikum')->middleware('loggedIn:asisten');
 Route::post('/continuePraktikum/{status}', 'CurrentPraktikumController@update')->name('continuePraktikum')->middleware('loggedIn:asisten');
 Route::post('/stopPraktikum', 'CurrentPraktikumController@destroy')->name('stopPraktikum')->middleware('loggedIn:asisten');
+Route::post('/checkPraktikum', 'CurrentPraktikumController@show')->name('checkPraktikum')->middleware('loggedIn:asisten');
 
 Route::post('/makeHistory/jaga', 'HistoryJagaController@store')->name('createJagaHistory')->middleware('loggedIn:asisten');
 Route::post('/deleteHistory/jaga', 'HistoryJagaController@destroy')->name('deleteJagaHistory')->middleware('loggedIn:asisten');

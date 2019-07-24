@@ -1,5 +1,6 @@
 <?php
 
+use App\Current_Praktikum;
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -11,6 +12,6 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('praktikum.{kelas_id}', function ($user, $kelas_id) {
+    return $user->kelas_id === $kelas_id;
 });

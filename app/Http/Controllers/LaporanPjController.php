@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Laporan_Pj;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LaporanPjController extends Controller
 {
@@ -54,12 +55,14 @@ class LaporanPjController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Laporan_Pj  $laporan_Pj
      * @return \Illuminate\Http\Response
      */
-    public function show(Laporan_Pj $laporan_Pj)
+    public function show()
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'latestLaporanID' => DB::table('laporan__pjs')->orderBy('created_at', 'desc')->first()->id,
+        ], 200);
     }
 
     /**

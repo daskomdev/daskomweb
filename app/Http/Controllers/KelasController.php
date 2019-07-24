@@ -74,6 +74,7 @@ class KelasController extends Controller
          
         $all_jadwal = Jadwal_Jaga::where('kelas_id', $kelas_id)->get();
 
+        $all_asisten = [];
         foreach ($all_jadwal as $jadwal => $value) {
             $all_asisten[] = Asisten::where('id', $value->asisten_id)->first();
         }

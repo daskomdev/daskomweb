@@ -444,7 +444,7 @@
                                 { 'bg-gray-600 text-white': 
                                     parseInt((praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? index : index+(praktikanComplete - praktikanLeft)) / 
                                       (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? praktikanComplete+1 : praktikanComplete)) 
-                                    % 2 == (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 == 1 && praktikanLeft < praktikanComplete || praktikanLeft == praktikanComplete ? 0 : 1)) }]">
+                                    % 2 == (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 == 0 || praktikanLeft == praktikanComplete ? 0 : 1)) }]">
                         <div class="m-auto font-monda text-2xl whitespace-pre-wrap">{{ praktikan.nim.substring(0,6) }}   {{ praktikan.nim.substring(6,10) }}</div>
                       </div>
                     </div>
@@ -715,6 +715,7 @@ export default {
       formCurrentPraktikum: {
         asisten_id: '', //Current Asisten ID (Assuming he/she is the PJ)
         kelas_id: '',
+        modul_id: '',
       },
 
       formLaporanPj: {
@@ -762,6 +763,43 @@ export default {
           globe.currentPage = true;
         }, 10); 
     }
+
+    globe.$axios.post('/checkPraktikum').then(response => {
+
+      if(response.data.message == "success") {
+
+        if(response.data.current_praktikum != null){
+
+          //There is currently active praktikum
+          globe.formCurrentPraktikum.asisten_id = response.data.current_praktikum.asisten_id;
+          globe.formCurrentPraktikum.kelas_id = response.data.current_praktikum.kelas_id;
+          globe.formCurrentPraktikum.modul_id = response.data.current_praktikum.modul_id;
+          globe.statusPraktikum = response.data.current_praktikum.status;
+          globe.chosenKelasID = response.data.current_praktikum.kelas_id;
+          globe.chosenModulID = response.data.current_praktikum.modul_id;
+          globe.getAllAsistenPraktikan();
+          globe.praktikumStart = true;
+
+          globe.$axios.post('/currentLaporanPJ').then(response => {
+
+            if(response.data.message == "success") {
+              
+              globe.formLaporanPj.id = response.data.latestLaporanID;
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+        }
+
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    });
   },
 
   methods: {
@@ -1061,7 +1099,6 @@ export default {
         }
       }
 
-      //TODO: then change all the asisten with izin condition with the one that exactly teach in the praktikum
       globe.bigNextQuestionShown = false;
       globe.bigRatingQuestionShown = false;
       globe.soundPlayed = false;
@@ -1310,6 +1347,7 @@ export default {
           });
 
           globe.formCurrentPraktikum.kelas_id = globe.chosenKelasID;
+          globe.formCurrentPraktikum.modul_id = globe.chosenModulID;
           globe.formCurrentPraktikum.asisten_id = globe.currentUser.id;
           globe.$axios.post('/startPraktikum', globe.formCurrentPraktikum).then(response => {
 

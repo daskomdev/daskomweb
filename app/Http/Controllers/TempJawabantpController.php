@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Current_Praktikum;
-use App\Events\praktikumStatusUpdated;
+use App\Temp_Jawabantp;
 use Illuminate\Http\Request;
 
-class CurrentPraktikumController extends Controller
+class TempJawabantpController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,37 +35,36 @@ class CurrentPraktikumController extends Controller
      */
     public function store(Request $request)
     {
-        DB::table('current__praktikums')->truncate();
-
-        Current_Praktikum::create([
-            'asisten_id' => $request->asisten_id,
-            'kelas_id'   => $request->kelas_id,
-            'status'     => 0,
+        Temp_Jawabantp::create([
+            'soal_id' => $request->soal_id,
+            'jawaban' => $request->jawaban,
         ]);
 
-        return '{"message": "success"}';
+        $id = Temp_Jawabantp::where('jawaban', $request->jawaban)
+            ->where('soal_id', $request->soal_id)
+            ->first()->id;
+
+        return '{"message": "success", "id": '. $id .'}';
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \App\Temp_Jawabantp  $temp_Jawabantp
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Temp_Jawabantp $temp_Jawabantp)
     {
-        return response()->json([
-            'message' => 'success',
-            'current_praktikum' => Current_Praktikum::all()->first(),
-        ], 200);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Current_Praktikum  $current_Praktikum
+     * @param  \App\Temp_Jawabantp  $temp_Jawabantp
      * @return \Illuminate\Http\Response
      */
-    public function edit(Current_Praktikum $current_Praktikum)
+    public function edit(Temp_Jawabantp $temp_Jawabantp)
     {
         //
     }
@@ -76,27 +73,22 @@ class CurrentPraktikumController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Current_Praktikum  $current_Praktikum
+     * @param  \App\Temp_Jawabantp  $temp_Jawabantp
      * @return \Illuminate\Http\Response
      */
-    public function update($status)
+    public function update(Request $request, Temp_Jawabantp $temp_Jawabantp)
     {
-        $praktikum = Current_Praktikum::all()->first();
-        $praktikum->status = $status;
-        $praktikum->save();
-
-        broadcast(new praktikumStatusUpdated($praktikum));
-
-        return '{"message": "success"}';
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Temp_Jawabantp  $temp_Jawabantp
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(Temp_Jawabantp $temp_Jawabantp)
     {
-        DB::table('current__praktikums')->truncate();
+        //
     }
 }

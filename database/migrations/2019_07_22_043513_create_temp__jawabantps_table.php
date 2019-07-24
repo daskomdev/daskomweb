@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTugaspendahuluansTable extends Migration
+class CreateTempJawabantpsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateTugaspendahuluansTable extends Migration
      */
     public function up()
     {
-        Schema::create('tugaspendahuluans', function (Blueprint $table) {
+        Schema::create('temp__jawabantps', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('modul_id');
-            $table->text('pembahasan');
+            $table->unsignedBigInteger('soal_id');
+            $table->text('jawaban')->nullable()->default('text');
             $table->timestamps();
-
-            $table->foreign('modul_id')
+            
+            $table->foreign('soal_id')
                 ->references('id')
-                ->on('moduls')
+                ->on('soal__tps')
                 ->onDelete('cascade');
         });
     }
@@ -33,6 +33,6 @@ class CreateTugaspendahuluansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tugaspendahuluans');
+        Schema::dropIfExists('temp__jawabantps');
     }
 }

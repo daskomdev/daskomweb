@@ -7,6 +7,76 @@
                 { 'right-minFull': !pageActive }]" @mouseover="isMenuShown = false">
       <div class="rounded-l-large my-auto h-36full w-full bg-yellow-200">
 
+        <div v-if="isProfil">
+          <div class="h-auto w-full flex">
+            <div class="ml-6 mt-6 flex w-auto h-auto whitespace-pre-wrap font-monda-bold text-6xl">
+              <span>{{ currentUser.nama }}</span>
+              <span class="font-merri-italic text-4xl mt-6 ml-4"> ({{ currentUser.email }})</span>
+            </div>
+          </div>
+          <div class="h-auto w-full flex-row">
+            <div class="h-1/3 w-full flex"> 
+              <div class="w-auto h-auto ml-16 mt-8">
+                <span class="font-overpass text-3xl">Kelas : </span>
+                <span class="whitespace-pre-wrap font-overpass-bold text-3xl"> {{ currentUser.kelas }}</span>
+              </div>
+            </div>
+            <div class="h-1/3 w-full flex">
+              <div class="w-auto h-auto ml-16 mt-4">
+                <span class="font-overpass text-3xl">Nomor Telepon : </span>
+                <span class="whitespace-pre-wrap font-overpass-bold text-3xl"> {{ currentUser.nomor_telepon }}</span>
+              </div>
+            </div>
+            <div class="h-1/3 w-full flex">
+              <div class="w-auto h-auto ml-16 mt-4">
+                <span class="font-overpass text-3xl">Alamat : </span>
+                <span class="whitespace-pre-wrap font-overpass-bold text-3xl"> {{ currentUser.alamat }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="isTP" class="w-full h-full flex">
+          <div class="h-full w-full flex-row relative">
+            <div class="w-full flex absolute top-0 rounded-tl-large animation-enable"
+                :class="[{ 'bg-green-400 h-12': soalOpened },
+                        { 'bg-green-100 h-12full': !soalOpened }]">
+              <div class="w-full h-full relative flex">
+                <div class="h-auto w-full select-none absolute bottom-0 flex pb-1 mx-auto font-overpass-mono-bold text-2xl animation-enable"
+                    :class="[{ 'text-yellow-100 cursor-pointer': soalOpened },
+                            { 'text-black': !soalOpened }]"
+                    v-on:click="soalOpened = false">
+                  <span class="m-auto">PEMBAHASAN</span> 
+                </div>
+              </div>
+            </div>
+            <div class="w-full flex absolute bottom-0 rounded-bl-large animation-enable"
+                :class="[{ 'bg-green-100 h-12full': soalOpened },
+                        { 'bg-green-400 h-12': !soalOpened }]">
+              <div class="w-full h-full relative flex">
+                <div class="h-auto w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable"
+                    :class="[{ 'text-yellow-100 cursor-pointer': !soalOpened },
+                            { 'text-black': soalOpened }]"
+                    v-on:click="soalOpened = true">
+                  <span class="w-10 h-10 flex ml-auto">
+                    <img class="w-full h-full fas fa-caret-left">
+                  </span>
+                  <span class="my-auto mx-4">SOAL</span>
+                  <span class="w-10 h-10 flex mr-auto">
+                    <img class="w-full h-full fas fa-caret-right">
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="isPraktikum" class="w-full h-full flex">
+          <div class="">
+
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -250,6 +320,8 @@ export default {
       isMenuShown: false,
       messageOpened: false,
 
+      soalOpened: true,
+
       formMessage: {
         kode: '',
         pesan: '',
@@ -272,6 +344,17 @@ export default {
           globe.pageActive = true;
         }, 10); 
     }
+
+    Echo.channel(`daskom_database_praktikum.${globe.currentUser.kelas_id}`)
+        .listen('praktikumStatusUpdated', (e) => {
+            console.log(e);
+        });
+  },
+
+  beforeDestroy() {
+
+    const globe = this;
+    Echo.leave(`daskom_database_praktikum.${globe.currentUser.kelas_id}`);
   },
 
   methods: {
