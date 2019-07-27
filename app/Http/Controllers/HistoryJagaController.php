@@ -61,12 +61,14 @@ class HistoryJagaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\History_Jaga  $history_Jaga
      * @return \Illuminate\Http\Response
      */
-    public function show(History_Jaga $history_Jaga)
+    public function show()
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'latestPJHistory' => History_Jaga::where('pj', 1)->orderBy('created_at', 'desc')->first(),
+        ], 200);
     }
 
     /**

@@ -81,7 +81,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id == 2">
+        <div v-if="currentUser.role_id === 2">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -180,11 +180,11 @@
                 { 'left-minFull': !currentPage }]"
         @mouseover="isMenuShown = false;">
 
-      <div v-if="statusPraktikum == 5 ||
-                 statusPraktikum == 6"
+      <div v-if="statusPraktikum === 5 ||
+                 statusPraktikum === 6"
           class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
         <div class="w-full h-36full flex pointer-events-auto">
-          <div v-if="statusPraktikum == 5"  
+          <div v-if="statusPraktikum === 5"  
               class="w-full h-full flex-row">
             <div class="w-full h-full flex">
               <div
@@ -195,7 +195,7 @@
               </div>
             </div>
           </div>
-          <div v-if="statusPraktikum == 6" 
+          <div v-if="statusPraktikum === 6" 
               class="w-3/4 h-36full px-5 m-auto flex-row">
             <div class="w-full h-1/4 flex">
               <div class="w-1/4 h-full flex">
@@ -254,7 +254,7 @@
               </div>
             </div>
           </div>
-          <div v-if="statusPraktikum == 6"  
+          <div v-if="statusPraktikum === 6"  
               class="w-1/4 py-4 px-5 h-24full m-auto flex-row">
             <span class="font-merri w-full text-left text-white text-lg h-1/4">
               Laporan
@@ -276,37 +276,37 @@
         </div>
       </div>
 
-      <div v-if="statusPraktikum == 0 ||
-                 statusPraktikum == 1 ||
-                 statusPraktikum == 2 ||
-                 statusPraktikum == 3 ||
-                 statusPraktikum == 4" 
+      <div v-if="statusPraktikum === 0 ||
+                 statusPraktikum === 1 ||
+                 statusPraktikum === 2 ||
+                 statusPraktikum === 3 ||
+                 statusPraktikum === 4" 
           class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
         <div class="w-full h-1/2 flex">
           <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
             <span class="font-overpass-bold text-3xl text-center"
-                :class="[{ 'visible': statusPraktikum == 0 },
+                :class="[{ 'visible': statusPraktikum === 0 },
                         { 'hidden': statusPraktikum != 0 }]">
               PRAKTIKUM DASKOM<br>
               (Klik START untuk memulai TA)
             </span> 
             <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum == 1 },
+                :class="[{ 'visible': statusPraktikum === 1 },
                         { 'hidden': statusPraktikum != 1 }]">
               TA
             </span> 
             <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum == 2 },
+                :class="[{ 'visible': statusPraktikum === 2 },
                         { 'hidden': statusPraktikum != 2 }]">
               JURNAL
             </span> 
             <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum == 3 },
+                :class="[{ 'visible': statusPraktikum === 3 },
                         { 'hidden': statusPraktikum != 3 }]">
               MANDIRI
             </span> 
             <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum == 4 },
+                :class="[{ 'visible': statusPraktikum === 4 },
                         { 'hidden': statusPraktikum != 4 }]">
               TK
             </span> 
@@ -323,7 +323,9 @@
           <div class="w-full h-24 flex">
             <div class="w-3/4 h-full m-auto flex">
               <div class="w-full h-full flex">
-                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                    :class="[{ 'w-1/2': statusPraktikum === 0 },
+                            { 'w-1/3': statusPraktikum !== 0 }]"
                     v-on:click="rollbackPraktikum(false)">
                   <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
                     <div class="w-auto select-none h-full m-auto items-center flex">
@@ -331,9 +333,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
                     :class="[{ 'hidden': countdownStarted },
-                            { 'visible': !countdownStarted }]"
+                            { 'visible': !countdownStarted },
+                            { 'w-1/2': statusPraktikum === 0 },
+                            { 'w-1/3': statusPraktikum !== 0 }]"
                     v-on:click="startCountdown()">
                   <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
                     <div class="w-auto select-none h-full m-auto items-center flex">
@@ -341,9 +345,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
                     :class="[{ 'hidden': !countdownStarted },
-                            { 'visible': countdownStarted }]"
+                            { 'visible': countdownStarted },
+                            { 'w-1/2': statusPraktikum === 0 },
+                            { 'w-1/3': statusPraktikum !== 0 }]"
                     v-on:click="pauseCountdown()">
                   <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
                     <div class="w-auto select-none h-full m-auto items-center flex">
@@ -352,6 +358,8 @@
                   </div>
                 </div>
                 <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                    :class="[{ 'hidden': statusPraktikum === 0 },
+                            { 'visible': statusPraktikum !== 0 }]"
                     v-on:click="goToNextSection(false)">
                   <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
                     <div class="w-auto select-none h-full m-auto items-center flex">
@@ -416,10 +424,10 @@
                     <div v-for="(asisten, index) in listAllAsisten" v-bind:key="asisten.id" 
                         class="animation-enable w-full flex-row"
                         :class="['h-'+ 12 * (praktikanComplete + (praktikanLeft-(index+1) >= 0 ? 1 : 0)),
-                                { 'bg-gray-300 text-black': index % 2 == 0 },
+                                { 'bg-gray-300 text-black': index % 2 === 0 },
                                 { 'bg-gray-600 text-white': index % 2 != 0 },
-                                { 'rounded-tl-lg': index == 0 },
-                                { 'rounded-bl-lg': index+1 == listAllAsisten.length }]">
+                                { 'rounded-tl-lg': index === 0 },
+                                { 'rounded-bl-lg': index+1 === listAllAsisten.length }]">
                       <div class="w-full h-1/2 flex">
                         <div class="mx-auto mt-auto font-overpass-bold pt-8 text-4xl">
                           {{ asisten.kode }}
@@ -439,12 +447,12 @@
                     <div v-for="(praktikan, index) in listAllPraktikan" v-bind:key="praktikan.id" 
                         class="animation-enable w-full h-12 flex-row">
                       <div class="w-full h-full flex"
-                        :class="[{ 'rounded-tr-lg': index == 0 },
-                                { 'rounded-br-lg': index == listAllPraktikan.length-1 },
+                        :class="[{ 'rounded-tr-lg': index === 0 },
+                                { 'rounded-br-lg': index === listAllPraktikan.length-1 },
                                 { 'bg-gray-600 text-white': 
                                     parseInt((praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? index : index+(praktikanComplete - praktikanLeft)) / 
                                       (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? praktikanComplete+1 : praktikanComplete)) 
-                                    % 2 == (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 == 0 || praktikanLeft == praktikanComplete ? 0 : 1)) }]">
+                                    % 2 === (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 === 1 && praktikanLeft < praktikanComplete || praktikanLeft === praktikanComplete ? 0 : 1)) }]">
                         <div class="m-auto font-monda text-2xl whitespace-pre-wrap">{{ praktikan.nim.substring(0,6) }}   {{ praktikan.nim.substring(6,10) }}</div>
                       </div>
                     </div>
@@ -655,8 +663,8 @@ export default {
       oldKelasID: '',
       chosenKelasID: '',
       chosenModulID: '',
-      praktikanComplete: '',
       praktikanLeft: '',
+      praktikanComplete: '',
 
       /****************************/
       /*  JENIS STATUS (7 Steps)  */
@@ -751,12 +759,12 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'asisten' ||
-        this.comingFrom == 'none' ||
-        this.comingFrom == 'kelas'||
-        this.comingFrom == 'soal'||
-        this.comingFrom == 'plotting'||
-        this.comingFrom == 'modul'){
+    if(this.comingFrom === 'asisten' ||
+        this.comingFrom === 'none' ||
+        this.comingFrom === 'kelas'||
+        this.comingFrom === 'soal'||
+        this.comingFrom === 'plotting'||
+        this.comingFrom === 'modul'){
 
       setTimeout(
         function() {
@@ -766,7 +774,7 @@ export default {
 
     globe.$axios.post('/checkPraktikum').then(response => {
 
-      if(response.data.message == "success") {
+      if(response.data.message === "success") {
 
         if(response.data.current_praktikum != null){
 
@@ -782,9 +790,25 @@ export default {
 
           globe.$axios.post('/currentLaporanPJ').then(response => {
 
-            if(response.data.message == "success") {
+            if(response.data.message === "success") {
               
               globe.formLaporanPj.id = response.data.latestLaporanID;
+
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+
+          globe.$axios.post('/latestPJHistory/jaga').then(response => {
+
+            if(response.data.message === "success") {
+              
+              globe.formHistoryJaga.hari = response.data.latestPJHistory.hari;
+              globe.formHistoryJaga.shift = response.data.latestPJHistory.shift;
+              globe.formHistoryJaga.pj = response.data.latestPJHistory.pj;
+              globe.formHistoryJaga.asisten_id = response.data.latestPJHistory.asisten_id;
 
             } else {
               globe.$toasted.global.showError({
@@ -806,23 +830,23 @@ export default {
 
     setCurrentMenu: function($whereTo, $bool){
 
-      if($whereTo == "praktikum")
+      if($whereTo === "praktikum")
         this.menuPraktikum = $bool;
-      if($whereTo == "soal")
+      if($whereTo === "soal")
         this.menuSoal = $bool;
-      if($whereTo == "listTp")
+      if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo == "history")
+      if($whereTo === "history")
         this.menuHistory = $bool;
-      if($whereTo == "polling")
+      if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo == "asisten")
+      if($whereTo === "asisten")
         this.menuProfil = $bool;
-      if($whereTo == "kelas")
+      if($whereTo === "kelas")
         this.menuKelas = $bool;
-      if($whereTo == "modul")
+      if($whereTo === "modul")
         this.menuModul = $bool;
-      if($whereTo == "plotting")
+      if($whereTo === "plotting")
         this.menuPlotting = $bool;
     },
 
@@ -868,18 +892,18 @@ export default {
       if(!$force){
 
         if(!globe.countDown.isSame(moment().startOf('day')) && 
-            globe.statusPraktikum != 5 &&
-            globe.statusPraktikum != 6){
+            globe.statusPraktikum !== 5 &&
+            globe.statusPraktikum !== 6){
           globe.bigNextQuestionShown = true;
           return;
         }
 
-        if(globe.statusPraktikum == 5){
+        if(globe.statusPraktikum === 5){
           globe.bigRatingQuestionShown = true;
           return;
         }
 
-        if(globe.statusPraktikum == 6){
+        if(globe.statusPraktikum === 6){
 
           var sumAllAsisten_kode = [];
 
@@ -887,7 +911,7 @@ export default {
             var tempArr = globe.formHistoryJaga.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
-              if(data == ""){
+              if(data === ""){
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -901,7 +925,7 @@ export default {
             var tempArr = globe.formHistoryIzin_Izin.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
-              if(data == ""){
+              if(data === ""){
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -915,7 +939,7 @@ export default {
             var tempArr = globe.formHistoryIzin_Sakit.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
-              if(data == ""){
+              if(data === ""){
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -929,7 +953,7 @@ export default {
             var tempArr = globe.formHistoryIzin_Alfa.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
-              if(data == ""){
+              if(data === ""){
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -950,7 +974,7 @@ export default {
             return;
           }
 
-          if(sumAllAsisten_kode.length == 0){
+          if(sumAllAsisten_kode.length === 0){
             globe.$toasted.global.showError({
               message: "Isi data terlebih dahulu"
             });
@@ -995,7 +1019,7 @@ export default {
           }
 
           globe.allKelas.forEach(kelas => {
-            if (kelas.id == globe.chosenKelasID)  {
+            if (kelas.id === globe.chosenKelasID)  {
               globe.formHistoryJaga.hari = kelas.hari;
               globe.formHistoryJaga.shift = kelas.shift;
               globe.formHistoryIzin_Izin.hari = kelas.hari;
@@ -1015,29 +1039,29 @@ export default {
           
           globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(response => {
 
-            if(response.data.message == "success") {
+            if(response.data.message === "success") {
 
               globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Izin).then(response => {
 
-                if(response.data.message == "success") {
+                if(response.data.message === "success") {
 
                   globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Sakit).then(response => {
 
-                    if(response.data.message == "success") {
+                    if(response.data.message === "success") {
 
                       globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Alfa).then(response => {
 
-                        if(response.data.message == "success") {
+                        if(response.data.message === "success") {
 
                           globe.$axios.post('/updateLaporanPJ', globe.formLaporanPj).then(response => {
 
-                            if(response.data.message == "success") {
+                            if(response.data.message === "success") {
 
                               globe.formPraktikum.pj_id = globe.currentUser.id;
                               globe.formPraktikum.laporan_id = globe.formLaporanPj.id;
                               globe.$axios.post('/createPraktikum', globe.formPraktikum).then(response => {
 
-                                if(response.data.message == "success") {
+                                if(response.data.message === "success") {
 
                                   globe.$toasted.global.showSuccess({
                                     message: "Praktikum berhasil tersimpan"
@@ -1051,7 +1075,7 @@ export default {
                               });
                               globe.$axios.post('/stopPraktikum').then(response => {
 
-                                if(response.data.message == "success") {
+                                if(response.data.message === "success") {
                                   //Do nothing
                                   
 
@@ -1107,7 +1131,7 @@ export default {
 
       globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
             //DO NOTHING (it runs as we expected)
 
         } else {
@@ -1117,7 +1141,7 @@ export default {
         }
       });
 
-      //(If status Praktikum == 1, means all the layout condition still on its default state)
+      //(If status Praktikum === 1, means all the layout condition still on its default state)
       switch (globe.statusPraktikum) {
         case 2:
           globe.countDown = globe.JURNALtiming;
@@ -1138,7 +1162,7 @@ export default {
     shuffleEmAll: function(){
 
       const globe = this;
-      if(this.chosenKelasID == ""){
+      if(this.chosenKelasID === ""){
 
         globe.$toasted.global.showError({
           message: "Pilih kelas terlebih dahulu"
@@ -1186,7 +1210,7 @@ export default {
           globe.$axios.post('/stopPraktikum');
           globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
 
-            if(response.data.message == "success") {
+            if(response.data.message === "success") {
                 //DO NOTHING (it runs as we expected)
 
             } else {
@@ -1209,7 +1233,7 @@ export default {
         globe.$axios.post('/stopPraktikum');
         globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
               //DO NOTHING (it runs as we expected)
 
           } else {
@@ -1234,12 +1258,12 @@ export default {
       this.countdownStarted = true;
       const globe = this;
       
-      if(this.statusPraktikum == 0){
+      if(this.statusPraktikum === 0){
         
         this.statusPraktikum = 1;
         globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
               //DO NOTHING (it runs as we expected)
 
           } else {
@@ -1264,7 +1288,7 @@ export default {
     startThePracticum: function(){
 
       const globe = this;
-      if(this.chosenKelasID == ""){
+      if(this.chosenKelasID === ""){
 
         globe.$toasted.global.showError({
           message: "Pilih kelas terlebih dahulu"
@@ -1288,7 +1312,7 @@ export default {
         return;
       }
 
-      if(this.chosenModulID == ''){
+      if(this.chosenModulID === ''){
 
         globe.$toasted.global.showError({
           message: "Pilih modul terlebih dahulu"
@@ -1298,7 +1322,7 @@ export default {
 
       var isKodeExist = false;
       globe.listAllAsisten.forEach(element => {
-        if(element.kode == globe.currentUser.kode)
+        if(element.kode === globe.currentUser.kode)
           isKodeExist = true;
       });
 
@@ -1314,10 +1338,10 @@ export default {
       this.formPraktikum.modul_id = this.chosenModulID;
       this.$axios.post('/cekPraktikum', this.formPraktikum).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.allKelas.forEach(kelas => {
-            if (kelas.id == globe.chosenKelasID)  {
+            if (kelas.id === globe.chosenKelasID)  {
               globe.formLaporanPj.hari = kelas.hari;
               globe.formLaporanPj.shift = kelas.shift;
             }
@@ -1334,7 +1358,7 @@ export default {
           
           globe.$axios.post('/createLaporanPJ', globe.formLaporanPj).then(response => {
 
-            if(response.data.message == "success") {
+            if(response.data.message === "success") {
 
               globe.formLaporanPj.id = response.data.id;
               globe.praktikumStart = true;
@@ -1351,7 +1375,7 @@ export default {
           globe.formCurrentPraktikum.asisten_id = globe.currentUser.id;
           globe.$axios.post('/startPraktikum', globe.formCurrentPraktikum).then(response => {
 
-            if(response.data.message == "success") {
+            if(response.data.message === "success") {
                 //DO NOTHING (it runs as we expected)
 
             } else {
@@ -1362,7 +1386,7 @@ export default {
           });
 
           globe.allKelas.forEach(kelas => {
-            if (kelas.id == globe.chosenKelasID)  {
+            if (kelas.id === globe.chosenKelasID)  {
               globe.formHistoryJaga.hari = kelas.hari;
               globe.formHistoryJaga.shift = kelas.shift;
             }
@@ -1371,7 +1395,7 @@ export default {
           globe.formHistoryJaga.asisten_id = globe.currentUser.id;
           globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(response => {
 
-            if(response.data.message == "success") {
+            if(response.data.message === "success") {
                 //DO NOTHING (it runs as we expected)
 
             } else {
@@ -1402,14 +1426,14 @@ export default {
     getAllAsistenPraktikan: function(){
 
       const globe = this;
-      if(this.chosenKelasID == "" || this.chosenKelasID == this.oldKelasID)
+      if(this.chosenKelasID === "" || this.chosenKelasID === this.oldKelasID)
         return;
 
       this.oldKelasID = this.chosenKelasID;
 
       this.$axios.post('/readDataKelas/'+this.chosenKelasID).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.listAllAsisten = response.data.all_asisten;
           globe.listAllPraktikan = response.data.all_praktikan;

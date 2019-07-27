@@ -88,7 +88,7 @@ class SoalMandiriController extends Controller
 
         if($request->soal != $request->oldSoal)
             foreach (Soal_Mandiri::all() as $soal => $value) 
-                if($value->soal == $request->soal)
+                if($value->soal === $request->soal)
                     return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
 
         $soal = Soal_Mandiri::find($request->id);

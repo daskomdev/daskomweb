@@ -15435,7 +15435,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     var globe = this;
 
-    if (this.comingFrom == 'contact' || this.comingFrom == 'login') {
+    if (this.comingFrom === 'contact' || this.comingFrom === 'login') {
       this.animationEnable = false;
       this.active = true;
       this.animated = true;
@@ -15467,7 +15467,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     travel: function travel(destination) {
-      if (destination == 'contact' || destination == 'login') {
+      if (destination === 'contact' || destination === 'login') {
         var text = this.$refs.aboutText;
         var globe = this;
         this.$anime.timeline({
@@ -15889,11 +15889,11 @@ __webpack_require__.r(__webpack_exports__);
     $('body').addClass('closed');
     var globe = this;
 
-    if (this.comingFrom == 'login' || this.comingFrom == 'none') {
+    if (this.comingFrom === 'login' || this.comingFrom === 'none') {
       Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
         globe.pageActive = true;
       }, 10);
-    } else if (this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'modul' || this.comingFrom == 'plotting' || this.comingFrom == 'praktikum') {
+    } else if (this.comingFrom === 'kelas' || this.comingFrom === 'soal' || this.comingFrom === 'modul' || this.comingFrom === 'plotting' || this.comingFrom === 'praktikum') {
       this.animate = false;
       this.pageActive = true;
       this.changePage = true;
@@ -15907,14 +15907,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
-      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
-      if ($whereTo == "soal") this.menuSoal = $bool;
-      if ($whereTo == "listTp") this.menuListTp = $bool;
-      if ($whereTo == "history") this.menuHistory = $bool;
-      if ($whereTo == "polling") this.menuPolling = $bool;
-      if ($whereTo == "kelas") this.menuKelas = $bool;
-      if ($whereTo == "modul") this.menuModul = $bool;
-      if ($whereTo == "plotting") this.menuPlotting = $bool;
+      if ($whereTo === "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo === "soal") this.menuSoal = $bool;
+      if ($whereTo === "listTp") this.menuListTp = $bool;
+      if ($whereTo === "history") this.menuHistory = $bool;
+      if ($whereTo === "polling") this.menuPolling = $bool;
+      if ($whereTo === "kelas") this.menuKelas = $bool;
+      if ($whereTo === "modul") this.menuModul = $bool;
+      if ($whereTo === "plotting") this.menuPlotting = $bool;
     },
     travel: function travel($whereTo) {
       var globe = this;
@@ -16113,7 +16113,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     var globe = this;
 
-    if (this.comingFrom == 'about') {
+    if (this.comingFrom === 'about') {
       this.animationEnable = false;
       this.active = true;
       this.animated = true;
@@ -16535,7 +16535,7 @@ __webpack_require__.r(__webpack_exports__);
       menuSoal: false,
       menuModul: false,
       menuPlotting: false,
-      listAllKelas: this.allKelas == null ? [] : this.allKelas,
+      listAllKelas: this.allKelas === null ? [] : this.allKelas,
       formKelas: {
         id: '',
         oldKelas: '',
@@ -16556,7 +16556,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'soal' || this.comingFrom == 'modul' || this.comingFrom == 'praktikum' || this.comingFrom == 'plotting') {
+    if (this.comingFrom === 'asisten' || this.comingFrom === 'none' || this.comingFrom === 'soal' || this.comingFrom === 'modul' || this.comingFrom === 'praktikum' || this.comingFrom === 'plotting') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -16564,14 +16564,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
-      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
-      if ($whereTo == "soal") this.menuSoal = $bool;
-      if ($whereTo == "listTp") this.menuListTp = $bool;
-      if ($whereTo == "history") this.menuHistory = $bool;
-      if ($whereTo == "polling") this.menuPolling = $bool;
-      if ($whereTo == "asisten") this.menuProfil = $bool;
-      if ($whereTo == "modul") this.menuModul = $bool;
-      if ($whereTo == "plotting") this.menuPlotting = $bool;
+      if ($whereTo === "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo === "soal") this.menuSoal = $bool;
+      if ($whereTo === "listTp") this.menuListTp = $bool;
+      if ($whereTo === "history") this.menuHistory = $bool;
+      if ($whereTo === "polling") this.menuPolling = $bool;
+      if ($whereTo === "asisten") this.menuProfil = $bool;
+      if ($whereTo === "modul") this.menuModul = $bool;
+      if ($whereTo === "plotting") this.menuPlotting = $bool;
     },
     resetForm: function resetForm($kelas) {
       $('.kelas-' + this.chosenKelas.id).removeClass('opacity-100 pr-4');
@@ -16603,7 +16603,7 @@ __webpack_require__.r(__webpack_exports__);
         document.getElementById("Shift").value = this.chosenKelas.shift;
       }
 
-      if (this.chosenKelas.kelas == this.formKelas.kelas && this.chosenKelas.hari == this.formKelas.hari && this.chosenKelas.shift == this.formKelas.shift) {
+      if (this.chosenKelas.kelas === this.formKelas.kelas && this.chosenKelas.hari === this.formKelas.hari && this.chosenKelas.shift === this.formKelas.shift) {
         this.formKelas.oldKelas = $kelas.kelas;
         this.formKelas.kelas = $kelas.kelas;
         this.formKelas.hari = $kelas.hari;
@@ -16636,13 +16636,13 @@ __webpack_require__.r(__webpack_exports__);
       this.$axios.post('/updateKelas', this.formKelas).then(function (response) {
         console.log(response.data);
 
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.$toasted.global.showSuccess({
             message: "Kelas berhasil diperbaharui"
           });
 
           for (var i = 0; i < globe.listAllKelas.length; i++) {
-            if (globe.listAllKelas[i].id == globe.formKelas.id) {
+            if (globe.listAllKelas[i].id === globe.formKelas.id) {
               globe.listAllKelas[i] = response.data.kelas;
               break;
             }
@@ -16690,14 +16690,14 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.$axios.post('/deleteKelas', this.formKelas).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.$toasted.global.showSuccess({
             message: "Kelas berhasil dihapus"
           });
           var i;
 
           for (i = 0; i < globe.listAllKelas.length; i++) {
-            if (globe.listAllKelas[i].id == globe.formKelas.id) {
+            if (globe.listAllKelas[i].id === globe.formKelas.id) {
               break;
             }
           }
@@ -16731,7 +16731,7 @@ __webpack_require__.r(__webpack_exports__);
       var notError = true;
 
       for (var i = 0; i < this.listAllKelas.length; i++) {
-        if (this.listAllKelas[i].hari == globe.formKelas.hari && this.listAllKelas[i].shift == globe.formKelas.shift) {
+        if (this.listAllKelas[i].hari === globe.formKelas.hari && this.listAllKelas[i].shift === globe.formKelas.shift) {
           globe.$toasted.global.showError({
             message: "Terdapat kelas " + this.listAllKelas[i].kelas.toUpperCase() + " pada hari " + globe.formKelas.hari + " shift " + globe.formKelas.shift
           });
@@ -16742,7 +16742,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (notError) {
         this.$axios.post('/createKelas', this.formKelas).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             globe.$toasted.global.showSuccess({
               message: "Kelas berhasil ditambahkan"
             });
@@ -17248,14 +17248,14 @@ __webpack_require__.r(__webpack_exports__);
       translateY: 100
     });
 
-    if (this.comingFrom == 'about' || this.comingFrom == 'contact') {
+    if (this.comingFrom === 'about' || this.comingFrom === 'contact') {
       this.animate = false;
       this.activeY = true;
       setTimeout(function () {
         globe.animate = true;
         globe.activeX = true;
       }, 10);
-    } else if (this.comingFrom == 'asisten' || this.comingFrom == 'praktikan') {
+    } else if (this.comingFrom === 'asisten' || this.comingFrom === 'praktikan') {
       this.activeX = false;
       this.activeY = true;
       this.loggedInState = true;
@@ -17308,7 +17308,7 @@ __webpack_require__.r(__webpack_exports__);
     loginAsisten: function loginAsisten() {
       var globe = this;
       this.$axios.post('/loginAsisten', this.formLoginAsisten).then(function (response) {
-        if (response.data.message == "Login Failed") {
+        if (response.data.message === "Login Failed") {
           globe.$toasted.global.showError({
             message: "Login gagal, kode atau password salah"
           });
@@ -17327,7 +17327,7 @@ __webpack_require__.r(__webpack_exports__);
     loginPraktikan: function loginPraktikan() {
       var globe = this;
       this.$axios.post('/loginPraktikan', this.formLoginPraktikan).then(function (response) {
-        if (response.data.message == "Login Failed") {
+        if (response.data.message === "Login Failed") {
           globe.$toasted.global.showError({
             message: "Login gagal, nim atau password salah"
           });
@@ -17882,7 +17882,7 @@ __webpack_require__.r(__webpack_exports__);
       menuSoal: false,
       menuKelas: false,
       menuPlotting: false,
-      listAllModul: this.allModul == null ? [] : this.allModul,
+      listAllModul: this.allModul === null ? [] : this.allModul,
       formModul: {
         id: '',
         oldJudul: '',
@@ -17897,7 +17897,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'praktikum' || this.comingFrom == 'plotting') {
+    if (this.comingFrom === 'asisten' || this.comingFrom === 'none' || this.comingFrom === 'kelas' || this.comingFrom === 'soal' || this.comingFrom === 'praktikum' || this.comingFrom === 'plotting') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -17905,14 +17905,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
-      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
-      if ($whereTo == "soal") this.menuSoal = $bool;
-      if ($whereTo == "listTp") this.menuListTp = $bool;
-      if ($whereTo == "history") this.menuHistory = $bool;
-      if ($whereTo == "polling") this.menuPolling = $bool;
-      if ($whereTo == "asisten") this.menuProfil = $bool;
-      if ($whereTo == "kelas") this.menuKelas = $bool;
-      if ($whereTo == "plotting") this.menuPlotting = $bool;
+      if ($whereTo === "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo === "soal") this.menuSoal = $bool;
+      if ($whereTo === "listTp") this.menuListTp = $bool;
+      if ($whereTo === "history") this.menuHistory = $bool;
+      if ($whereTo === "polling") this.menuPolling = $bool;
+      if ($whereTo === "asisten") this.menuProfil = $bool;
+      if ($whereTo === "kelas") this.menuKelas = $bool;
+      if ($whereTo === "plotting") this.menuPlotting = $bool;
     },
     travel: function travel($whereTo) {
       this.setCurrentMenu($whereTo, true);
@@ -17959,7 +17959,7 @@ __webpack_require__.r(__webpack_exports__);
     updateModul: function updateModul() {
       var globe = this;
       this.$axios.post('/updateModul', this.formModul).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.editing = false;
           $(".editClose-" + globe.formModul.id).removeClass("visible");
           $(".editClose-" + globe.formModul.id).addClass("hidden");
@@ -17970,7 +17970,7 @@ __webpack_require__.r(__webpack_exports__);
           });
 
           for (var i = 0; i < globe.listAllModul.length; i++) {
-            if (globe.listAllModul[i].id == globe.formModul.id) {
+            if (globe.listAllModul[i].id === globe.formModul.id) {
               globe.listAllModul[i] = response.data.modul;
               break;
             }
@@ -18019,7 +18019,7 @@ __webpack_require__.r(__webpack_exports__);
         var i;
 
         for (i = 0; i < globe.listAllModul.length; i++) {
-          if (globe.listAllModul[i].id == $id) break;
+          if (globe.listAllModul[i].id === $id) break;
         }
 
         globe.listAllModul.splice(0, i);
@@ -18047,14 +18047,14 @@ __webpack_require__.r(__webpack_exports__);
     deleteModul: function deleteModul($id) {
       var globe = this;
       this.$axios.post('/deleteModul/' + $id).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.$toasted.global.showSuccess({
             message: "Modul berhasil dihapus"
           });
           var i;
 
           for (i = 0; i < globe.listAllModul.length; i++) {
-            if (globe.listAllModul[i].id == $id) {
+            if (globe.listAllModul[i].id === $id) {
               break;
             }
           }
@@ -18086,7 +18086,7 @@ __webpack_require__.r(__webpack_exports__);
     createModul: function createModul() {
       var globe = this;
       this.$axios.post('/createModul', this.formModul).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           $("#modulForm")[0].reset();
           globe.$toasted.global.showSuccess({
             message: "Modul berhasil ditambahkan"
@@ -18487,7 +18487,7 @@ __webpack_require__.r(__webpack_exports__);
       menuSoal: false,
       menuKelas: false,
       menuModul: false,
-      listAllJaga: this.allJaga == null ? [] : this.allJaga,
+      listAllJaga: this.allJaga === null ? [] : this.allJaga,
       formJaga: {
         id: '',
         asisten_id: '',
@@ -18500,7 +18500,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'praktikum' || this.comingFrom == 'modul') {
+    if (this.comingFrom === 'asisten' || this.comingFrom === 'none' || this.comingFrom === 'kelas' || this.comingFrom === 'soal' || this.comingFrom === 'praktikum' || this.comingFrom === 'modul') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -18508,14 +18508,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
-      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
-      if ($whereTo == "soal") this.menuSoal = $bool;
-      if ($whereTo == "listTp") this.menuListTp = $bool;
-      if ($whereTo == "history") this.menuHistory = $bool;
-      if ($whereTo == "polling") this.menuPolling = $bool;
-      if ($whereTo == "asisten") this.menuProfil = $bool;
-      if ($whereTo == "kelas") this.menuKelas = $bool;
-      if ($whereTo == "modul") this.menuModul = $bool;
+      if ($whereTo === "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo === "soal") this.menuSoal = $bool;
+      if ($whereTo === "listTp") this.menuListTp = $bool;
+      if ($whereTo === "history") this.menuHistory = $bool;
+      if ($whereTo === "polling") this.menuPolling = $bool;
+      if ($whereTo === "asisten") this.menuProfil = $bool;
+      if ($whereTo === "kelas") this.menuKelas = $bool;
+      if ($whereTo === "modul") this.menuModul = $bool;
     },
     openMoreMenu: function openMoreMenu($id) {
       $(".moreMenu-" + $id).removeClass("opacity-0");
@@ -18539,21 +18539,21 @@ __webpack_require__.r(__webpack_exports__);
 
       var globe = this;
 
-      if (this.formJaga.asisten_id == null || this.formJaga.kelas_id == null) {
+      if (this.formJaga.asisten_id === null || this.formJaga.kelas_id === null) {
         globe.$toasted.global.showError({
           message: "Pilih asisten & kelas terlebih dahulu"
         });
       }
 
       this.$axios.post('/deleteJadwalJaga', this.formJaga).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.$toasted.global.showSuccess({
             message: "Jadwal Jaga berhasil dihapus"
           });
           var i;
 
           for (i = 0; i < globe.listAllJaga.length; i++) {
-            if (globe.listAllJaga[i].asisten_id == _this.formJaga.asisten_id && globe.listAllJaga[i].kelas_id == _this.formJaga.kelas_id) {
+            if (globe.listAllJaga[i].asisten_id === _this.formJaga.asisten_id && globe.listAllJaga[i].kelas_id === _this.formJaga.kelas_id) {
               break;
             }
           }
@@ -18585,18 +18585,18 @@ __webpack_require__.r(__webpack_exports__);
     createJadwalJaga: function createJadwalJaga() {
       var globe = this;
       this.$axios.post('/createJadwalJaga', this.formJaga).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           $("#jagaForm")[0].reset();
           globe.$toasted.global.showSuccess({
             message: "Jadwal Jaga berhasil ditambahkan"
           });
           var kode;
           globe.allAsisten.forEach(function (element) {
-            if (element.id == globe.formJaga.asisten_id) kode = element.kode;
+            if (element.id === globe.formJaga.asisten_id) kode = element.kode;
           });
           var kelas, hari, shift;
           globe.allKelas.forEach(function (element) {
-            if (element.id == globe.formJaga.kelas_id) {
+            if (element.id === globe.formJaga.kelas_id) {
               kelas = element.kelas;
               hari = element.hari;
               shift = element.shift;
@@ -18961,6 +18961,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser'],
   data: function data() {
@@ -18972,6 +19007,18 @@ __webpack_require__.r(__webpack_exports__);
       isProfil: false,
       isMenuShown: false,
       messageOpened: false,
+      openWide: false,
+      current_praktikum: {
+        kelas_id: '',
+        modul_id: '',
+        asisten_id: '',
+        status: ''
+      },
+      current_modul: {
+        judul: '',
+        deskripsi: '',
+        isi: ''
+      },
       soalOpened: true,
       formMessage: {
         kode: '',
@@ -18986,14 +19033,73 @@ __webpack_require__.r(__webpack_exports__);
     this.showProfil();
     var globe = this;
 
-    if (this.comingFrom == 'login') {
+    if (this.comingFrom === 'login' || this.comingFrom === 'none') {
       setTimeout(function () {
         globe.pageActive = true;
       }, 10);
     }
 
-    Echo.channel("daskom_database_praktikum.".concat(globe.currentUser.kelas_id)).listen('praktikumStatusUpdated', function (e) {
-      console.log(e);
+    globe.$axios.post('/checkPraktikum').then(function (response) {
+      if (response.data.message === "success") {
+        if (response.data.current_praktikum != null) {
+          //There is currently active praktikum
+          globe.current_praktikum.asisten_id = response.data.current_praktikum.asisten_id;
+          globe.current_praktikum.kelas_id = response.data.current_praktikum.kelas_id;
+          globe.current_praktikum.modul_id = response.data.current_praktikum.modul_id;
+          globe.current_praktikum.status = response.data.current_praktikum.status;
+        }
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    });
+    Echo.channel("daskom_database_praktikum.".concat(globe.currentUser.kelas_id)).listen('praktikumStatusUpdated', function (data) {
+      globe.current_praktikum.asisten_id = data.current_praktikum.asisten_id;
+      globe.current_praktikum.modul_id = data.current_praktikum.modul_id;
+      globe.current_praktikum.kelas_id = data.current_praktikum.kelas_id;
+      globe.current_praktikum.status = data.current_praktikum.status;
+      console.log(globe.current_praktikum);
+
+      switch (globe.current_praktikum.status) {
+        case 0:
+          //Initialization of the praktikum
+          globe.$axios.post('/getModul/' + globe.current_praktikum.modul_id).then(function (response) {
+            console.log(response.data.modul);
+
+            if (response.data.message === "success") {
+              if (response.data.modul !== null) {
+                //There is currently active praktikum
+                globe.current_modul.judul = response.data.modul.judul;
+                globe.current_modul.deskripsi = response.data.modul.deskripsi;
+                globe.current_modul.isi = response.data.modul.isi;
+              }
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+          break;
+
+        case 1:
+          break;
+
+        case 2:
+          break;
+
+        case 3:
+          break;
+
+        case 4:
+          break;
+
+        case 5:
+          break;
+
+        case 6:
+          break;
+      }
     });
   },
   beforeDestroy: function beforeDestroy() {
@@ -19068,7 +19174,7 @@ __webpack_require__.r(__webpack_exports__);
     sendMessage: function sendMessage() {
       var globe = this;
       this.$axios.post('/sendPesan', this.formMessage).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.$toasted.global.showSuccess({
             message: "Pesan berhasil terkirim"
           });
@@ -19717,6 +19823,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser', 'position', 'userRole', 'allKelas', 'allModul'],
@@ -19751,8 +19865,8 @@ __webpack_require__.r(__webpack_exports__);
       oldKelasID: '',
       chosenKelasID: '',
       chosenModulID: '',
-      praktikanComplete: '',
       praktikanLeft: '',
+      praktikanComplete: '',
 
       /****************************/
 
@@ -19839,14 +19953,14 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'soal' || this.comingFrom == 'plotting' || this.comingFrom == 'modul') {
+    if (this.comingFrom === 'asisten' || this.comingFrom === 'none' || this.comingFrom === 'kelas' || this.comingFrom === 'soal' || this.comingFrom === 'plotting' || this.comingFrom === 'modul') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
     }
 
     globe.$axios.post('/checkPraktikum').then(function (response) {
-      if (response.data.message == "success") {
+      if (response.data.message === "success") {
         if (response.data.current_praktikum != null) {
           //There is currently active praktikum
           globe.formCurrentPraktikum.asisten_id = response.data.current_praktikum.asisten_id;
@@ -19858,8 +19972,20 @@ __webpack_require__.r(__webpack_exports__);
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
           globe.$axios.post('/currentLaporanPJ').then(function (response) {
-            if (response.data.message == "success") {
+            if (response.data.message === "success") {
               globe.formLaporanPj.id = response.data.latestLaporanID;
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+          globe.$axios.post('/latestPJHistory/jaga').then(function (response) {
+            if (response.data.message === "success") {
+              globe.formHistoryJaga.hari = response.data.latestPJHistory.hari;
+              globe.formHistoryJaga.shift = response.data.latestPJHistory.shift;
+              globe.formHistoryJaga.pj = response.data.latestPJHistory.pj;
+              globe.formHistoryJaga.asisten_id = response.data.latestPJHistory.asisten_id;
             } else {
               globe.$toasted.global.showError({
                 message: response.data.message
@@ -19876,15 +20002,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
-      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
-      if ($whereTo == "soal") this.menuSoal = $bool;
-      if ($whereTo == "listTp") this.menuListTp = $bool;
-      if ($whereTo == "history") this.menuHistory = $bool;
-      if ($whereTo == "polling") this.menuPolling = $bool;
-      if ($whereTo == "asisten") this.menuProfil = $bool;
-      if ($whereTo == "kelas") this.menuKelas = $bool;
-      if ($whereTo == "modul") this.menuModul = $bool;
-      if ($whereTo == "plotting") this.menuPlotting = $bool;
+      if ($whereTo === "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo === "soal") this.menuSoal = $bool;
+      if ($whereTo === "listTp") this.menuListTp = $bool;
+      if ($whereTo === "history") this.menuHistory = $bool;
+      if ($whereTo === "polling") this.menuPolling = $bool;
+      if ($whereTo === "asisten") this.menuProfil = $bool;
+      if ($whereTo === "kelas") this.menuKelas = $bool;
+      if ($whereTo === "modul") this.menuModul = $bool;
+      if ($whereTo === "plotting") this.menuPlotting = $bool;
     },
     travel: function travel($whereTo) {
       this.setCurrentMenu($whereTo, true);
@@ -19914,17 +20040,17 @@ __webpack_require__.r(__webpack_exports__);
       var globe = this;
 
       if (!$force) {
-        if (!globe.countDown.isSame(moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day')) && globe.statusPraktikum != 5 && globe.statusPraktikum != 6) {
+        if (!globe.countDown.isSame(moment__WEBPACK_IMPORTED_MODULE_0___default()().startOf('day')) && globe.statusPraktikum !== 5 && globe.statusPraktikum !== 6) {
           globe.bigNextQuestionShown = true;
           return;
         }
 
-        if (globe.statusPraktikum == 5) {
+        if (globe.statusPraktikum === 5) {
           globe.bigRatingQuestionShown = true;
           return;
         }
 
-        if (globe.statusPraktikum == 6) {
+        if (globe.statusPraktikum === 6) {
           var sumAllAsisten_kode = [];
 
           if (globe.formHistoryJaga.allasisten_kode != '') {
@@ -19933,7 +20059,7 @@ __webpack_require__.r(__webpack_exports__);
             for (var index = 0; index < tempArr.length; index++) {
               var data = tempArr[index];
 
-              if (data == "") {
+              if (data === "") {
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -19950,7 +20076,7 @@ __webpack_require__.r(__webpack_exports__);
             for (var _index = 0; _index < tempArr.length; _index++) {
               var _data = tempArr[_index];
 
-              if (_data == "") {
+              if (_data === "") {
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -19967,7 +20093,7 @@ __webpack_require__.r(__webpack_exports__);
             for (var _index2 = 0; _index2 < tempArr.length; _index2++) {
               var _data2 = tempArr[_index2];
 
-              if (_data2 == "") {
+              if (_data2 === "") {
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -19984,7 +20110,7 @@ __webpack_require__.r(__webpack_exports__);
             for (var _index3 = 0; _index3 < tempArr.length; _index3++) {
               var _data3 = tempArr[_index3];
 
-              if (_data3 == "") {
+              if (_data3 === "") {
                 globe.$toasted.global.showError({
                   message: 'Pastikan ada kode asisten diantara tanda "-"'
                 });
@@ -20015,7 +20141,7 @@ __webpack_require__.r(__webpack_exports__);
             return;
           }
 
-          if (sumAllAsisten_kode.length == 0) {
+          if (sumAllAsisten_kode.length === 0) {
             globe.$toasted.global.showError({
               message: "Isi data terlebih dahulu"
             });
@@ -20063,7 +20189,7 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           globe.allKelas.forEach(function (kelas) {
-            if (kelas.id == globe.chosenKelasID) {
+            if (kelas.id === globe.chosenKelasID) {
               globe.formHistoryJaga.hari = kelas.hari;
               globe.formHistoryJaga.shift = kelas.shift;
               globe.formHistoryIzin_Izin.hari = kelas.hari;
@@ -20080,19 +20206,19 @@ __webpack_require__.r(__webpack_exports__);
           globe.formHistoryIzin_Sakit.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Alfa.modul_id = globe.chosenModulID;
           globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(function (response) {
-            if (response.data.message == "success") {
+            if (response.data.message === "success") {
               globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Izin).then(function (response) {
-                if (response.data.message == "success") {
+                if (response.data.message === "success") {
                   globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Sakit).then(function (response) {
-                    if (response.data.message == "success") {
+                    if (response.data.message === "success") {
                       globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Alfa).then(function (response) {
-                        if (response.data.message == "success") {
+                        if (response.data.message === "success") {
                           globe.$axios.post('/updateLaporanPJ', globe.formLaporanPj).then(function (response) {
-                            if (response.data.message == "success") {
+                            if (response.data.message === "success") {
                               globe.formPraktikum.pj_id = globe.currentUser.id;
                               globe.formPraktikum.laporan_id = globe.formLaporanPj.id;
                               globe.$axios.post('/createPraktikum', globe.formPraktikum).then(function (response) {
-                                if (response.data.message == "success") {
+                                if (response.data.message === "success") {
                                   globe.$toasted.global.showSuccess({
                                     message: "Praktikum berhasil tersimpan"
                                   });
@@ -20103,7 +20229,7 @@ __webpack_require__.r(__webpack_exports__);
                                 }
                               });
                               globe.$axios.post('/stopPraktikum').then(function (response) {
-                                if (response.data.message == "success") {//Do nothing
+                                if (response.data.message === "success") {//Do nothing
                                 } else {
                                   globe.$toasted.global.showError({
                                     message: response.data.message
@@ -20149,13 +20275,13 @@ __webpack_require__.r(__webpack_exports__);
       globe.countdownStarted = false;
       globe.statusPraktikum++;
       globe.$axios.post('/continuePraktikum/' + globe.statusPraktikum).then(function (response) {
-        if (response.data.message == "success") {//DO NOTHING (it runs as we expected)
+        if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
           });
         }
-      }); //(If status Praktikum == 1, means all the layout condition still on its default state)
+      }); //(If status Praktikum === 1, means all the layout condition still on its default state)
 
       switch (globe.statusPraktikum) {
         case 2:
@@ -20179,7 +20305,7 @@ __webpack_require__.r(__webpack_exports__);
     shuffleEmAll: function shuffleEmAll() {
       var globe = this;
 
-      if (this.chosenKelasID == "") {
+      if (this.chosenKelasID === "") {
         globe.$toasted.global.showError({
           message: "Pilih kelas terlebih dahulu"
         });
@@ -20217,7 +20343,7 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           globe.$axios.post('/stopPraktikum');
           globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(function (response) {
-            if (response.data.message == "success") {//DO NOTHING (it runs as we expected)
+            if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
             } else {
               globe.$toasted.global.showError({
                 message: response.data.message
@@ -20236,7 +20362,7 @@ __webpack_require__.r(__webpack_exports__);
         globe.bigLeaveQuestionShown = false;
         globe.$axios.post('/stopPraktikum');
         globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(function (response) {
-          if (response.data.message == "success") {//DO NOTHING (it runs as we expected)
+          if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
           } else {
             globe.$toasted.global.showError({
               message: response.data.message
@@ -20256,10 +20382,10 @@ __webpack_require__.r(__webpack_exports__);
       this.countdownStarted = true;
       var globe = this;
 
-      if (this.statusPraktikum == 0) {
+      if (this.statusPraktikum === 0) {
         this.statusPraktikum = 1;
         globe.$axios.post('/continuePraktikum/' + globe.statusPraktikum).then(function (response) {
-          if (response.data.message == "success") {//DO NOTHING (it runs as we expected)
+          if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
           } else {
             globe.$toasted.global.showError({
               message: response.data.message
@@ -20282,7 +20408,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var globe = this;
 
-      if (this.chosenKelasID == "") {
+      if (this.chosenKelasID === "") {
         globe.$toasted.global.showError({
           message: "Pilih kelas terlebih dahulu"
         });
@@ -20303,7 +20429,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      if (this.chosenModulID == '') {
+      if (this.chosenModulID === '') {
         globe.$toasted.global.showError({
           message: "Pilih modul terlebih dahulu"
         });
@@ -20312,7 +20438,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var isKodeExist = false;
       globe.listAllAsisten.forEach(function (element) {
-        if (element.kode == globe.currentUser.kode) isKodeExist = true;
+        if (element.kode === globe.currentUser.kode) isKodeExist = true;
       });
 
       if (!isKodeExist) {
@@ -20325,9 +20451,9 @@ __webpack_require__.r(__webpack_exports__);
       this.formPraktikum.kelas_id = this.chosenKelasID;
       this.formPraktikum.modul_id = this.chosenModulID;
       this.$axios.post('/cekPraktikum', this.formPraktikum).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.allKelas.forEach(function (kelas) {
-            if (kelas.id == globe.chosenKelasID) {
+            if (kelas.id === globe.chosenKelasID) {
               globe.formLaporanPj.hari = kelas.hari;
               globe.formLaporanPj.shift = kelas.shift;
             }
@@ -20343,7 +20469,7 @@ __webpack_require__.r(__webpack_exports__);
 
           globe.formLaporanPj.modul_id = _this.chosenModulID;
           globe.$axios.post('/createLaporanPJ', globe.formLaporanPj).then(function (response) {
-            if (response.data.message == "success") {
+            if (response.data.message === "success") {
               globe.formLaporanPj.id = response.data.id;
               globe.praktikumStart = true;
             } else {
@@ -20356,7 +20482,7 @@ __webpack_require__.r(__webpack_exports__);
           globe.formCurrentPraktikum.modul_id = globe.chosenModulID;
           globe.formCurrentPraktikum.asisten_id = globe.currentUser.id;
           globe.$axios.post('/startPraktikum', globe.formCurrentPraktikum).then(function (response) {
-            if (response.data.message == "success") {//DO NOTHING (it runs as we expected)
+            if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
             } else {
               globe.$toasted.global.showError({
                 message: response.data.message
@@ -20364,7 +20490,7 @@ __webpack_require__.r(__webpack_exports__);
             }
           });
           globe.allKelas.forEach(function (kelas) {
-            if (kelas.id == globe.chosenKelasID) {
+            if (kelas.id === globe.chosenKelasID) {
               globe.formHistoryJaga.hari = kelas.hari;
               globe.formHistoryJaga.shift = kelas.shift;
             }
@@ -20372,7 +20498,7 @@ __webpack_require__.r(__webpack_exports__);
           globe.formHistoryJaga.pj = 1;
           globe.formHistoryJaga.asisten_id = globe.currentUser.id;
           globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(function (response) {
-            if (response.data.message == "success") {//DO NOTHING (it runs as we expected)
+            if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
             } else {
               globe.$toasted.global.showError({
                 message: response.data.message
@@ -20398,10 +20524,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     getAllAsistenPraktikan: function getAllAsistenPraktikan() {
       var globe = this;
-      if (this.chosenKelasID == "" || this.chosenKelasID == this.oldKelasID) return;
+      if (this.chosenKelasID === "" || this.chosenKelasID === this.oldKelasID) return;
       this.oldKelasID = this.chosenKelasID;
       this.$axios.post('/readDataKelas/' + this.chosenKelasID).then(function (response) {
-        if (response.data.message == "success") {
+        if (response.data.message === "success") {
           globe.listAllAsisten = response.data.all_asisten;
           globe.listAllPraktikan = response.data.all_praktikan;
           globe.praktikanLeft = response.data.all_praktikan.length % response.data.all_asisten.length;
@@ -21219,6 +21345,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comingFrom', 'currentUser', 'position', 'allModul', 'userRole', 'allTP', 'allTA', 'allTK', 'allJurnal', 'allMandiri', 'allFITB'],
   data: function data() {
@@ -21231,12 +21365,12 @@ __webpack_require__.r(__webpack_exports__);
       soalMenuShown: true,
       editing: false,
       currentSoal: "",
-      listAllTP: this.allTP == null ? [] : this.allTP,
-      listAllTA: this.allTA == null ? [] : this.allTA,
-      listAllTK: this.allTK == null ? [] : this.allTK,
-      listAllJurnal: this.allJurnal == null ? [] : this.allJurnal,
-      listAllMandiri: this.allMandiri == null ? [] : this.allMandiri,
-      listAllFITB: this.allFITB == null ? [] : this.allFITB,
+      listAllTP: this.allTP === null ? [] : this.allTP,
+      listAllTA: this.allTA === null ? [] : this.allTA,
+      listAllTK: this.allTK === null ? [] : this.allTK,
+      listAllJurnal: this.allJurnal === null ? [] : this.allJurnal,
+      listAllMandiri: this.allMandiri === null ? [] : this.allMandiri,
+      listAllFITB: this.allFITB === null ? [] : this.allFITB,
       isTA: false,
       isTK: false,
       isJurnal: false,
@@ -21288,7 +21422,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
 
-    if (this.comingFrom == 'asisten' || this.comingFrom == 'none' || this.comingFrom == 'kelas' || this.comingFrom == 'modul' || this.comingFrom == 'plotting' || this.comingFrom == 'praktikum') {
+    if (this.comingFrom === 'asisten' || this.comingFrom === 'none' || this.comingFrom === 'kelas' || this.comingFrom === 'modul' || this.comingFrom === 'plotting' || this.comingFrom === 'praktikum') {
       setTimeout(function () {
         globe.currentPage = true;
       }, 10);
@@ -21296,28 +21430,28 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setCurrentMenu: function setCurrentMenu($whereTo, $bool) {
-      if ($whereTo == "praktikum") this.menuPraktikum = $bool;
-      if ($whereTo == "asisten") this.menuProfil = $bool;
-      if ($whereTo == "listTp") this.menuListTp = $bool;
-      if ($whereTo == "history") this.menuHistory = $bool;
-      if ($whereTo == "polling") this.menuPolling = $bool;
-      if ($whereTo == "kelas") this.menuKelas = $bool;
-      if ($whereTo == "modul") this.menuModul = $bool;
-      if ($whereTo == "plotting") this.menuPlotting = $bool;
+      if ($whereTo === "praktikum") this.menuPraktikum = $bool;
+      if ($whereTo === "asisten") this.menuProfil = $bool;
+      if ($whereTo === "listTp") this.menuListTp = $bool;
+      if ($whereTo === "history") this.menuHistory = $bool;
+      if ($whereTo === "polling") this.menuPolling = $bool;
+      if ($whereTo === "kelas") this.menuKelas = $bool;
+      if ($whereTo === "modul") this.menuModul = $bool;
+      if ($whereTo === "plotting") this.menuPlotting = $bool;
     },
     deleteSoal: function deleteSoal($id) {
       var globe = this;
 
       if (!this.isTA && !this.isTK && !this.isFITB && !this.isJurnal && !this.isMandiri) {
         this.$axios.post('/deleteTP/' + $id).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             globe.$toasted.global.showSuccess({
               message: "Soal TP berhasil dihapus"
             });
             var i;
 
             for (i = 0; i < globe.listAllTP.length; i++) {
-              if (globe.listAllTP[i].id == $id) {
+              if (globe.listAllTP[i].id === $id) {
                 break;
               }
             }
@@ -21554,23 +21688,23 @@ __webpack_require__.r(__webpack_exports__);
       var globe = this;
 
       if (!this.isTA && !this.isTK && !this.isFITB && !this.isJurnal && !this.isMandiri) {
-        if (this.formTP.jenisSoal == "essay") {
+        if (this.formTP.jenisSoal === "essay") {
           this.formTP.isEssay = true;
           this.formTP.isProgram = false;
-        } else if (this.formTP.jenisSoal == "program") {
+        } else if (this.formTP.jenisSoal === "program") {
           this.formTP.isEssay = false;
           this.formTP.isProgram = true;
         }
 
         this.$axios.post('/createTP', this.formTP).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#tpForm")[0].reset();
             globe.$toasted.global.showSuccess({
               message: "Soal TP berhasil ditambahkan"
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == globe.formTP.modul_id) judul = element.judul;
+              if (element.id === globe.formTP.modul_id) judul = element.judul;
             });
             globe.listAllTP.push({
               id: response.data.id,
@@ -21612,14 +21746,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isTA) {
         this.$axios.post('/createTA', this.formTATK).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#tatkForm")[0].reset();
             globe.$toasted.global.showSuccess({
               message: "Soal TA berhasil ditambahkan"
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == globe.formTATK.modul_id) judul = element.judul;
+              if (element.id === globe.formTATK.modul_id) judul = element.judul;
             });
             globe.listAllTA.push({
               id: response.data.id,
@@ -21670,14 +21804,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isTK) {
         this.$axios.post('/createTK', this.formTATK).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#tatkForm")[0].reset();
             globe.$toasted.global.showSuccess({
               message: "Soal TK berhasil ditambahkan"
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == globe.formTATK.modul_id) judul = element.judul;
+              if (element.id === globe.formTATK.modul_id) judul = element.judul;
             });
             globe.listAllTK.push({
               id: response.data.id,
@@ -21728,14 +21862,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isJurnal) {
         this.$axios.post('/createJurnal', this.formJMFITB).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#jmfitbForm")[0].reset();
             globe.$toasted.global.showSuccess({
               message: "Soal Jurnal berhasil ditambahkan"
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == globe.formJMFITB.modul_id) judul = element.judul;
+              if (element.id === globe.formJMFITB.modul_id) judul = element.judul;
             });
             globe.listAllJurnal.push({
               id: response.data.id,
@@ -21766,14 +21900,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isMandiri) {
         this.$axios.post('/createMandiri', this.formJMFITB).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#jmfitbForm")[0].reset();
             globe.$toasted.global.showSuccess({
               message: "Soal Jurnal berhasil ditambahkan"
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == globe.formJMFITB.modul_id) judul = element.judul;
+              if (element.id === globe.formJMFITB.modul_id) judul = element.judul;
             });
             globe.listAllMandiri.push({
               id: response.data.id,
@@ -21804,14 +21938,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isFITB) {
         this.$axios.post('/createFitb', this.formJMFITB).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#jmfitbForm")[0].reset();
             globe.$toasted.global.showSuccess({
               message: "Soal Jurnal berhasil ditambahkan"
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == globe.formJMFITB.modul_id) judul = element.judul;
+              if (element.id === globe.formJMFITB.modul_id) judul = element.judul;
             });
             globe.listAllFITB.push({
               id: response.data.id,
@@ -21847,7 +21981,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.isTA && !this.isTK && !this.isFITB && !this.isJurnal && !this.isMandiri) {
         this.$axios.post('/updateTP', this.formTP).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             globe.editing = false;
             $(".editCloseTP-" + globe.formTP.id).removeClass("visible");
             $(".editCloseTP-" + globe.formTP.id).addClass("hidden");
@@ -21858,11 +21992,11 @@ __webpack_require__.r(__webpack_exports__);
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == response.data.soal.modul_id) judul = element.judul;
+              if (element.id === response.data.soal.modul_id) judul = element.judul;
             });
 
             for (var i = 0; i < globe.listAllTP.length; i++) {
-              if (globe.listAllTP[i].id == globe.formTP.id) {
+              if (globe.listAllTP[i].id === globe.formTP.id) {
                 globe.listAllTP[i] = response.data.soal;
                 globe.listAllTP[i].judul = judul;
                 break;
@@ -21904,7 +22038,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isTA) {
         this.$axios.post('/updateTA', this.formTATK).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#tatkForm")[0].reset();
             globe.editing = false;
             $(".editCloseTA-" + globe.formTATK.id).removeClass("visible");
@@ -21916,11 +22050,11 @@ __webpack_require__.r(__webpack_exports__);
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == response.data.soal.modul_id) judul = element.judul;
+              if (element.id === response.data.soal.modul_id) judul = element.judul;
             });
 
             for (var i = 0; i < globe.listAllTA.length; i++) {
-              if (globe.listAllTA[i].id == globe.formTATK.id) {
+              if (globe.listAllTA[i].id === globe.formTATK.id) {
                 globe.listAllTA[i] = response.data.soal;
                 globe.listAllTA[i].judul = judul;
                 break;
@@ -21966,7 +22100,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isTK) {
         this.$axios.post('/updateTK', this.formTATK).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#tatkForm")[0].reset();
             globe.editing = false;
             $(".editCloseTK-" + globe.formTATK.id).removeClass("visible");
@@ -21978,11 +22112,11 @@ __webpack_require__.r(__webpack_exports__);
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == response.data.soal.modul_id) judul = element.judul;
+              if (element.id === response.data.soal.modul_id) judul = element.judul;
             });
 
             for (var i = 0; i < globe.listAllTK.length; i++) {
-              if (globe.listAllTK[i].id == globe.formTATK.id) {
+              if (globe.listAllTK[i].id === globe.formTATK.id) {
                 globe.listAllTK[i] = response.data.soal;
                 globe.listAllTK[i].judul = judul;
                 break;
@@ -22028,7 +22162,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isJurnal) {
         this.$axios.post('/updateJurnal', this.formJMFITB).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#jmfitbForm")[0].reset();
             globe.editing = false;
             $(".editCloseJurnal-" + globe.formJMFITB.id).removeClass("visible");
@@ -22040,11 +22174,11 @@ __webpack_require__.r(__webpack_exports__);
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == response.data.soal.modul_id) judul = element.judul;
+              if (element.id === response.data.soal.modul_id) judul = element.judul;
             });
 
             for (var i = 0; i < globe.listAllJurnal.length; i++) {
-              if (globe.listAllJurnal[i].id == globe.formJMFITB.id) {
+              if (globe.listAllJurnal[i].id === globe.formJMFITB.id) {
                 globe.listAllJurnal[i] = response.data.soal;
                 globe.listAllJurnal[i].judul = judul;
                 break;
@@ -22074,7 +22208,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isMandiri) {
         this.$axios.post('/updateMandiri', this.formJMFITB).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#jmfitbForm")[0].reset();
             globe.editing = false;
             $(".editCloseMandiri-" + globe.formJMFITB.id).removeClass("visible");
@@ -22086,11 +22220,11 @@ __webpack_require__.r(__webpack_exports__);
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == response.data.soal.modul_id) judul = element.judul;
+              if (element.id === response.data.soal.modul_id) judul = element.judul;
             });
 
             for (var i = 0; i < globe.listAllMandiri.length; i++) {
-              if (globe.listAllMandiri[i].id == globe.formJMFITB.id) {
+              if (globe.listAllMandiri[i].id === globe.formJMFITB.id) {
                 globe.listAllMandiri[i] = response.data.soal;
                 globe.listAllMandiri[i].judul = judul;
                 break;
@@ -22120,7 +22254,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (this.isFITB) {
         this.$axios.post('/updateFitb', this.formJMFITB).then(function (response) {
-          if (response.data.message == "success") {
+          if (response.data.message === "success") {
             $("#jmfitbForm")[0].reset();
             globe.editing = false;
             $(".editCloseFITB-" + globe.formJMFITB.id).removeClass("visible");
@@ -22132,11 +22266,11 @@ __webpack_require__.r(__webpack_exports__);
             });
             var judul;
             globe.allModul.forEach(function (element) {
-              if (element.id == response.data.soal.modul_id) judul = element.judul;
+              if (element.id === response.data.soal.modul_id) judul = element.judul;
             });
 
             for (var i = 0; i < globe.listAllFITB.length; i++) {
-              if (globe.listAllFITB[i].id == globe.formJMFITB.id) {
+              if (globe.listAllFITB[i].id === globe.formJMFITB.id) {
                 globe.listAllFITB[i] = response.data.soal;
                 globe.listAllFITB[i].judul = judul;
                 break;
@@ -22169,37 +22303,37 @@ __webpack_require__.r(__webpack_exports__);
     setActiveSoal: function setActiveSoal($soalMenu) {
       this.editSoal(this.currentSoal, false);
 
-      if ($soalMenu == "TA") {
+      if ($soalMenu === "TA") {
         this.isTA = true;
         this.isTK = false;
         this.isJurnal = false;
         this.isMandiri = false;
         this.isFITB = false;
-      } else if ($soalMenu == "TK") {
+      } else if ($soalMenu === "TK") {
         this.isTA = false;
         this.isTK = true;
         this.isJurnal = false;
         this.isMandiri = false;
         this.isFITB = false;
-      } else if ($soalMenu == "Jurnal") {
+      } else if ($soalMenu === "Jurnal") {
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = true;
         this.isMandiri = false;
         this.isFITB = false;
-      } else if ($soalMenu == "Mandiri") {
+      } else if ($soalMenu === "Mandiri") {
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = false;
         this.isMandiri = true;
         this.isFITB = false;
-      } else if ($soalMenu == "FITB") {
+      } else if ($soalMenu === "FITB") {
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = false;
         this.isMandiri = false;
         this.isFITB = true;
-      } else if ($soalMenu == "TP") {
+      } else if ($soalMenu === "TP") {
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = false;
@@ -22319,7 +22453,7 @@ __webpack_require__.r(__webpack_exports__);
     var bgDummy = this.$refs.bgDummy;
     var mainMenu = this.$refs.mainMenu; // Initialization Page Based on this.comingFrom data
 
-    if (this.comingFrom == 'about' || this.comingFrom == 'contact') {
+    if (this.comingFrom === 'about' || this.comingFrom === 'contact') {
       this.$anime.set(text, {
         opacity: 0
       });
@@ -22327,7 +22461,7 @@ __webpack_require__.r(__webpack_exports__);
         opacity: 0
       });
       this.activeBig = true;
-    } else if (this.comingFrom == 'login') {
+    } else if (this.comingFrom === 'login') {
       this.hover = false;
       this.$anime.set('.menu', {
         opacity: 0
@@ -22356,7 +22490,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
     setTimeout(function () {
-      if (globe.comingFrom == 'about' || globe.comingFrom == 'contact') {
+      if (globe.comingFrom === 'about' || globe.comingFrom === 'contact') {
         globe.animate = true;
         globe.hover = false;
         globe.$anime.timeline({
@@ -22376,7 +22510,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         }, 1000);
         globe.activeBig = false;
-      } else if (globe.comingFrom == 'login') {
+      } else if (globe.comingFrom === 'login') {
         globe.animate = true;
         globe.$anime.timeline({
           duration: 400
@@ -65245,7 +65379,7 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "w-full h-auto pt-16 text-center text-yellow-200 font-merri text-2xl p-8"
+                          "w-full h-auto break-words pt-16 text-center text-yellow-200 font-merri text-2xl p-8"
                       },
                       [
                         _vm._v(
@@ -65430,7 +65564,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm.currentUser.role_id == 2
+              _vm.currentUser.role_id === 2
                 ? _c("div", [
                     _c(
                       "div",
@@ -65720,13 +65854,13 @@ var render = function() {
                     "w-full h-full flex rounded-br-large bg-green-600"
                 },
                 [
-                  _c("div", { staticClass: "w-11/12 h-full" }),
+                  _c("div", { staticClass: "w-16full h-full" }),
                   _vm._v(" "),
                   _c(
                     "div",
                     {
                       staticClass:
-                        "w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto",
+                        "w-12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto",
                       on: { click: _vm.openMessage }
                     },
                     [
@@ -66576,7 +66710,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm.currentUser.role_id == 2
+              _vm.currentUser.role_id === 2
                 ? _c("div", [
                     _c(
                       "div",
@@ -69177,7 +69311,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm.currentUser.role_id == 2
+              _vm.currentUser.role_id === 2
                 ? _c("div", [
                     _c(
                       "div",
@@ -69836,28 +69970,28 @@ var render = function() {
                                   "div",
                                   {
                                     staticClass:
-                                      "w-3/4 h-full text-center flex m-auto"
+                                      "w-full h-full text-center break-words flex m-auto overflow-y-auto"
                                   },
                                   [
                                     _c(
                                       "span",
                                       {
                                         staticClass:
-                                          "m-auto flex w-auto relative font-overpass-bold text-3xl"
+                                          "m-auto flex w-auto p-4 relative font-overpass-bold text-2xl"
                                       },
                                       [
                                         _c(
                                           "span",
                                           {
                                             staticClass:
-                                              "text-4xl font-overpass-bold"
+                                              "text-3xl font-overpass-bold"
                                           },
                                           [_vm._v('"')]
                                         ),
                                         _vm._v(" "),
                                         _c(
                                           "span",
-                                          { staticClass: "my-auto mx-4" },
+                                          { staticClass: "my-auto mx-2" },
                                           [
                                             _vm._v(
                                               "\n                      " +
@@ -69871,7 +70005,7 @@ var render = function() {
                                           "span",
                                           {
                                             staticClass:
-                                              "text-4xl font-overpass-bold"
+                                              "text-3xl font-overpass-bold"
                                           },
                                           [_vm._v('"')]
                                         )
@@ -70379,7 +70513,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm.currentUser.role_id == 2
+              _vm.currentUser.role_id === 2
                 ? _c("div", [
                     _c(
                       "div",
@@ -71347,10 +71481,13 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "absolute my-auto h-full w-24full flex animation-enable",
+          staticClass:
+            "absolute my-auto z-40 h-full pointer-events-none flex animation-enable",
           class: [
             { "right-0": _vm.pageActive },
-            { "right-minFull": !_vm.pageActive }
+            { "right-minFull": !_vm.pageActive },
+            { "w-24full": !_vm.openWide },
+            { "w-full": _vm.openWide }
           ],
           on: {
             mouseover: function($event) {
@@ -71363,206 +71500,329 @@ var render = function() {
             "div",
             {
               staticClass:
-                "rounded-l-large my-auto h-36full w-full bg-yellow-200"
+                "my-auto flex w-full pointer-events-none animation-enable",
+              class: [
+                { "h-36full": !_vm.openWide },
+                { "h-4full": _vm.openWide }
+              ]
             },
             [
-              _vm.isProfil
-                ? _c("div", [
-                    _c("div", { staticClass: "h-auto w-full flex" }, [
-                      _c(
-                        "div",
-                        {
+              _c(
+                "div",
+                { staticClass: "h-full w-12 flex pointer-events-auto" },
+                [
+                  _c("div", { staticClass: "w-8 h-8 m-auto" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "w-full h-full cursor-pointer",
+                        class: [
+                          { visible: !_vm.openWide },
+                          { hidden: _vm.openWide }
+                        ],
+                        on: {
+                          click: function($event) {
+                            _vm.openWide = true
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
                           staticClass:
-                            "ml-6 mt-6 flex w-auto h-auto whitespace-pre-wrap font-monda-bold text-6xl"
-                        },
-                        [
-                          _c("span", [_vm._v(_vm._s(_vm.currentUser.nama))]),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass:
-                                "font-merri-italic text-4xl mt-6 ml-4"
-                            },
-                            [_vm._v(" (" + _vm._s(_vm.currentUser.email) + ")")]
-                          )
-                        ]
-                      )
-                    ]),
+                            "w-full h-full fas fa-caret-left text-white"
+                        })
+                      ]
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "h-auto w-full flex-row" }, [
-                      _c("div", { staticClass: "h-1/3 w-full flex" }, [
-                        _c("div", { staticClass: "w-auto h-auto ml-16 mt-8" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "w-full h-full cursor-pointer",
+                        class: [
+                          { visible: _vm.openWide },
+                          { hidden: !_vm.openWide }
+                        ],
+                        on: {
+                          click: function($event) {
+                            _vm.openWide = false
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass:
+                            "w-full h-full fas fa-caret-right text-white"
+                        })
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "rounded-l-large h-full w-12full bg-yellow-200 pointer-events-auto overflow-y-auto"
+                },
+                [
+                  _vm.isProfil
+                    ? _c("div", [
+                        _c("div", { staticClass: "h-auto w-full flex" }, [
                           _c(
-                            "span",
-                            { staticClass: "font-overpass text-3xl" },
-                            [_vm._v("Kelas : ")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
+                            "div",
                             {
                               staticClass:
-                                "whitespace-pre-wrap font-overpass-bold text-3xl"
-                            },
-                            [_vm._v(" " + _vm._s(_vm.currentUser.kelas))]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "h-1/3 w-full flex" }, [
-                        _c("div", { staticClass: "w-auto h-auto ml-16 mt-4" }, [
-                          _c(
-                            "span",
-                            { staticClass: "font-overpass text-3xl" },
-                            [_vm._v("Nomor Telepon : ")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass:
-                                "whitespace-pre-wrap font-overpass-bold text-3xl"
+                                "ml-6 mt-6 flex-row w-auto h-auto whitespace-pre-wrap font-monda-bold text-5xl"
                             },
                             [
-                              _vm._v(
-                                " " + _vm._s(_vm.currentUser.nomor_telepon)
+                              _c("span", [
+                                _vm._v(_vm._s(_vm.currentUser.nama))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "font-merri-italic text-4xl mt-2"
+                                },
+                                [
+                                  _vm._v(
+                                    " (" + _vm._s(_vm.currentUser.email) + ")"
+                                  )
+                                ]
                               )
                             ]
                           )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "h-1/3 w-full flex" }, [
-                        _c("div", { staticClass: "w-auto h-auto ml-16 mt-4" }, [
-                          _c(
-                            "span",
-                            { staticClass: "font-overpass text-3xl" },
-                            [_vm._v("Alamat : ")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass:
-                                "whitespace-pre-wrap font-overpass-bold text-3xl"
-                            },
-                            [_vm._v(" " + _vm._s(_vm.currentUser.alamat))]
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.isTP
-                ? _c("div", { staticClass: "w-full h-full flex" }, [
-                    _c(
-                      "div",
-                      { staticClass: "h-full w-full flex-row relative" },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex absolute top-0 rounded-tl-large animation-enable",
-                            class: [
-                              { "bg-green-400 h-12": _vm.soalOpened },
-                              { "bg-green-100 h-12full": !_vm.soalOpened }
-                            ]
-                          },
-                          [
-                            _c(
-                              "div",
-                              { staticClass: "w-full h-full relative flex" },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "h-auto w-full select-none absolute bottom-0 flex pb-1 mx-auto font-overpass-mono-bold text-2xl animation-enable",
-                                    class: [
-                                      {
-                                        "text-yellow-100 cursor-pointer":
-                                          _vm.soalOpened
-                                      },
-                                      { "text-black": !_vm.soalOpened }
-                                    ],
-                                    on: {
-                                      click: function($event) {
-                                        _vm.soalOpened = false
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("span", { staticClass: "m-auto" }, [
-                                      _vm._v("PEMBAHASAN")
-                                    ])
-                                  ]
-                                )
-                              ]
-                            )
-                          ]
-                        ),
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
-                          {
-                            staticClass:
-                              "w-full flex absolute bottom-0 rounded-bl-large animation-enable",
-                            class: [
-                              { "bg-green-100 h-12full": _vm.soalOpened },
-                              { "bg-green-400 h-12": !_vm.soalOpened }
-                            ]
-                          },
+                          { staticClass: "h-auto w-full flex-row pb-4" },
+                          [
+                            _c("div", { staticClass: "h-1/3 w-full flex" }, [
+                              _c(
+                                "div",
+                                { staticClass: "w-auto h-auto ml-16 mt-8" },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-overpass text-3xl" },
+                                    [_vm._v("Kelas : ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "whitespace-pre-wrap font-overpass-bold text-3xl"
+                                    },
+                                    [
+                                      _vm._v(
+                                        " " + _vm._s(_vm.currentUser.kelas)
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "h-1/3 w-full flex" }, [
+                              _c(
+                                "div",
+                                { staticClass: "w-auto h-auto ml-16 mt-4" },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-overpass text-3xl" },
+                                    [_vm._v("Nomor Telepon : ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "whitespace-pre-wrap font-overpass-bold text-3xl"
+                                    },
+                                    [
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(_vm.currentUser.nomor_telepon)
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "h-1/3 w-full flex" }, [
+                              _c(
+                                "div",
+                                { staticClass: "w-auto h-auto ml-16 mt-4" },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-overpass text-3xl" },
+                                    [_vm._v("Alamat : ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "whitespace-pre-wrap font-overpass-bold text-3xl"
+                                    },
+                                    [
+                                      _vm._v(
+                                        " " + _vm._s(_vm.currentUser.alamat)
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isTP
+                    ? _c("div", { staticClass: "w-full h-full flex" }, [
+                        _c(
+                          "div",
+                          { staticClass: "h-full w-full flex-row relative" },
                           [
                             _c(
                               "div",
-                              { staticClass: "w-full h-full relative flex" },
+                              {
+                                staticClass:
+                                  "w-full flex absolute top-0 rounded-tl-large animation-enable",
+                                class: [
+                                  { "bg-green-400 h-12": _vm.soalOpened },
+                                  { "bg-green-100 h-12full": !_vm.soalOpened }
+                                ]
+                              },
                               [
                                 _c(
                                   "div",
                                   {
-                                    staticClass:
-                                      "h-auto w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable",
-                                    class: [
-                                      {
-                                        "text-yellow-100 cursor-pointer": !_vm.soalOpened
-                                      },
-                                      { "text-black": _vm.soalOpened }
-                                    ],
-                                    on: {
-                                      click: function($event) {
-                                        _vm.soalOpened = true
-                                      }
-                                    }
+                                    staticClass: "w-full h-full relative flex"
                                   },
                                   [
-                                    _vm._m(0),
-                                    _vm._v(" "),
                                     _c(
-                                      "span",
-                                      { staticClass: "my-auto mx-4" },
-                                      [_vm._v("SOAL")]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._m(1)
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "h-auto w-full select-none absolute bottom-0 flex pb-1 mx-auto font-overpass-mono-bold text-2xl animation-enable",
+                                        class: [
+                                          {
+                                            "text-yellow-100 cursor-pointer":
+                                              _vm.soalOpened
+                                          },
+                                          { "text-black": !_vm.soalOpened }
+                                        ],
+                                        on: {
+                                          click: function($event) {
+                                            _vm.soalOpened = false
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("span", { staticClass: "m-auto" }, [
+                                          _vm._v("PEMBAHASAN")
+                                        ])
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "w-full flex absolute bottom-0 rounded-bl-large animation-enable",
+                                class: [
+                                  { "bg-green-100 h-12full": _vm.soalOpened },
+                                  { "bg-green-400 h-12": !_vm.soalOpened }
+                                ]
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "w-full h-full relative flex"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "h-auto w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable",
+                                        class: [
+                                          {
+                                            "text-yellow-100 cursor-pointer": !_vm.soalOpened
+                                          },
+                                          { "text-black": _vm.soalOpened }
+                                        ],
+                                        on: {
+                                          click: function($event) {
+                                            _vm.soalOpened = true
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._m(0),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "my-auto mx-4" },
+                                          [_vm._v("SOAL")]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm._m(1)
+                                      ]
+                                    )
                                   ]
                                 )
                               ]
                             )
                           ]
                         )
-                      ]
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.isPraktikum
-                ? _c("div", { staticClass: "w-full h-full flex" }, [
-                    _c("div", {})
-                  ])
-                : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isPraktikum
+                    ? _c("div", { staticClass: "w-full h-full flex" }, [
+                        _vm.current_praktikum.status === ""
+                          ? _c("div", { staticClass: "w-full h-full flex" }, [
+                              _vm._m(2)
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.current_praktikum.status === 0
+                          ? _c("div", { staticClass: "w-full h-full flex" }, [
+                              _c(
+                                "div",
+                                { staticClass: "font-monda-bold text-3xl" },
+                                [
+                                  _c("span", [
+                                    _vm._v("Bersiap untuk praktikum modul "),
+                                    _c("br"),
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(_vm.current_modul.judul) +
+                                        " "
+                                    )
+                                  ])
+                                ]
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ]
+              )
             ]
           )
         ]
@@ -71921,7 +72181,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "absolute top-0 right-0 z-10 w-24full h-24 flex",
+          staticClass: "absolute top-0 right-0 z-40 w-24full h-24 flex",
           class: [
             { visible: _vm.isMenuShown && _vm.pageActive },
             { hidden: !_vm.isMenuShown }
@@ -71978,7 +72238,9 @@ var render = function() {
           staticClass: "absolute right-0 w-24full h-16 flex animation-enable",
           class: [
             { "top-0": _vm.pageActive },
-            { "top-min4rem": !_vm.pageActive }
+            { "top-min4rem": !_vm.pageActive },
+            { "z-40": !_vm.openWide },
+            { "z-0": _vm.openWide }
           ]
         },
         [
@@ -72018,7 +72280,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", {
         staticClass:
-          "absolute z-10 bottom-0 w-full h-full bg-black animation-enable pointer-events-none",
+          "absolute z-50 bottom-0 w-full h-full bg-black animation-enable pointer-events-none",
         class: [
           { "opacity-75": _vm.messageOpened },
           { "opacity-0": !_vm.messageOpened }
@@ -72029,7 +72291,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "absolute z-10 w-full h-36 bg-gray-500 rounded-b-lg animation-enable",
+            "absolute z-50 w-full h-36 bg-gray-500 rounded-b-lg animation-enable",
           class: [
             { "top-0": _vm.messageOpened },
             { " top-min20rem": !_vm.messageOpened }
@@ -72148,10 +72410,12 @@ var render = function() {
         "span",
         {
           staticClass:
-            "messageIcon z-20 absolute top-0 mt-6 ml-6 w-12 h-12 cursor-pointer animation-enable",
+            "messageIcon absolute top-0 mt-6 ml-6 w-12 h-12 cursor-pointer animation-enable",
           class: [
             { "left-min20rem": !_vm.pageActive || _vm.messageOpened },
-            { "left-0": _vm.pageActive && !_vm.messageOpened }
+            { "left-0": _vm.pageActive && !_vm.messageOpened },
+            { "z-50": !_vm.openWide },
+            { "z-0": _vm.openWide }
           ],
           on: {
             click: function($event) {
@@ -72170,10 +72434,12 @@ var render = function() {
         "span",
         {
           staticClass:
-            "messageIcon z-20 absolute left-0 mt-20 ml-5 w-12 h-12 p-0 hover:p-1 cursor-pointer animation-enable",
+            "messageIcon absolute left-0 mt-20 ml-5 w-12 h-12 p-0 hover:p-1 cursor-pointer animation-enable",
           class: [
             { "top-0": _vm.messageOpened },
-            { "top-min20rem": !_vm.messageOpened }
+            { "top-min20rem": !_vm.messageOpened },
+            { "z-50": !_vm.openWide },
+            { "z-0": _vm.openWide }
           ],
           on: {
             click: function($event) {
@@ -72207,6 +72473,22 @@ var staticRenderFns = [
     return _c("span", { staticClass: "w-10 h-10 flex mr-auto" }, [
       _c("img", { staticClass: "w-full h-full fas fa-caret-right" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "font-monda-bold h-auto w-auto m-auto text-center text-5xl"
+      },
+      [
+        _vm._v("\n              Tidak ada "),
+        _c("br"),
+        _vm._v(" Praktikum saat ini\n            ")
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -72364,7 +72646,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm.currentUser.role_id == 2
+              _vm.currentUser.role_id === 2
                 ? _c("div", [
                     _c(
                       "div",
@@ -72636,7 +72918,7 @@ var render = function() {
           }
         },
         [
-          _vm.statusPraktikum == 5 || _vm.statusPraktikum == 6
+          _vm.statusPraktikum === 5 || _vm.statusPraktikum === 6
             ? _c(
                 "div",
                 {
@@ -72648,13 +72930,13 @@ var render = function() {
                     "div",
                     { staticClass: "w-full h-36full flex pointer-events-auto" },
                     [
-                      _vm.statusPraktikum == 5
+                      _vm.statusPraktikum === 5
                         ? _c("div", { staticClass: "w-full h-full flex-row" }, [
                             _vm._m(9)
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.statusPraktikum == 6
+                      _vm.statusPraktikum === 6
                         ? _c(
                             "div",
                             {
@@ -72884,7 +73166,7 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.statusPraktikum == 6
+                      _vm.statusPraktikum === 6
                         ? _c(
                             "div",
                             {
@@ -72960,11 +73242,11 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.statusPraktikum == 0 ||
-          _vm.statusPraktikum == 1 ||
-          _vm.statusPraktikum == 2 ||
-          _vm.statusPraktikum == 3 ||
-          _vm.statusPraktikum == 4
+          _vm.statusPraktikum === 0 ||
+          _vm.statusPraktikum === 1 ||
+          _vm.statusPraktikum === 2 ||
+          _vm.statusPraktikum === 3 ||
+          _vm.statusPraktikum === 4
             ? _c(
                 "div",
                 {
@@ -72986,7 +73268,7 @@ var render = function() {
                             staticClass:
                               "font-overpass-bold text-3xl text-center",
                             class: [
-                              { visible: _vm.statusPraktikum == 0 },
+                              { visible: _vm.statusPraktikum === 0 },
                               { hidden: _vm.statusPraktikum != 0 }
                             ]
                           },
@@ -73004,7 +73286,7 @@ var render = function() {
                           {
                             staticClass: "font-overpass-bold text-9xl ",
                             class: [
-                              { visible: _vm.statusPraktikum == 1 },
+                              { visible: _vm.statusPraktikum === 1 },
                               { hidden: _vm.statusPraktikum != 1 }
                             ]
                           },
@@ -73016,7 +73298,7 @@ var render = function() {
                           {
                             staticClass: "font-overpass-bold text-9xl ",
                             class: [
-                              { visible: _vm.statusPraktikum == 2 },
+                              { visible: _vm.statusPraktikum === 2 },
                               { hidden: _vm.statusPraktikum != 2 }
                             ]
                           },
@@ -73028,7 +73310,7 @@ var render = function() {
                           {
                             staticClass: "font-overpass-bold text-9xl ",
                             class: [
-                              { visible: _vm.statusPraktikum == 3 },
+                              { visible: _vm.statusPraktikum === 3 },
                               { hidden: _vm.statusPraktikum != 3 }
                             ]
                           },
@@ -73040,7 +73322,7 @@ var render = function() {
                           {
                             staticClass: "font-overpass-bold text-9xl ",
                             class: [
-                              { visible: _vm.statusPraktikum == 4 },
+                              { visible: _vm.statusPraktikum === 4 },
                               { hidden: _vm.statusPraktikum != 4 }
                             ]
                           },
@@ -73084,7 +73366,11 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
+                                "h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
+                              class: [
+                                { "w-1/2": _vm.statusPraktikum === 0 },
+                                { "w-1/3": _vm.statusPraktikum !== 0 }
+                              ],
                               on: {
                                 click: function($event) {
                                   return _vm.rollbackPraktikum(false)
@@ -73098,10 +73384,12 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
+                                "h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
                               class: [
                                 { hidden: _vm.countdownStarted },
-                                { visible: !_vm.countdownStarted }
+                                { visible: !_vm.countdownStarted },
+                                { "w-1/2": _vm.statusPraktikum === 0 },
+                                { "w-1/3": _vm.statusPraktikum !== 0 }
                               ],
                               on: {
                                 click: function($event) {
@@ -73116,10 +73404,12 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
+                                "h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
                               class: [
                                 { hidden: !_vm.countdownStarted },
-                                { visible: _vm.countdownStarted }
+                                { visible: _vm.countdownStarted },
+                                { "w-1/2": _vm.statusPraktikum === 0 },
+                                { "w-1/3": _vm.statusPraktikum !== 0 }
                               ],
                               on: {
                                 click: function($event) {
@@ -73135,6 +73425,10 @@ var render = function() {
                             {
                               staticClass:
                                 "w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto",
+                              class: [
+                                { hidden: _vm.statusPraktikum === 0 },
+                                { visible: _vm.statusPraktikum !== 0 }
+                              ],
                               on: {
                                 click: function($event) {
                                   return _vm.goToNextSection(false)
@@ -73334,16 +73628,16 @@ var render = function() {
                                                     : 0)),
                                             {
                                               "bg-gray-300 text-black":
-                                                index % 2 == 0
+                                                index % 2 === 0
                                             },
                                             {
                                               "bg-gray-600 text-white":
                                                 index % 2 != 0
                                             },
-                                            { "rounded-tl-lg": index == 0 },
+                                            { "rounded-tl-lg": index === 0 },
                                             {
                                               "rounded-bl-lg":
-                                                index + 1 ==
+                                                index + 1 ===
                                                 _vm.listAllAsisten.length
                                             }
                                           ]
@@ -73430,10 +73724,12 @@ var render = function() {
                                             {
                                               staticClass: "w-full h-full flex",
                                               class: [
-                                                { "rounded-tr-lg": index == 0 },
+                                                {
+                                                  "rounded-tr-lg": index === 0
+                                                },
                                                 {
                                                   "rounded-br-lg":
-                                                    index ==
+                                                    index ===
                                                     _vm.listAllPraktikan
                                                       .length -
                                                       1
@@ -73459,16 +73755,19 @@ var render = function() {
                                                             1
                                                           : _vm.praktikanComplete)
                                                     ) %
-                                                      2 ==
+                                                      2 ===
                                                     (_vm.praktikanLeft -
                                                       index /
                                                         (_vm.praktikanComplete +
                                                           1) >
                                                     0
                                                       ? 0
-                                                      : _vm.praktikanLeft % 2 ==
-                                                          0 ||
-                                                        _vm.praktikanLeft ==
+                                                      : (_vm.praktikanLeft %
+                                                          2 ===
+                                                          1 &&
+                                                          _vm.praktikanLeft <
+                                                            _vm.praktikanComplete) ||
+                                                        _vm.praktikanLeft ===
                                                           _vm.praktikanComplete
                                                       ? 0
                                                       : 1)
@@ -74490,7 +74789,7 @@ var render = function() {
               _vm._v(" "),
               _vm._m(5),
               _vm._v(" "),
-              _vm.currentUser.role_id == 2
+              _vm.currentUser.role_id === 2
                 ? _c("div", [
                     _c(
                       "div",
@@ -75016,61 +75315,28 @@ var render = function() {
                                           _c(
                                             "div",
                                             {
-                                              staticClass:
-                                                "w-16full h-full flex"
+                                              staticClass: "w-3/5 h-full flex"
                                             },
                                             [
                                               _c(
                                                 "div",
                                                 {
                                                   staticClass:
-                                                    "w-full h-full p-4 text-left font-overpass-bold text-xl"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                        " +
-                                                      _vm._s(soal.soal) +
-                                                      "\n                      "
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "w-full h-1/2 flex"
+                                                    "w-16full h-full flex"
                                                 },
                                                 [
                                                   _c(
-                                                    "span",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.deleteSoal(
-                                                            soal.id
-                                                          )
-                                                        }
-                                                      }
+                                                        "w-full h-full overflow-y-auto break-words whitespace-pre-wrap p-4 text-left font-overpass-bold text-xl"
                                                     },
                                                     [
-                                                      _c("img", {
-                                                        staticClass:
-                                                          "w-full h-full p-1 fas fa-trash"
-                                                      })
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          _vm._s(soal.soal)
+                                                        )
+                                                      ])
                                                     ]
                                                   )
                                                 ]
@@ -75080,59 +75346,101 @@ var render = function() {
                                                 "div",
                                                 {
                                                   staticClass:
-                                                    "w-full h-1/2 flex"
+                                                    "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
                                                 },
                                                 [
                                                   _c(
-                                                    "span",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
-                                                      class:
-                                                        "editOpenTP-" + soal.id,
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.editSoal(
-                                                            soal,
-                                                            true
-                                                          )
-                                                        }
-                                                      }
+                                                        "w-full h-1/2 flex"
                                                     },
                                                     [
-                                                      _c("img", {
-                                                        staticClass:
-                                                          "w-full h-full p-1 fas fa-pen"
-                                                      })
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.deleteSoal(
+                                                                soal.id
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("img", {
+                                                            staticClass:
+                                                              "w-full h-full p-1 fas fa-trash"
+                                                          })
+                                                        ]
+                                                      )
                                                     ]
                                                   ),
                                                   _vm._v(" "),
                                                   _c(
-                                                    "span",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                      class:
-                                                        "editCloseTP-" +
-                                                        soal.id,
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.editSoal(
-                                                            soal,
-                                                            false
-                                                          )
-                                                        }
-                                                      }
+                                                        "w-full h-1/2 flex"
                                                     },
                                                     [
-                                                      _c("img", {
-                                                        staticClass:
-                                                          "w-full h-full p-1 fas fa-times"
-                                                      })
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
+                                                          class:
+                                                            "editOpenTP-" +
+                                                            soal.id,
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.editSoal(
+                                                                soal,
+                                                                true
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("img", {
+                                                            staticClass:
+                                                              "w-full h-full p-1 fas fa-pen"
+                                                          })
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                          class:
+                                                            "editCloseTP-" +
+                                                            soal.id,
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.editSoal(
+                                                                soal,
+                                                                false
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("img", {
+                                                            staticClass:
+                                                              "w-full h-full p-1 fas fa-times"
+                                                          })
+                                                        ]
+                                                      )
                                                     ]
                                                   )
                                                 ]
@@ -75216,23 +75524,23 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300"
+                                                          "w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300 overflow-y-auto"
                                                       },
                                                       [
                                                         _c(
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-auto h-auto m-auto"
+                                                              "w-auto h-auto text-left p-4 break-words whitespace-pre-wrap m-auto"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.pertanyaan
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -75251,23 +75559,23 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-xl"
+                                                          "w-full h-full flex-row overflow-y-auto overflow-x-hidden p-4 text-left font-overpass-bold text-xl"
                                                       },
                                                       [
                                                         _c(
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-green-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-green-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_benar
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
@@ -75275,16 +75583,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-red-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_salah1
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
@@ -75292,16 +75600,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-red-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_salah2
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
@@ -75309,16 +75617,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-red-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_salah3
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -75504,23 +75812,23 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300"
+                                                          "w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300 overflow-y-auto"
                                                       },
                                                       [
                                                         _c(
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-auto h-auto m-auto"
+                                                              "w-auto h-auto text-left p-4 break-words whitespace-pre-wrap m-auto"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.pertanyaan
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -75546,16 +75854,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-green-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-green-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_benar
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
@@ -75563,16 +75871,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-red-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_salah1
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
@@ -75580,16 +75888,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-red-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_salah2
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
@@ -75597,16 +75905,16 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-32 mb-4 p-4 bg-red-500 rounded-lg"
+                                                              "w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                            " +
+                                                            _c("span", [
+                                                              _vm._v(
                                                                 _vm._s(
                                                                   soal.jawaban_salah3
-                                                                ) +
-                                                                "\n                          "
-                                                            )
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -75763,7 +76071,7 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-1/2 h-full flex-row"
+                                                      "w-1/3 h-full flex-row"
                                                   },
                                                   [
                                                     _c(
@@ -75798,60 +76106,30 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-16full h-full flex"
+                                                      "w-2/3 h-full flex"
                                                   },
                                                   [
                                                     _c(
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full whitespace-pre-line flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                          " +
-                                                            _vm._s(soal.soal) +
-                                                            "\n                        "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "w-full h-1/2 flex"
+                                                          "w-16full h-full flex"
                                                       },
                                                       [
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.deleteSoal(
-                                                                  soal.id
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-full break-words whitespace-pre-wrap flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-trash"
-                                                            })
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  soal.soal
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -75861,60 +76139,101 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-1/2 flex"
+                                                          "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
                                                       },
                                                       [
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
-                                                            class:
-                                                              "editOpenJurnal-" +
-                                                              soal.id,
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.editSoal(
-                                                                  soal,
-                                                                  true
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-1/2 flex"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-pen"
-                                                            })
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.deleteSoal(
+                                                                      soal.id
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-trash"
+                                                                })
+                                                              ]
+                                                            )
                                                           ]
                                                         ),
                                                         _vm._v(" "),
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                            class:
-                                                              "editCloseJurnal-" +
-                                                              soal.id,
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.editSoal(
-                                                                  soal,
-                                                                  false
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-1/2 flex"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-times"
-                                                            })
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
+                                                                class:
+                                                                  "editOpenJurnal-" +
+                                                                  soal.id,
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.editSoal(
+                                                                      soal,
+                                                                      true
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-pen"
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                                class:
+                                                                  "editCloseJurnal-" +
+                                                                  soal.id,
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.editSoal(
+                                                                      soal,
+                                                                      false
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-times"
+                                                                })
+                                                              ]
+                                                            )
                                                           ]
                                                         )
                                                       ]
@@ -75965,7 +76284,7 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-1/2 h-full flex-row"
+                                                      "w-1/3 h-full flex-row"
                                                   },
                                                   [
                                                     _c(
@@ -76000,60 +76319,30 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-16full h-full flex"
+                                                      "w-2/3 h-full flex"
                                                   },
                                                   [
                                                     _c(
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                          " +
-                                                            _vm._s(soal.soal) +
-                                                            "\n                        "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "w-full h-1/2 flex"
+                                                          "w-16full h-full flex"
                                                       },
                                                       [
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.deleteSoal(
-                                                                  soal.id
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-full break-words whitespace-pre-wrap flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-trash"
-                                                            })
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  soal.soal
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -76063,60 +76352,101 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-1/2 flex"
+                                                          "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
                                                       },
                                                       [
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
-                                                            class:
-                                                              "editOpenMandiri-" +
-                                                              soal.id,
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.editSoal(
-                                                                  soal,
-                                                                  true
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-1/2 flex"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-pen"
-                                                            })
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.deleteSoal(
+                                                                      soal.id
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-trash"
+                                                                })
+                                                              ]
+                                                            )
                                                           ]
                                                         ),
                                                         _vm._v(" "),
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                            class:
-                                                              "editCloseMandiri-" +
-                                                              soal.id,
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.editSoal(
-                                                                  soal,
-                                                                  false
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-1/2 flex"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-times"
-                                                            })
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
+                                                                class:
+                                                                  "editOpenMandiri-" +
+                                                                  soal.id,
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.editSoal(
+                                                                      soal,
+                                                                      true
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-pen"
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                                class:
+                                                                  "editCloseMandiri-" +
+                                                                  soal.id,
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.editSoal(
+                                                                      soal,
+                                                                      false
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-times"
+                                                                })
+                                                              ]
+                                                            )
                                                           ]
                                                         )
                                                       ]
@@ -76165,7 +76495,7 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-1/2 h-full flex-row"
+                                                      "w-1/3 h-full flex-row"
                                                   },
                                                   [
                                                     _c(
@@ -76200,60 +76530,30 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "w-16full h-full flex"
+                                                      "w-2/3 h-full flex"
                                                   },
                                                   [
                                                     _c(
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                          " +
-                                                            _vm._s(soal.soal) +
-                                                            "\n                        "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "w-full h-1/2 flex"
+                                                          "w-16full h-full flex"
                                                       },
                                                       [
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.deleteSoal(
-                                                                  soal.id
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-full break-words whitespace-pre-wrap flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-trash"
-                                                            })
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  soal.soal
+                                                                )
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -76263,60 +76563,101 @@ var render = function() {
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "w-full h-1/2 flex"
+                                                          "w-16 bg-gray-400 rounded-r-lg h-full flex-row"
                                                       },
                                                       [
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
-                                                            class:
-                                                              "editOpenFITB-" +
-                                                              soal.id,
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.editSoal(
-                                                                  soal,
-                                                                  true
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-1/2 flex"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-pen"
-                                                            })
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.deleteSoal(
+                                                                      soal.id
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-trash"
+                                                                })
+                                                              ]
+                                                            )
                                                           ]
                                                         ),
                                                         _vm._v(" "),
                                                         _c(
-                                                          "span",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
-                                                            class:
-                                                              "editCloseFITB-" +
-                                                              soal.id,
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.editSoal(
-                                                                  soal,
-                                                                  false
-                                                                )
-                                                              }
-                                                            }
+                                                              "w-full h-1/2 flex"
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              staticClass:
-                                                                "w-full h-full p-1 fas fa-times"
-                                                            })
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short",
+                                                                class:
+                                                                  "editOpenFITB-" +
+                                                                  soal.id,
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.editSoal(
+                                                                      soal,
+                                                                      true
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-pen"
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short",
+                                                                class:
+                                                                  "editCloseFITB-" +
+                                                                  soal.id,
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.editSoal(
+                                                                      soal,
+                                                                      false
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  staticClass:
+                                                                    "w-full h-full p-1 fas fa-times"
+                                                                })
+                                                              ]
+                                                            )
                                                           ]
                                                         )
                                                       ]
@@ -88275,14 +88616,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************!*\
   !*** ./resources/js/Pages/Soal.vue ***!
   \*************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Soal_vue_vue_type_template_id_660d61a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Soal.vue?vue&type=template&id=660d61a0& */ "./resources/js/Pages/Soal.vue?vue&type=template&id=660d61a0&");
 /* harmony import */ var _Soal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Soal.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Soal.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Soal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Soal.vue?vue&type=style&index=0&lang=css& */ "./resources/js/Pages/Soal.vue?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Soal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Soal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _Soal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Soal.vue?vue&type=style&index=0&lang=css& */ "./resources/js/Pages/Soal.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -88314,7 +88656,7 @@ component.options.__file = "resources/js/Pages/Soal.vue"
 /*!**************************************************************!*\
   !*** ./resources/js/Pages/Soal.vue?vue&type=script&lang=js& ***!
   \**************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -152,7 +152,7 @@ export default {
     });
 
     const globe  = this;
-    if(this.comingFrom == 'about'){
+    if(this.comingFrom === 'about'){
 
       this.animationEnable = false;
       this.active = true;

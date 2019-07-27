@@ -78,7 +78,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id == 2">
+        <div v-if="currentUser.role_id === 2">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -251,29 +251,31 @@
                           </div>
                         </div>
                       </div>
-                      <div class="w-16full h-full flex">
-                        <div class="w-full h-full p-4 text-left font-overpass-bold text-xl">
-                          {{ soal.soal }}
+                      <div class="w-3/5 h-full flex">
+                        <div class="w-16full h-full flex">
+                          <div class="w-full h-full overflow-y-auto break-words whitespace-pre-wrap p-4 text-left font-overpass-bold text-xl">
+                            <span>{{ soal.soal }}</span>  
+                          </div>
                         </div>
-                      </div>
-                      <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                        <div class="w-full h-1/2 flex">
-                          <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
-                              v-on:click="deleteSoal(soal.id)">
-                            <img class="w-full h-full p-1 fas fa-trash">
-                          </span>
-                        </div>
-                        <div class="w-full h-1/2 flex">
-                          <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
-                              :class="'editOpenTP-'+soal.id"
-                              v-on:click="editSoal(soal, true)">
-                            <img class="w-full h-full p-1 fas fa-pen">
-                          </span>
-                          <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
-                              :class="'editCloseTP-'+soal.id"
-                              v-on:click="editSoal(soal, false)">
-                            <img class="w-full h-full p-1 fas fa-times">
-                          </span>
+                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                          <div class="w-full h-1/2 flex">
+                            <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                v-on:click="deleteSoal(soal.id)">
+                              <img class="w-full h-full p-1 fas fa-trash">
+                            </span>
+                          </div>
+                          <div class="w-full h-1/2 flex">
+                            <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
+                                :class="'editOpenTP-'+soal.id"
+                                v-on:click="editSoal(soal, true)">
+                              <img class="w-full h-full p-1 fas fa-pen">
+                            </span>
+                            <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                :class="'editCloseTP-'+soal.id"
+                                v-on:click="editSoal(soal, false)">
+                              <img class="w-full h-full p-1 fas fa-times">
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -292,25 +294,25 @@
                               {{ soal.judul }}
                             </div>
                           </div>
-                          <div class="w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300">
-                            <div class="w-auto h-auto m-auto">
-                              {{ soal.pertanyaan }}
+                          <div class="w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300 overflow-y-auto">
+                            <div class="w-auto h-auto text-left p-4 break-words whitespace-pre-wrap m-auto">
+                              <span>{{ soal.pertanyaan }}</span>
                             </div>
                           </div>
                         </div>
                         <div class="w-1/2 h-full flex">
-                          <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-xl">
-                            <div class="w-full h-32 mb-4 p-4 bg-green-500 rounded-lg">
-                              {{ soal.jawaban_benar }}
+                          <div class="w-full h-full flex-row overflow-y-auto overflow-x-hidden p-4 text-left font-overpass-bold text-xl">
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-green-500 rounded-lg">
+                              <span>{{ soal.jawaban_benar }}</span>
                             </div>
-                            <div class="w-full h-32 mb-4 p-4 bg-red-500 rounded-lg">
-                              {{ soal.jawaban_salah1 }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg">
+                              <span>{{ soal.jawaban_salah1 }}</span>
                             </div>
-                            <div class="w-full h-32 mb-4 p-4 bg-red-500 rounded-lg">
-                              {{ soal.jawaban_salah2 }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg">
+                              <span>{{ soal.jawaban_salah2 }}</span>
                             </div>
-                            <div class="w-full h-32 mb-4 p-4 bg-red-500 rounded-lg">
-                              {{ soal.jawaban_salah3 }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg">
+                              <span>{{ soal.jawaban_salah3 }}</span>
                             </div>
                           </div>
                         </div>
@@ -349,25 +351,25 @@
                               {{ soal.judul }}
                             </div>
                           </div>
-                          <div class="w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300">
-                            <div class="w-auto h-auto m-auto">
-                              {{ soal.pertanyaan }}
+                          <div class="w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300 overflow-y-auto">
+                            <div class="w-auto h-auto text-left p-4 break-words whitespace-pre-wrap m-auto">
+                              <span>{{ soal.pertanyaan }}</span>
                             </div>
                           </div>
                         </div>
                         <div class="w-1/2 h-full flex">
                           <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-xl">
-                            <div class="w-full h-32 mb-4 p-4 bg-green-500 rounded-lg">
-                              {{ soal.jawaban_benar }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-green-500 rounded-lg">
+                              <span>{{ soal.jawaban_benar }}</span>
                             </div>
-                            <div class="w-full h-32 mb-4 p-4 bg-red-500 rounded-lg">
-                              {{ soal.jawaban_salah1 }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg">
+                              <span>{{ soal.jawaban_salah1 }}</span>
                             </div>
-                            <div class="w-full h-32 mb-4 p-4 bg-red-500 rounded-lg">
-                              {{ soal.jawaban_salah2 }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg">
+                              <span>{{ soal.jawaban_salah2 }}</span>
                             </div>
-                            <div class="w-full h-32 mb-4 p-4 bg-red-500 rounded-lg">
-                              {{ soal.jawaban_salah3 }}
+                            <div class="w-full h-auto break-words whitespace-pre-wrap mb-4 p-4 bg-red-500 rounded-lg">
+                              <span>{{ soal.jawaban_salah3 }}</span>
                             </div>
                           </div>
                         </div>
@@ -402,36 +404,38 @@
                     <div v-for="soal in listAllJurnal" v-bind:key="soal.id"
                         class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
-                        <div class="w-1/2 h-full flex-row">
+                        <div class="w-1/3 h-full flex-row">
                           <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
                               {{ soal.judul }}
                             </div>
                           </div>
                         </div>
-                        <div class="w-16full h-full flex">
-                          <div class="w-full h-full whitespace-pre-line flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
-                            {{ soal.soal }}
+                        <div class="w-2/3 h-full flex">
+                          <div class="w-16full h-full flex">
+                            <div class="w-full h-full break-words whitespace-pre-wrap flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
+                              <span>{{ soal.soal }}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                          <div class="w-full h-1/2 flex">
-                            <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
-                                v-on:click="deleteSoal(soal.id)">
-                              <img class="w-full h-full p-1 fas fa-trash">
-                            </span>
-                          </div>
-                          <div class="w-full h-1/2 flex">
-                            <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
-                                :class="'editOpenJurnal-'+soal.id"
-                                v-on:click="editSoal(soal, true)">
-                              <img class="w-full h-full p-1 fas fa-pen">
-                            </span>
-                            <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
-                                :class="'editCloseJurnal-'+soal.id"
-                                v-on:click="editSoal(soal, false)">
-                              <img class="w-full h-full p-1 fas fa-times">
-                            </span>
+                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                            <div class="w-full h-1/2 flex">
+                              <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                  v-on:click="deleteSoal(soal.id)">
+                                <img class="w-full h-full p-1 fas fa-trash">
+                              </span>
+                            </div>
+                            <div class="w-full h-1/2 flex">
+                              <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
+                                  :class="'editOpenJurnal-'+soal.id"
+                                  v-on:click="editSoal(soal, true)">
+                                <img class="w-full h-full p-1 fas fa-pen">
+                              </span>
+                              <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                  :class="'editCloseJurnal-'+soal.id"
+                                  v-on:click="editSoal(soal, false)">
+                                <img class="w-full h-full p-1 fas fa-times">
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -443,36 +447,38 @@
                     <div v-for="soal in listAllMandiri" v-bind:key="soal.id"
                         class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
-                        <div class="w-1/2 h-full flex-row">
+                        <div class="w-1/3 h-full flex-row">
                           <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
                               {{ soal.judul }}
                             </div>
                           </div>
                         </div>
-                        <div class="w-16full h-full flex">
-                          <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
-                            {{ soal.soal }}
+                        <div class="w-2/3 h-full flex">
+                          <div class="w-16full h-full flex">
+                            <div class="w-full h-full break-words whitespace-pre-wrap flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
+                              <span>{{ soal.soal }}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                          <div class="w-full h-1/2 flex">
-                            <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
-                                v-on:click="deleteSoal(soal.id)">
-                              <img class="w-full h-full p-1 fas fa-trash">
-                            </span>
-                          </div>
-                          <div class="w-full h-1/2 flex">
-                            <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
-                                :class="'editOpenMandiri-'+soal.id"
-                                v-on:click="editSoal(soal, true)">
-                              <img class="w-full h-full p-1 fas fa-pen">
-                            </span>
-                            <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
-                                :class="'editCloseMandiri-'+soal.id"
-                                v-on:click="editSoal(soal, false)">
-                              <img class="w-full h-full p-1 fas fa-times">
-                            </span>
+                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                            <div class="w-full h-1/2 flex">
+                              <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                  v-on:click="deleteSoal(soal.id)">
+                                <img class="w-full h-full p-1 fas fa-trash">
+                              </span>
+                            </div>
+                            <div class="w-full h-1/2 flex">
+                              <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
+                                  :class="'editOpenMandiri-'+soal.id"
+                                  v-on:click="editSoal(soal, true)">
+                                <img class="w-full h-full p-1 fas fa-pen">
+                              </span>
+                              <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                  :class="'editCloseMandiri-'+soal.id"
+                                  v-on:click="editSoal(soal, false)">
+                                <img class="w-full h-full p-1 fas fa-times">
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -484,36 +490,38 @@
                     <div v-for="soal in listAllFITB" v-bind:key="soal.id"
                         class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
-                        <div class="w-1/2 h-full flex-row">
+                        <div class="w-1/3 h-full flex-row">
                           <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
                               {{ soal.judul }}
                             </div>
                           </div>
                         </div>
-                        <div class="w-16full h-full flex">
-                          <div class="w-full h-full flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
-                            {{ soal.soal }}
+                        <div class="w-2/3 h-full flex">
+                          <div class="w-16full h-full flex">
+                            <div class="w-full h-full break-words whitespace-pre-wrap flex-row overflow-y-auto p-4 text-left font-overpass-bold text-2xl">
+                              <span>{{ soal.soal }}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                          <div class="w-full h-1/2 flex">
-                            <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
-                                v-on:click="deleteSoal(soal.id)">
-                              <img class="w-full h-full p-1 fas fa-trash">
-                            </span>
-                          </div>
-                          <div class="w-full h-1/2 flex">
-                            <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
-                                :class="'editOpenFITB-'+soal.id"
-                                v-on:click="editSoal(soal, true)">
-                              <img class="w-full h-full p-1 fas fa-pen">
-                            </span>
-                            <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
-                                :class="'editCloseFITB-'+soal.id"
-                                v-on:click="editSoal(soal, false)">
-                              <img class="w-full h-full p-1 fas fa-times">
-                            </span>
+                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                            <div class="w-full h-1/2 flex">
+                              <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                  v-on:click="deleteSoal(soal.id)">
+                                <img class="w-full h-full p-1 fas fa-trash">
+                              </span>
+                            </div>
+                            <div class="w-full h-1/2 flex">
+                              <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
+                                  :class="'editOpenFITB-'+soal.id"
+                                  v-on:click="editSoal(soal, true)">
+                                <img class="w-full h-full p-1 fas fa-pen">
+                              </span>
+                              <span class="w-full h-full hidden p-3 hover:p-4 cursor-pointer animation-enable-short"
+                                  :class="'editCloseFITB-'+soal.id"
+                                  v-on:click="editSoal(soal, false)">
+                                <img class="w-full h-full p-1 fas fa-times">
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -805,12 +813,12 @@ export default {
       editing: false,
       currentSoal: "",
 
-      listAllTP: this.allTP == null ? [] : this.allTP,
-      listAllTA: this.allTA == null ? [] : this.allTA,
-      listAllTK: this.allTK == null ? [] : this.allTK,
-      listAllJurnal: this.allJurnal == null ? [] : this.allJurnal,
-      listAllMandiri: this.allMandiri == null ? [] : this.allMandiri,
-      listAllFITB: this.allFITB == null ? [] : this.allFITB,
+      listAllTP: this.allTP === null ? [] : this.allTP,
+      listAllTA: this.allTA === null ? [] : this.allTA,
+      listAllTK: this.allTK === null ? [] : this.allTK,
+      listAllJurnal: this.allJurnal === null ? [] : this.allJurnal,
+      listAllMandiri: this.allMandiri === null ? [] : this.allMandiri,
+      listAllFITB: this.allFITB === null ? [] : this.allFITB,
 
       isTA: false,
       isTK: false,
@@ -870,12 +878,12 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'asisten' ||
-        this.comingFrom == 'none' ||
-        this.comingFrom == 'kelas' ||
-        this.comingFrom == 'modul'||
-        this.comingFrom == 'plotting' ||
-        this.comingFrom == 'praktikum'){
+    if(this.comingFrom === 'asisten' ||
+        this.comingFrom === 'none' ||
+        this.comingFrom === 'kelas' ||
+        this.comingFrom === 'modul'||
+        this.comingFrom === 'plotting' ||
+        this.comingFrom === 'praktikum'){
 
       setTimeout(
         function() {
@@ -887,21 +895,21 @@ export default {
   methods: {
     setCurrentMenu: function($whereTo, $bool){
 
-      if($whereTo == "praktikum")
+      if($whereTo === "praktikum")
         this.menuPraktikum = $bool;
-      if($whereTo == "asisten")
+      if($whereTo === "asisten")
         this.menuProfil = $bool;
-      if($whereTo == "listTp")
+      if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo == "history")
+      if($whereTo === "history")
         this.menuHistory = $bool;
-      if($whereTo == "polling")
+      if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo == "kelas")
+      if($whereTo === "kelas")
         this.menuKelas = $bool;
-      if($whereTo == "modul")
+      if($whereTo === "modul")
         this.menuModul = $bool;
-      if($whereTo == "plotting")
+      if($whereTo === "plotting")
         this.menuPlotting = $bool;
     },
 
@@ -916,7 +924,7 @@ export default {
 
         this.$axios.post('/deleteTP/'+$id).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             globe.$toasted.global.showSuccess({
               message: "Soal TP berhasil dihapus"
@@ -924,7 +932,7 @@ export default {
 
             var i;
             for(i=0; i<globe.listAllTP.length; i++){
-              if(globe.listAllTP[i].id == $id){
+              if(globe.listAllTP[i].id === $id){
                 break;
               }
             }
@@ -1219,17 +1227,17 @@ export default {
           !this.isJurnal &&
           !this.isMandiri){
 
-        if(this.formTP.jenisSoal == "essay"){
+        if(this.formTP.jenisSoal === "essay"){
           this.formTP.isEssay = true;
           this.formTP.isProgram = false;
-        } else if(this.formTP.jenisSoal == "program"){
+        } else if(this.formTP.jenisSoal === "program"){
           this.formTP.isEssay = false;
           this.formTP.isProgram = true;
         }
 
         this.$axios.post('/createTP', this.formTP).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#tpForm")[0].reset();
             globe.$toasted.global.showSuccess({
@@ -1237,7 +1245,7 @@ export default {
             });
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == globe.formTP.modul_id)
+              if(element.id === globe.formTP.modul_id)
                 judul = element.judul;
             });
             globe.listAllTP.push({
@@ -1286,7 +1294,7 @@ export default {
           
         this.$axios.post('/createTA', this.formTATK).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#tatkForm")[0].reset();
             globe.$toasted.global.showSuccess({
@@ -1294,7 +1302,7 @@ export default {
             });
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == globe.formTATK.modul_id)
+              if(element.id === globe.formTATK.modul_id)
                 judul = element.judul;
             });
             globe.listAllTA.push({
@@ -1354,7 +1362,7 @@ export default {
           
         this.$axios.post('/createTK', this.formTATK).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#tatkForm")[0].reset();
             globe.$toasted.global.showSuccess({
@@ -1362,7 +1370,7 @@ export default {
             });
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == globe.formTATK.modul_id)
+              if(element.id === globe.formTATK.modul_id)
                 judul = element.judul;
             });
             globe.listAllTK.push({
@@ -1422,7 +1430,7 @@ export default {
           
         this.$axios.post('/createJurnal', this.formJMFITB).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#jmfitbForm")[0].reset();
             globe.$toasted.global.showSuccess({
@@ -1430,7 +1438,7 @@ export default {
             });
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == globe.formJMFITB.modul_id)
+              if(element.id === globe.formJMFITB.modul_id)
                 judul = element.judul;
             });
             globe.listAllJurnal.push({
@@ -1466,7 +1474,7 @@ export default {
           
         this.$axios.post('/createMandiri', this.formJMFITB).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#jmfitbForm")[0].reset();
             globe.$toasted.global.showSuccess({
@@ -1474,7 +1482,7 @@ export default {
             });
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == globe.formJMFITB.modul_id)
+              if(element.id === globe.formJMFITB.modul_id)
                 judul = element.judul;
             });
             globe.listAllMandiri.push({
@@ -1510,7 +1518,7 @@ export default {
           
         this.$axios.post('/createFitb', this.formJMFITB).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#jmfitbForm")[0].reset();
             globe.$toasted.global.showSuccess({
@@ -1518,7 +1526,7 @@ export default {
             });
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == globe.formJMFITB.modul_id)
+              if(element.id === globe.formJMFITB.modul_id)
                 judul = element.judul;
             });
             globe.listAllFITB.push({
@@ -1565,7 +1573,7 @@ export default {
 
         this.$axios.post('/updateTP', this.formTP).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             globe.editing = false;
             $(".editCloseTP-"+globe.formTP.id).removeClass("visible");
@@ -1579,12 +1587,12 @@ export default {
 
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == response.data.soal.modul_id)
+              if(element.id === response.data.soal.modul_id)
                 judul = element.judul;
             });
 
             for(var i=0; i<globe.listAllTP.length; i++)
-              if(globe.listAllTP[i].id == globe.formTP.id){
+              if(globe.listAllTP[i].id === globe.formTP.id){
                 globe.listAllTP[i] = response.data.soal;
                 globe.listAllTP[i].judul = judul;
                 break;
@@ -1631,7 +1639,7 @@ export default {
 
         this.$axios.post('/updateTA', this.formTATK).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#tatkForm")[0].reset();
             globe.editing = false;
@@ -1646,12 +1654,12 @@ export default {
             
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == response.data.soal.modul_id)
+              if(element.id === response.data.soal.modul_id)
                 judul = element.judul;
             });
 
             for(var i=0; i<globe.listAllTA.length; i++){
-              if(globe.listAllTA[i].id == globe.formTATK.id){
+              if(globe.listAllTA[i].id === globe.formTATK.id){
                 globe.listAllTA[i] = response.data.soal;
                 globe.listAllTA[i].judul = judul;
                 break;
@@ -1705,7 +1713,7 @@ export default {
 
         this.$axios.post('/updateTK', this.formTATK).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#tatkForm")[0].reset();
             globe.editing = false;
@@ -1720,12 +1728,12 @@ export default {
             
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == response.data.soal.modul_id)
+              if(element.id === response.data.soal.modul_id)
                 judul = element.judul;
             });
 
             for(var i=0; i<globe.listAllTK.length; i++){
-              if(globe.listAllTK[i].id == globe.formTATK.id){
+              if(globe.listAllTK[i].id === globe.formTATK.id){
                 globe.listAllTK[i] = response.data.soal;
                 globe.listAllTK[i].judul = judul;
                 break;
@@ -1779,7 +1787,7 @@ export default {
 
         this.$axios.post('/updateJurnal', this.formJMFITB).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#jmfitbForm")[0].reset();
             globe.editing = false;
@@ -1794,12 +1802,12 @@ export default {
             
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == response.data.soal.modul_id)
+              if(element.id === response.data.soal.modul_id)
                 judul = element.judul;
             });
             
             for(var i=0; i<globe.listAllJurnal.length; i++){
-              if(globe.listAllJurnal[i].id == globe.formJMFITB.id){
+              if(globe.listAllJurnal[i].id === globe.formJMFITB.id){
                 globe.listAllJurnal[i] = response.data.soal;
                 globe.listAllJurnal[i].judul = judul;
                 break;
@@ -1833,7 +1841,7 @@ export default {
 
         this.$axios.post('/updateMandiri', this.formJMFITB).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#jmfitbForm")[0].reset();
             globe.editing = false;
@@ -1848,12 +1856,12 @@ export default {
             
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == response.data.soal.modul_id)
+              if(element.id === response.data.soal.modul_id)
                 judul = element.judul;
             });
             
             for(var i=0; i<globe.listAllMandiri.length; i++){
-              if(globe.listAllMandiri[i].id == globe.formJMFITB.id){
+              if(globe.listAllMandiri[i].id === globe.formJMFITB.id){
                 globe.listAllMandiri[i] = response.data.soal;
                 globe.listAllMandiri[i].judul = judul;
                 break;
@@ -1887,7 +1895,7 @@ export default {
 
         this.$axios.post('/updateFitb', this.formJMFITB).then(response => {
 
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             $("#jmfitbForm")[0].reset();
             globe.editing = false;
@@ -1902,12 +1910,12 @@ export default {
             
             var judul;
             globe.allModul.forEach(element => {
-              if(element.id == response.data.soal.modul_id)
+              if(element.id === response.data.soal.modul_id)
                 judul = element.judul;
             });
             
             for(var i=0; i<globe.listAllFITB.length; i++){
-              if(globe.listAllFITB[i].id == globe.formJMFITB.id){
+              if(globe.listAllFITB[i].id === globe.formJMFITB.id){
                 globe.listAllFITB[i] = response.data.soal;
                 globe.listAllFITB[i].judul = judul;
                 break;
@@ -1944,37 +1952,37 @@ export default {
 
       this.editSoal(this.currentSoal, false);
 
-      if($soalMenu == "TA"){
+      if($soalMenu === "TA"){
         this.isTA = true;
         this.isTK = false;
         this.isJurnal = false;
         this.isMandiri = false;
         this.isFITB = false;
-      } else if($soalMenu == "TK"){
+      } else if($soalMenu === "TK"){
         this.isTA = false;
         this.isTK = true;
         this.isJurnal = false;
         this.isMandiri = false;
         this.isFITB = false;
-      } else if($soalMenu == "Jurnal"){
+      } else if($soalMenu === "Jurnal"){
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = true;
         this.isMandiri = false;
         this.isFITB = false;
-      } else if($soalMenu == "Mandiri"){
+      } else if($soalMenu === "Mandiri"){
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = false;
         this.isMandiri = true;
         this.isFITB = false;
-      } else if($soalMenu == "FITB"){
+      } else if($soalMenu === "FITB"){
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = false;
         this.isMandiri = false;
         this.isFITB = true;
-      } else if($soalMenu == "TP"){
+      } else if($soalMenu === "TP"){
         this.isTA = false;
         this.isTK = false;
         this.isJurnal = false;

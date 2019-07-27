@@ -88,7 +88,7 @@ class SoalJurnalController extends Controller
 
         if($request->soal != $request->oldSoal)
             foreach (Soal_Jurnal::all() as $soal => $value) 
-                if($value->soal == $request->soal)
+                if($value->soal === $request->soal)
                     return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
 
         $soal = Soal_Jurnal::find($request->id);

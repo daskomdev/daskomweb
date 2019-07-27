@@ -39,11 +39,14 @@ class CurrentPraktikumController extends Controller
     {
         DB::table('current__praktikums')->truncate();
 
-        Current_Praktikum::create([
+        $praktikum = Current_Praktikum::create([
             'asisten_id' => $request->asisten_id,
             'kelas_id'   => $request->kelas_id,
+            'modul_id'   => $request->modul_id,
             'status'     => 0,
         ]);
+
+        broadcast(new praktikumStatusUpdated($praktikum));
 
         return '{"message": "success"}';
     }
@@ -98,5 +101,9 @@ class CurrentPraktikumController extends Controller
     public function destroy()
     {
         DB::table('current__praktikums')->truncate();
+
+        $praktikum = new Object;
+        $praktikum->status = 777; //lucky but nooo, cause praktikum just deleted :v
+        broadcast(new praktikumStatusUpdated($praktikum));
     }
 }

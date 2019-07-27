@@ -470,8 +470,8 @@ export default {
       translateY: 100,
     })
 
-    if(this.comingFrom == 'about' ||
-        this.comingFrom == 'contact'){
+    if(this.comingFrom === 'about' ||
+        this.comingFrom === 'contact'){
       
       this.animate = false;
       this.activeY = true;
@@ -481,8 +481,8 @@ export default {
           globe.activeX = true;
         }, 10);
 
-    } else if(this.comingFrom == 'asisten' ||
-              this.comingFrom == 'praktikan'){
+    } else if(this.comingFrom === 'asisten' ||
+              this.comingFrom === 'praktikan'){
 
       this.activeX = false;
       this.activeY = true;
@@ -561,7 +561,7 @@ export default {
 
       this.$axios.post('/loginAsisten', this.formLoginAsisten).then(response => {
         
-        if(response.data.message == "Login Failed"){
+        if(response.data.message === "Login Failed"){
           globe.$toasted.global.showError({
             message: "Login gagal, kode atau password salah"
           });
@@ -584,7 +584,7 @@ export default {
 
       this.$axios.post('/loginPraktikan', this.formLoginPraktikan).then(response => {
         
-        if(response.data.message == "Login Failed"){
+        if(response.data.message === "Login Failed"){
           globe.$toasted.global.showError({
             message: "Login gagal, nim atau password salah"
           });

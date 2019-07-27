@@ -17,10 +17,10 @@ class CreateSoalTksTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('modul_id');
             $table->text('pertanyaan');
-            $table->string('jawaban_benar');
-            $table->string('jawaban_salah1');
-            $table->string('jawaban_salah2');
-            $table->string('jawaban_salah3');
+            $table->text('jawaban_benar');
+            $table->text('jawaban_salah1');
+            $table->text('jawaban_salah2');
+            $table->text('jawaban_salah3');
             $table->timestamps();
 
             $table->foreign('modul_id')

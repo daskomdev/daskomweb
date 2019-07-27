@@ -12,9 +12,14 @@ class ModulController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $modul = Modul::find($id);
+
+        return response()->json([
+            'message'=> 'success',
+            'modul' => $modul,
+        ], 200);
     }
 
     /**
@@ -85,7 +90,7 @@ class ModulController extends Controller
 
         if($request->judul != $request->oldJudul)
             foreach (Modul::all() as $modul => $value) 
-                if($value->judul == $request->judul)
+                if($value->judul === $request->judul)
                     return '{"message": "Judul '. $request->judul .' sudah terdaftar"}';
 
         $modul = Modul::find($request->id);

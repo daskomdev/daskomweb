@@ -79,7 +79,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id == 2">
+        <div v-if="currentUser.role_id === 2">
           <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
                       { 'bg-yellow-400 text-black': changePage }]">
@@ -346,7 +346,7 @@ export default {
       menuModul: false,
       menuPlotting: false,
 
-      listAllKelas: this.allKelas == null ? [] : this.allKelas,
+      listAllKelas: this.allKelas === null ? [] : this.allKelas,
 
       formKelas: {
         id: '',
@@ -372,12 +372,12 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'asisten' ||
-        this.comingFrom == 'none' ||
-        this.comingFrom == 'soal'||
-        this.comingFrom == 'modul'||
-        this.comingFrom == 'praktikum' ||
-        this.comingFrom == 'plotting'){
+    if(this.comingFrom === 'asisten' ||
+        this.comingFrom === 'none' ||
+        this.comingFrom === 'soal'||
+        this.comingFrom === 'modul'||
+        this.comingFrom === 'praktikum' ||
+        this.comingFrom === 'plotting'){
 
       setTimeout(
         function() {
@@ -390,21 +390,21 @@ export default {
 
     setCurrentMenu: function($whereTo, $bool){
 
-      if($whereTo == "praktikum")
+      if($whereTo === "praktikum")
         this.menuPraktikum = $bool;
-      if($whereTo == "soal")
+      if($whereTo === "soal")
         this.menuSoal = $bool;
-      if($whereTo == "listTp")
+      if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo == "history")
+      if($whereTo === "history")
         this.menuHistory = $bool;
-      if($whereTo == "polling")
+      if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo == "asisten")
+      if($whereTo === "asisten")
         this.menuProfil = $bool;
-      if($whereTo == "modul")
+      if($whereTo === "modul")
         this.menuModul = $bool;
-      if($whereTo == "plotting")
+      if($whereTo === "plotting")
         this.menuPlotting = $bool;
     },
 
@@ -444,9 +444,9 @@ export default {
         document.getElementById("Shift").value = this.chosenKelas.shift;
       }
 
-      if(this.chosenKelas.kelas == this.formKelas.kelas &&
-          this.chosenKelas.hari == this.formKelas.hari &&
-          this.chosenKelas.shift == this.formKelas.shift){
+      if(this.chosenKelas.kelas === this.formKelas.kelas &&
+          this.chosenKelas.hari === this.formKelas.hari &&
+          this.chosenKelas.shift === this.formKelas.shift){
 
         this.formKelas.oldKelas = $kelas.kelas;
         this.formKelas.kelas = $kelas.kelas;
@@ -490,14 +490,14 @@ export default {
       this.$axios.post('/updateKelas', this.formKelas).then(response => {
         
         console.log(response.data)
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.$toasted.global.showSuccess({
             message: "Kelas berhasil diperbaharui"
           });
 
           for(var i=0; i<globe.listAllKelas.length; i++){
-            if(globe.listAllKelas[i].id == globe.formKelas.id){
+            if(globe.listAllKelas[i].id === globe.formKelas.id){
               globe.listAllKelas[i] = response.data.kelas;
               break;
             }
@@ -552,7 +552,7 @@ export default {
       }
       this.$axios.post('/deleteKelas', this.formKelas).then(response => {
         
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.$toasted.global.showSuccess({
             message: "Kelas berhasil dihapus"
@@ -560,7 +560,7 @@ export default {
 
           var i;
           for(i=0; i<globe.listAllKelas.length; i++){
-            if(globe.listAllKelas[i].id == globe.formKelas.id){
+            if(globe.listAllKelas[i].id === globe.formKelas.id){
               break;
             }
           }
@@ -597,8 +597,8 @@ export default {
       const globe = this;
       var notError = true;
       for(var i=0; i<this.listAllKelas.length; i++){
-        if(this.listAllKelas[i].hari == globe.formKelas.hari &&
-          this.listAllKelas[i].shift == globe.formKelas.shift) {
+        if(this.listAllKelas[i].hari === globe.formKelas.hari &&
+          this.listAllKelas[i].shift === globe.formKelas.shift) {
 
           globe.$toasted.global.showError({
             message: "Terdapat kelas "+ this.listAllKelas[i].kelas.toUpperCase() +" pada hari "+ globe.formKelas.hari +" shift "+ globe.formKelas.shift
@@ -611,7 +611,7 @@ export default {
       if(notError){
         this.$axios.post('/createKelas', this.formKelas).then(response => {
           
-          if(response.data.message == "success") {
+          if(response.data.message === "success") {
 
             globe.$toasted.global.showSuccess({
               message: "Kelas berhasil ditambahkan"

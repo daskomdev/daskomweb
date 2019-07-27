@@ -85,8 +85,8 @@ export default {
     const mainMenu = this.$refs.mainMenu;
 
     // Initialization Page Based on this.comingFrom data
-    if(this.comingFrom == 'about' ||
-        this.comingFrom == 'contact'){
+    if(this.comingFrom === 'about' ||
+        this.comingFrom === 'contact'){
           
       this.$anime.set(text, {
         opacity: 0,
@@ -98,7 +98,7 @@ export default {
 
       this.activeBig = true;
       
-    } else if (this.comingFrom == 'login'){
+    } else if (this.comingFrom === 'login'){
 
       this.hover = false;
       this.$anime.set('.menu', {
@@ -136,8 +136,8 @@ export default {
     // Wait for 10ms to make sure the Animation start after initialization
     setTimeout(
       function() {
-        if(globe.comingFrom == 'about' ||
-            globe.comingFrom == 'contact'){
+        if(globe.comingFrom === 'about' ||
+            globe.comingFrom === 'contact'){
 
           globe.animate = true;
           globe.hover = false;
@@ -164,7 +164,7 @@ export default {
 
           globe.activeBig = false;
 
-        } else if(globe.comingFrom == 'login'){
+        } else if(globe.comingFrom === 'login'){
 
           globe.animate = true;
           globe.$anime

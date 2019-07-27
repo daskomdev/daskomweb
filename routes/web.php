@@ -21,21 +21,21 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Welcome', [
         'comingFrom' => $comingFrom
     ]);
 })->middleware('guest:all');
 
 Route::get('/about', function () {
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('About', [
         'comingFrom' => $comingFrom
     ]);
 })->middleware('guest:all');
 
 Route::get('/contact', function () {
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Contact', [
         'comingFrom' => $comingFrom
     ]);
@@ -44,7 +44,7 @@ Route::get('/contact', function () {
 Route::get('/login', function () {
     $all_kelas = Kelas::all();
     $roles = Role::all();
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Login', [
         'comingFrom' => $comingFrom,
         'all_kelas' => $all_kelas,
@@ -59,24 +59,24 @@ Route::get('/asisten', function () {
                     ->leftJoin('praktikans', 'feedback.praktikan_id', '=', 'praktikans.id')
                     ->orderBy('feedback.created_at', 'desc')->get();
     $userRole = Role::where('id', $user->role_id)->first();
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Asisten', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
         'messages' => $messages,
         'userRole' => $userRole->role,
     ]);
-})->name('asisten')->middleware('loggedIn:all');
+})->name('asisten')->middleware('loggedIn:asisten');
 
 Route::get('/praktikan', function () {
     $user = Auth::guard('praktikan')->user();
     $user->kelas = Kelas::where('id', $user->kelas_id)->first()->kelas;
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Praktikan', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user
     ]);
-})->name('praktikan')->middleware('loggedIn:all');
+})->name('praktikan')->middleware('loggedIn:praktikan');
 
 Route::get('/soal', function () {
     $user = Auth::guard('asisten')->user();
@@ -101,8 +101,8 @@ Route::get('/soal', function () {
             ->join('moduls', 'soal__fitbs.modul_id', '=', 'moduls.id')
             ->select('soal__fitbs.*', 'moduls.judul')->get();
 
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
-    $position = request('position') == null ? 0:request('position');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
     return Inertia::render('Soal', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -123,8 +123,8 @@ Route::get('/kelas', function () {
     $user = Auth::guard('asisten')->user();
     $userRole = Role::where('id', $user->role_id)->first();
     $allKelas = Kelas::all();
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
-    $position = request('position') == null ? 0:request('position');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
     return Inertia::render('Kelas', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -138,8 +138,8 @@ Route::get('/modul', function () {
     $user = Auth::guard('asisten')->user();
     $userRole = Role::where('id', $user->role_id)->first();
     $allModul = Modul::all();
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
-    $position = request('position') == null ? 0:request('position');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
     return Inertia::render('Modul', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -158,8 +158,8 @@ Route::get('/plotting', function () {
             ->select('jadwal__jagas.*', 'asistens.kode', 'kelas.kelas', 'kelas.hari', 'kelas.shift')->get();
     $allKelas = Kelas::all();
     $allAsisten = Asisten::all();
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
-    $position = request('position') == null ? 0:request('position');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
     return Inertia::render('Plotting', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -176,8 +176,8 @@ Route::get('/praktikum', function () {
     $userRole = Role::where('id', $user->role_id)->first();
     $allKelas = Kelas::all();
     $allModul = Modul::all();
-    $comingFrom = request('comingFrom') == null ? 'none':request('comingFrom');
-    $position = request('position') == null ? 0:request('position');
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
     return Inertia::render('Praktikum', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -207,6 +207,7 @@ Route::post('/createModul', 'ModulController@store')->name('createModul')->middl
 Route::post('/deleteModul/{id}', 'ModulController@destroy')->name('deleteModul')->middleware('loggedIn:asisten');
 Route::post('/updateModul', 'ModulController@update')->name('updateModul')->middleware('loggedIn:asisten');
 Route::post('/readModul', 'ModulController@show')->name('readModul')->middleware('loggedIn:asisten');
+Route::post('/getModul/{id}', 'ModulController@index')->name('getModul')->middleware('loggedIn:asisten');
 
 Route::post('/createTP', 'SoalTpController@store')->name('createTP')->middleware('loggedIn:asisten');
 Route::post('/deleteTP/{id}', 'SoalTpController@destroy')->name('deleteTP')->middleware('loggedIn:asisten');
@@ -246,10 +247,12 @@ Route::post('/currentLaporanPJ', 'LaporanPjController@show')->name('currentLapor
 Route::post('/startPraktikum', 'CurrentPraktikumController@store')->name('startPraktikum')->middleware('loggedIn:asisten');
 Route::post('/continuePraktikum/{status}', 'CurrentPraktikumController@update')->name('continuePraktikum')->middleware('loggedIn:asisten');
 Route::post('/stopPraktikum', 'CurrentPraktikumController@destroy')->name('stopPraktikum')->middleware('loggedIn:asisten');
-Route::post('/checkPraktikum', 'CurrentPraktikumController@show')->name('checkPraktikum')->middleware('loggedIn:asisten');
+Route::post('/checkPraktikum', 'CurrentPraktikumController@show')->name('checkPraktikum')->middleware('loggedIn:all');
 
 Route::post('/makeHistory/jaga', 'HistoryJagaController@store')->name('createJagaHistory')->middleware('loggedIn:asisten');
 Route::post('/deleteHistory/jaga', 'HistoryJagaController@destroy')->name('deleteJagaHistory')->middleware('loggedIn:asisten');
+Route::post('/latestPJHistory/jaga', 'HistoryJagaController@show')->name('latestPJHistory')->middleware('loggedIn:asisten');
+
 Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzinHistory')->middleware('loggedIn:asisten');
 
 Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');

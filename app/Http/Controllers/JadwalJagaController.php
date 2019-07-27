@@ -43,8 +43,8 @@ class JadwalJagaController extends Controller
         ]);
         
         foreach (Jadwal_Jaga::all() as $modul => $value) 
-            if($value->kelas_id == $request->kelas_id &&
-                $value->asisten_id == $request->asisten_id){
+            if($value->kelas_id === $request->kelas_id &&
+                $value->asisten_id === $request->asisten_id){
 
             return '{"message": "Asisten '. 
                         Asisten::find($request->asisten_id)->kode .
@@ -109,7 +109,7 @@ class JadwalJagaController extends Controller
         $plotting = Jadwal_Jaga::where('asisten_id', $request->asisten_id)
                         ->where('kelas_id', $request->kelas_id)->first();
 
-        if($plotting == null)
+        if($plotting === null)
             return '{"message": "Kombinasi asisten & kelas tidak ditemukan"}';
 
         $plotting->delete();

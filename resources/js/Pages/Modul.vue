@@ -79,7 +79,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id == 2">
+        <div v-if="currentUser.role_id === 2">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -286,13 +286,13 @@
                   </div>
                 </div>
                 <div class="w-full h-3/4 flex">
-                  <div class="w-3/4 h-full text-center flex m-auto">
-                    <span class="m-auto flex w-auto relative font-overpass-bold text-3xl">
-                      <span class="text-4xl font-overpass-bold">"</span>
-                      <span class="my-auto mx-4">
+                  <div class="w-full h-full text-center break-words flex m-auto overflow-y-auto">
+                    <span class="m-auto flex w-auto p-4 relative font-overpass-bold text-2xl">
+                      <span class="text-3xl font-overpass-bold">"</span>
+                      <span class="my-auto mx-2">
                         {{ modul.deskripsi }}
                       </span>
-                      <span class="text-4xl font-overpass-bold">"</span>
+                      <span class="text-3xl font-overpass-bold">"</span>
                     </span>
                   </div>
                 </div>
@@ -386,7 +386,7 @@ export default {
       menuKelas: false,
       menuPlotting: false,
 
-      listAllModul: this.allModul == null ? [] : this.allModul,
+      listAllModul: this.allModul === null ? [] : this.allModul,
 
       formModul: {
         id: '',
@@ -405,12 +405,12 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'asisten' ||
-        this.comingFrom == 'none' ||
-        this.comingFrom == 'kelas'||
-        this.comingFrom == 'soal'||
-        this.comingFrom == 'praktikum'||
-        this.comingFrom == 'plotting'){
+    if(this.comingFrom === 'asisten' ||
+        this.comingFrom === 'none' ||
+        this.comingFrom === 'kelas'||
+        this.comingFrom === 'soal'||
+        this.comingFrom === 'praktikum'||
+        this.comingFrom === 'plotting'){
 
       setTimeout(
         function() {
@@ -423,21 +423,21 @@ export default {
 
     setCurrentMenu: function($whereTo, $bool){
 
-      if($whereTo == "praktikum")
+      if($whereTo === "praktikum")
         this.menuPraktikum = $bool;
-      if($whereTo == "soal")
+      if($whereTo === "soal")
         this.menuSoal = $bool;
-      if($whereTo == "listTp")
+      if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo == "history")
+      if($whereTo === "history")
         this.menuHistory = $bool;
-      if($whereTo == "polling")
+      if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo == "asisten")
+      if($whereTo === "asisten")
         this.menuProfil = $bool;
-      if($whereTo == "kelas")
+      if($whereTo === "kelas")
         this.menuKelas = $bool;
-      if($whereTo == "plotting")
+      if($whereTo === "plotting")
         this.menuPlotting = $bool;
     },
 
@@ -500,7 +500,7 @@ export default {
 
       this.$axios.post('/updateModul', this.formModul).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.editing = false;
           $(".editClose-"+globe.formModul.id).removeClass("visible");
@@ -513,7 +513,7 @@ export default {
           });
           
           for(var i=0; i<globe.listAllModul.length; i++){
-            if(globe.listAllModul[i].id == globe.formModul.id){
+            if(globe.listAllModul[i].id === globe.formModul.id){
               globe.listAllModul[i] = response.data.modul;
               break;
             }
@@ -567,7 +567,7 @@ export default {
 
         var i;
         for(i=0; i<globe.listAllModul.length; i++)
-          if(globe.listAllModul[i].id == $id)
+          if(globe.listAllModul[i].id === $id)
             break;
 
         globe.listAllModul.splice(0, i);
@@ -605,7 +605,7 @@ export default {
       const globe = this;
       this.$axios.post('/deleteModul/'+$id).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.$toasted.global.showSuccess({
             message: "Modul berhasil dihapus"
@@ -613,7 +613,7 @@ export default {
 
           var i;
           for(i=0; i<globe.listAllModul.length; i++){
-            if(globe.listAllModul[i].id == $id){
+            if(globe.listAllModul[i].id === $id){
               break;
             }
           }
@@ -650,7 +650,7 @@ export default {
       const globe = this;
       this.$axios.post('/createModul', this.formModul).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           $("#modulForm")[0].reset();
           globe.$toasted.global.showSuccess({

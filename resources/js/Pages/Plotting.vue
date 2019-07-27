@@ -79,7 +79,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id == 2">
+        <div v-if="currentUser.role_id === 2">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -356,7 +356,7 @@ export default {
       menuKelas: false,
       menuModul: false,
 
-      listAllJaga: this.allJaga == null ? [] : this.allJaga,
+      listAllJaga: this.allJaga === null ? [] : this.allJaga,
 
       formJaga: {
         id: '',
@@ -373,12 +373,12 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'asisten' ||
-        this.comingFrom == 'none' ||
-        this.comingFrom == 'kelas'||
-        this.comingFrom == 'soal'||
-        this.comingFrom == 'praktikum' ||
-        this.comingFrom == 'modul'){
+    if(this.comingFrom === 'asisten' ||
+        this.comingFrom === 'none' ||
+        this.comingFrom === 'kelas'||
+        this.comingFrom === 'soal'||
+        this.comingFrom === 'praktikum' ||
+        this.comingFrom === 'modul'){
 
       setTimeout(
         function() {
@@ -391,21 +391,21 @@ export default {
 
     setCurrentMenu: function($whereTo, $bool){
 
-      if($whereTo == "praktikum")
+      if($whereTo === "praktikum")
         this.menuPraktikum = $bool;
-      if($whereTo == "soal")
+      if($whereTo === "soal")
         this.menuSoal = $bool;
-      if($whereTo == "listTp")
+      if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo == "history")
+      if($whereTo === "history")
         this.menuHistory = $bool;
-      if($whereTo == "polling")
+      if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo == "asisten")
+      if($whereTo === "asisten")
         this.menuProfil = $bool;
-      if($whereTo == "kelas")
+      if($whereTo === "kelas")
         this.menuKelas = $bool;
-      if($whereTo == "modul")
+      if($whereTo === "modul")
         this.menuModul = $bool;
     },
 
@@ -438,7 +438,7 @@ export default {
 
       const globe = this;
 
-      if(this.formJaga.asisten_id == null || this.formJaga.kelas_id == null){
+      if(this.formJaga.asisten_id === null || this.formJaga.kelas_id === null){
         globe.$toasted.global.showError({
           message: "Pilih asisten & kelas terlebih dahulu"
         });
@@ -446,7 +446,7 @@ export default {
 
       this.$axios.post('/deleteJadwalJaga', this.formJaga).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           globe.$toasted.global.showSuccess({
             message: "Jadwal Jaga berhasil dihapus"
@@ -454,8 +454,8 @@ export default {
 
           var i;
           for(i=0; i<globe.listAllJaga.length; i++){
-            if(globe.listAllJaga[i].asisten_id == this.formJaga.asisten_id &&
-                globe.listAllJaga[i].kelas_id == this.formJaga.kelas_id){
+            if(globe.listAllJaga[i].asisten_id === this.formJaga.asisten_id &&
+                globe.listAllJaga[i].kelas_id === this.formJaga.kelas_id){
               break;
             }
           }
@@ -492,7 +492,7 @@ export default {
       const globe = this;
       this.$axios.post('/createJadwalJaga', this.formJaga).then(response => {
 
-        if(response.data.message == "success") {
+        if(response.data.message === "success") {
 
           $("#jagaForm")[0].reset();
           globe.$toasted.global.showSuccess({
@@ -501,13 +501,13 @@ export default {
 
           var kode;
           globe.allAsisten.forEach(element => {
-            if(element.id == globe.formJaga.asisten_id)
+            if(element.id === globe.formJaga.asisten_id)
               kode = element.kode;
           });
 
           var kelas, hari, shift;
           globe.allKelas.forEach(element => {
-            if(element.id == globe.formJaga.kelas_id){
+            if(element.id === globe.formJaga.kelas_id){
               kelas = element.kelas;
               hari = element.hari;
               shift = element.shift;

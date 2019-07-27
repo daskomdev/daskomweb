@@ -87,7 +87,7 @@ class SoalFitbController extends Controller
 
         if($request->soal != $request->oldSoal)
             foreach (Soal_Fitb::all() as $soal => $value) 
-                if($value->soal == $request->soal)
+                if($value->soal === $request->soal)
                     return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
 
         $soal = Soal_Fitb::find($request->id);

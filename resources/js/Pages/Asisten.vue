@@ -12,7 +12,7 @@
         <div class="relative w-full h-full">
           <div class="absolute w-full h-full px-8 pt-8">
             <div class="bg-yellow-800 rounded-t-lg w-full h-full flex">
-              <div class="w-full h-auto pt-16 text-center text-yellow-200 font-merri text-2xl p-8">
+              <div class="w-full h-auto break-words pt-16 text-center text-yellow-200 font-merri text-2xl p-8">
                 {{ currentUser.deskripsi }}
               </div>
             </div>
@@ -116,7 +116,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id == 2">
+        <div v-if="currentUser.role_id === 2">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -221,8 +221,8 @@
                   { 'top-0': pageActive },
                   { 'top-minFull': !pageActive || changePage }]">
         <div class="w-full h-full flex rounded-br-large bg-green-600">
-          <div class="w-11/12 h-full"/>
-          <div class="w-1/12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto" v-on:click="openMessage">
+          <div class="w-16full h-full"/>
+          <div class="w-12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto" v-on:click="openMessage">
             <div class="animation-enable" 
                 :class="[{ 'unrotated ml-0': !isMessageShown }, { 'rotated ml-8': isMessageShown }]">
               <span class="animation-enable" 
@@ -356,18 +356,18 @@ export default {
 
     const globe = this;
 
-    if(this.comingFrom == 'login' ||
-        this.comingFrom == 'none'){
+    if(this.comingFrom === 'login' ||
+        this.comingFrom === 'none'){
 
       setTimeout(
         function() {
           globe.pageActive = true;
         }, 10); 
-    } else if(this.comingFrom == 'kelas' ||
-              this.comingFrom == 'soal'  ||
-              this.comingFrom == 'modul'||
-              this.comingFrom == 'plotting'||
-              this.comingFrom == 'praktikum' ){
+    } else if(this.comingFrom === 'kelas' ||
+              this.comingFrom === 'soal'  ||
+              this.comingFrom === 'modul'||
+              this.comingFrom === 'plotting'||
+              this.comingFrom === 'praktikum' ){
 
       this.animate = false;
       this.pageActive = true;
@@ -386,21 +386,21 @@ export default {
 
     setCurrentMenu: function($whereTo, $bool){
 
-      if($whereTo == "praktikum")
+      if($whereTo === "praktikum")
         this.menuPraktikum = $bool;
-      if($whereTo == "soal")
+      if($whereTo === "soal")
         this.menuSoal = $bool;
-      if($whereTo == "listTp")
+      if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo == "history")
+      if($whereTo === "history")
         this.menuHistory = $bool;
-      if($whereTo == "polling")
+      if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo == "kelas")
+      if($whereTo === "kelas")
         this.menuKelas = $bool;
-      if($whereTo == "modul")
+      if($whereTo === "modul")
         this.menuModul = $bool;
-      if($whereTo == "plotting")
+      if($whereTo === "plotting")
         this.menuPlotting = $bool;
     },
 

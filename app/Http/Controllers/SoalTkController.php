@@ -44,12 +44,12 @@ class SoalTkController extends Controller
             'jawaban_salah3'   => 'required',
         ]);
 
-        if($request->jawaban_benar == $request->jawaban_salah1 ||
-            $request->jawaban_benar == $request->jawaban_salah2 ||
-            $request->jawaban_benar == $request->jawaban_salah3 ||
-            $request->jawaban_salah1 == $request->jawaban_salah2 ||
-            $request->jawaban_salah1 == $request->jawaban_salah3 ||
-            $request->jawaban_salah2 == $request->jawaban_salah3 ) {
+        if($request->jawaban_benar === $request->jawaban_salah1 ||
+            $request->jawaban_benar === $request->jawaban_salah2 ||
+            $request->jawaban_benar === $request->jawaban_salah3 ||
+            $request->jawaban_salah1 === $request->jawaban_salah2 ||
+            $request->jawaban_salah1 === $request->jawaban_salah3 ||
+            $request->jawaban_salah2 === $request->jawaban_salah3 ) {
 
             return '{"message": "Tidak boleh ada jawaban yang sama"}';
         }
@@ -110,7 +110,7 @@ class SoalTkController extends Controller
 
         if($request->pertanyaan != $request->oldPertanyaan)
             foreach (Soal_Tk::all() as $soal => $value) 
-                if($value->pertanyaan == $request->pertanyaan)
+                if($value->pertanyaan === $request->pertanyaan)
                     return '{"message": "Soal '. $request->pertanyaan .' sudah terdaftar"}';
 
         $soal = Soal_Tk::find($request->id);

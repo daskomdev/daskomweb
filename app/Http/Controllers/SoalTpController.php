@@ -93,16 +93,16 @@ class SoalTpController extends Controller
 
         if($request->soal != $request->oldSoal)
             foreach (Soal_Tp::all() as $soal => $value) 
-                if($value->soal == $request->soal)
+                if($value->soal === $request->soal)
                     return '{"message": "Soal '. $request->soal .' sudah terdaftar"}';
 
         $soal = Soal_Tp::find($request->id);
         $soal->soal = $request->soal;
 
-        if($request->jenisSoal == "essay"){
+        if($request->jenisSoal === "essay"){
             $soal->isEssay = 1;
             $soal->isProgram = 0;
-        } else if($request->jenisSoal == "program"){
+        } else if($request->jenisSoal === "program"){
             $soal->isEssay = 0;
             $soal->isProgram = 1;
         }
@@ -111,10 +111,10 @@ class SoalTpController extends Controller
 
         $soal->id = $request->id;
         $soal->soal = $request->soal;
-        if($request->jenisSoal == "essay"){
+        if($request->jenisSoal === "essay"){
             $soal->isEssay = 1;
             $soal->isProgram = 0;
-        } else if($request->jenisSoal == "program"){
+        } else if($request->jenisSoal === "program"){
             $soal->isEssay = 0;
             $soal->isProgram = 1;
         }

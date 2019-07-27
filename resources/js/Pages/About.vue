@@ -101,8 +101,8 @@ export default {
     });
 
     const globe  = this;
-    if(this.comingFrom == 'contact' ||
-        this.comingFrom == 'login'){
+    if(this.comingFrom === 'contact' ||
+        this.comingFrom === 'login'){
 
       this.animationEnable = false;
       this.active = true;
@@ -143,8 +143,8 @@ export default {
   methods: {
     
     travel: function(destination) {
-      if(destination == 'contact'||
-          destination == 'login'){
+      if(destination === 'contact'||
+          destination === 'login'){
 
         const text = this.$refs.aboutText;
         const globe = this;

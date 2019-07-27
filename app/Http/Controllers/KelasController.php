@@ -47,8 +47,8 @@ class KelasController extends Controller
 
         $allKelas = Kelas::all();
         foreach ($allKelas as $kelas => $value) {
-            if($value->hari == $request->hari &&
-                $value->shift == $request->shift)
+            if($value->hari === $request->hari &&
+                $value->shift === $request->shift)
                 return '{"message": "Terdapat kelas '. strtoupper($value->kelas) .' pada hari '. strtoupper($request->hari) .' shift '. $request->shift .'"}';
         }
 
@@ -112,21 +112,21 @@ class KelasController extends Controller
             'shift'  => 'required|size:1|string',
         ]);
 
-        if($request->oldKelas == null)
+        if($request->oldKelas === null)
             return '{"message": "Pilih salah satu kelas yang ingin di edit terlebih dahulu"}';
 
         foreach (Kelas::all() as $kelas => $value) {
-            if($value->kelas == $request->kelas &&
+            if($value->kelas === $request->kelas &&
                 $request->kelas != $request->oldKelas)
                 return '{"message": "Kelas '. $request->kelas .' sudah terdaftar"}';
-            if($value->hari == strtoupper($request->hari) &&
-                $value->shift == strtoupper($request->shift))
+            if($value->hari === strtoupper($request->hari) &&
+                $value->shift === strtoupper($request->shift))
                 return '{"message": "Hari '. strtoupper($request->hari) .' shift '. $request->shift .' sudah terdaftar"}';
         }    
         
         $kelas = Kelas::where('kelas', $request->oldKelas)->first();
 
-        if($kelas == null)
+        if($kelas === null)
             return '{"message": "Kelas '. $request->oldKelas .' tidak ditemukan"}';
 
         $kelas->kelas = strtoupper($request->kelas);

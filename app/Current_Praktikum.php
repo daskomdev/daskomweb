@@ -12,6 +12,6 @@ class Current_Praktikum extends Model
      * @var array
      */
     protected $fillable = [
-        'asisten_id', 'kelas_id', 'status',
+        'asisten_id', 'modul_id', 'kelas_id', 'status',
     ];
 }

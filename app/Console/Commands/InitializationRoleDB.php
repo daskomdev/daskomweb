@@ -40,7 +40,7 @@ class InitializationRoleDB extends Command
     public function handle()
     {
         $password = $this->secret('Who are you ?');
-        if($password == "devkom"){
+        if($password === "devkom"){
             $this->question("This will delete all the Database current data");
             if ($this->confirm('Do you wish to continue?')) {
                 $this->line("Processing Initialization");
