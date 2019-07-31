@@ -19059,14 +19059,11 @@ __webpack_require__.r(__webpack_exports__);
       globe.current_praktikum.modul_id = data.current_praktikum.modul_id;
       globe.current_praktikum.kelas_id = data.current_praktikum.kelas_id;
       globe.current_praktikum.status = data.current_praktikum.status;
-      console.log(globe.current_praktikum);
 
       switch (globe.current_praktikum.status) {
         case 0:
           //Initialization of the praktikum
           globe.$axios.post('/getModul/' + globe.current_praktikum.modul_id).then(function (response) {
-            console.log(response.data.modul);
-
             if (response.data.message === "success") {
               if (response.data.modul !== null) {
                 //There is currently active praktikum
@@ -71804,7 +71801,9 @@ var render = function() {
                           ? _c("div", { staticClass: "w-full h-full flex" }, [
                               _c(
                                 "div",
-                                { staticClass: "font-monda-bold text-3xl" },
+                                {
+                                  staticClass: "font-monda-bold text-3xl m-auto"
+                                },
                                 [
                                   _c("span", [
                                     _vm._v("Bersiap untuk praktikum modul "),
@@ -88616,15 +88615,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************!*\
   !*** ./resources/js/Pages/Soal.vue ***!
   \*************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Soal_vue_vue_type_template_id_660d61a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Soal.vue?vue&type=template&id=660d61a0& */ "./resources/js/Pages/Soal.vue?vue&type=template&id=660d61a0&");
 /* harmony import */ var _Soal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Soal.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Soal.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Soal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Soal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _Soal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Soal.vue?vue&type=style&index=0&lang=css& */ "./resources/js/Pages/Soal.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Soal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Soal.vue?vue&type=style&index=0&lang=css& */ "./resources/js/Pages/Soal.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -88656,7 +88654,7 @@ component.options.__file = "resources/js/Pages/Soal.vue"
 /*!**************************************************************!*\
   !*** ./resources/js/Pages/Soal.vue?vue&type=script&lang=js& ***!
   \**************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

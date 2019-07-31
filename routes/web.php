@@ -207,7 +207,7 @@ Route::post('/createModul', 'ModulController@store')->name('createModul')->middl
 Route::post('/deleteModul/{id}', 'ModulController@destroy')->name('deleteModul')->middleware('loggedIn:asisten');
 Route::post('/updateModul', 'ModulController@update')->name('updateModul')->middleware('loggedIn:asisten');
 Route::post('/readModul', 'ModulController@show')->name('readModul')->middleware('loggedIn:asisten');
-Route::post('/getModul/{id}', 'ModulController@index')->name('getModul')->middleware('loggedIn:asisten');
+Route::post('/getModul/{id}', 'ModulController@index')->name('getModul')->middleware('loggedIn:all');
 
 Route::post('/createTP', 'SoalTpController@store')->name('createTP')->middleware('loggedIn:asisten');
 Route::post('/deleteTP/{id}', 'SoalTpController@destroy')->name('deleteTP')->middleware('loggedIn:asisten');

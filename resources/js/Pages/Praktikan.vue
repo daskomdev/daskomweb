@@ -100,7 +100,7 @@
             </div>
             <div v-if="current_praktikum.status === 0"
                 class="w-full h-full flex">
-              <div class="font-monda-bold text-3xl">
+              <div class="font-monda-bold text-3xl m-auto">
                 <span>Bersiap untuk praktikum modul <br> {{ current_modul.judul }} </span>
               </div>
             </div>
@@ -423,7 +423,6 @@ export default {
             globe.current_praktikum.kelas_id = data.current_praktikum.kelas_id;
             globe.current_praktikum.status = data.current_praktikum.status;
 
-            console.log(globe.current_praktikum);
             switch (globe.current_praktikum.status) {
 
               case 0:
@@ -431,7 +430,6 @@ export default {
                 //Initialization of the praktikum
                 globe.$axios.post('/getModul/'+globe.current_praktikum.modul_id).then(response => {
 
-                  console.log(response.data.modul)
                   if(response.data.message === "success") {
 
                     if(response.data.modul !== null){
