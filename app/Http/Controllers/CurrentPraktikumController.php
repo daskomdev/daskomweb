@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Current_Praktikum;
+use App\Soal_Jurnal;
+use App\Soal_Fitb;
+use App\Temp_Soaljurnal;
 use App\Events\praktikumStatusUpdated;
 use Illuminate\Http\Request;
 
@@ -44,6 +47,27 @@ class CurrentPraktikumController extends Controller
             'kelas_id'   => $request->kelas_id,
             'modul_id'   => $request->modul_id,
             'status'     => 0,
+        ]);
+
+        $all_soalJurnal = Soal_Jurnal::where('modul_id', $request->modul_id)->inRandomOrder()->take(2)->get();
+        $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(1)->get();
+        
+        $all_soalJurnalID = '';
+        for ($i=0; $i < count($all_soalJurnal); $i++) { 
+            $all_soalJurnalID .= $all_soalJurnal[$i]->id;
+            if($i !== count($all_soalJurnal)-1)
+                $all_soalJurnalID .= '-';
+        }
+
+        $all_soalFitbID = '';
+        for ($i=0; $i < count($all_soalFitb); $i++) { 
+            $all_soalFitbID .= $all_soalFitb[$i]->id;
+            if($i !== count($all_soalFitb)-1)
+                $all_soalFitbID .= '-';
+        }
+        Temp_Soaljurnal::create([
+            'allJurnal_id' => $all_soalJurnalID,
+            'allFitb_id' => $all_soalFitbID,
         ]);
 
         broadcast(new praktikumStatusUpdated($praktikum));
@@ -100,10 +124,11 @@ class CurrentPraktikumController extends Controller
      */
     public function destroy()
     {
-        DB::table('current__praktikums')->truncate();
-
-        $praktikum = new Object;
+        $praktikum = Current_Praktikum::all()->first();
         $praktikum->status = 777; //lucky but nooo, cause praktikum just deleted :v
+        $praktikum->save();
         broadcast(new praktikumStatusUpdated($praktikum));
+
+        DB::table('current__praktikums')->truncate();
     }
 }

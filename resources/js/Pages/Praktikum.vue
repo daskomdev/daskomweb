@@ -788,6 +788,23 @@ export default {
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
 
+          //(If status Praktikum === 1, means all the layout condition still on its default state)
+          switch (globe.statusPraktikum) {
+            case 2:
+              globe.countDown = globe.JURNALtiming;
+              break;
+            case 3:
+              globe.countDown = globe.MANDIRItiming;
+              break;
+            case 4:
+              globe.countDown = globe.TKtiming;
+              break;
+            case 6:
+              globe.praktikumStart = false;
+              globe.statusPraktikum = 0;
+              break;
+          }
+
           globe.$axios.post('/currentLaporanPJ').then(response => {
 
             if(response.data.message === "success") {
@@ -1202,55 +1219,34 @@ export default {
       const globe = this;
 
       if(!$force){
-
         if(!globe.firstTimeCounting){
           globe.bigLeaveQuestionShown = true;
+          return;
+        }
+      } else  
+        globe.bigLeaveQuestionShown = false;
+
+      globe.countdownStarted = false;
+      globe.bigNextQuestionShown = false;
+      globe.bigRatingQuestionShown = false;
+      globe.countDown = globe.TAtiming;
+      globe.firstTimeCounting = true;
+      globe.praktikumStart = false;
+      globe.soundPlayed = false;
+      globe.statusPraktikum = 0;
+      globe.$axios.post('/stopPraktikum');
+      globe.$axios.post('/deleteLaporanPJ/'+globe.formLaporanPj.id);
+      globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
+
+        if(response.data.message === "success") {
+            //DO NOTHING (it runs as we expected)
 
         } else {
-          globe.$axios.post('/stopPraktikum');
-          globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
-
-            if(response.data.message === "success") {
-                //DO NOTHING (it runs as we expected)
-
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
-              });
-            }
-          });
-          this.$axios.post('/deleteLaporanPJ/'+this.formLaporanPj.id).then(response => {
-
-            globe.countDown = globe.TAtiming;
-            globe.firstTimeCounting = true;
-            globe.praktikumStart = false;
-            globe.soundPlayed = false;
-            globe.statusPraktikum = 0;
+          globe.$toasted.global.showError({
+            message: response.data.message
           });
         }
-      } else { 
-        globe.bigLeaveQuestionShown = false;
-        globe.$axios.post('/stopPraktikum');
-        globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {
-
-          if(response.data.message === "success") {
-              //DO NOTHING (it runs as we expected)
-
-          } else {
-            globe.$toasted.global.showError({
-              message: response.data.message
-            });
-          }
-        });
-        this.$axios.post('/deleteLaporanPJ/'+this.formLaporanPj.id).then(response => {
-
-          globe.countDown = globe.TAtiming;
-          globe.firstTimeCounting = true;
-          globe.praktikumStart = false;
-          globe.soundPlayed = false;
-          globe.statusPraktikum = 0;
-        });
-      }
+      });
     },
 
     startCountdown: function(){

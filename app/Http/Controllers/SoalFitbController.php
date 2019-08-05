@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Soal_Fitb;
+use App\Temp_Soaljurnal;
 use Illuminate\Http\Request;
 
 class SoalFitbController extends Controller
@@ -53,12 +54,18 @@ class SoalFitbController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Soal_Fitb  $soal_Fitb
      * @return \Illuminate\Http\Response
      */
-    public function show(Soal_Fitb $soal_Fitb)
+    public function show()
     {
-        //
+        $all_soalFitbID = explode ("-", Temp_Soaljurnal::latest()->first()->allFitb_id);
+        foreach ($all_soalFitbID as $soalId) {
+            $all_soal[] = Soal_Fitb::find($soalId);
+        }
+        return response()->json([
+            'message'=> 'success',
+            'all_soal' => $all_soal,
+        ], 200);
     }
 
     /**

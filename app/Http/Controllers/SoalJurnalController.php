@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Soal_Jurnal;
+use App\Temp_Soaljurnal;
 use Illuminate\Http\Request;
 
 class SoalJurnalController extends Controller
@@ -53,12 +54,18 @@ class SoalJurnalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Soal_Jurnal  $soal_Jurnal
      * @return \Illuminate\Http\Response
      */
-    public function show(Soal_Jurnal $soal_Jurnal)
+    public function show()
     {
-        //
+        $all_soalJurnalID = explode ("-", Temp_Soaljurnal::latest()->first()->allJurnal_id);
+        foreach ($all_soalJurnalID as $soalId) {
+            $all_soal[] = Soal_Jurnal::find($soalId);
+        }
+        return response()->json([
+            'message'=> 'success',
+            'all_soal' => $all_soal,
+        ], 200);
     }
 
     /**

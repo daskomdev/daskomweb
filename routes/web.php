@@ -256,3 +256,10 @@ Route::post('/latestPJHistory/jaga', 'HistoryJagaController@show')->name('latest
 Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzinHistory')->middleware('loggedIn:asisten');
 
 Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');
+
+Route::get('/getSoalTP/{modul_id}', 'SoalTpController@show')->name('getSoalTP');
+Route::get('/getSoalTA/{modul_id}', 'SoalTaController@show')->name('getSoalTA');
+Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
+Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
+Route::get('/getSoalJURNAL', 'SoalJurnalController@show')->name('getSoalJURNAL');
+Route::get('/getSoalMANDIRI/{modul_id}', 'SoalMandiriController@show')->name('getSoalMANDIRI');

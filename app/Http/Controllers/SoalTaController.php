@@ -74,9 +74,13 @@ class SoalTaController extends Controller
      * @param  \App\Soal_Ta  $soal_Ta
      * @return \Illuminate\Http\Response
      */
-    public function show(Soal_Ta $soal_Ta)
+    public function show($modul_id)
     {
-        //
+        $all_soal = Soal_Ta::where('modul_id', $modul_id)->inRandomOrder()->take(5)->get();
+        return response()->json([
+            'message'=> 'success',
+            'all_soal' => $all_soal,
+        ], 200);
     }
 
     /**
