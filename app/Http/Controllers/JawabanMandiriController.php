@@ -35,6 +35,10 @@ class JawabanMandiriController extends Controller
      */
     public function store(Request $request)
     {
+        Jawaban_Mandiri::where('praktikan_id', $request->input($i.'.praktikan_id'))
+                ->where('modul_id', $request->input($i.'.modul_id'))
+                ->delete(); 
+
         for ($i=0; $i < count($request->all()); $i++) { 
           
             Jawaban_Mandiri::create([
