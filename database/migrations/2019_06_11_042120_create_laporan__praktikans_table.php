@@ -16,11 +16,17 @@ class CreateLaporanPraktikansTable extends Migration
         Schema::create('laporan__praktikans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('pesan');
-            $table->smallInteger('rating_asisten');
-            $table->smallInteger('rating_praktikum');
+            $table->float('rating_asisten');
+            $table->float('rating_praktikum');
+            $table->unsignedBigInteger('praktikan_id');
             $table->unsignedBigInteger('asisten_id');
             $table->unsignedBigInteger('modul_id');
             $table->timestamps();
+
+            $table->foreign('praktikan_id')
+                ->references('id')
+                ->on('praktikans')
+                ->onDelete('cascade');
 
             $table->foreign('asisten_id')
                 ->references('id')

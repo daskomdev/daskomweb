@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Praktikan;
+use App\Jawaban_Fitb;
+use App\Jawaban_Jurnal;
+use App\Jawaban_Mandiri;
+use App\Jawaban_Ta;
+use App\Jawaban_Tk;
+use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -96,11 +102,33 @@ class PraktikanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Praktikan  $praktikan
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Praktikan $praktikan)
+    public function destroy(Request $request)
     {
-        //
+        foreach (explode("-", $request->allpraktikan_nim) as $nim => $value) {
+                
+            Jawaban_Fitb::where('praktikan_id', Praktikan::where('nim', $value)->first()->id)
+                    ->where('modul_id', $request->modul_id)
+                    ->delete();
+            Jawaban_Jurnal::where('praktikan_id', Praktikan::where('nim', $value)->first()->id)
+                    ->where('modul_id', $request->modul_id)
+                    ->delete();
+            Jawaban_Mandiri::where('praktikan_id', Praktikan::where('nim', $value)->first()->id)
+                    ->where('modul_id', $request->modul_id)
+                    ->delete();
+            Jawaban_Ta::where('praktikan_id', Praktikan::where('nim', $value)->first()->id)
+                    ->where('modul_id', $request->modul_id)
+                    ->delete(); 
+            Jawaban_Tk::where('praktikan_id', Praktikan::where('nim', $value)->first()->id)
+                    ->where('modul_id', $request->modul_id)
+                    ->delete();
+            Laporan_Praktikan::where('praktikan_id', Praktikan::where('nim', $value)->first()->id)
+                    ->where('modul_id', $request->modul_id)
+                    ->delete();
+        }
+        
+        return '{"message": "success"}';
     }
 }

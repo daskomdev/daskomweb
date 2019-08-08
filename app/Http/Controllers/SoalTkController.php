@@ -71,12 +71,15 @@ class SoalTkController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Soal_Tk  $soal_Tk
      * @return \Illuminate\Http\Response
      */
-    public function show(Soal_Tk $soal_Tk)
+    public function show($modul_id)
     {
-        //
+        $all_soal = Soal_Tk::where('modul_id', $modul_id)->inRandomOrder()->take(5)->get();
+        return response()->json([
+            'message'=> 'success',
+            'all_soal' => $all_soal,
+        ], 200);
     }
 
     /**

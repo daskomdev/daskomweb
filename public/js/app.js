@@ -19116,8 +19116,184 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['comingFrom', 'currentUser'],
+  props: ['comingFrom', 'currentUser', 'allAsisten'],
   data: function data() {
     return {
       pageActive: false,
@@ -19128,6 +19304,7 @@ __webpack_require__.r(__webpack_exports__);
       isMenuShown: false,
       messageOpened: false,
       openWide: false,
+      modulShown: false,
       current_praktikum: {
         kelas_id: '',
         modul_id: '',
@@ -19162,7 +19339,16 @@ __webpack_require__.r(__webpack_exports__);
         jawaban: ''
       },
       jawabanFitb: [],
-      jawabanJurnal: []
+      jawabanJurnal: [],
+      jawabanMandiri: [],
+      laporanPraktikan: {
+        pesan: '',
+        rating_asisten: 0,
+        rating_praktikum: 0,
+        asisten_id: '',
+        praktikan_id: '',
+        modul_id: ''
+      }
     };
   },
   mounted: function mounted() {
@@ -19180,7 +19366,7 @@ __webpack_require__.r(__webpack_exports__);
       if (response.data.message === "success") {
         if (response.data.current_praktikum != null) {
           //There is currently active praktikum
-          globe.setCurrentPraktikumState(response.data.current_praktikum);
+          globe.setCurrentPraktikumState(response.data.current_praktikum, false);
         }
       } else {
         globe.$toasted.global.showError({
@@ -19189,11 +19375,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
     Echo.channel("daskom_database_praktikum.".concat(globe.currentUser.kelas_id)).listen('praktikumStatusUpdated', function (data) {
-      globe.setCurrentPraktikumState(data.current_praktikum);
+      globe.setCurrentPraktikumState(data.current_praktikum, true);
     });
   },
   beforeDestroy: function beforeDestroy() {
-    var globe = this;
     Echo.leave("daskom_database_praktikum.".concat(globe.currentUser.kelas_id));
   },
   methods: {
@@ -19207,121 +19392,302 @@ __webpack_require__.r(__webpack_exports__);
 
       return $arr;
     },
-    setCurrentPraktikumState: function setCurrentPraktikumState(current_praktikum) {
+    finishPraktikum: function finishPraktikum() {
       var globe = this;
-      globe.current_praktikum.asisten_id = current_praktikum.asisten_id;
-      globe.current_praktikum.modul_id = current_praktikum.modul_id;
-      globe.current_praktikum.kelas_id = current_praktikum.kelas_id;
-      globe.current_praktikum.status = current_praktikum.status; //Initialization of the praktikum
 
-      globe.$axios.post('/getModul/' + globe.current_praktikum.modul_id).then(function (response) {
+      if (this.laporanPraktikan.asisten_id === '') {
+        globe.$toasted.global.showError({
+          message: 'Pilih asisten yang mengajar anda terlebih dahulu <br> (dibagian paling atas samping kiri rating)'
+        });
+        return;
+      }
+
+      if (this.laporanPraktikan.pesan === '') {
+        globe.$toasted.global.showError({
+          message: 'Masukkan pesan untuk praktikum / asisten terlebih dahulu'
+        });
+        return;
+      }
+
+      if (this.laporanPraktikan.rating_asisten === 0) {
+        globe.$toasted.global.showError({
+          message: 'Beri rating untuk asisten terlebih dahulu'
+        });
+        return;
+      }
+
+      if (this.laporanPraktikan.rating_praktikum === 0) {
+        globe.$toasted.global.showError({
+          message: 'Beri rating untuk praktikum terlebih dahulu'
+        });
+        return;
+      }
+
+      globe.laporanPraktikan.praktikan_id = this.currentUser.id;
+      globe.laporanPraktikan.modul_id = this.current_praktikum.modul_id;
+      globe.$axios.post('/sendLaporan', globe.laporanPraktikan).then(function (response) {
         if (response.data.message === "success") {
-          if (response.data.modul !== null) {
-            //There is currently active praktikum
-            globe.current_modul.judul = response.data.modul.judul;
-            globe.current_modul.deskripsi = response.data.modul.deskripsi;
-            globe.current_modul.isi = response.data.modul.isi; // http://quotes.stormconsultancy.co.uk/random.json 
-            // (API for random programming quote)
-
-            if (globe.current_praktikum.status === 0) globe.$axios.get('http://quotes.stormconsultancy.co.uk/random.json').then(function (response) {
-              globe.programmingQuote = response.data.quote;
-              globe.quoteAuthor = response.data.author;
-            });
-          }
+          globe.current_praktikum.status = 777;
+          globe.$toasted.global.showSuccess({
+            message: "Praktikum telah selesai :)"
+          });
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
           });
         }
       });
+    },
+    setCurrentPraktikumState: function setCurrentPraktikumState(current_praktikum, isRealtime) {
+      var globe = this;
+      globe.current_praktikum.asisten_id = current_praktikum.asisten_id;
+      globe.current_praktikum.modul_id = current_praktikum.modul_id;
+      globe.current_praktikum.kelas_id = current_praktikum.kelas_id;
+      globe.current_praktikum.status = current_praktikum.status; // Check if the praktikan is in the kelas runnning the praktikum
 
-      switch (globe.current_praktikum.status) {
-        case 1:
-          // Start Opening TA and grab all SOAL from it
-          // (get RANDOMIZED soal from soal__tas)
-          globe.$axios.get('/getSoalTA/' + globe.current_praktikum.modul_id).then(function (response) {
-            if (response.data.message === "success") {
-              if (response.data.all_soal !== null) {
-                globe.soalTA = response.data.all_soal;
-                globe.soalTA.forEach(function (soal) {
-                  var all_jawaban = [];
-                  all_jawaban.push(soal.jawaban_benar);
-                  all_jawaban.push(soal.jawaban_salah1);
-                  all_jawaban.push(soal.jawaban_salah2);
-                  all_jawaban.push(soal.jawaban_salah3); //randomizing all the "jawaban" for each soal
+      if (globe.current_praktikum.kelas_id === this.currentUser.kelas_id) {
+        //  Initialization of the praktikum
+        globe.$axios.post('/getModul/' + globe.current_praktikum.modul_id).then(function (response) {
+          if (response.data.message === "success") {
+            if (response.data.modul !== null) {
+              //There is currently active praktikum
+              globe.current_modul.judul = response.data.modul.judul;
+              globe.current_modul.deskripsi = response.data.modul.deskripsi;
+              globe.current_modul.isi = response.data.modul.isi; // http://quotes.stormconsultancy.co.uk/random.json 
+              // (API for random programming quote)
 
-                  all_jawaban = globe.shuffleArr(all_jawaban);
-                  globe.chosenJawaban.push({
-                    soal_id: soal.id,
-                    jawaban: ''
+              if (globe.current_praktikum.status === 0) globe.$axios.get('http://quotes.stormconsultancy.co.uk/random.json').then(function (response) {
+                globe.programmingQuote = response.data.quote;
+                globe.quoteAuthor = response.data.author;
+              });
+            }
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        });
+
+        switch (globe.current_praktikum.status) {
+          case 0:
+            // DO nothing as the initialization just begin
+            // Added for escaping the default scenario
+            break;
+
+          case 1:
+            // Start Opening TA and grab all SOAL from it
+            // (get RANDOMIZED soal from soal__tas)
+            globe.$axios.get('/getSoalTA/' + globe.current_praktikum.modul_id).then(function (response) {
+              if (response.data.message === "success") {
+                if (response.data.all_soal !== null) {
+                  globe.soalTA = response.data.all_soal;
+                  globe.soalTA.forEach(function (soal) {
+                    var all_jawaban = [];
+                    all_jawaban.push(soal.jawaban_benar);
+                    all_jawaban.push(soal.jawaban_salah1);
+                    all_jawaban.push(soal.jawaban_salah2);
+                    all_jawaban.push(soal.jawaban_salah3); //randomizing all the "jawaban" for each soal
+
+                    all_jawaban = globe.shuffleArr(all_jawaban);
+                    globe.chosenJawaban.push({
+                      modul_id: globe.current_praktikum.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      soal_id: soal.id,
+                      jawaban: ''
+                    });
+                    globe.jawabanTA.push(all_jawaban);
                   });
-                  globe.jawabanTA.push(all_jawaban);
+                }
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
                 });
               }
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
-              });
-            }
-          });
-          break;
+            });
+            break;
 
-        case 2:
-          // Start opening Jurnal Section and get all SOAL from
-          // get soal from soal__jurnals and soal__fitbs
-          globe.$axios.get('/getSoalJURNAL').then(function (response) {
-            if (response.data.message === "success") {
-              if (response.data.all_soal !== null) {
-                globe.soalJurnal = response.data.all_soal;
-
-                for (var index = 0; index < globe.soalJurnal.length; index++) {
-                  var soal = globe.soalJurnal[index];
-                  globe.jawabanJurnal.push({
-                    'soal_id': soal.id,
-                    'modul_id': soal.modul_id,
-                    'jawaban': ''
+          case 2:
+            // Realtime connection make changes to status 2
+            // Meaning we should send jawaban in status 1 (Soal TA)
+            if (isRealtime) {
+              globe.$axios.post('/sendJawabanTA', globe.chosenJawaban).then(function (response) {
+                if (response.data.message === "success") {// Do nothing as all of jawaban successfully saved to the DB
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
                   });
                 }
-              }
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
               });
-            }
-          });
-          globe.$axios.get('/getSoalFITB').then(function (response) {
-            if (response.data.message === "success") {
-              if (response.data.all_soal !== null) {
-                globe.soalFitb = response.data.all_soal;
+            } // Start opening Jurnal Section and get all SOAL from
+            // get soal from soal__jurnals and soal__fitbs
 
-                for (var index = 0; index < globe.soalFitb.length; index++) {
-                  var soal = globe.soalFitb[index];
-                  globe.jawabanFitb.push({
-                    'soal_id': soal.id,
-                    'modul_id': soal.modul_id,
-                    'jawaban': ''
+
+            globe.$axios.get('/getSoalJURNAL').then(function (response) {
+              if (response.data.message === "success") {
+                if (response.data.all_soal !== null) {
+                  globe.soalJurnal = response.data.all_soal;
+
+                  for (var index = 0; index < globe.soalJurnal.length; index++) {
+                    var soal = globe.soalJurnal[index];
+                    globe.jawabanJurnal.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: ''
+                    });
+                  }
+                }
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            });
+            globe.$axios.get('/getSoalFITB').then(function (response) {
+              if (response.data.message === "success") {
+                if (response.data.all_soal !== null) {
+                  globe.soalFitb = response.data.all_soal;
+
+                  for (var index = 0; index < globe.soalFitb.length; index++) {
+                    var soal = globe.soalFitb[index];
+                    globe.jawabanFitb.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: ''
+                    });
+                  }
+                }
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            });
+            break;
+
+          case 3:
+            // Realtime connection make changes to status 3
+            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
+            if (isRealtime) {
+              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(function (response) {
+                if (response.data.message === "success") {// Do nothing as all of jawaban successfully saved to the DB
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
                   });
                 }
-              }
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
               });
-            }
-          });
-          break;
+              globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(function (response) {
+                if (response.data.message === "success") {// Do nothing as all of jawaban successfully saved to the DB
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              });
+            } // Start opening Mandiri Section and get all SOAL from
+            // get soal from soal__mandiris
 
-        case 3:
-          break;
 
-        case 4:
-          break;
+            globe.$axios.get('/getSoalMANDIRI/' + globe.current_praktikum.modul_id).then(function (response) {
+              if (response.data.message === "success") {
+                if (response.data.all_soal !== null) {
+                  globe.soalMandiri = response.data.all_soal;
 
-        case 5:
-          break;
+                  for (var index = 0; index < globe.soalMandiri.length; index++) {
+                    var soal = globe.soalMandiri[index];
+                    globe.jawabanMandiri.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: ''
+                    });
+                  }
+                }
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            });
+            break;
 
-        case 6:
-          break;
+          case 4:
+            // Realtime connection make changes to status 4
+            // Meaning we should send jawaban in status 3 (Soal Mandiri)
+            if (isRealtime) {
+              globe.$axios.post('/sendJawabanMandiri', globe.jawabanMandiri).then(function (response) {
+                if (response.data.message === "success") {// Do nothing as all of jawaban successfully saved to the DB
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              });
+            } // Start Opening TK and grab all SOAL from it
+            // (get RANDOMIZED soal from soal__tks)
+
+
+            globe.$axios.get('/getSoalTK/' + globe.current_praktikum.modul_id).then(function (response) {
+              if (response.data.message === "success") {
+                if (response.data.all_soal !== null) {
+                  globe.soalTK = response.data.all_soal;
+                  globe.chosenJawaban = [];
+                  globe.soalTK.forEach(function (soal) {
+                    var all_jawaban = [];
+                    all_jawaban.push(soal.jawaban_benar);
+                    all_jawaban.push(soal.jawaban_salah1);
+                    all_jawaban.push(soal.jawaban_salah2);
+                    all_jawaban.push(soal.jawaban_salah3); //randomizing all the "jawaban" for each soal
+
+                    all_jawaban = globe.shuffleArr(all_jawaban);
+                    globe.chosenJawaban.push({
+                      modul_id: globe.current_praktikum.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      soal_id: soal.id,
+                      jawaban: ''
+                    });
+                    globe.jawabanTK.push(all_jawaban);
+                  });
+                }
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            });
+            break;
+
+          case 5:
+            // Realtime connection make changes to status 5
+            // Meaning we should send jawaban in status 4 (Soal TK)
+            if (isRealtime) {
+              globe.$axios.post('/sendJawabanTK', globe.chosenJawaban).then(function (response) {
+                if (response.data.message === "success") {// Do nothing as all of jawaban successfully saved to the DB
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              });
+            } // Check if laporan Praktikan already exists
+
+
+            globe.$axios.post('/getLaporan/' + globe.currentUser.id + '/' + globe.current_praktikum.modul_id).then(function (response) {
+              if (response.data.message === "done") {
+                // Change status to 777 if the praktikan already fill in the laporan form
+                globe.current_praktikum.status = 777;
+              } //else just run it as usual
+
+            });
+            break;
+
+          default:
+            // Ignore other case and cast the status to 777
+            globe.current_praktikum.status = 777;
+            break;
+        }
       }
     },
     chooseJawaban: function chooseJawaban($soalType, $jawaban, $soalId, $soalIndex, $jawabanIndex) {
@@ -19340,6 +19706,21 @@ __webpack_require__.r(__webpack_exports__);
             }
 
             this.chosenJawaban[index].jawaban = $jawaban;
+          }
+        }
+      } else if ($soalType === "TK") {
+        for (var _index = 0; _index < this.chosenJawaban.length; _index++) {
+          if (this.chosenJawaban[_index].soal_id === $soalId) {
+            if (this.chosenJawaban[_index].jawaban !== '') {
+              for (var _i = 0; _i < this.jawabanTK[_index].length; _i++) {
+                if (this.jawabanTK[_index][_i] === this.chosenJawaban[_index].jawaban) {
+                  $('.jawaban-' + _index + _i).addClass('bg-green-200 hover:bg-green-300');
+                  $('.jawaban-' + _index + _i).removeClass('bg-green-500 text-white');
+                }
+              }
+            }
+
+            this.chosenJawaban[_index].jawaban = $jawaban;
           }
         }
       }
@@ -19455,6 +19836,22 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20092,7 +20489,6 @@ __webpack_require__.r(__webpack_exports__);
       menuPlotting: false,
       listAllAsisten: [],
       listAllPraktikan: [],
-      pairingList: [],
       shuffledListAllAsisten: [],
       shuffledListAllPraktikan: [],
       praktikumStart: false,
@@ -20158,6 +20554,10 @@ __webpack_require__.r(__webpack_exports__);
         status: 3,
         modul_id: ''
       },
+      formPraktikan_Alfa: {
+        allpraktikan_nim: '',
+        modul_id: ''
+      },
       formCurrentPraktikum: {
         asisten_id: '',
         //Current Asisten ID (Assuming he/she is the PJ)
@@ -20189,6 +20589,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
     $('body').addClass('closed');
     this.$refs.menu.scrollTop = this.position;
     var globe = this;
@@ -20209,6 +20611,9 @@ __webpack_require__.r(__webpack_exports__);
           globe.statusPraktikum = response.data.current_praktikum.status;
           globe.chosenKelasID = response.data.current_praktikum.kelas_id;
           globe.chosenModulID = response.data.current_praktikum.modul_id;
+          globe.formPraktikum.kelas_id = _this.chosenKelasID;
+          globe.formPraktikum.modul_id = _this.chosenModulID;
+          globe.formLaporanPj.laporan = "empty";
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true; //(If status Praktikum === 1, means all the layout condition still on its default state)
 
@@ -20223,11 +20628,6 @@ __webpack_require__.r(__webpack_exports__);
 
             case 4:
               globe.countDown = globe.TKtiming;
-              break;
-
-            case 6:
-              globe.praktikumStart = false;
-              globe.statusPraktikum = 0;
               break;
           }
 
@@ -20246,6 +20646,7 @@ __webpack_require__.r(__webpack_exports__);
               globe.formHistoryJaga.shift = response.data.latestPJHistory.shift;
               globe.formHistoryJaga.pj = response.data.latestPJHistory.pj;
               globe.formHistoryJaga.asisten_id = response.data.latestPJHistory.asisten_id;
+              globe.formHistoryJaga.modul_id = globe.chosenModulID;
             } else {
               globe.$toasted.global.showError({
                 message: response.data.message
@@ -20313,7 +20714,7 @@ __webpack_require__.r(__webpack_exports__);
         if (globe.statusPraktikum === 6) {
           var sumAllAsisten_kode = [];
 
-          if (globe.formHistoryJaga.allasisten_kode != '') {
+          if (globe.formHistoryJaga.allasisten_kode !== '') {
             var tempArr = globe.formHistoryJaga.allasisten_kode.split("-");
 
             for (var index = 0; index < tempArr.length; index++) {
@@ -20321,7 +20722,7 @@ __webpack_require__.r(__webpack_exports__);
 
               if (data === "") {
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
@@ -20330,7 +20731,7 @@ __webpack_require__.r(__webpack_exports__);
             sumAllAsisten_kode.push(globe.formHistoryJaga.allasisten_kode.split("-"));
           }
 
-          if (globe.formHistoryIzin_Izin.allasisten_kode != '') {
+          if (globe.formHistoryIzin_Izin.allasisten_kode !== '') {
             var tempArr = globe.formHistoryIzin_Izin.allasisten_kode.split("-");
 
             for (var _index = 0; _index < tempArr.length; _index++) {
@@ -20338,7 +20739,7 @@ __webpack_require__.r(__webpack_exports__);
 
               if (_data === "") {
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
@@ -20347,7 +20748,7 @@ __webpack_require__.r(__webpack_exports__);
             sumAllAsisten_kode.push(globe.formHistoryIzin_Izin.allasisten_kode.split("-"));
           }
 
-          if (globe.formHistoryIzin_Sakit.allasisten_kode != '') {
+          if (globe.formHistoryIzin_Sakit.allasisten_kode !== '') {
             var tempArr = globe.formHistoryIzin_Sakit.allasisten_kode.split("-");
 
             for (var _index2 = 0; _index2 < tempArr.length; _index2++) {
@@ -20355,7 +20756,7 @@ __webpack_require__.r(__webpack_exports__);
 
               if (_data2 === "") {
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
@@ -20364,7 +20765,7 @@ __webpack_require__.r(__webpack_exports__);
             sumAllAsisten_kode.push(globe.formHistoryIzin_Sakit.allasisten_kode.split("-"));
           }
 
-          if (globe.formHistoryIzin_Alfa.allasisten_kode != '') {
+          if (globe.formHistoryIzin_Alfa.allasisten_kode !== '') {
             var tempArr = globe.formHistoryIzin_Alfa.allasisten_kode.split("-");
 
             for (var _index3 = 0; _index3 < tempArr.length; _index3++) {
@@ -20372,13 +20773,32 @@ __webpack_require__.r(__webpack_exports__);
 
               if (_data3 === "") {
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
             }
 
             sumAllAsisten_kode.push(globe.formHistoryIzin_Alfa.allasisten_kode.split("-"));
+          }
+
+          var sumAllPraktikan_Alfa = [];
+
+          if (globe.formPraktikan_Alfa.allpraktikan_nim !== '') {
+            var tempArr = globe.formPraktikan_Alfa.allpraktikan_nim.split("-");
+
+            for (var _index4 = 0; _index4 < tempArr.length; _index4++) {
+              var _data4 = tempArr[_index4];
+
+              if (_data4 === "") {
+                globe.$toasted.global.showError({
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
+                });
+                return;
+              }
+            }
+
+            sumAllPraktikan_Alfa.push(globe.formPraktikan_Alfa.allpraktikan_nim.split("-"));
           }
 
           sumAllAsisten_kode = [].concat.apply([], sumAllAsisten_kode); // Flatten array of arrays
@@ -20408,6 +20828,38 @@ __webpack_require__.r(__webpack_exports__);
             return;
           }
 
+          if (sumAllPraktikan_Alfa.length === 0 && globe.formPraktikan_Alfa.allpraktikan_nim !== "*") {
+            globe.$toasted.global.showError({
+              message: "Ketikkan '*' pada praktikan alfa <br> jika tidak ada praktikan yang alfa"
+            });
+            return;
+          } else if (globe.formPraktikan_Alfa.allpraktikan_nim !== "*") {
+            var _loop = function _loop(_index5) {
+              var praktikan = sumAllPraktikan_Alfa[_index5];
+              isExist = false;
+              globe.listAllPraktikan.forEach(function (allPraktikan) {
+                if (allPraktikan.nim == praktikan) isExist = true;
+              });
+
+              if (!isExist) {
+                globe.$toasted.global.showError({
+                  message: 'Praktikan dengan nim "' + praktikan + '" tidak ada dalam kelas ini'
+                });
+                return {
+                  v: void 0
+                };
+              }
+            };
+
+            for (var _index5 = 0; _index5 < sumAllPraktikan_Alfa.length; _index5++) {
+              var isExist;
+
+              var _ret = _loop(_index5);
+
+              if (_typeof(_ret) === "object") return _ret.v;
+            }
+          }
+
           if (sumAllAsisten_kode.includes(globe.currentUser.kode)) {
             globe.$toasted.global.showError({
               message: "Asisten PJ tidak perlu ditulis disini"
@@ -20426,8 +20878,8 @@ __webpack_require__.r(__webpack_exports__);
             return !sumAllAsisten_kode.includes(x);
           });
 
-          for (var _index4 = 0; _index4 < diff_FromList.length; _index4++) {
-            var element = diff_FromList[_index4];
+          for (var _index6 = 0; _index6 < diff_FromList.length; _index6++) {
+            var element = diff_FromList[_index6];
 
             if (sumAllAsisten_kode.includes(element)) {
               globe.$toasted.global.showError({
@@ -20437,8 +20889,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
 
-          for (var _index5 = 0; _index5 < diff_FromSum.length; _index5++) {
-            var _element = diff_FromSum[_index5];
+          for (var _index7 = 0; _index7 < diff_FromSum.length; _index7++) {
+            var _element = diff_FromSum[_index7];
 
             if (listAllAsistenKode.includes(_element)) {
               globe.$toasted.global.showError({
@@ -20462,6 +20914,7 @@ __webpack_require__.r(__webpack_exports__);
           });
           globe.formHistoryJaga.pj = 0;
           globe.formHistoryJaga.asisten_id = null;
+          globe.formHistoryJaga.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Izin.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Sakit.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Alfa.modul_id = globe.chosenModulID;
@@ -20473,6 +20926,18 @@ __webpack_require__.r(__webpack_exports__);
                     if (response.data.message === "success") {
                       globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Alfa).then(function (response) {
                         if (response.data.message === "success") {
+                          if (globe.formPraktikan_Alfa.allpraktikan_nim !== '*') {
+                            globe.formPraktikan_Alfa.modul_id = globe.chosenModulID;
+                            globe.$axios.post('/deletePraktikanAlfa', globe.formPraktikan_Alfa).then(function (response) {
+                              if (response.data.message === "success") {// Do nothing as its working as it supposed to be
+                              } else {
+                                globe.$toasted.global.showError({
+                                  message: response.data.message
+                                });
+                              }
+                            });
+                          }
+
                           globe.$axios.post('/updateLaporanPJ', globe.formLaporanPj).then(function (response) {
                             if (response.data.message === "success") {
                               globe.formPraktikum.pj_id = globe.currentUser.id;
@@ -20489,7 +20954,9 @@ __webpack_require__.r(__webpack_exports__);
                                 }
                               });
                               globe.$axios.post('/stopPraktikum').then(function (response) {
-                                if (response.data.message === "success") {//Do nothing
+                                if (response.data.message === "success") {
+                                  globe.praktikumStart = false;
+                                  globe.statusPraktikum = 0;
                                 } else {
                                   globe.$toasted.global.showError({
                                     message: response.data.message
@@ -20554,11 +21021,6 @@ __webpack_require__.r(__webpack_exports__);
 
         case 4:
           globe.countDown = globe.TKtiming;
-          break;
-
-        case 6:
-          globe.praktikumStart = false;
-          globe.statusPraktikum = 0;
           break;
       }
     },
@@ -20649,7 +21111,7 @@ __webpack_require__.r(__webpack_exports__);
       this.countdownStarted = false;
     },
     startThePracticum: function startThePracticum() {
-      var _this = this;
+      var _this2 = this;
 
       var globe = this;
 
@@ -20712,7 +21174,7 @@ __webpack_require__.r(__webpack_exports__);
             if (index != globe.listAllAsisten.length - 1) globe.formLaporanPj.allasisten_id += "-";
           }
 
-          globe.formLaporanPj.modul_id = _this.chosenModulID;
+          globe.formLaporanPj.modul_id = _this2.chosenModulID;
           globe.$axios.post('/createLaporanPJ', globe.formLaporanPj).then(function (response) {
             if (response.data.message === "success") {
               globe.formLaporanPj.id = response.data.id;
@@ -20742,6 +21204,7 @@ __webpack_require__.r(__webpack_exports__);
           });
           globe.formHistoryJaga.pj = 1;
           globe.formHistoryJaga.asisten_id = globe.currentUser.id;
+          globe.formHistoryJaga.modul_id = globe.chosenModulID;
           globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(function (response) {
             if (response.data.message === "success") {//DO NOTHING (it runs as we expected)
             } else {
@@ -70165,7 +70628,7 @@ var render = function() {
                                     "span",
                                     {
                                       staticClass:
-                                        "w-full h-full px-8 pt-8 whitespace-pre-line pb-8 text-2xl font-overpass-bold text-justify"
+                                        "w-full h-full px-8 pt-8 whitespace-pre-line break-words pb-8 text-2xl font-overpass-bold text-justify"
                                     },
                                     [
                                       _vm._v(
@@ -72281,13 +72744,11 @@ var render = function() {
                                                             }
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "\n                          " +
-                                                                _vm._s(
-                                                                  jawaban
-                                                                ) +
-                                                                "\n                        "
-                                                            )
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(jawaban)
+                                                              )
+                                                            ])
                                                           ]
                                                         )
                                                       ]
@@ -72348,7 +72809,419 @@ var render = function() {
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(5)
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large"
+                                    },
+                                    [
+                                      _vm._m(5),
+                                      _vm._v(" "),
+                                      _vm.modulShown
+                                        ? _c(
+                                            "div",
+                                            {
+                                              staticClass: "h-1/2 w-full flex"
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short",
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.modulShown = false
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._m(6)]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      !_vm.modulShown
+                                        ? _c(
+                                            "div",
+                                            {
+                                              staticClass: "h-1/2 w-full flex"
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short",
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.modulShown = true
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._m(7)]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.modulShown
+                                ? _c(
+                                    "div",
+                                    { staticClass: "w-3/4 h-full flex" },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "w-full h-full overflow-y-auto"
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "w-full h-auto flex-row"
+                                            },
+                                            [
+                                              _vm._l(_vm.soalFitb, function(
+                                                soal,
+                                                index
+                                              ) {
+                                                return _c(
+                                                  "div",
+                                                  {
+                                                    key: soal.id,
+                                                    staticClass:
+                                                      "w-full flex-row h-auto"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "w-full h-auto flex my-10"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "h-full w-12 flex font-merri-bold text-xl"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "m-auto w-auto h-auto"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    index + 1
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _vm._m(8, true),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl"
+                                                          },
+                                                          [
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  soal.soal
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "w-full h-auto flex px-5"
+                                                      },
+                                                      [
+                                                        _c("textarea", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                _vm.jawabanFitb[
+                                                                  index
+                                                                ].jawaban,
+                                                              expression:
+                                                                "jawabanFitb[index].jawaban"
+                                                            }
+                                                          ],
+                                                          staticClass:
+                                                            "font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                                          attrs: {
+                                                            cols: "30",
+                                                            rows: "10",
+                                                            type: "text",
+                                                            placeholder:
+                                                              "Ketik jawabanmu disini ..."
+                                                          },
+                                                          domProps: {
+                                                            value:
+                                                              _vm.jawabanFitb[
+                                                                index
+                                                              ].jawaban
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.$set(
+                                                                _vm.jawabanFitb[
+                                                                  index
+                                                                ],
+                                                                "jawaban",
+                                                                $event.target
+                                                                  .value
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.soalJurnal, function(
+                                                soal,
+                                                index
+                                              ) {
+                                                return _c(
+                                                  "div",
+                                                  {
+                                                    key: soal.id,
+                                                    staticClass:
+                                                      "w-full flex-row h-auto"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "w-full h-auto flex my-10"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "h-full w-12 flex font-merri-bold text-xl"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "m-auto w-auto h-auto"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    _vm.soalFitb
+                                                                      .length +
+                                                                      (index +
+                                                                        1)
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _vm._m(9, true),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl"
+                                                          },
+                                                          [
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  soal.soal
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "w-full h-auto flex px-5"
+                                                      },
+                                                      [
+                                                        _c("textarea", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                _vm
+                                                                  .jawabanJurnal[
+                                                                  index
+                                                                ].jawaban,
+                                                              expression:
+                                                                "jawabanJurnal[index].jawaban"
+                                                            }
+                                                          ],
+                                                          staticClass:
+                                                            "font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                                          attrs: {
+                                                            cols: "30",
+                                                            rows: "10",
+                                                            type: "text",
+                                                            placeholder:
+                                                              "Ketik jawabanmu disini ..."
+                                                          },
+                                                          domProps: {
+                                                            value:
+                                                              _vm.jawabanJurnal[
+                                                                index
+                                                              ].jawaban
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.$set(
+                                                                _vm
+                                                                  .jawabanJurnal[
+                                                                  index
+                                                                ],
+                                                                "jawaban",
+                                                                $event.target
+                                                                  .value
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.modulShown
+                                ? _c(
+                                    "div",
+                                    { staticClass: "w-3/4 h-full flex" },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto"
+                                        },
+                                        [
+                                          _c("span", [
+                                            _vm._v(
+                                              _vm._s(_vm.current_modul.isi)
+                                            )
+                                          ])
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.current_praktikum.status === 3
+                          ? _c("div", { staticClass: "w-full h-full flex" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-1/4 h-full flex-row overflow-y-hidden"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl"
+                                        },
+                                        [
+                                          _vm._v("\n                  Modul "),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "font-merri" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(_vm.current_modul.judul)
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(10)
                                 ]
                               ),
                               _vm._v(" "),
@@ -72362,251 +73235,543 @@ var render = function() {
                                     _c(
                                       "div",
                                       { staticClass: "w-full h-auto flex-row" },
-                                      [
-                                        _vm._l(_vm.soalFitb, function(
-                                          soal,
-                                          index
-                                        ) {
-                                          return _c(
-                                            "div",
-                                            {
-                                              key: soal.id,
-                                              staticClass:
-                                                "w-full flex-row h-auto"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "w-full h-auto flex my-10"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "h-full w-12 flex font-merri-bold text-xl"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "m-auto w-auto h-auto"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            _vm._s(index + 1)
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _vm._m(6, true),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl"
-                                                    },
-                                                    [
-                                                      _c("span", [
-                                                        _vm._v(
-                                                          _vm._s(soal.soal)
-                                                        )
-                                                      ])
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "w-full h-auto flex px-5"
-                                                },
-                                                [
-                                                  _c("textarea", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.jawabanFitb[index]
-                                                            .jawaban,
-                                                        expression:
-                                                          "jawabanFitb[index].jawaban"
-                                                      }
-                                                    ],
+                                      _vm._l(_vm.soalMandiri, function(
+                                        soal,
+                                        index
+                                      ) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: soal.id,
+                                            staticClass:
+                                              "w-full flex-row h-auto"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-full h-auto flex my-10"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
                                                     staticClass:
-                                                      "font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-                                                    attrs: {
-                                                      cols: "30",
-                                                      rows: "10",
-                                                      type: "text",
-                                                      placeholder:
-                                                        "Ketik jawabanmu disini ..."
-                                                    },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.jawabanFitb[index]
-                                                          .jawaban
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.jawabanFitb[
-                                                            index
-                                                          ],
-                                                          "jawaban",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        }),
-                                        _vm._v(" "),
-                                        _vm._l(_vm.soalJurnal, function(
-                                          soal,
-                                          index
-                                        ) {
-                                          return _c(
-                                            "div",
-                                            {
-                                              key: soal.id,
-                                              staticClass:
-                                                "w-full flex-row h-auto"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "w-full h-auto flex my-10"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "h-full w-12 flex font-merri-bold text-xl"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "m-auto w-auto h-auto"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              _vm.soalFitb
-                                                                .length +
-                                                                (index + 1)
-                                                            )
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _vm._m(7, true),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl"
-                                                    },
-                                                    [
-                                                      _c("span", [
-                                                        _vm._v(
-                                                          _vm._s(soal.soal)
-                                                        )
-                                                      ])
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "w-full h-auto flex px-5"
-                                                },
-                                                [
-                                                  _c("textarea", {
-                                                    directives: [
+                                                      "h-full w-12 flex font-merri-bold text-xl"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
                                                       {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.jawabanJurnal[
-                                                            index
-                                                          ].jawaban,
-                                                        expression:
-                                                          "jawabanJurnal[index].jawaban"
-                                                      }
-                                                    ],
-                                                    staticClass:
-                                                      "font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-                                                    attrs: {
-                                                      cols: "30",
-                                                      rows: "10",
-                                                      type: "text",
-                                                      placeholder:
-                                                        "Ketik jawabanmu disini ..."
-                                                    },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.jawabanJurnal[index]
-                                                          .jawaban
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.jawabanJurnal[
-                                                            index
-                                                          ],
-                                                          "jawaban",
-                                                          $event.target.value
+                                                        staticClass:
+                                                          "m-auto w-auto h-auto"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(index + 1)
                                                         )
-                                                      }
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._m(11, true),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl"
+                                                  },
+                                                  [
+                                                    _c("span", [
+                                                      _vm._v(_vm._s(soal.soal))
+                                                    ])
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-full h-auto flex px-5"
+                                              },
+                                              [
+                                                _c("textarea", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value:
+                                                        _vm.jawabanMandiri[
+                                                          index
+                                                        ].jawaban,
+                                                      expression:
+                                                        "jawabanMandiri[index].jawaban"
                                                     }
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        })
-                                      ],
-                                      2
+                                                  ],
+                                                  staticClass:
+                                                    "font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                                  attrs: {
+                                                    cols: "30",
+                                                    rows: "10",
+                                                    type: "text",
+                                                    placeholder:
+                                                      "Ketik jawabanmu disini ..."
+                                                  },
+                                                  domProps: {
+                                                    value:
+                                                      _vm.jawabanMandiri[index]
+                                                        .jawaban
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.$set(
+                                                        _vm.jawabanMandiri[
+                                                          index
+                                                        ],
+                                                        "jawaban",
+                                                        $event.target.value
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      0
                                     )
                                   ]
                                 )
                               ])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.current_praktikum.status === 4
+                          ? _c("div", { staticClass: "w-full h-full flex" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-1/4 h-full flex-row overflow-y-hidden"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl"
+                                        },
+                                        [
+                                          _vm._v("\n                  Modul "),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "font-merri" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(_vm.current_modul.judul)
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(12)
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-3/4 h-full flex" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "w-full h-full overflow-y-auto"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "w-full h-auto flex-row" },
+                                      _vm._l(_vm.soalTK, function(soal, index) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: soal.id,
+                                            staticClass:
+                                              "w-full flex-row h-auto"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-full h-auto flex my-10"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "h-full w-12 flex font-merri-bold text-xl"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "m-auto w-auto h-auto"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(index + 1)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._m(13, true),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl"
+                                                  },
+                                                  [
+                                                    _c("span", [
+                                                      _vm._v(
+                                                        _vm._s(soal.pertanyaan)
+                                                      )
+                                                    ])
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.jawabanTK[index],
+                                              function(jawaban, i) {
+                                                return _c(
+                                                  "div",
+                                                  {
+                                                    key: i,
+                                                    staticClass:
+                                                      "w-full h-auto flex-row"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "w-full px-8 my-2 h-auto cursor-pointer flex"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "w-full bg-green-200 hover:bg-green-300 px-4 py-2 rounded-large font-overpass-bold break-words whitespace-pre-wrap text-xl",
+                                                            class:
+                                                              "jawaban-" +
+                                                              index +
+                                                              i,
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.chooseJawaban(
+                                                                  "TK",
+                                                                  jawaban,
+                                                                  soal.id,
+                                                                  index,
+                                                                  i
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(jawaban)
+                                                              )
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }
+                                            )
+                                          ],
+                                          2
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              ])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.current_praktikum.status === 5
+                          ? _c("div", { staticClass: "w-full h-full flex" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full h-full flex-row overflow-y-auto overflow-x-hidden"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "w-full h-24 flex mt-4" },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "w-1/2 h-full flex" },
+                                        [
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value:
+                                                    _vm.laporanPraktikan
+                                                      .asisten_id,
+                                                  expression:
+                                                    "laporanPraktikan.asisten_id"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "block font-monda-bold text-4xl appearance-none w-2/3 ml-auto mr-2 my-auto h-3/4 bg-gray-600 border border-gray-600 text-white py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-500 focus:border-teal-500",
+                                              attrs: { id: "grid-state" },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.$set(
+                                                    _vm.laporanPraktikan,
+                                                    "asisten_id",
+                                                    $event.target.multiple
+                                                      ? $$selectedVal
+                                                      : $$selectedVal[0]
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                {
+                                                  attrs: {
+                                                    value: "",
+                                                    disabled: "",
+                                                    selected: ""
+                                                  }
+                                                },
+                                                [_vm._v("Pilih Asisten Jaga")]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.allAsisten, function(
+                                                asisten
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    key: asisten.id,
+                                                    domProps: {
+                                                      value: asisten.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(asisten.kode) +
+                                                        " [" +
+                                                        _vm._s(asisten.nama) +
+                                                        "]"
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "w-1/2 h-full flex" },
+                                        [
+                                          _c("star-rating", {
+                                            staticClass: "mr-auto ml-2 my-auto",
+                                            staticStyle: { width: "250px" },
+                                            attrs: {
+                                              increment: 0.01,
+                                              "fixed-points": 2,
+                                              "show-rating": false,
+                                              "star-size": 50
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.laporanPraktikan
+                                                  .rating_asisten,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.laporanPraktikan,
+                                                  "rating_asisten",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "laporanPraktikan.rating_asisten"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass:
+                                      "w-3/4 h-2 bg-black m-auto mt-4 rounded-full"
+                                  }),
+                                  _vm._v(" "),
+                                  _vm._m(14),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "w-full h-auto flex mt-2" },
+                                    [
+                                      _c("star-rating", {
+                                        staticClass: "m-auto",
+                                        staticStyle: { width: "250px" },
+                                        attrs: {
+                                          increment: 0.01,
+                                          "fixed-points": 2,
+                                          "show-rating": false,
+                                          "star-size": 50
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.laporanPraktikan
+                                              .rating_praktikum,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.laporanPraktikan,
+                                              "rating_praktikum",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "laporanPraktikan.rating_praktikum"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "w-full h-auto flex mt-4" },
+                                    [
+                                      _c("textarea", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.laporanPraktikan.pesan,
+                                            expression: "laporanPraktikan.pesan"
+                                          }
+                                        ],
+                                        staticClass:
+                                          "font-overpass-mono-bold mx-16 text-2xl bg-gray-600 appearance-none border-2 border-gray-300 rounded w-full h-full py-2 px-4 text-white leading-tight focus:outline-none focus:bg-gray-700 focus:border-teal-500",
+                                        attrs: {
+                                          cols: "30",
+                                          rows: "5",
+                                          type: "text",
+                                          placeholder:
+                                            "Ketikkan feedback mengenai praktikum / asisten saat ini ..."
+                                        },
+                                        domProps: {
+                                          value: _vm.laporanPraktikan.pesan
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.laporanPraktikan,
+                                              "pesan",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "w-full h-24 flex mt-4 mb-8"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "w-1/2 h-full mx-auto p-4 hover:p-5 cursor-pointer animation-enable-short",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.finishPraktikum()
+                                            }
+                                          }
+                                        },
+                                        [_vm._m(15)]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
                             ])
                           : _vm._e()
                       ])
@@ -73317,16 +74482,50 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "w-full h-1/3 flex bg-yellow-600 rounded-bl-large" },
+      {
+        staticClass:
+          "h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl"
+      },
       [
-        _c(
-          "div",
-          {
-            staticClass:
-              "h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl"
-          },
-          [_vm._v("\n                  JURNAL\n                ")]
-        )
+        _c("div", { staticClass: "m-auto" }, [
+          _vm._v("\n                    JURNAL\n                  ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto"
+      },
+      [
+        _c("div", { staticClass: "m-auto" }, [
+          _vm._v("\n                        Lihat Soal\n                      ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto"
+      },
+      [
+        _c("div", { staticClass: "m-auto" }, [
+          _vm._v(
+            "\n                        Lihat Modul\n                      "
+          )
+        ])
       ]
     )
   },
@@ -73345,6 +74544,100 @@ var staticRenderFns = [
     return _c("div", { staticClass: "h-12 px-1 w-4" }, [
       _c("div", { staticClass: "h-full w-full bg-gray-900" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "w-full h-1/3 flex bg-yellow-600 rounded-bl-large" },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl"
+          },
+          [_vm._v("\n                  MANDIRI\n                ")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "h-12 px-1 w-4" }, [
+      _c("div", { staticClass: "h-full w-full bg-gray-900" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "w-full h-1/3 flex bg-yellow-600 rounded-bl-large" },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl"
+          },
+          [
+            _vm._v("\n                  TES "),
+            _c("br"),
+            _vm._v(" AKHIR\n                ")
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "h-12 px-1 w-4" }, [
+      _c("div", { staticClass: "h-full w-full bg-gray-900" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full h-auto flex mt-4" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "w-auto h-auto m-auto font-overpass-bold text-3xl text-center break-words"
+        },
+        [
+          _vm._v("\n                  Bagaimana menurutmu "),
+          _c("br"),
+          _vm._v(" praktikum saat ini ?\n                ")
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-full h-full flex rounded-full font-overpass-bold text-xl text-white flex pt-1 bg-green-600"
+      },
+      [
+        _c("div", { staticClass: "m-auto" }, [
+          _vm._v("\n                      SELESAI\n                    ")
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -73784,7 +75077,10 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "w-full h-36full flex pointer-events-auto" },
+                    {
+                      staticClass:
+                        "w-full h-36full flex pointer-events-auto px-10"
+                    },
                     [
                       _vm.statusPraktikum === 5
                         ? _c("div", { staticClass: "w-full h-full flex-row" }, [
@@ -73796,10 +75092,10 @@ var render = function() {
                         ? _c(
                             "div",
                             {
-                              staticClass: "w-3/4 h-36full px-5 m-auto flex-row"
+                              staticClass: "w-3/4 h-24full px-5 m-auto flex-row"
                             },
                             [
-                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                              _c("div", { staticClass: "w-full h-1/5 flex" }, [
                                 _vm._m(10),
                                 _vm._v(" "),
                                 _c(
@@ -73854,7 +75150,7 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                              _c("div", { staticClass: "w-full h-1/5 flex" }, [
                                 _vm._m(11),
                                 _vm._v(" "),
                                 _c(
@@ -73909,7 +75205,7 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                              _c("div", { staticClass: "w-full h-1/5 flex" }, [
                                 _vm._m(12),
                                 _vm._v(" "),
                                 _c(
@@ -73964,7 +75260,7 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "w-full h-1/4 flex" }, [
+                              _c("div", { staticClass: "w-full h-1/5 flex" }, [
                                 _vm._m(13),
                                 _vm._v(" "),
                                 _c(
@@ -74017,6 +75313,61 @@ var render = function() {
                                     )
                                   ]
                                 )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "w-full h-1/5 flex" }, [
+                                _vm._m(14),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "w-3/4 h-full py-2 flex" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "w-full h-full" },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.formPraktikan_Alfa
+                                                  .allpraktikan_nim,
+                                              expression:
+                                                "formPraktikan_Alfa.allpraktikan_nim"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                          attrs: {
+                                            id: "kode",
+                                            type: "text",
+                                            placeholder:
+                                              'Pisahkan dengan tanda "-" untuk penulisan'
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.formPraktikan_Alfa
+                                                .allpraktikan_nim
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.formPraktikan_Alfa,
+                                                "allpraktikan_nim",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               ])
                             ]
                           )
@@ -74027,7 +75378,7 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "w-1/4 py-4 px-5 h-24full m-auto flex-row"
+                                "w-1/4 pb-10 px-5 h-24full m-auto flex-row"
                             },
                             [
                               _c(
@@ -74039,7 +75390,7 @@ var render = function() {
                                 [_vm._v("\n            Laporan\n          ")]
                               ),
                               _vm._v(" "),
-                              _c("div", { staticClass: "w-full h-3/4" }, [
+                              _c("div", { staticClass: "w-full h-full" }, [
                                 _c("textarea", {
                                   directives: [
                                     {
@@ -74092,7 +75443,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(14)]
+                    [_vm._m(15)]
                   )
                 ]
               )
@@ -74233,7 +75584,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(15)]
+                            [_vm._m(16)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -74253,7 +75604,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(16)]
+                            [_vm._m(17)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -74273,7 +75624,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(17)]
+                            [_vm._m(18)]
                           ),
                           _vm._v(" "),
                           _c(
@@ -74291,7 +75642,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._m(18)]
+                            [_vm._m(19)]
                           )
                         ])
                       ])
@@ -74303,7 +75654,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "w-full h-24 px-8 mt-8 flex z-20" }, [
             _c("div", { staticClass: "w-1/2 h-full flex-row" }, [
-              _vm._m(19),
+              _vm._m(20),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 tatkOption" }, [
                 _c(
@@ -74366,7 +75717,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "w-1/2 pl-8 h-full flex-row" }, [
-              _vm._m(20),
+              _vm._m(21),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 tatkOption" }, [
                 _c(
@@ -74724,7 +76075,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._m(21)]
+                        [_vm._m(22)]
                       ),
                       _vm._v(" "),
                       _c(
@@ -74738,7 +76089,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._m(22)]
+                        [_vm._m(23)]
                       )
                     ])
                   ])
@@ -74764,7 +76115,7 @@ var render = function() {
             "div",
             { staticClass: "w-3/4 h-60 flex-row m-auto items-end z-40" },
             [
-              _vm._m(23),
+              _vm._m(24),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 flex" }, [
                 _c("div", { staticClass: "w-1/2 h-full p-4" }, [
@@ -74779,7 +76130,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(24)]
+                    [_vm._m(25)]
                   )
                 ]),
                 _vm._v(" "),
@@ -74795,7 +76146,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(25)]
+                    [_vm._m(26)]
                   )
                 ])
               ])
@@ -74819,7 +76170,7 @@ var render = function() {
             "div",
             { staticClass: "w-3/4 h-60 flex-row m-auto items-end z-40" },
             [
-              _vm._m(26),
+              _vm._m(27),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 flex" }, [
                 _c("div", { staticClass: "w-1/2 h-full p-4" }, [
@@ -74834,7 +76185,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(27)]
+                    [_vm._m(28)]
                   )
                 ]),
                 _vm._v(" "),
@@ -74850,7 +76201,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(28)]
+                    [_vm._m(29)]
                   )
                 ])
               ])
@@ -74874,7 +76225,7 @@ var render = function() {
             "div",
             { staticClass: "w-3/4 h-60 flex-row m-auto items-end z-40" },
             [
-              _vm._m(29),
+              _vm._m(30),
               _vm._v(" "),
               _c("div", { staticClass: "w-full h-1/2 flex" }, [
                 _c("div", { staticClass: "w-1/2 h-full p-4" }, [
@@ -74889,7 +76240,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(30)]
+                    [_vm._m(31)]
                   )
                 ]),
                 _vm._v(" "),
@@ -74905,7 +76256,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._m(31)]
+                    [_vm._m(32)]
                   )
                 ])
               ])
@@ -75109,7 +76460,7 @@ var staticRenderFns = [
           staticClass:
             "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
         },
-        [_vm._v("\n                JAGA\n              ")]
+        [_vm._v("\n                Asisten JAGA\n              ")]
       )
     ])
   },
@@ -75124,7 +76475,7 @@ var staticRenderFns = [
           staticClass:
             "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
         },
-        [_vm._v("\n                IZIN\n              ")]
+        [_vm._v("\n                Asisten IZIN\n              ")]
       )
     ])
   },
@@ -75139,7 +76490,7 @@ var staticRenderFns = [
           staticClass:
             "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
         },
-        [_vm._v("\n                SAKIT\n              ")]
+        [_vm._v("\n                Asisten SAKIT\n              ")]
       )
     ])
   },
@@ -75154,7 +76505,22 @@ var staticRenderFns = [
           staticClass:
             "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
         },
-        [_vm._v("\n                ALFA\n              ")]
+        [_vm._v("\n                Asisten ALFA\n              ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/4 h-full flex" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "ml-auto my-auto mr-4 font-monda-bold text-2xl text-white"
+        },
+        [_vm._v("\n                Praktikan ALFA\n              ")]
       )
     ])
   },

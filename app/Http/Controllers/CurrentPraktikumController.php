@@ -130,5 +130,7 @@ class CurrentPraktikumController extends Controller
         broadcast(new praktikumStatusUpdated($praktikum));
 
         DB::table('current__praktikums')->truncate();
+
+        return '{"message": "success"}';
     }
 }

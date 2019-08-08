@@ -19,11 +19,17 @@ class CreateHistoryJagasTable extends Migration
             $table->integer('shift');
             $table->boolean('pj')->default(false);
             $table->unsignedBigInteger('asisten_id');
+            $table->unsignedBigInteger('modul_id');
             $table->timestamps();
 
             $table->foreign('asisten_id')
                 ->references('id')
                 ->on('asistens')
+                ->onDelete('cascade');
+
+            $table->foreign('modul_id')
+                ->references('id')
+                ->on('moduls')
                 ->onDelete('cascade');
         });
     }

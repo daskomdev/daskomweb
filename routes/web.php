@@ -71,10 +71,12 @@ Route::get('/asisten', function () {
 Route::get('/praktikan', function () {
     $user = Auth::guard('praktikan')->user();
     $user->kelas = Kelas::where('id', $user->kelas_id)->first()->kelas;
+    $allAsisten = Asisten::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Praktikan', [
         'comingFrom' => $comingFrom,
-        'currentUser' => $user
+        'currentUser' => $user,
+        'allAsisten' => $allAsisten,
     ]);
 })->name('praktikan')->middleware('loggedIn:praktikan');
 
@@ -257,9 +259,22 @@ Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzi
 
 Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');
 
+// TODO: Secure this "getSoal" route from others by adding some private key algorithm to the request
 Route::get('/getSoalTP/{modul_id}', 'SoalTpController@show')->name('getSoalTP');
 Route::get('/getSoalTA/{modul_id}', 'SoalTaController@show')->name('getSoalTA');
 Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
 Route::get('/getSoalJURNAL', 'SoalJurnalController@show')->name('getSoalJURNAL');
 Route::get('/getSoalMANDIRI/{modul_id}', 'SoalMandiriController@show')->name('getSoalMANDIRI');
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Route::post('/sendLaporan', 'LaporanPraktikanController@store')->name('sendLaporan')->middleware('loggedIn:praktikan');
+Route::post('/getLaporan/{praktikan_id}/{modul_id}', 'LaporanPraktikanController@show')->name('getLaporan')->middleware('loggedIn:praktikan');
+
+Route::post('/sendJawabanTA', 'JawabanTaController@store')->name('sendJawabanTA')->middleware('loggedIn:praktikan');
+Route::post('/sendJawabanTK', 'JawabanTkController@store')->name('sendJawabanTK')->middleware('loggedIn:praktikan');
+Route::post('/sendJawabanJurnal', 'JawabanJurnalController@store')->name('sendJawabanJurnal')->middleware('loggedIn:praktikan');
+Route::post('/sendJawabanFitb', 'JawabanFitbController@store')->name('sendJawabanFitb')->middleware('loggedIn:praktikan');
+Route::post('/sendJawabanMandiri', 'JawabanMandiriController@store')->name('sendJawabanMandiri')->middleware('loggedIn:praktikan');
+
+Route::post('/deletePraktikanAlfa', 'PraktikanController@destroy')->name('deletePraktikanAlfa')->middleware('loggedIn:asisten');

@@ -183,7 +183,7 @@
       <div v-if="statusPraktikum === 5 ||
                  statusPraktikum === 6"
           class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
-        <div class="w-full h-36full flex pointer-events-auto">
+        <div class="w-full h-36full flex pointer-events-auto px-10">
           <div v-if="statusPraktikum === 5"  
               class="w-full h-full flex-row">
             <div class="w-full h-full flex">
@@ -196,11 +196,11 @@
             </div>
           </div>
           <div v-if="statusPraktikum === 6" 
-              class="w-3/4 h-36full px-5 m-auto flex-row">
-            <div class="w-full h-1/4 flex">
+              class="w-3/4 h-24full px-5 m-auto flex-row">
+            <div class="w-full h-1/5 flex">
               <div class="w-1/4 h-full flex">
                 <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  JAGA
+                  Asisten JAGA
                 </div>
               </div>
               <div class="w-3/4 h-full py-2 flex">
@@ -211,10 +211,10 @@
                 </div>
               </div>
             </div>
-            <div class="w-full h-1/4 flex">
+            <div class="w-full h-1/5 flex">
               <div class="w-1/4 h-full flex">
                 <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  IZIN
+                  Asisten IZIN
                 </div>
               </div>
               <div class="w-3/4 h-full py-2 flex">
@@ -225,10 +225,10 @@
                 </div>
               </div>
             </div>
-            <div class="w-full h-1/4 flex">
+            <div class="w-full h-1/5 flex">
               <div class="w-1/4 h-full flex">
                 <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  SAKIT
+                  Asisten SAKIT
                 </div>
               </div>
               <div class="w-3/4 h-full py-2 flex">
@@ -239,10 +239,10 @@
                 </div>
               </div>
             </div>
-            <div class="w-full h-1/4 flex">
+            <div class="w-full h-1/5 flex">
               <div class="w-1/4 h-full flex">
                 <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  ALFA
+                  Asisten ALFA
                 </div>
               </div>
               <div class="w-3/4 h-full py-2 flex">
@@ -253,13 +253,27 @@
                 </div>
               </div>
             </div>
+            <div class="w-full h-1/5 flex">
+              <div class="w-1/4 h-full flex">
+                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                  Praktikan ALFA
+                </div>
+              </div>
+              <div class="w-3/4 h-full py-2 flex">
+                <div class="w-full h-full">
+                  <input v-model="formPraktikan_Alfa.allpraktikan_nim"
+                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                </div>
+              </div>
+            </div>
           </div>
           <div v-if="statusPraktikum === 6"  
-              class="w-1/4 py-4 px-5 h-24full m-auto flex-row">
+              class="w-1/4 pb-10 px-5 h-24full m-auto flex-row">
             <span class="font-merri w-full text-left text-white text-lg h-1/4">
               Laporan
             </span>
-            <div class="w-full h-3/4">
+            <div class="w-full h-full">
               <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
                     class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                     id="Laporan" type="text" placeholder="Asisten FAI jaga 2 kelompok"/>
@@ -647,7 +661,6 @@ export default {
 
       listAllAsisten: [],
       listAllPraktikan: [],
-      pairingList: [],
 
       shuffledListAllAsisten: [],
       shuffledListAllPraktikan: [],
@@ -720,6 +733,11 @@ export default {
         modul_id: '',
       },
 
+      formPraktikan_Alfa: {
+        allpraktikan_nim: '',
+        modul_id: '',
+      },
+
       formCurrentPraktikum: {
         asisten_id: '', //Current Asisten ID (Assuming he/she is the PJ)
         kelas_id: '',
@@ -785,6 +803,9 @@ export default {
           globe.statusPraktikum = response.data.current_praktikum.status;
           globe.chosenKelasID = response.data.current_praktikum.kelas_id;
           globe.chosenModulID = response.data.current_praktikum.modul_id;
+          globe.formPraktikum.kelas_id = this.chosenKelasID;
+          globe.formPraktikum.modul_id = this.chosenModulID;
+          globe.formLaporanPj.laporan = "empty";
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
 
@@ -798,10 +819,6 @@ export default {
               break;
             case 4:
               globe.countDown = globe.TKtiming;
-              break;
-            case 6:
-              globe.praktikumStart = false;
-              globe.statusPraktikum = 0;
               break;
           }
 
@@ -826,6 +843,7 @@ export default {
               globe.formHistoryJaga.shift = response.data.latestPJHistory.shift;
               globe.formHistoryJaga.pj = response.data.latestPJHistory.pj;
               globe.formHistoryJaga.asisten_id = response.data.latestPJHistory.asisten_id;
+              globe.formHistoryJaga.modul_id = globe.chosenModulID;
 
             } else {
               globe.$toasted.global.showError({
@@ -924,13 +942,13 @@ export default {
 
           var sumAllAsisten_kode = [];
 
-          if(globe.formHistoryJaga.allasisten_kode != ''){
+          if(globe.formHistoryJaga.allasisten_kode !== ''){
             var tempArr = globe.formHistoryJaga.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
               if(data === ""){
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
@@ -938,13 +956,13 @@ export default {
             sumAllAsisten_kode.push(globe.formHistoryJaga.allasisten_kode.split("-"));
           }
 
-          if(globe.formHistoryIzin_Izin.allasisten_kode != ''){
+          if(globe.formHistoryIzin_Izin.allasisten_kode !== ''){
             var tempArr = globe.formHistoryIzin_Izin.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
               if(data === ""){
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
@@ -952,13 +970,13 @@ export default {
             sumAllAsisten_kode.push(globe.formHistoryIzin_Izin.allasisten_kode.split("-"));
           }
 
-          if(globe.formHistoryIzin_Sakit.allasisten_kode != ''){
+          if(globe.formHistoryIzin_Sakit.allasisten_kode !== ''){
             var tempArr = globe.formHistoryIzin_Sakit.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
               if(data === ""){
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
@@ -966,18 +984,33 @@ export default {
             sumAllAsisten_kode.push(globe.formHistoryIzin_Sakit.allasisten_kode.split("-"));
           }
 
-          if(globe.formHistoryIzin_Alfa.allasisten_kode != ''){
+          if(globe.formHistoryIzin_Alfa.allasisten_kode !== ''){
             var tempArr = globe.formHistoryIzin_Alfa.allasisten_kode.split("-");
             for (let index = 0; index < tempArr.length; index++) {
               const data = tempArr[index];
               if(data === ""){
                 globe.$toasted.global.showError({
-                  message: 'Pastikan ada kode asisten diantara tanda "-"'
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
                 });
                 return;
               }
             }
             sumAllAsisten_kode.push(globe.formHistoryIzin_Alfa.allasisten_kode.split("-"));
+          }
+
+          var sumAllPraktikan_Alfa = [];
+          if(globe.formPraktikan_Alfa.allpraktikan_nim !== ''){
+            var tempArr = globe.formPraktikan_Alfa.allpraktikan_nim.split("-");
+            for (let index = 0; index < tempArr.length; index++) {
+              const data = tempArr[index];
+              if(data === ""){
+                globe.$toasted.global.showError({
+                  message: 'Tidak perlu tanda "-" pada awal dan akhir isian'
+                });
+                return;
+              }
+            }
+            sumAllPraktikan_Alfa.push(globe.formPraktikan_Alfa.allpraktikan_nim.split("-"));
           }
 
           sumAllAsisten_kode = [].concat.apply([], sumAllAsisten_kode); // Flatten array of arrays
@@ -996,6 +1029,31 @@ export default {
               message: "Isi data terlebih dahulu"
             });
             return;
+          }
+
+          if(sumAllPraktikan_Alfa.length === 0 && globe.formPraktikan_Alfa.allpraktikan_nim !== "*"){
+            globe.$toasted.global.showError({
+              message: "Ketikkan '*' pada praktikan alfa <br> jika tidak ada praktikan yang alfa"
+            });
+            return;
+          } else if(globe.formPraktikan_Alfa.allpraktikan_nim !== "*"){
+
+            for (let index = 0; index < sumAllPraktikan_Alfa.length; index++) {
+              const praktikan = sumAllPraktikan_Alfa[index];
+
+              var isExist = false;
+              globe.listAllPraktikan.forEach(allPraktikan => {
+                if(allPraktikan.nim == praktikan)
+                  isExist = true;
+              });
+
+              if(!isExist){
+                globe.$toasted.global.showError({
+                  message: 'Praktikan dengan nim "'+ praktikan +'" tidak ada dalam kelas ini'
+                });
+                return;
+              }
+            }
           }
 
           if(sumAllAsisten_kode.includes(globe.currentUser.kode)){
@@ -1050,6 +1108,7 @@ export default {
 
           globe.formHistoryJaga.pj = 0;
           globe.formHistoryJaga.asisten_id = null;
+          globe.formHistoryJaga.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Izin.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Sakit.modul_id = globe.chosenModulID;
           globe.formHistoryIzin_Alfa.modul_id = globe.chosenModulID;
@@ -1069,6 +1128,22 @@ export default {
                       globe.$axios.post('/makeHistory/izin', globe.formHistoryIzin_Alfa).then(response => {
 
                         if(response.data.message === "success") {
+                          
+                          if(globe.formPraktikan_Alfa.allpraktikan_nim !== '*'){
+                           
+                            globe.formPraktikan_Alfa.modul_id = globe.chosenModulID;
+                            globe.$axios.post('/deletePraktikanAlfa', globe.formPraktikan_Alfa).then(response => {
+
+                              if(response.data.message === "success") {
+                                // Do nothing as its working as it supposed to be
+
+                              } else {
+                                globe.$toasted.global.showError({
+                                  message: response.data.message
+                                });
+                              }
+                            });
+                          }
 
                           globe.$axios.post('/updateLaporanPJ', globe.formLaporanPj).then(response => {
 
@@ -1093,8 +1168,8 @@ export default {
                               globe.$axios.post('/stopPraktikum').then(response => {
 
                                 if(response.data.message === "success") {
-                                  //Do nothing
-                                  
+                                  globe.praktikumStart = false;
+                                  globe.statusPraktikum = 0;
 
                                 } else {
                                   globe.$toasted.global.showError({
@@ -1168,10 +1243,6 @@ export default {
           break;
         case 4:
           globe.countDown = globe.TKtiming;
-          break;
-        case 6:
-          globe.praktikumStart = false;
-          globe.statusPraktikum = 0;
           break;
       }
     },
@@ -1389,6 +1460,7 @@ export default {
           });
           globe.formHistoryJaga.pj = 1;
           globe.formHistoryJaga.asisten_id = globe.currentUser.id;
+          globe.formHistoryJaga.modul_id = globe.chosenModulID;
           globe.$axios.post('/makeHistory/jaga', globe.formHistoryJaga).then(response => {
 
             if(response.data.message === "success") {

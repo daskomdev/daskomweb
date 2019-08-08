@@ -53,12 +53,15 @@ class SoalMandiriController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Soal_Mandiri  $soal_Mandiri
      * @return \Illuminate\Http\Response
      */
-    public function show(Soal_Mandiri $soal_Mandiri)
+    public function show($modul_id)
     {
-        //
+        $all_soal = Soal_Mandiri::where('modul_id', $modul_id)->inRandomOrder()->take(1)->get();
+        return response()->json([
+            'message'=> 'success',
+            'all_soal' => $all_soal,
+        ], 200);
     }
 
     /**

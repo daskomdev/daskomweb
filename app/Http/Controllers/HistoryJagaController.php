@@ -41,6 +41,7 @@ class HistoryJagaController extends Controller
                 'hari'          => $request->hari,
                 'shift'         => $request->shift,
                 'pj'            => $request->pj,
+                'modul_id'      => $request->modul_id,
                 'asisten_id'    => $request->asisten_id,
             ]);
         else {
@@ -50,6 +51,7 @@ class HistoryJagaController extends Controller
                     'hari'          => $request->hari,
                     'shift'         => $request->shift,
                     'pj'            => $request->pj,
+                    'modul_id'      => $request->modul_id,
                     'asisten_id'    => Asisten::where('kode', $value)->first()->id,
                 ]); 
             }
@@ -105,6 +107,7 @@ class HistoryJagaController extends Controller
         $praktikum = History_Jaga::where('hari', $request->hari)
                 ->where('shift', $request->shift)
                 ->where('pj', $request->pj)
+                ->where('modul_id', $request->modul_id)
                 ->where('asisten_id', $request->asisten_id)
                 ->first();
         $praktikum->delete();

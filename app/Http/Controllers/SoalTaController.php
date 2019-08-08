@@ -71,7 +71,6 @@ class SoalTaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Soal_Ta  $soal_Ta
      * @return \Illuminate\Http\Response
      */
     public function show($modul_id)

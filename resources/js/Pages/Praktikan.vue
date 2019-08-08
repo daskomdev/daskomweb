@@ -154,7 +154,7 @@
                           <div class="w-full bg-green-200 hover:bg-green-300 px-4 py-2 rounded-large font-overpass-bold break-words whitespace-pre-wrap text-xl"
                               :class="'jawaban-'+index+i"
                               v-on:click="chooseJawaban('TA', jawaban, soal.id, index, i)">
-                            {{ jawaban }}
+                            <span>{{ jawaban }}</span>
                           </div>
                         </div>
                       </div>
@@ -173,13 +173,38 @@
                     Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
                   </div>
                 </div>
-                <div class="w-full h-1/3 flex bg-yellow-600 rounded-bl-large">
-                  <div class="h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl">
-                    JURNAL
+                <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
+                  <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
+                    <div class="m-auto">
+                      JURNAL
+                    </div>
+                  </div>
+                  <div class="h-1/2 w-full flex"
+                      v-if="modulShown">
+                    <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                        v-on:click="modulShown = false">
+                      <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                        <div class="m-auto">
+                          Lihat Soal
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="h-1/2 w-full flex"
+                      v-if="!modulShown">
+                    <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                        v-on:click="modulShown = true">
+                      <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                        <div class="m-auto">
+                          Lihat Modul
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="w-3/4 h-full flex">
+              <div class="w-3/4 h-full flex" 
+                  v-if="!modulShown">
                 <div class="w-full h-full overflow-y-auto">
                   <div class="w-full h-auto flex-row">
                     <div v-for="(soal, index) in soalFitb" v-bind:key="soal.id" 
@@ -218,6 +243,157 @@
                         <textarea v-model="jawabanJurnal[index].jawaban" cols="30" rows="10"
                               class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                               type="text" placeholder="Ketik jawabanmu disini ..."/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-3/4 h-full flex" 
+                  v-if="modulShown">
+                <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
+                  <span>{{ current_modul.isi }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Soal Mandiri already started by Praktikum PJ -->
+            <div v-if="current_praktikum.status === 3"
+                class="w-full h-full flex">
+              <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
+                  <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
+                    Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
+                  </div>
+                </div>
+                <div class="w-full h-1/3 flex bg-yellow-600 rounded-bl-large">
+                  <div class="h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl">
+                    MANDIRI
+                  </div>
+                </div>
+              </div>
+              <div class="w-3/4 h-full flex">
+                <div class="w-full h-full overflow-y-auto">
+                  <div class="w-full h-auto flex-row">
+                    <div v-for="(soal, index) in soalMandiri" v-bind:key="soal.id" 
+                        class="w-full flex-row h-auto">
+                      <div class="w-full h-auto flex my-10">
+                        <div class="h-full w-12 flex font-merri-bold text-xl">
+                          <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                        </div>
+                        <div class="h-12 px-1 w-4">
+                          <div class="h-full w-full bg-gray-900"/>
+                        </div>
+                        <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                          <span>{{ soal.soal }}</span>
+                        </div>
+                      </div>
+                      <div class="w-full h-auto flex px-5">
+                        <textarea v-model="jawabanMandiri[index].jawaban" cols="30" rows="10"
+                              class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                              type="text" placeholder="Ketik jawabanmu disini ..."/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Soal TK already started by Praktikum PJ -->
+            <div v-if="current_praktikum.status === 4"
+                class="w-full h-full flex">
+              <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
+                  <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
+                    Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
+                  </div>
+                </div>
+                <div class="w-full h-1/3 flex bg-yellow-600 rounded-bl-large">
+                  <div class="h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl">
+                    TES <br> AKHIR
+                  </div>
+                </div>
+              </div>
+              <div class="w-3/4 h-full flex">
+                <div class="w-full h-full overflow-y-auto">
+                  <div class="w-full h-auto flex-row">
+                    <div v-for="(soal, index) in soalTK" v-bind:key="soal.id" 
+                        class="w-full flex-row h-auto">
+                      <div class="w-full h-auto flex my-10">
+                        <div class="h-full w-12 flex font-merri-bold text-xl">
+                          <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                        </div>
+                        <div class="h-12 px-1 w-4">
+                          <div class="h-full w-full bg-gray-900"/>
+                        </div>
+                        <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                          <span>{{ soal.pertanyaan }}</span>
+                        </div>
+                      </div>
+                      <div v-for="(jawaban, i) in jawabanTK[index]" v-bind:key="i"
+                          class="w-full h-auto flex-row">
+                        <div class="w-full px-8 my-2 h-auto cursor-pointer flex">
+                          <div class="w-full bg-green-200 hover:bg-green-300 px-4 py-2 rounded-large font-overpass-bold break-words whitespace-pre-wrap text-xl"
+                              :class="'jawaban-'+index+i"
+                              v-on:click="chooseJawaban('TK', jawaban, soal.id, index, i)">
+                            <span>{{ jawaban }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- All Praktikum Proses have done -->
+            <!-- Show laporan praktikan's layout -->
+            <div v-if="current_praktikum.status === 5"
+                class="w-full h-full flex">
+              <div class="w-full h-full flex-row overflow-y-auto overflow-x-hidden">
+                <div class="w-full h-24 flex mt-4">
+                  <div class="w-1/2 h-full flex">
+                    <select v-model="laporanPraktikan.asisten_id" 
+                          class="block font-monda-bold text-4xl appearance-none w-2/3 ml-auto mr-2 my-auto h-3/4 bg-gray-600 border border-gray-600 text-white py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-500 focus:border-teal-500" id="grid-state">
+                      <option value="" disabled selected>Pilih Asisten Jaga</option>
+                      <option v-for="asisten in allAsisten" v-bind:key="asisten.id" :value="asisten.id">{{ asisten.kode }} [{{ asisten.nama }}]</option>
+                    </select>
+                  </div>
+                  <div class="w-1/2 h-full flex">
+                    <star-rating class="mr-auto ml-2 my-auto"
+                      style="width: 250px;" 
+                      v-model="laporanPraktikan.rating_asisten"
+                      :increment="0.01" 
+                      :fixed-points="2"
+                      :show-rating="false"
+                      :star-size='50'/>
+                  </div>
+                </div>
+                <div class="w-3/4 h-2 bg-black m-auto mt-4 rounded-full"/>
+                <div class="w-full h-auto flex mt-4">
+                  <div class="w-auto h-auto m-auto font-overpass-bold text-3xl text-center break-words">
+                    Bagaimana menurutmu <br> praktikum saat ini ?
+                  </div>
+                </div>
+                <div class="w-full h-auto flex mt-2">
+                  <star-rating class="m-auto"
+                    style="width: 250px;" 
+                    v-model="laporanPraktikan.rating_praktikum"
+                    :increment="0.01" 
+                    :fixed-points="2"
+                    :show-rating="false"
+                    :star-size='50'/>
+                </div>
+                <div class="w-full h-auto flex mt-4">
+                  <textarea v-model="laporanPraktikan.pesan" cols="30" rows="5" 
+                        class="font-overpass-mono-bold mx-16 text-2xl bg-gray-600 appearance-none border-2 border-gray-300 rounded w-full h-full py-2 px-4 text-white leading-tight focus:outline-none focus:bg-gray-700 focus:border-teal-500" 
+                        type="text" placeholder="Ketikkan feedback mengenai praktikum / asisten saat ini ..."/>
+                </div>
+                <div class="w-full h-24 flex mt-4 mb-8">
+                  <div class="w-1/2 h-full mx-auto p-4 hover:p-5 cursor-pointer animation-enable-short"
+                      v-on:click="finishPraktikum()">
+                    <div class="w-full h-full flex rounded-full font-overpass-bold text-xl text-white flex pt-1 bg-green-600">
+                      <div class="m-auto">
+                        SELESAI
                       </div>
                     </div>
                   </div>
@@ -463,6 +639,7 @@ export default {
   props: [
     'comingFrom',
     'currentUser',
+    'allAsisten',
   ],
 
   data() {
@@ -475,6 +652,7 @@ export default {
       isMenuShown: false,
       messageOpened: false,
       openWide: false,
+      modulShown: false,
 
       current_praktikum: {
         kelas_id: '',
@@ -519,6 +697,16 @@ export default {
 
       jawabanFitb: [],
       jawabanJurnal: [],
+      jawabanMandiri: [],
+
+      laporanPraktikan: {
+        pesan: '',
+        rating_asisten: 0,
+        rating_praktikum: 0,
+        asisten_id: '',
+        praktikan_id: '',
+        modul_id: '',
+      }
     }
   },
 
@@ -544,7 +732,7 @@ export default {
         if(response.data.current_praktikum != null){
 
           //There is currently active praktikum
-          globe.setCurrentPraktikumState(response.data.current_praktikum);
+          globe.setCurrentPraktikumState(response.data.current_praktikum, false);
         }
 
       } else {
@@ -556,13 +744,12 @@ export default {
 
     Echo.channel(`daskom_database_praktikum.${globe.currentUser.kelas_id}`)
         .listen('praktikumStatusUpdated', (data) => {
-      globe.setCurrentPraktikumState(data.current_praktikum);
+      globe.setCurrentPraktikumState(data.current_praktikum, true);
     });
   },
 
   beforeDestroy() {
 
-    const globe = this;
     Echo.leave(`daskom_database_praktikum.${globe.currentUser.kelas_id}`);
   },
 
@@ -577,8 +764,56 @@ export default {
 
       return $arr;
     },
+    
+    finishPraktikum: function(){
 
-    setCurrentPraktikumState: function(current_praktikum){
+      const globe = this;
+      if(this.laporanPraktikan.asisten_id === ''){
+        globe.$toasted.global.showError({
+          message: 'Pilih asisten yang mengajar anda terlebih dahulu <br> (dibagian paling atas samping kiri rating)'
+        });
+        return;
+      }
+
+      if(this.laporanPraktikan.pesan === ''){
+        globe.$toasted.global.showError({
+          message: 'Masukkan pesan untuk praktikum / asisten terlebih dahulu'
+        });
+        return;
+      }
+
+      if(this.laporanPraktikan.rating_asisten === 0){
+        globe.$toasted.global.showError({
+          message: 'Beri rating untuk asisten terlebih dahulu'
+        });
+        return;
+      }
+
+      if(this.laporanPraktikan.rating_praktikum === 0){
+        globe.$toasted.global.showError({
+          message: 'Beri rating untuk praktikum terlebih dahulu'
+        });
+        return;
+      }
+
+      globe.laporanPraktikan.praktikan_id = this.currentUser.id;
+      globe.laporanPraktikan.modul_id = this.current_praktikum.modul_id;
+      globe.$axios.post('/sendLaporan', globe.laporanPraktikan).then(response => {
+
+        if(response.data.message === "success") {
+          globe.current_praktikum.status = 777;
+          globe.$toasted.global.showSuccess({
+            message: "Praktikum telah selesai :)"
+          });
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    },
+
+    setCurrentPraktikumState: function(current_praktikum, isRealtime){
 
       const globe = this;
       globe.current_praktikum.asisten_id = current_praktikum.asisten_id;
@@ -586,142 +821,311 @@ export default {
       globe.current_praktikum.kelas_id = current_praktikum.kelas_id;
       globe.current_praktikum.status = current_praktikum.status;
 
-      //Initialization of the praktikum
-      globe.$axios.post('/getModul/'+globe.current_praktikum.modul_id).then(response => {
+      // Check if the praktikan is in the kelas runnning the praktikum
+      if(globe.current_praktikum.kelas_id === this.currentUser.kelas_id){
 
-        if(response.data.message === "success") {
+        //  Initialization of the praktikum
+        globe.$axios.post('/getModul/'+globe.current_praktikum.modul_id).then(response => {
 
-          if(response.data.modul !== null){
+          if(response.data.message === "success") {
 
-            //There is currently active praktikum
-            globe.current_modul.judul = response.data.modul.judul;
-            globe.current_modul.deskripsi = response.data.modul.deskripsi;
-            globe.current_modul.isi = response.data.modul.isi;
+            if(response.data.modul !== null){
 
-            // http://quotes.stormconsultancy.co.uk/random.json 
-            // (API for random programming quote)
-            if(globe.current_praktikum.status === 0)
-              globe.$axios.get('http://quotes.stormconsultancy.co.uk/random.json').then(response => {
-                globe.programmingQuote = response.data.quote;
-                globe.quoteAuthor = response.data.author;
-              }); 
-            
+              //There is currently active praktikum
+              globe.current_modul.judul = response.data.modul.judul;
+              globe.current_modul.deskripsi = response.data.modul.deskripsi;
+              globe.current_modul.isi = response.data.modul.isi;
+
+              // http://quotes.stormconsultancy.co.uk/random.json 
+              // (API for random programming quote)
+              if(globe.current_praktikum.status === 0)
+                globe.$axios.get('http://quotes.stormconsultancy.co.uk/random.json').then(response => {
+                  globe.programmingQuote = response.data.quote;
+                  globe.quoteAuthor = response.data.author;
+                }); 
+            }
+
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
           }
+        });       
 
-        } else {
-          globe.$toasted.global.showError({
-            message: response.data.message
-          });
-        }
-      });       
+        switch (globe.current_praktikum.status) {
 
-      switch (globe.current_praktikum.status) {
+          case 0:
 
-        case 1:
-          
-          // Start Opening TA and grab all SOAL from it
-          // (get RANDOMIZED soal from soal__tas)
-          globe.$axios.get('/getSoalTA/'+globe.current_praktikum.modul_id).then(response => {
+            // DO nothing as the initialization just begin
+            // Added for escaping the default scenario
+            break;
 
-            if(response.data.message === "success") {
+          case 1:
+            
+            // Start Opening TA and grab all SOAL from it
+            // (get RANDOMIZED soal from soal__tas)
+            globe.$axios.get('/getSoalTA/'+globe.current_praktikum.modul_id).then(response => {
 
-              if(response.data.all_soal !== null){
+              if(response.data.message === "success") {
 
-                globe.soalTA = response.data.all_soal;
-                globe.soalTA.forEach(soal => {
-                  var all_jawaban = [];
-                  all_jawaban.push(soal.jawaban_benar);
-                  all_jawaban.push(soal.jawaban_salah1);
-                  all_jawaban.push(soal.jawaban_salah2);
-                  all_jawaban.push(soal.jawaban_salah3);
+                if(response.data.all_soal !== null){
 
-                  //randomizing all the "jawaban" for each soal
-                  all_jawaban = globe.shuffleArr(all_jawaban);
+                  globe.soalTA = response.data.all_soal;
+                  globe.soalTA.forEach(soal => {
+                    var all_jawaban = [];
+                    all_jawaban.push(soal.jawaban_benar);
+                    all_jawaban.push(soal.jawaban_salah1);
+                    all_jawaban.push(soal.jawaban_salah2);
+                    all_jawaban.push(soal.jawaban_salah3);
 
-                  globe.chosenJawaban.push({
-                    soal_id: soal.id,
-                    jawaban: '',
+                    //randomizing all the "jawaban" for each soal
+                    all_jawaban = globe.shuffleArr(all_jawaban);
+
+                    globe.chosenJawaban.push({
+                      modul_id: globe.current_praktikum.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      soal_id: soal.id,
+                      jawaban: '',
+                    });
+                      
+                    globe.jawabanTA.push(all_jawaban);
                   });
-                    
-                  globe.jawabanTA.push(all_jawaban);
+                }
+
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
                 });
               }
+            }); 
+            break;
 
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
-              });
-            }
-          }); 
-          break;
+          case 2:
 
-        case 2:
-          
-          // Start opening Jurnal Section and get all SOAL from
-          // get soal from soal__jurnals and soal__fitbs
-          globe.$axios.get('/getSoalJURNAL').then(response => {
+            // Realtime connection make changes to status 2
+            // Meaning we should send jawaban in status 1 (Soal TA)
+            if(isRealtime){
+              
+              globe.$axios.post('/sendJawabanTA', globe.chosenJawaban).then(response => {
 
-            if(response.data.message === "success") {
-
-              if(response.data.all_soal !== null){
-
-                globe.soalJurnal = response.data.all_soal;
-                for (let index = 0; index < globe.soalJurnal.length; index++) {
-                  const soal = globe.soalJurnal[index];
-                  globe.jawabanJurnal.push({
-                    'soal_id': soal.id,
-                    'modul_id': soal.modul_id,
-                    'jawaban': '',
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
                   });
                 }
-              }
-
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
-              });
+              }); 
             }
-          }); 
-          globe.$axios.get('/getSoalFITB').then(response => {
+            
+            // Start opening Jurnal Section and get all SOAL from
+            // get soal from soal__jurnals and soal__fitbs
+            globe.$axios.get('/getSoalJURNAL').then(response => {
 
-            if(response.data.message === "success") {
+              if(response.data.message === "success") {
 
-              if(response.data.all_soal !== null){
+                if(response.data.all_soal !== null){
 
-                globe.soalFitb = response.data.all_soal;
-                for (let index = 0; index < globe.soalFitb.length; index++) {
-                  const soal = globe.soalFitb[index];
-                  globe.jawabanFitb.push({
-                    'soal_id': soal.id,
-                    'modul_id': soal.modul_id,
-                    'jawaban': '',
+                  globe.soalJurnal = response.data.all_soal;
+                  for (let index = 0; index < globe.soalJurnal.length; index++) {
+                    const soal = globe.soalJurnal[index];
+                    globe.jawabanJurnal.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: '',
+                    });
+                  }
+                }
+
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            }); 
+            globe.$axios.get('/getSoalFITB').then(response => {
+
+              if(response.data.message === "success") {
+
+                if(response.data.all_soal !== null){
+
+                  globe.soalFitb = response.data.all_soal;
+                  for (let index = 0; index < globe.soalFitb.length; index++) {
+                    const soal = globe.soalFitb[index];
+                    globe.jawabanFitb.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: '',
+                    });
+                  }
+                }
+
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            });
+            break;
+
+          case 3:
+            
+            // Realtime connection make changes to status 3
+            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
+            if(isRealtime){
+              
+              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(response => {
+
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
                   });
                 }
+              }); 
+
+              globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
+
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              }); 
+            }
+
+            // Start opening Mandiri Section and get all SOAL from
+            // get soal from soal__mandiris
+            globe.$axios.get('/getSoalMANDIRI/'+globe.current_praktikum.modul_id).then(response => {
+
+              if(response.data.message === "success") {
+
+                if(response.data.all_soal !== null){
+
+                  globe.soalMandiri = response.data.all_soal;
+                  for (let index = 0; index < globe.soalMandiri.length; index++) {
+                    const soal = globe.soalMandiri[index];
+                    globe.jawabanMandiri.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: '',
+                    });
+                  }
+                }
+
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            }); 
+            break;
+
+          case 4:
+            
+            // Realtime connection make changes to status 4
+            // Meaning we should send jawaban in status 3 (Soal Mandiri)
+            if(isRealtime){
+              
+              globe.$axios.post('/sendJawabanMandiri', globe.jawabanMandiri).then(response => {
+
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              }); 
+            }
+
+            // Start Opening TK and grab all SOAL from it
+            // (get RANDOMIZED soal from soal__tks)
+            globe.$axios.get('/getSoalTK/'+globe.current_praktikum.modul_id).then(response => {
+
+              if(response.data.message === "success") {
+
+                if(response.data.all_soal !== null){
+
+                  globe.soalTK = response.data.all_soal;
+                  globe.chosenJawaban = [];
+                  globe.soalTK.forEach(soal => {
+                    var all_jawaban = [];
+                    all_jawaban.push(soal.jawaban_benar);
+                    all_jawaban.push(soal.jawaban_salah1);
+                    all_jawaban.push(soal.jawaban_salah2);
+                    all_jawaban.push(soal.jawaban_salah3);
+
+                    //randomizing all the "jawaban" for each soal
+                    all_jawaban = globe.shuffleArr(all_jawaban);
+
+                    globe.chosenJawaban.push({
+                      modul_id: globe.current_praktikum.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      soal_id: soal.id,
+                      jawaban: '',
+                    });
+                      
+                    globe.jawabanTK.push(all_jawaban);
+                  });
+                }
+
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            }); 
+            break;
+
+          case 5: 
+
+            // Realtime connection make changes to status 5
+            // Meaning we should send jawaban in status 4 (Soal TK)
+            if(isRealtime){
+               
+              globe.$axios.post('/sendJawabanTK', globe.chosenJawaban).then(response => {
+
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              }); 
+            }
+
+            // Check if laporan Praktikan already exists
+            globe.$axios.post('/getLaporan/'+globe.currentUser.id+'/'+globe.current_praktikum.modul_id).then(response => {
+
+              if(response.data.message === "done") {
+                
+                // Change status to 777 if the praktikan already fill in the laporan form
+                globe.current_praktikum.status = 777;
               }
 
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
-              });
-            }
-          });
-          break;
+              //else just run it as usual
+            }); 
+            break;
 
-        case 3:
-          
-          break;
+          default:
 
-        case 4:
-          
-          break;
-
-        case 5:
-          
-          break;
-
-        case 6:
-          
-          break;
+            // Ignore other case and cast the status to 777
+            globe.current_praktikum.status = 777;
+            break;
+        }
       }
     },
 
@@ -735,6 +1139,21 @@ export default {
             if(this.chosenJawaban[index].jawaban !== ''){
               for (let i = 0; i < this.jawabanTA[index].length; i++) {
                 if(this.jawabanTA[index][i] === this.chosenJawaban[index].jawaban){
+                  $('.jawaban-'+index+i).addClass('bg-green-200 hover:bg-green-300');
+                  $('.jawaban-'+index+i).removeClass('bg-green-500 text-white');
+                }
+              }
+            }
+
+            this.chosenJawaban[index].jawaban = $jawaban;
+          }
+        }
+      } else if($soalType === "TK") {
+        for (let index = 0; index < this.chosenJawaban.length; index++) {
+          if(this.chosenJawaban[index].soal_id === $soalId){
+            if(this.chosenJawaban[index].jawaban !== ''){
+              for (let i = 0; i < this.jawabanTK[index].length; i++) {
+                if(this.jawabanTK[index][i] === this.chosenJawaban[index].jawaban){
                   $('.jawaban-'+index+i).addClass('bg-green-200 hover:bg-green-300');
                   $('.jawaban-'+index+i).removeClass('bg-green-500 text-white');
                 }

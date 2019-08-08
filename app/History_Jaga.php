@@ -12,6 +12,6 @@ class History_Jaga extends Model
      * @var array
      */
     protected $fillable = [
-        'hari', 'shift', 'pj', 'asisten_id',
+        'hari', 'shift', 'pj', 'asisten_id', 'modul_id'
     ];
 }

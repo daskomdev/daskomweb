@@ -35,7 +35,17 @@ class JawabanTaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        for ($i=0; $i < count($request->all()); $i++) { 
+          
+            Jawaban_Ta::create([
+                'praktikan_id'  => $request->input($i.'.praktikan_id'),
+                'modul_id'      => $request->input($i.'.modul_id'),
+                'soal_id'       => $request->input($i.'.soal_id'),
+                'jawaban'       => $request->input($i.'.jawaban'),
+            ]);    
+        } 
+
+        return '{"message": "success"}';
     }
 
     /**

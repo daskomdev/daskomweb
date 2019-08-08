@@ -271,7 +271,7 @@
                   :class="[{ 'h-4full pb-8 pt-40': moreOpened },
                           { 'h-0 pb-0 pt-0': !moreOpened }]">
                 <div class="w-full h-full bg-gray-200 rounded-br-lg flex overflow-y-auto">
-                  <span class="w-full h-full px-8 pt-8 whitespace-pre-line pb-8 text-2xl font-overpass-bold text-justify">
+                  <span class="w-full h-full px-8 pt-8 whitespace-pre-line break-words pb-8 text-2xl font-overpass-bold text-justify">
                     {{ modul.isi }}
                   </span>
                 </div>
