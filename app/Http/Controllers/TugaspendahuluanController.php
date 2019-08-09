@@ -35,18 +35,43 @@ class TugaspendahuluanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'modul_id'       => 'required',
+            'pembahasan'     => 'required',
+        ]);
+
+        if(Tugaspendahuluan::where('modul_id', $request->modul_id)->exists()){
+          
+            $tp = Tugaspendahuluan::where('modul_id', $request->modul_id)->first();
+            $tp->pembahasan = $request->pembahasan;
+            $tp->save();
+        } else
+            $tp = Tugaspendahuluan::create([
+                'modul_id'       => $request->modul_id,
+                'pembahasan'     => $request->pembahasan,
+            ]);
+
+        return '{"message": "success", "id": '. $tp->id .'}';
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tugaspendahuluan  $tugaspendahuluan
      * @return \Illuminate\Http\Response
      */
-    public function show(Tugaspendahuluan $tugaspendahuluan)
+    public function show($modul_id)
     {
-        //
+        if(Tugaspendahuluan::where('isActive', 1)->exists()){
+            $tp = Tugaspendahuluan::where('isActive', 1)->first();
+            $tp->isActive = 0;
+            $tp->save();
+        }
+
+        $tp = Tugaspendahuluan::where('modul_id', $modul_id)->first();
+        $tp->isActive = 1;
+        $tp->save();
+
+        return '{"message": "success"}';
     }
 
     /**
@@ -75,11 +100,14 @@ class TugaspendahuluanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tugaspendahuluan  $tugaspendahuluan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tugaspendahuluan $tugaspendahuluan)
+    public function destroy($modul_id)
     {
-        //
+        $tp = Tugaspendahuluan::where('modul_id', $modul_id)->first();
+        $tp->isActive = 0;
+        $tp->save();
+
+        return '{"message": "success"}';
     }
 }

@@ -33,11 +33,14 @@ import { faExclamationCircle,
         faTimes,
         faCaretLeft,
         faCaretRight,
-        faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
+        faCalendarAlt,
+        faCog,
+        faBookOpen} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
 import StarRating from 'vue-star-rating';
+import ToggleButton from 'vue-js-toggle-button'
 
 library.add(faExclamationCircle);
 library.add(faCheckCircle);
@@ -71,12 +74,15 @@ library.add(faTimes);
 library.add(faCaretLeft);
 library.add(faCaretRight);
 library.add(faCalendarAlt);
+library.add(faCog);
+library.add(faBookOpen);
 dom.watch(); 
 
 Vue.use(VueAnime)
 Vue.use(Inertia)
 Vue.use(Toasted);
 Vue.use(Vuebar);
+Vue.use(ToggleButton);
 Vue.component('star-rating', StarRating);
 
 Vue.prototype.$axios = Axios

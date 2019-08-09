@@ -17,6 +17,7 @@ class CreateTugaspendahuluansTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('modul_id');
             $table->text('pembahasan');
+            $table->boolean('isActive')->default(false);
             $table->timestamps();
 
             $table->foreign('modul_id')

@@ -8,6 +8,7 @@ use App\Jawaban_Jurnal;
 use App\Jawaban_Mandiri;
 use App\Jawaban_Ta;
 use App\Jawaban_Tk;
+use App\Configuration;
 use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -51,6 +52,9 @@ class PraktikanController extends Controller
             'nomor_telepon' => 'required|min:9|string',
             'email'         => 'required|email|unique:praktikans|string',
         ]);
+
+        if(!Configuration::find(1)->registrationPraktikan_activation)
+            return '{"message": "Registrasi untuk asisten telah ditutup"}';
 
         Praktikan::create([
             'nama'          => $request->nama,

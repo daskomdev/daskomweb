@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Soal_Tp;
+use App\Configuration;
+use App\Tugaspendahuluan;
 use Illuminate\Http\Request;
 
 class SoalTpController extends Controller
@@ -62,7 +64,20 @@ class SoalTpController extends Controller
      */
     public function show(Soal_Tp $soal_Tp)
     {
-        //
+        if(!Configuration::find(1)->tp_activation)
+            return '{"message": "nope"}';
+
+        $all_soalEssay = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
+                            ->where('isEssay', true)
+                            ->inRandomOrder()->take(5)->get();
+        $all_soalProgram = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
+                            ->where('isProgram', true)
+                            ->inRandomOrder()->take(3)->get();
+        return response()->json([
+            'message'=> 'success',
+            'all_soalEssay' => $all_soalEssay,
+            'all_soalProgram' => $all_soalProgram,
+        ], 200);
     }
 
     /**

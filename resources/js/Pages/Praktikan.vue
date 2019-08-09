@@ -57,7 +57,16 @@
           </div>
 
           <div v-if="isTP" class="w-full h-full flex">
-            <div class="h-full w-full flex-row relative">
+            <div v-if="soalTP.length === 0" 
+                class="w-full h-full flex">
+              <div class="font-monda-bold h-auto w-auto m-auto text-center text-5xl">
+                Tidak ada <br> Tugas Pendahuluan saat ini <br>
+                <span class="text-xl">Silahkan cek kembali setelah ada pengumuman di OA</span>
+              </div>
+            </div>
+
+            <div class="h-full w-full flex-row relative"
+                v-if="soalTP.length > 0">
               <div class="w-full flex absolute top-0 rounded-tl-large animation-enable"
                   :class="[{ 'bg-green-400 h-12': soalOpened },
                           { 'bg-green-100 h-12full': !soalOpened }]">
@@ -73,18 +82,17 @@
               <div class="w-full flex absolute bottom-0 rounded-bl-large animation-enable"
                   :class="[{ 'bg-green-100 h-12full': soalOpened },
                           { 'bg-green-400 h-12': !soalOpened }]">
-                <div class="w-full h-full relative flex">
-                  <div class="h-auto w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable"
+                <div class="w-full h-full relative flex-row">
+                  <div class="h-16 w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable"
                       :class="[{ 'text-yellow-100 cursor-pointer': !soalOpened },
                               { 'text-black': soalOpened }]"
                       v-on:click="soalOpened = true">
-                    <span class="w-10 h-10 flex ml-auto">
-                      <img class="w-full h-full fas fa-caret-left">
-                    </span>
                     <span class="my-auto mx-4">SOAL</span>
-                    <span class="w-10 h-10 flex mr-auto">
-                      <img class="w-full h-full fas fa-caret-right">
-                    </span>
+                  </div>
+                  <div class="w-full h-16full flex">
+                    <div class="w-full h-full">
+                      // TODO: add the soal list layout just like the praktikum
+                    </div>
                   </div>
                 </div>
               </div>
@@ -681,7 +689,8 @@ export default {
 
       soalTA: [],
       soalTK: [],
-      soalTP: [],
+      soalTPEssay: [],
+      soalTPProgram: [],
       soalMandiri: [],
       soalJurnal: [],
       soalFitb: [],
@@ -698,6 +707,7 @@ export default {
       jawabanFitb: [],
       jawabanJurnal: [],
       jawabanMandiri: [],
+      jawabanTP: [],
 
       laporanPraktikan: {
         pesan: '',
@@ -706,7 +716,7 @@ export default {
         asisten_id: '',
         praktikan_id: '',
         modul_id: '',
-      }
+      },
     }
   },
 
@@ -741,6 +751,44 @@ export default {
         });
       }
     });
+
+    globe.$axios.get('/getSoalTP').then(response => {
+
+      if(response.data.message === "success") {
+
+        if(response.data.all_soalEssay !== null){
+
+          globe.soalTPEssay = response.data.all_soalEssay;
+          for (let index = 0; index < globe.soalTPEssay.length; index++) {
+            const soal = globe.soalTPEssay[index];
+            globe.jawabanTP.push({
+              soal_id: soal.id,
+              modul_id: soal.modul_id,
+              praktikan_id: globe.currentUser.id,
+              jawaban: '',
+            });
+          }
+        }
+        if(response.data.all_soalProgram !== null){
+
+          globe.soalTPProgram = response.data.all_soalProgram;
+          for (let index = 0; index < globe.soalTPProgram.length; index++) {
+            const soal = globe.soalTPProgram[index];
+            globe.jawabanTP.push({
+              soal_id: soal.id,
+              modul_id: soal.modul_id,
+              praktikan_id: globe.currentUser.id,
+              jawaban: '',
+            });
+          }
+        }
+
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    }); 
 
     Echo.channel(`daskom_database_praktikum.${globe.currentUser.kelas_id}`)
         .listen('praktikumStatusUpdated', (data) => {

@@ -83,7 +83,7 @@
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
-              v-on:click="travel('kelas')">
+              v-on:click='travel("kelas")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher">
@@ -93,9 +93,10 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none animation-enable"
-              :class="[{ 'bg-yellow-500 text-white': !changePage },
-                      { 'bg-yellow-400 text-black': changePage }]">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
+                      { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
+              v-on:click='travel("plotting")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
@@ -131,10 +132,9 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
-                      { 'bg-yellow-500 text-white': changePage && menuTp }]"
-              v-on:click='travel("tp")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-book-open">
@@ -142,7 +142,7 @@
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               Tugas Pendahuluan
             </span>
-          </div> 
+          </div>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@
         </div>
         <div class="w-auto h-full flex-row ml-4 cursor-default">
           <div class="h-3/5 w-full flex">
-            <span class="select-none3 font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest"
+            <span class="select-none font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest"
                 :class="[{ 'text-black': isMenuShown },
                         { 'text-white ': !isMenuShown }]">
               {{ currentUser.kode }}
@@ -197,155 +197,93 @@
       </div>
     </div>
 
-    <!-- Plotting Layout -->
-    <div class="relative top-0 h-full w-120full flex animation-enable"
-        :class="[{ 'top-0': currentPage },
-                { 'top-minFull': !currentPage }]"
-        @mouseover="isMenuShown = false;">
-
-      <div class="w-full h-full px-8 py-4">
+    <div class="absolute w-120full h-full flex-row animation-enable"
+        :class="[{ 'left-minFull': !currentPage },
+                { 'left-0': currentPage }]">
+      <div class="w-full h-full flex">
         <div class="w-full h-full" v-bar>
           <div>
-            <transition-group
-                class="flex-wrap flex w-full h-auto" 
-                name="plotting-list" tag="div">
-              <div v-for="plotting in listAllJaga" v-bind:key="plotting.id" 
-                  class="animation-enable relative w-1/3 h-24 flex py-2 px-4 bg"
-                  @mouseover="openMoreMenu(plotting.id)" @mouseleave="closeMoreMenu(plotting.id)">
+            <transition-group name="tp-list" tag="div">
+              <div v-for="(tp, index) in listAllTP" v-bind:key="tp.id" 
+                  class="animation-enable w-full h-48 flex p-6">
                 <div class="w-full h-full flex">
-                  <div class="w-2/5 h-full">
-                    <div class="w-full h-full bg-gray-300 items-center flex rounded-l-large">
-                      <div class="w-auto h-auto font-overpass-bold text-5xl pt-2 text-green-600 text-center m-auto">
-                        {{ plotting.kode }}
+                  <div class="w-1/3 h-full rounded-l-lg bg-yellow-700 flex-row">
+                    <div class="w-full h-2/3 whitespace-pre-wrap font-monda-bold text-2xl p-2 text-white break-words flex">
+                      <span>{{ tp.judul }}</span>
+                    </div>
+                    <div class="w-full h-1/3 flex">
+                      <div class="w-auto h-auto m-auto"
+                          v-on:click="setActive(index)">
+                        <toggle-button
+                          v-model="tp.isActive"
+                          :value="tp.isActive"
+                          :sync="true"
+                          :labels="true"
+                          :width="100"
+                          :height="30"
+                          :font-size="15"/>
                       </div>
                     </div>
                   </div>
-                  <div class="w-3/5 h-full">
-                    <div class="w-full h-full bg-gray-400 items-center flex rounded-r-large">
-                      <div class="w-auto h-auto font-overpass-bold text-3xl text-green-600 text-center m-auto">
-                        {{ plotting.kelas }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full h-full absolute flex">
-                  <div class="w-full h-full pb-4 pr-8 flex">
-                    <div class="w-full h-full animation-enable-short cursor-pointer opacity-0 flex"
-                        :class="'moreMenu-'+plotting.id"
-                        v-on:click="formJaga = plotting">
-                      <div class="w-3/4 h-full flex rounded-l-large bg-yellow-400">
-                        <div class="w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto">
-                          {{ plotting.hari }}
-                        </div>
-                      </div>
-                      <div class="w-1/4 h-full flex rounded-r-large bg-yellow-500">
-                        <div class="w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto">
-                          {{ plotting.shift }}
-                        </div>
-                      </div>
+                  <div class="w-2/3 h-full bg-green-300 rounded-r-lg flex overflow-y-auto">
+                    <div class="w-full h-full flex font-overpass text-xl p-2 whitespace-pre-wrap break-words">
+                      <span>{{ tp.pembahasan }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </transition-group>
+            <div class="w-full h-48 mb-8"/>
           </div>
         </div>
       </div>
-
-      <!-- Plotting Form -->
-      <div class="absolute m-8 bottom-0 w-1/2 h-48 flex animation-enable"
-          :class="[{ 'left-0': currentPage && plottingMenuShown },
-                  { 'left-minFull': !currentPage || !plottingMenuShown },]">
-        <div class="w-16full h-full flex bg-gray-400 rounded-l-lg animation-enable-short"
-            :class="[{ 'opacity-100': formHovered || buttonHovered},
-                    { 'opacity-25': !formHovered && !buttonHovered}]">
-          <form id="jagaForm" class="w-full h-full flex-row"
-              @mouseover="formHovered = true;" @mouseleave="formHovered = false;">
-            <div class="w-full h-1/2 flex">
-              <div class="w-full px-4 pt-2 pb-2 h-full flex-row">
-                <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
-                  <span class="h-auto my-auto">
-                    Asisten
-                  </span>
-                </div>
-                <div class="w-full h-2/3">
-                  <select v-model="formJaga.asisten_id" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                    <option v-for="asisten in allAsisten" v-bind:key="asisten.id" :value="asisten.id">{{ asisten.kode }}</option>
-                  </select>
-                </div>
+      <div class="w-full h-48 p-6 z-20 absolute bottom-0 left-0 flex">
+        <form id="tpForm" class="pointer-events-auto relative flex w-full h-full bg-gray-400 rounded-lg">
+          <div class="h-full w-1/3">
+            <div class="w-full py-2 px-5 h-full flex-row">
+              <span class="font-merri w-full text-left text-gray-700 text-lg h-4">
+                Modul
+              </span>
+              <div class="w-full h-4full">
+                <select v-model="formTP.modul_id"
+                      class="block font-monda-bold text-xl whitespace-pre-wrap break-words appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                  <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
+                    <span>{{ modul.judul }}</span>
+                  </option>
+                </select>
               </div>
             </div>
-            <div class="w-full h-1/2 flex">
-              <div class="w-full px-4 pb-4 h-full flex-row">
-                <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
-                  <span class="h-auto my-auto">
-                    Kelas
-                  </span>
-                </div>
-                <div class="w-full h-2/3">
-                  <select v-model="formJaga.kelas_id" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                    <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">{{ kelas.kelas }}</option>
-                  </select>
-                </div>
+          </div>
+          <div class="h-full w-2/3">
+            <div class="w-full px-5 h-full py-2">
+              <span class="font-merri w-full text-left text-gray-700 text-lg h-4">
+                Pembahasan
+              </span>
+              <div class="w-full h-5/4 h-4full">
+                <textarea v-model="formTP.pembahasan" cols="30" rows="10"
+                      class="font-overpass-mono-bold text-base bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                      id="Kelas" type="text" placeholder="EL-41-05"/>
               </div>
             </div>
-          </form>
-        </div>
-        <div class="w-16 h-full flex bg-gray-600 rounded-r-lg animation-enable-short"
-            :class="[{ 'opacity-100': formHovered || buttonHovered },
-                    { 'opacity-25': !formHovered && !buttonHovered }]"
-            @mouseover="buttonHovered = true;" @mouseleave="buttonHovered = false;">
-          <div class="w-full h-full flex-row">
-            <div class="w-full h-1/2 flex">
-              <span class="w-8 h-8 m-auto animation-enable-short text-gray-400 p-0 hover:p-1 cursor-pointer"
-                  v-on:click="createJadwalJaga">
-                <img class="w-full h-full fas fa-plus">
-              </span>
-            </div>
-            <div class="w-full h-1/2 flex">
-              <span class="w-8 h-8 m-auto animation-enable-short text-gray-400 p-0 hover:p-1 cursor-pointer"
-                  v-on:click="deleteJadwalJaga">
-                <img class="w-full h-full fas fa-trash">
-              </span>
-            </div>
           </div>
-        </div>
-      </div>
-
-      <div class="w-1/2 absolute right-0 bottom-0 my-8 pl-8 h-48 animation-enable flex pointer-events-none"
-          :class="[{ 'opacity-100': formHovered || buttonHovered || !plottingMenuShown },
-                  { 'opacity-25': !formHovered && !buttonHovered && plottingMenuShown },
-                  { 'w-1/2': plottingMenuShown },
-                  { 'w-full': !plottingMenuShown }]">
-        <div class="w-16 h-full flex">
-          <div class="w-12 h-12 p-0 hover:p-1 mr-auto my-auto animation-enable-short pointer-events-auto"
-              v-on:click="plottingMenuShown = !plottingMenuShown"
-              @mouseover="formHovered = true;" @mouseleave="formHovered = false;">
-            <span class="w-full h-full cursor-pointer text-white"
-                :class="[{ 'visible': plottingMenuShown },
-                        { 'hidden': !plottingMenuShown }]">
-              <img class="w-full h-full fas fa-caret-left"/>
-            </span>
-            <span class="w-full h-full cursor-pointer text-white"
-                :class="[{ 'visible': !plottingMenuShown },
-                        { 'hidden': plottingMenuShown }]">
-              <img class="w-full h-full fas fa-caret-right"/>
+          <div class="absolute bottom-0 right-0 mr-4 mb-4 w-12 h-12 p-0 hover:p-1 animation-enable-short">
+            <span class="w-full h-full cursor-pointer"
+                v-on:click="createTP()">
+              <img class="w-full p-3 h-full bg-gray-700 text-white rounded-full fas fa-plus">
             </span>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <style>
-.plotting-list-enter, .plotting-list-leave-to{
+.tp-list-enter, .tp-list-leave-to{
   opacity: 0;
-  transform: translateY(100%);
+  transform: translateX(-100%);
 }
-.plotting-list-leave-active {
+.tp-list-leave-active {
   position: absolute;
 }
 </style>
@@ -357,9 +295,8 @@ export default {
     'currentUser',
     'position',
     'userRole',
-    'allJaga',
-    'allKelas',
-    'allAsisten',
+    'allTP',
+    'allModul',
   ],
 
   data() {
@@ -369,28 +306,24 @@ export default {
       changePage: false,
       currentPage: false,
 
-      formHovered: false,
-      buttonHovered: false,
-      plottingMenuShown: true,
+      listAllTP: this.allTP === 'nope' ? [] : this.allTP,
 
-      menuProfil: false,
+      formTP: {
+        modul_id: '',
+        pembahasan: '',
+      },
+      processing: false,
+
       menuPraktikum: false,
+      menuSoal: false,
       menuListTp: false,
       menuHistory: false,
       menuPolling: false,
-      menuSoal: false,
       menuKelas: false,
+      menuPlotting: false,
       menuModul: false,
+      menuProfil: false,
       menuKonfigurasi: false,
-      menuTp: false,
-
-      listAllJaga: this.allJaga === null ? [] : this.allJaga,
-
-      formJaga: {
-        id: '',
-        asisten_id: '',
-        kelas_id: '',
-      },
     }
   },
 
@@ -403,12 +336,12 @@ export default {
 
     if(this.comingFrom === 'asisten' ||
         this.comingFrom === 'none' ||
-        this.comingFrom === 'kelas'||
         this.comingFrom === 'soal'||
+        this.comingFrom === 'modul'||
         this.comingFrom === 'praktikum' ||
-        this.comingFrom === 'modul' ||
-        this.comingFrom === 'konfigurasi' ||
-        this.comingFrom === 'tp'){
+        this.comingFrom === 'plotting' ||
+        this.comingFrom === 'kelas' ||
+        this.comingFrom === 'konfigurasi'){
 
       setTimeout(
         function() {
@@ -431,28 +364,16 @@ export default {
         this.menuHistory = $bool;
       if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo === "asisten")
-        this.menuProfil = $bool;
       if($whereTo === "kelas")
         this.menuKelas = $bool;
       if($whereTo === "modul")
         this.menuModul = $bool;
+      if($whereTo === "plotting")
+        this.menuPlotting = $bool;
+      if($whereTo === "asisten")
+        this.menuProfil = $bool;
       if($whereTo === "konfigurasi")
         this.menuKonfigurasi = $bool;
-      if($whereTo === "tp")
-        this.menuTp = $bool;
-    },
-
-    openMoreMenu: function($id){
-
-      $(".moreMenu-"+$id).removeClass("opacity-0");
-      $(".moreMenu-"+$id).addClass("opacity-100");
-    },
-
-    closeMoreMenu: function($id){
-
-      $(".moreMenu-"+$id).addClass("opacity-0");
-      $(".moreMenu-"+$id).removeClass("opacity-100");
     },
 
     travel: function($whereTo){
@@ -464,99 +385,89 @@ export default {
       this.currentPage = false;
       setTimeout(
         function() {
-          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=plotting&position='+globe.$refs.menu.scrollTop);
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=tp&position='+globe.$refs.menu.scrollTop);
         }, 501); 
     },
 
-    deleteJadwalJaga: function(){
+    setActive: function(index){
+      const globe = this;
+      if(!this.processing)
+        this.processing = true;
+      else {
+        this.processing = false;
+        if(this.listAllTP[index].isActive === false){
+          this.listAllTP.forEach(element => {
+            if(element !== this.listAllTP[index].id)
+              element.isActive = false;
+          });
+          this.$axios.post('/activateTP/'+this.listAllTP[index].modul_id).then(response => {
+            if(response.data.message === "success") {
+
+              globe.$toasted.global.showSuccess({
+                message: "Pembahasan TP berhasil diaktifkan"
+              });
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          })
+        } else
+          this.$axios.post('/deactivateTP/'+this.listAllTP[index].modul_id).then(response => {
+            if(response.data.message === "success") {
+
+              globe.$toasted.global.showSuccess({
+                message: "Pembahasan TP berhasil dinonaktifkan"
+              });
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          })
+      }
+    },
+
+    createTP: function(){
 
       const globe = this;
-
-      if(this.formJaga.asisten_id === null || this.formJaga.kelas_id === null){
-        globe.$toasted.global.showError({
-          message: "Pilih asisten & kelas terlebih dahulu"
-        });
-      }
-
-      this.$axios.post('/deleteJadwalJaga', this.formJaga).then(response => {
+      this.$axios.post('/addPembahasanTP', this.formTP).then(response => {
 
         if(response.data.message === "success") {
 
-          globe.$toasted.global.showSuccess({
-            message: "Jadwal Jaga berhasil dihapus"
-          });
+          $("#tpForm")[0].reset();
 
-          var i;
-          for(i=0; i<globe.listAllJaga.length; i++){
-            if(globe.listAllJaga[i].asisten_id === this.formJaga.asisten_id &&
-                globe.listAllJaga[i].kelas_id === this.formJaga.kelas_id){
+          var judul;
+          for (let index = 0; index < globe.allModul.length; index++) {
+            const element = globe.allModul[index];
+            if(element.id === globe.formTP.modul_id){
+              judul = element.judul;
               break;
             }
           }
-          globe.listAllJaga.splice(i, 1);
-        } else {
-          globe.$toasted.global.showError({
-            message: response.data.message
-          });
-        }
-      }).catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          if(error.response.data.errors != null){
-            if(error.response.data.errors.hari != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.hari[0]
+
+          for (let index = 0; index < globe.listAllTP.length; index++) {
+            const element = globe.listAllTP[index];
+            if(element.modul_id === globe.formTP.modul_id){
+              element.pembahasan = globe.formTP.pembahasan;
+              globe.$toasted.global.showSuccess({
+                message: 'Pembahasan TP modul "'+ element.judul +'"<br>berhasil diperbaharui'
               });
-            if(error.response.data.errors.shift != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.shift[0]
-              });
-            if(error.response.data.errors.asisten_id != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.asisten_id[0]
-              });
-          }
-        }
-      });
-    },
-
-    createJadwalJaga: function(){
-
-      const globe = this;
-      this.$axios.post('/createJadwalJaga', this.formJaga).then(response => {
-
-        if(response.data.message === "success") {
-
-          $("#jagaForm")[0].reset();
-          globe.$toasted.global.showSuccess({
-            message: "Jadwal Jaga berhasil ditambahkan"
-          });
-
-          var kode;
-          globe.allAsisten.forEach(element => {
-            if(element.id === globe.formJaga.asisten_id)
-              kode = element.kode;
-          });
-
-          var kelas, hari, shift;
-          globe.allKelas.forEach(element => {
-            if(element.id === globe.formJaga.kelas_id){
-              kelas = element.kelas;
-              hari = element.hari;
-              shift = element.shift;
+              return;
             }
+          }
+
+          globe.listAllTP.push({
+            id: response.data.id,
+            modul_id: globe.formTP.modul_id,
+            judul: judul,
+            pembahasan: globe.formTP.pembahasan,
+            isActive: false,
           })
 
-          globe.listAllJaga.push({
-            id: response.data.id,
-            kelas_id: globe.formJaga.kelas_id,
-            asisten_id: globe.formJaga.asisten_id,
-            kode: kode,
-            kelas: kelas,
-            hari: hari,
-            shift: shift,
-          })
+          globe.$toasted.global.showSuccess({
+            message: "Pembahasan TP berhasil ditambahkan"
+          });
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
@@ -567,17 +478,13 @@ export default {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
           if(error.response.data.errors != null){
-            if(error.response.data.errors.hari != null)
+            if(error.response.data.errors.modul_id != null)
               globe.$toasted.global.showError({
-                message: error.response.data.errors.hari[0]
+                message: error.response.data.errors.modul_id[0]
               });
-            if(error.response.data.errors.shift != null)
+            if(error.response.data.errors.pembahasan != null)
               globe.$toasted.global.showError({
-                message: error.response.data.errors.shift[0]
-              });
-            if(error.response.data.errors.asisten_id != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.asisten_id[0]
+                message: error.response.data.errors.pembahasan[0]
               });
           }
         }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tugaspendahuluan extends Model
+class Configuration extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class Tugaspendahuluan extends Model
      * @var array
      */
     protected $fillable = [
-        'modul_id', 'pembahasan',
+        'registration_activation', 'tp_activation', 'tubes_activation', 'secretfeature_activation',
     ];
 }

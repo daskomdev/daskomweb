@@ -606,11 +606,18 @@ export default {
       const globe = this;
 
       this.$axios.post('/signupAsisten', this.formAsisten).then(response => {
-        globe.$toasted.global.showSuccess({
-          message: "Registrasi berhasil, silahkan login"
-        });
-        $("#signupAsistenForm")[0].reset();
-        globe.openLoginPage();
+        if(response.data.message === "success"){
+          
+          globe.$toasted.global.showSuccess({
+            message: "Registrasi berhasil, silahkan login"
+          });
+          $("#signupAsistenForm")[0].reset();
+          globe.openLoginPage();
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -625,11 +632,18 @@ export default {
       const globe = this;
 
       this.$axios.post('/signupPraktikan', this.formPraktikan).then(response => {
-        globe.$toasted.global.showSuccess({
-          message: "Registrasi berhasil, silahkan login"
-        });
-        $("#signupPraktikanForm")[0].reset();
-        globe.openLoginPage();
+        if(response.data.message === "success"){
+
+          globe.$toasted.global.showSuccess({
+            message: "Registrasi berhasil, silahkan login"
+          });
+          $("#signupPraktikanForm")[0].reset();
+          globe.openLoginPage();
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code

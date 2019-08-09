@@ -117,6 +117,32 @@
               Modul
             </span>
           </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
+                      { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
+              v-on:click='travel("konfigurasi")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-cog">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Konfigurasi
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
+                      { 'bg-yellow-500 text-white': changePage && menuTp }]"
+              v-on:click='travel("tp")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-book-open">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Tugas Pendahuluan
+            </span>
+          </div> 
         </div>
       </div>
     </div>
@@ -186,7 +212,7 @@
           <form id="modulForm" class="pointer-events-auto relative flex w-full h-full bg-gray-400 rounded-lg">
             <div class="h-full w-1/3">
               <div class="w-full py-2 px-5 h-1/3 flex-row">
-                <span class="font-merri w-full text-left text-white text-lg h-1/4">
+                <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
                   Judul
                 </span>
                 <div class="w-full h-3/4">
@@ -196,12 +222,12 @@
                 </div>
               </div>
               <div class="w-full py-2 px-5 h-2/3 flex-row">
-                <span class="font-merri w-full text-left text-white text-lg h-1/4">
+                <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
                   Deskripsi
                 </span>
                 <div class="w-full h-3/4">
                   <textarea v-model="formModul.deskripsi" cols="30" rows="10" 
-                        class="font-overpass-bold text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                        class="font-overpass-bold text-lg bg-gray-200 resize-none appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                         id="Kelas" type="text" 
                         placeholder='Modul ini menjelaskan apa itu bahasa C dan cara menggunakannya'/>
                 </div>
@@ -209,7 +235,7 @@
             </div>
             <div class="h-full w-2/3">
               <div class="w-full px-5 h-full flex-row pt-2 pb-4">
-                <span class="font-merri w-full text-left text-white text-lg h-4">
+                <span class="font-merri w-full text-left text-gray-700 text-lg h-4">
                   Isi
                 </span>
                 <div class="w-full h-5/4 h-4full">
@@ -385,6 +411,8 @@ export default {
       menuSoal: false,
       menuKelas: false,
       menuPlotting: false,
+      menuKonfigurasi: false,
+      menuTp: false,
 
       listAllModul: this.allModul === null ? [] : this.allModul,
 
@@ -410,7 +438,9 @@ export default {
         this.comingFrom === 'kelas'||
         this.comingFrom === 'soal'||
         this.comingFrom === 'praktikum'||
-        this.comingFrom === 'plotting'){
+        this.comingFrom === 'plotting' ||
+        this.comingFrom === 'konfigurasi' ||
+        this.comingFrom === 'tp'){
 
       setTimeout(
         function() {
@@ -439,6 +469,10 @@ export default {
         this.menuKelas = $bool;
       if($whereTo === "plotting")
         this.menuPlotting = $bool;
+      if($whereTo === "konfigurasi")
+        this.menuKonfigurasi = $bool;
+      if($whereTo === "tp")
+        this.menuTp = $bool;
     },
 
     travel: function($whereTo){

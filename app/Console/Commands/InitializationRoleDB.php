@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Role;
+use App\Configuration;
 use Illuminate\Support\Facades\DB;
 
 class InitializationRoleDB extends Command
@@ -44,7 +45,7 @@ class InitializationRoleDB extends Command
             $this->question("This will delete all the Database current data");
             if ($this->confirm('Do you wish to continue?')) {
                 $this->line("Processing Initialization");
-                $bar = $this->output->createProgressBar(20); // All sum of the roles
+                $bar = $this->output->createProgressBar(21);
                 $bar->start();
                 $bar->advance();
                 $this->callSilent('migrate:fresh');
@@ -119,6 +120,11 @@ class InitializationRoleDB extends Command
                 $bar->advance();
                 Role::create([
                     'role'  => "R.D.C"
+                ]);
+                $bar->advance();
+                Configuration::create([
+                    'registrationPraktikan_activation' => 1,
+                    'registrationAsisten_activation' => 1,
                 ]);
                 $bar->advance();
                 $bar->finish();

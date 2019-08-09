@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Asisten;
+use App\Configuration;
+use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,6 +46,9 @@ class AsistenController extends Controller
             'deskripsi' => 'required|min:10|string',
         ]);
 
+        if(!Configuration::find(1)->registrationAsisten_activation)
+            return '{"message": "Registrasi untuk asisten telah ditutup"}';
+
         Asisten::create([
             'nama'      => $request->nama,
             'kode'      => strtoupper($request->kode),
@@ -58,12 +63,30 @@ class AsistenController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Asisten  $asisten
      * @return \Illuminate\Http\Response
      */
-    public function show(Asisten $asisten)
+    public function show($asisten_id)
     {
-        //
+        $allAsistenData = Laporan_Praktikan::where('asisten_id', $asisten_id)->get();
+        
+        $ratingAsisten = 0;
+        $gajiAsisten = 0;
+        foreach ($allAsistenData as $key => $value) {
+            $ratingAsisten += $value->rating_asisten;    
+        }
+
+        if(count($allAsistenData) !== 0){
+
+            $ratingAsisten /= count($allAsistenData);
+            $gajiAsisten = count($allAsistenData) * 25000;
+            $gajiAsisten -= ($gajiAsisten * 0.01);
+        }
+
+        return response()->json([
+            'message'=> 'success',
+            'ratingAsisten' => $ratingAsisten,
+            'gajiAsisten' => $gajiAsisten,
+        ], 200);
     }
 
     /**

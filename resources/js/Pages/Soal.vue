@@ -117,6 +117,32 @@
               Modul
             </span>
           </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
+                      { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
+              v-on:click='travel("konfigurasi")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-cog">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Konfigurasi
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
+                      { 'bg-yellow-500 text-white': changePage && menuTp }]"
+              v-on:click='travel("tp")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-book-open">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Tugas Pendahuluan
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -834,6 +860,8 @@ export default {
       menuKelas: false,
       menuModul: false,
       menuPlotting: false,
+      menuKonfigurasi: false,
+      menuTp: false,
 
       // Form for TA and TK
       formTATK: {
@@ -883,7 +911,9 @@ export default {
         this.comingFrom === 'kelas' ||
         this.comingFrom === 'modul'||
         this.comingFrom === 'plotting' ||
-        this.comingFrom === 'praktikum'){
+        this.comingFrom === 'praktikum' ||
+        this.comingFrom === 'konfigurasi' ||
+        this.comingFrom === 'tp'){
 
       setTimeout(
         function() {
@@ -911,6 +941,10 @@ export default {
         this.menuModul = $bool;
       if($whereTo === "plotting")
         this.menuPlotting = $bool;
+      if($whereTo === "konfigurasi")
+        this.menuKonfigurasi = $bool;
+      if($whereTo === "tp")
+        this.menuTp = $bool;
     },
 
     deleteSoal: function($id){

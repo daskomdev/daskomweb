@@ -7,6 +7,8 @@ use App\Feedback;
 use App\Modul;
 use App\Jadwal_Jaga;
 use App\Asisten;
+use App\Configuration;
+use App\Tugaspendahuluan;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -190,6 +192,50 @@ Route::get('/praktikum', function () {
     ]);
 })->name('praktikum')->middleware('loggedIn:asisten');
 
+Route::get('/konfigurasi', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    $currentConfig = Configuration::find(1); // Always get the first configuration
+    return Inertia::render('Konfigurasi', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'currentConfig' => $currentConfig === null ? 'nope' : $currentConfig,
+    ]);
+})->name('konfigurasi')->middleware('loggedIn:asisten');
+
+Route::get('/tp', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    $allTP = DB::table('tugaspendahuluans')
+        ->join('moduls', 'tugaspendahuluans.modul_id', '=', 'moduls.id')
+        ->select('tugaspendahuluans.*', 'moduls.judul')->get();
+    $allModul = Modul::all();
+
+    if($allTP !== null){
+        foreach ($allTP as $key => $value) {
+            if($value->isActive == '1')
+                $value->isActive = true;
+            else 
+                $value->isActive = false;
+        }
+    }
+
+    return Inertia::render('TugasPendahuluan', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allTP' => $allTP === null ? 'nope' : $allTP,
+        'allModul' => $allModul,
+    ]);
+})->name('tp')->middleware('loggedIn:asisten');
+
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
@@ -260,7 +306,7 @@ Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzi
 Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');
 
 // TODO: Secure this "getSoal" route from others by adding some private key algorithm to the request
-Route::get('/getSoalTP/{modul_id}', 'SoalTpController@show')->name('getSoalTP');
+Route::get('/getSoalTP', 'SoalTpController@show')->name('getSoalTP');
 Route::get('/getSoalTA/{modul_id}', 'SoalTaController@show')->name('getSoalTA');
 Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
@@ -278,3 +324,10 @@ Route::post('/sendJawabanFitb', 'JawabanFitbController@store')->name('sendJawaba
 Route::post('/sendJawabanMandiri', 'JawabanMandiriController@store')->name('sendJawabanMandiri')->middleware('loggedIn:praktikan');
 
 Route::post('/deletePraktikanAlfa', 'PraktikanController@destroy')->name('deletePraktikanAlfa')->middleware('loggedIn:asisten');
+Route::get('/getProfilAsisten/{asisten_id}', 'AsistenController@show')->name('getProfilAsisten')->middleware('loggedIn:asisten');
+
+Route::post('/saveConfiguration', 'ConfigurationController@store')->name('saveConfiguration')->middleware('loggedIn:asisten');
+
+Route::post('/addPembahasanTP', 'TugaspendahuluanController@store')->name('addPembahasanTP')->middleware('loggedIn:asisten');
+Route::post('/activateTP/{modul_id}', 'TugaspendahuluanController@show')->name('activateTP')->middleware('loggedIn:asisten');
+Route::post('/deactivateTP/{modul_id}', 'TugaspendahuluanController@destroy')->name('activateTP')->middleware('loggedIn:asisten');
