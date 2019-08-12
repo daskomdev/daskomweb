@@ -36,7 +36,8 @@ import { faExclamationCircle,
         faCalendarAlt,
         faCog,
         faBookOpen,
-        faQrcode} from '@fortawesome/free-solid-svg-icons';
+        faQrcode,
+        faClipboardCheck} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
@@ -80,6 +81,7 @@ library.add(faCalendarAlt);
 library.add(faCog);
 library.add(faQrcode);
 library.add(faBookOpen);
+library.add(faClipboardCheck);
 dom.watch(); 
 
 Vue.use(VueAnime)

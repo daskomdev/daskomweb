@@ -1,55 +1,17 @@
 <template>
   <div class="main_container bg-green-900 w-full h-full overflow-hidden">
 
-    <!-- Main Layout -->
-    <div class="absolute z-10 bottom-0 flex h-48full w-4full rounded-tl-large bg-yellow-500 animation-enable"
-        :class="[{ 'right-0': pageActive && !isMessageShown },
-                { 'right-minFull': !pageActive || changePage || isMessageShown }]">
-      <div class="w-120full flex-row">
-        <div class="mx-auto mt-4 text-green-800 font-merri-bold text-4xl text-center">
-          {{ currentUser.nama }}
-        </div>
-        <div class="relative w-full h-full">
-          <div class="absolute w-full h-full px-8 pt-8">
-            <div class="bg-yellow-800 rounded-t-lg w-full h-full flex">
-              <div class="w-full h-auto break-words pt-16 text-center text-yellow-200 font-merri text-2xl p-8">
-                {{ currentUser.deskripsi }}
-              </div>
-            </div>
-          </div>
-          <div class="absolute w-full h-16 px-16 pt-2">
-            <div class="bg-yellow-700 rounded-lg w-full h-full flex">
-              <div class="flex w-1/2min">
-                <star-rating class="ml-auto mr-4"
-                  style="width: 150px;" 
-                  :increment="0.01" 
-                  :fixed-points="2"
-                  :read-only="true"
-                  :show-rating="false"
-                  :rating="ratingAsisten"
-                  :star-size='30'/>
-              </div>
-              <div class="w-1 h-3/4 my-auto bg-yellow-500"/>
-              <div class="flex w-1/2min mr-auto h-full pt-1 items-center font-overpass-bold text-2xl text-white ml-4">
-                <span class="whitespace-pre-wrap">Rp. {{ gajiAsisten }}</span> 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Main Menu -->
-    <div class="absolute w-120 z-20 h-48full bottom-0 right-0"
+    <div class="absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable"
         :class="[{ 'right-0': pageActive },
-                { 'right-min20rem': !pageActive },
-                { 'animation-enable': animate }]" @mouseover="isMenuShown = false">
+                { 'right-min20rem': !pageActive }]" @mouseover="isMenuShown = false">
       <div class="w-full h-full animation-enable overflow-y-auto"
-          :class="[{ 'rounded-none': !changePage },
-                  { 'rounded-tl-large': changePage || isMessageShown }]" ref="menu">
-        <div class="w-full p-4 h-24 flex select-none animation-enable"
-            :class="[{ 'bg-yellow-500 text-white': !changePage },
-                    { 'bg-yellow-400 text-black': changePage }]">
+          :class="[{ 'rounded-none': changePage && menuProfil },
+                  { 'rounded-tl-large': !changePage || !menuProfil }]" ref="menu">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuProfil },
+                    { 'bg-yellow-500 text-white': changePage && menuProfil }]"
+            v-on:click="travel('asisten')">
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
@@ -111,10 +73,9 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuNilai },
-                    { 'bg-yellow-500 text-white': changePage && menuNilai }]"
-            v-on:click='travel("nilai")'>
+        <div class="w-full p-4 h-24 flex select-none animation-enable"
+            :class="[{ 'bg-yellow-500 text-white': !changePage },
+                    { 'bg-yellow-400 text-black': changePage }]">
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-clipboard-check">
@@ -206,12 +167,11 @@
     </div>
 
     <!-- Profile Menu -->
-    <div class="w-72 bg-gray-200 absolute top-0 mr-6 mt-4 h-40 rounded-lg flex-row"
+    <div class="w-72 bg-gray-200 absolute top-0 mr-6 mt-4 h-40 rounded-lg flex-row animation-enable"
         :class="[{ 'hidden': !isMenuShown },
                 { 'visible': isMenuShown },
                 { 'right-min20rem': !pageActive },
-                { 'right-0': pageActive },
-                { 'animation-enable': animate }]" @mouseover="isMenuShown = true" @mouseleave="isMenuShown = false">
+                { 'right-0': pageActive }]" @mouseover="isMenuShown = true" @mouseleave="isMenuShown = false">
         <div class="w-full h-3/4"/>
         <div class="w-full h-1/4 flex">
           <div class="rounded-b-lg bg-gray-400 flex hover:bg-gray-500 w-full h-full cursor-pointer" v-on:click="signOut">
@@ -224,12 +184,11 @@
     </div>
 
     <!-- Assistant's Profile -->
-    <div class="absolute top-0 w-120 flex"
+    <div class="absolute top-0 w-120 flex animation-enable"
         :class="[{ 'right-0': pageActive },
                 { 'right-min20rem': !pageActive },
                 { 'h-48': !isMenuShown },
-                { 'h-36': isMenuShown },
-                { 'animation-enable': animate }]" @mouseover="isMenuShown = true">
+                { 'h-36': isMenuShown }]" @mouseover="isMenuShown = true;">
       <div class="w-auto m-auto h-full flex">
         <div class="w-24 h-full flex mr-4">
           <div class="flex w-24 h-24 m-auto rounded-full"
@@ -240,7 +199,7 @@
         </div>
         <div class="w-auto h-full flex-row ml-4 cursor-default">
           <div class="h-3/5 w-full flex">
-            <span class="select-none3 font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest"
+            <span class="select-none font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest"
                 :class="[{ 'text-black': isMenuShown },
                         { 'text-white ': !isMenuShown }]">
               {{ currentUser.kode }}
@@ -256,118 +215,25 @@
         </div>
       </div>
     </div>
-
-    <!-- Message Menu -->
-    <div class="absolute left-0 h-full w-120full flex" @mouseover="isMenuShown = false">
-
-      <!-- Dummy Message Animation -->
-      <div class="absolute top-0 left-0 w-full pr-16 animation-enable"
-          :class="[{ 'h-16full': isMessageShown },
-                  { 'h-16': !isMessageShown },
-                  { 'top-0': pageActive },
-                  { 'top-minFull': !pageActive || changePage }]">
-        <div class="w-full h-full flex rounded-br-large bg-green-600">
-          <div class="w-16full h-full"/>
-          <div class="w-12 h-10 mt-auto mb-3 z-40 cursor-pointer pointer-events-auto" v-on:click="openMessage">
-            <div class="animation-enable" 
-                :class="[{ 'unrotated ml-0': !isMessageShown }, { 'rotated ml-8': isMessageShown }]">
-              <span class="animation-enable" 
-                  :class="[{ 'text-white': !isMessageShown }, { 'text-black': isMessageShown }]">
-                <img class="w-full h-10 ml-2 fas fa-arrow-circle-down">
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Message Layout -->
-      <div class="absolute top-0 left-0 w-full z-30 animation-enable"
-          :class="[{ 'h-16full pr-16': isMessageShown },
-                  { 'h-16 pr-32': !isMessageShown },
-                  { 'top-0': pageActive },
-                  { 'top-minFull': !pageActive || changePage }]">
-        <div class="bg-green-300 border-green-600 w-full h-full relative animation-enable"
-          :class="[{ 'rounded-br-large border-r-4 border-b-4': isMessageShown },
-                  { 'rounded-0 border-r-0 border-b-0': !isMessageShown },]">
-          <div class="flex w-full h-full"
-              :class="[{ 'visible': !isMessageShown },
-                      { 'hidden': isMessageShown }]">
-            <span v-if="unreadMessages > 0" class="m-auto font-monda-bold text-2xl tracking-wide">
-              Ada 
-              <span class="text-yellow-700">
-                {{ unreadMessages }}
-              </span> 
-              pesan baru
-            </span>
-            <span v-else class="m-auto font-monda-bold text-2xl tracking-wide">
-              Tidak ada pesan baru
-            </span>
-          </div>
-
-          <div class="absolute w-full h-full" v-bar>
-            <div class="flex-row w-full h-full"
-                :class="[{ 'visible': isMessageShown },
-                        { 'hidden': !isMessageShown }]">
-
-              <div class="w-4full px-4 h-auto min-h-24 mb-16 my-4 flex relative"
-                  v-for="message in userMessages" v-bind:key="message.id">
-                <div class="flex pl-4 pr-4 pt-2 rounded-lg bg-gray-500 w-4full font-overpass-mono-bold text-2xl">
-                  <div class="w-full h-full break-words">
-                    {{ message.pesan }}
-                    <div class="w-full h-8"/>
-                  </div>
-                </div>
-                <div class="flex absolute pt-1 h-8 font-merri text-lg pl-4 pr-2 pb-1 left-0 ml-8 rounded-full bottom-min1rem bg-yellow-500 w-7/12">
-                  <span class="w-10/12">
-                    {{ message.nama }}
-                  </span>
-                  <div class="w-2/12 flex" v-if="!message.read">
-                    <span class="w-auto px-4 py-1 font-overpass-bold text-sm rounded-full bg-red-500 ml-auto">
-                      New !
-                    </span>
-                  </div>
-                </div>
-                <div class="absolute pt-1 h-8 font-merri text-lg px-4 right-0 mr-8 rounded-full bottom-min1rem bg-yellow-500 text-center w-2/12">
-                  {{ message.kelas }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
-<style>
-  .rotated {
-    transform: rotate(180deg);
-  }
-
-  .unrotated {
-    transform: rotate(0deg);
-  }
-</style>
 
 <script>
 export default {
   props: [
     'comingFrom',
     'currentUser',
-    'messages',
+    'position',
     'userRole',
+    'currentConfig',
   ],
 
   data() {
     return {
-      pageActive: false,
+      pageActive: true,
       isMenuShown: false,
-      isMessageShown: false,
-      animate: true,
-      userMessages: this.messages,
       changePage: false,
-
-      gajiAsisten: 0,
-      ratingAsisten: 0,
+      currentPage: false,
 
       menuPraktikum: false,
       menuSoal: false,
@@ -377,78 +243,37 @@ export default {
       menuKelas: false,
       menuPlotting: false,
       menuModul: false,
-      menuKonfigurasi: false,
+      menuProfil: false,
       menuTp: false,
       menuNilai: false,
-    }
-  },
-
-  computed: {
-    
-    unreadMessages: function () {
-
-      var i = 0;
-
-      if(this.isEmpty(this.userMessages)){
-        return 0;
-      }
-
-      this.userMessages.forEach(function(element) {
-        if(!element.read)
-          i++
-      });
-      return i;
+      menuKonfigurasi: false,
     }
   },
 
   mounted() {
 
     $('body').addClass('closed');
+    this.$refs.menu.scrollTop = this.position;
 
     const globe = this;
 
-    if(this.comingFrom === 'login' ||
-        this.comingFrom === 'none'){
+    if(this.comingFrom === 'asisten' ||
+        this.comingFrom === 'none' ||
+        this.comingFrom === 'soal'||
+        this.comingFrom === 'modul'||
+        this.comingFrom === 'praktikum' ||
+        this.comingFrom === 'plotting' ||
+        this.comingFrom === 'kelas' ||
+        this.comingFrom === 'tp' ||
+        this.comingFrom === 'listTp' ||
+        this.comingFrom === 'history'||
+        this.comingFrom === 'konfigurasi'){
 
       setTimeout(
         function() {
-          globe.pageActive = true;
-        }, 10); 
-    } else if(this.comingFrom === 'kelas' ||
-              this.comingFrom === 'soal'  ||
-              this.comingFrom === 'modul'||
-              this.comingFrom === 'plotting'||
-              this.comingFrom === 'praktikum' ||
-              this.comingFrom === 'konfigurasi' ||
-              this.comingFrom === 'tp'||
-              this.comingFrom === 'listTp' ||
-              this.comingFrom === 'history' ||
-              this.comingFrom === 'nilai'){
-
-      this.animate = false;
-      this.pageActive = true;
-      this.changePage = true;
-      this.setCurrentMenu(this.comingFrom, true);
-      setTimeout(
-        function() {
-          globe.changePage = false;
-          globe.setCurrentMenu(globe.comingFrom, false);
-          globe.animate = true;
+          globe.currentPage = true;
         }, 10); 
     }
-
-    globe.$axios.get('/getProfilAsisten/'+globe.currentUser.id).then(response => {
-
-      if(response.data.message === "success") {
-        globe.ratingAsisten = response.data.ratingAsisten;
-        globe.gajiAsisten = response.data.gajiAsisten;
-
-      } else {
-        globe.$toasted.global.showError({
-          message: response.data.message
-        });
-      }
-    });
   },
 
   methods: {
@@ -471,56 +296,37 @@ export default {
         this.menuModul = $bool;
       if($whereTo === "plotting")
         this.menuPlotting = $bool;
-      if($whereTo === "konfigurasi")
-        this.menuKonfigurasi = $bool;
+      if($whereTo === "asisten")
+        this.menuProfil = $bool;
       if($whereTo === "tp")
         this.menuTp = $bool;
-      if($whereTo === "nilai")
-        this.menuNilai = $bool;
+      if($whereTo === "konfigurasi")
+        this.menuKonfigurasi = $bool;
     },
 
     travel: function($whereTo){
-      const globe = this;
+
       this.setCurrentMenu($whereTo, true);
       this.changePage = true;
+
+      const globe = this;
+      this.currentPage = false;
       setTimeout(
         function() {
-          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=asisten&position='+globe.$refs.menu.scrollTop);
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=konfigurasi&position='+globe.$refs.menu.scrollTop);
         }, 501); 
-    },
-
-    openMessage: function(){
-
-      this.$axios.post('/readPesan').then(response => {
-        //Do nothing 
-      }).catch(function (error) {
-        if (error.response) {
-          globe.$toasted.global.showError({
-            message: error.response.data.errors
-          });
-        }
-      });
-
-      this.isMessageShown = !this.isMessageShown
-    },
-
-    isEmpty: function (obj) {
-      for(var key in obj) {
-          if(obj.hasOwnProperty(key))
-              return false;
-      }
-      return true;
     },
 
     signOut: function(){
 
       const globe = this;
       this.pageActive = false;
+      this.currentPage = false;
       setTimeout(
         function() {
           globe.$inertia.replace('/logoutAsisten')
         }, 1010); 
-    }
+    },
   }
 }
 </script>

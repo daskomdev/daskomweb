@@ -60,13 +60,29 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
+                    { 'bg-yellow-500 text-white': changePage && menuHistory }]"
+            v-on:click='travel("history")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-history">
           </div>
           <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
             History
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuNilai },
+                    { 'bg-yellow-500 text-white': changePage && menuNilai }]"
+            v-on:click='travel("nilai")'>
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-clipboard-check">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Nilai
           </span>
         </div>
 
@@ -386,6 +402,7 @@ export default {
       menuModul: false,
       menuKonfigurasi: false,
       menuTp: false,
+      menuNilai: false,
 
       listAllJaga: this.allJaga === null ? [] : this.allJaga,
 
@@ -412,7 +429,9 @@ export default {
         this.comingFrom === 'modul' ||
         this.comingFrom === 'konfigurasi' ||
         this.comingFrom === 'tp' ||
-        this.comingFrom === 'listTp'){
+        this.comingFrom === 'listTp' ||
+        this.comingFrom === 'history'||
+        this.comingFrom === 'nilai'){
 
       setTimeout(
         function() {
@@ -445,6 +464,8 @@ export default {
         this.menuKonfigurasi = $bool;
       if($whereTo === "tp")
         this.menuTp = $bool;
+      if($whereTo === "nilai")
+        this.menuNilai = $bool;
     },
 
     openMoreMenu: function($id){

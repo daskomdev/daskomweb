@@ -21,7 +21,7 @@ class CreateNilaisTable extends Migration
             $table->float('jurnal');
             $table->float('skill');
             $table->float('diskon');
-            $table->integer('rating');
+            $table->float('rating');
             $table->unsignedBigInteger('modul_id');
             $table->unsignedBigInteger('asisten_id');
             $table->unsignedBigInteger('kelas_id');

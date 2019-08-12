@@ -9,6 +9,7 @@ use App\Jadwal_Jaga;
 use App\Asisten;
 use App\Configuration;
 use App\Tugaspendahuluan;
+use App\Laporan_Pj;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -251,6 +252,38 @@ Route::get('/listTp', function () {
         'userRole' => $userRole->role,
         'allKelas' => $allKelas,
         'allModul' => $allModul,
+    ]);
+})->name('tp')->middleware('loggedIn:asisten');
+
+Route::get('/history', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    
+    $asistenExist = false;
+    $allAsistenHistory = [];
+    $allHistory = DB::table('laporan__pjs')
+        ->join('moduls', 'laporan__pjs.modul_id', '=', 'moduls.id')
+        ->select('laporan__pjs.*', 'moduls.judul')->get();
+    foreach ($allHistory as $history => $h) {
+
+        $asistenExist = false;
+        foreach (explode("-", $h->allasisten_id) as $asisten => $a)
+            if($a == $user->id)
+                $asistenExist = true;
+
+        if($asistenExist){
+            array_push($allAsistenHistory, $h);
+        }
+    }
+
+    return Inertia::render('History', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allHistory' => $allAsistenHistory === null ? 'nope' : $allAsistenHistory,
     ]);
 })->name('tp')->middleware('loggedIn:asisten');
 
