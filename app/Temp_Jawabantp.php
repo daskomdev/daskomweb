@@ -12,6 +12,6 @@ class Temp_Jawabantp extends Model
      * @var array
      */
     protected $fillable = [
-        'soal_id', 'jawaban',
+        'praktikan_id', 'soal_id', 'modul_id', 'jawaban',
     ];
 }

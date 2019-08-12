@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Kumpul_Tp;
+use App\Temp_Jawabantp;
+use App\Jawaban_Tp;
+use App\Praktikan;
+use App\Modul;
 use Illuminate\Http\Request;
 
 class KumpulTpController extends Controller
@@ -35,18 +39,68 @@ class KumpulTpController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Jawaban_Tp::where('praktikan_id', $request->praktikan_id)
+            ->where('modul_id', $request->modul_id)
+            ->exists()){
+            
+            return response()->json([
+                'message'=> 'Anda sudah mengumpulkan TP pada modul ini',
+                'success'=>'nope',
+            ], 200);
+        }
+
+        Kumpul_Tp::create([
+            'kelas_id'  => $request->kelas_id,
+            'modul_id'   => $request->modul_id,
+            'praktikan_id'  => $request->praktikan_id,
+        ]);
+
+        foreach (explode("-", $request->allJawaban_id) as $jawaban => $value) {
+            
+            $tempJawaban = Temp_Jawabantp::find($value);
+            if($tempJawaban != null) {
+
+                Jawaban_Tp::create([
+                    'praktikan_id'  => $tempJawaban->praktikan_id,
+                    'modul_id'      => $tempJawaban->modul_id,
+                    'soal_id'       => $tempJawaban->soal_id,
+                    'jawaban'       => $tempJawaban->jawaban,
+                ]);
+            } else {
+
+                return response()->json([
+                    'message'=> 'Salah satu jawaban tidak ditemukan',
+                    'success'=>'nope',
+                ], 200);
+            }
+        }
+
+        $praktikan = Praktikan::find($request->praktikan_id);
+        $modul = Modul::find($request->modul_id);
+
+        return response()->json([
+            'message'=> $praktikan->nama.' berhasil mengumpulkan TP modul "'. $modul->judul .'"',
+            'success'=>'yes',
+        ], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Kumpul_Tp  $kumpul_Tp
      * @return \Illuminate\Http\Response
      */
-    public function show(Kumpul_Tp $kumpul_Tp)
+    public function show($kelas_id, $modul_id)
     {
-        //
+        $allKumpulTP = Kumpul_Tp::where('kumpul__tps.kelas_id', $kelas_id)
+            ->where('kumpul__tps.modul_id', $modul_id)
+            ->leftJoin('moduls', 'kumpul__tps.modul_id', '=', 'moduls.id')
+            ->leftJoin('praktikans', 'kumpul__tps.praktikan_id', '=', 'praktikans.id')
+            ->get();
+
+        return response()->json([
+            'message'=> 'success',
+            'allKumpulTP'=>$allKumpulTP,
+        ], 200);
     }
 
     /**

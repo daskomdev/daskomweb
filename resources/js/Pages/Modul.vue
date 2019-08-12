@@ -47,7 +47,10 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
+                    { 'bg-yellow-500 text-white': changePage && menuListTp }]"
+            v-on:click='travel("listTp")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
@@ -440,7 +443,8 @@ export default {
         this.comingFrom === 'praktikum'||
         this.comingFrom === 'plotting' ||
         this.comingFrom === 'konfigurasi' ||
-        this.comingFrom === 'tp'){
+        this.comingFrom === 'tp' ||
+        this.comingFrom === 'listTp'){
 
       setTimeout(
         function() {

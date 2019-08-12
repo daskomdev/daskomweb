@@ -18,7 +18,6 @@ class CreateKumpulTpsTable extends Migration
             $table->unsignedBigInteger('modul_id');
             $table->unsignedBigInteger('kelas_id');
             $table->unsignedBigInteger('praktikan_id');
-            $table->boolean('kumpul')->nullable()->default(false);
             $table->timestamps();
 
             $table->foreign('modul_id')

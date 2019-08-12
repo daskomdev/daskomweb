@@ -15,10 +15,12 @@ class CreateNilaisTable extends Migration
     {
         Schema::create('nilais', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->smallInteger('tp');
-            $table->smallInteger('ta');
-            $table->smallInteger('tk');
-            $table->smallInteger('jurnal');
+            $table->float('tp');
+            $table->float('ta');
+            $table->float('tk');
+            $table->float('jurnal');
+            $table->float('skill');
+            $table->float('diskon');
             $table->integer('rating');
             $table->unsignedBigInteger('modul_id');
             $table->unsignedBigInteger('asisten_id');

@@ -35,9 +35,12 @@ class JawabanFitbController extends Controller
      */
     public function store(Request $request)
     {
-        Jawaban_Fitb::where('praktikan_id', $request->input($i.'.praktikan_id'))
-                ->where('modul_id', $request->input($i.'.modul_id'))
-                ->delete(); 
+        if(Jawaban_Fitb::where('praktikan_id', $request->input($i.'.praktikan_id'))
+            ->where('modul_id', $request->input($i.'.modul_id'))
+            ->exists())
+            Jawaban_Fitb::where('praktikan_id', $request->input($i.'.praktikan_id'))
+                    ->where('modul_id', $request->input($i.'.modul_id'))
+                    ->delete(); 
 
         for ($i=0; $i < count($request->all()); $i++) { 
           

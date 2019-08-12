@@ -236,6 +236,24 @@ Route::get('/tp', function () {
     ]);
 })->name('tp')->middleware('loggedIn:asisten');
 
+Route::get('/listTp', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    $allKelas = Kelas::all();
+    $allModul = Modul::all();
+
+    return Inertia::render('ListTp', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allKelas' => $allKelas,
+        'allModul' => $allModul,
+    ]);
+})->name('tp')->middleware('loggedIn:asisten');
+
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
@@ -329,5 +347,10 @@ Route::get('/getProfilAsisten/{asisten_id}', 'AsistenController@show')->name('ge
 Route::post('/saveConfiguration', 'ConfigurationController@store')->name('saveConfiguration')->middleware('loggedIn:asisten');
 
 Route::post('/addPembahasanTP', 'TugaspendahuluanController@store')->name('addPembahasanTP')->middleware('loggedIn:asisten');
+Route::post('/getPembahasanTP', 'TugaspendahuluanController@index')->name('getPembahasanTP')->middleware('loggedIn:all');
 Route::post('/activateTP/{modul_id}', 'TugaspendahuluanController@show')->name('activateTP')->middleware('loggedIn:asisten');
 Route::post('/deactivateTP/{modul_id}', 'TugaspendahuluanController@destroy')->name('activateTP')->middleware('loggedIn:asisten');
+
+Route::post('/sendTempJawabanTP', 'TempJawabantpController@store')->name('sendTempJawabanTP')->middleware('loggedIn:praktikan');
+Route::post('/kumpulTp', 'KumpulTpController@store')->name('kumpulTp')->middleware('loggedIn:asisten');
+Route::post('/getKumpulTp/{kelas_id}/{modul_id}', 'KumpulTpController@show')->name('getKumpulTp')->middleware('loggedIn:asisten');

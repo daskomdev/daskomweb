@@ -34,10 +34,13 @@ class JawabanTaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        Jawaban_Ta::where('praktikan_id', $request->input($i.'.praktikan_id'))
-                ->where('modul_id', $request->input($i.'.modul_id'))
-                ->delete(); 
+    { 
+        if(Jawaban_Ta::where('praktikan_id', $request->input($i.'.praktikan_id'))
+            ->where('modul_id', $request->input($i.'.modul_id'))
+            ->exists())
+            Jawaban_Ta::where('praktikan_id', $request->input($i.'.praktikan_id'))
+                    ->where('modul_id', $request->input($i.'.modul_id'))
+                    ->delete(); 
 
         for ($i=0; $i < count($request->all()); $i++) { 
           

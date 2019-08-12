@@ -20,6 +20,11 @@ class DatabaseSeeder extends Seeder
         factory(App\Soal_Mandiri::class, 25)->create();
         factory(App\Soal_Ta::class, 25)->create();
         factory(App\Soal_Tk::class, 25)->create();
-        factory(App\Soal_Tp::class, 25)->create();
+        factory(App\Soal_Tp::class, 25)->create([
+            'isEssay' => 1,
+        ]);
+        factory(App\Soal_Tp::class, 25)->create([
+            'isProgram' => 1,
+        ]);
     }
 }

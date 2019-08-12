@@ -57,41 +57,125 @@
           </div>
 
           <div v-if="isTP" class="w-full h-full flex">
-            <div v-if="soalTP.length === 0" 
-                class="w-full h-full flex">
-              <div class="font-monda-bold h-auto w-auto m-auto text-center text-5xl">
-                Tidak ada <br> Tugas Pendahuluan saat ini <br>
-                <span class="text-xl">Silahkan cek kembali setelah ada pengumuman di OA</span>
-              </div>
-            </div>
-
-            <div class="h-full w-full flex-row relative"
-                v-if="soalTP.length > 0">
-              <div class="w-full flex absolute top-0 rounded-tl-large animation-enable"
-                  :class="[{ 'bg-green-400 h-12': soalOpened },
-                          { 'bg-green-100 h-12full': !soalOpened }]">
-                <div class="w-full h-full relative flex">
-                  <div class="h-auto w-full select-none absolute bottom-0 flex pb-1 mx-auto font-overpass-mono-bold text-2xl animation-enable"
-                      :class="[{ 'text-yellow-100 cursor-pointer': soalOpened },
-                              { 'text-black': !soalOpened }]"
-                      v-on:click="soalOpened = false">
-                    <span class="m-auto">PEMBAHASAN</span> 
-                  </div>
+            <div class="w-full h-full z-50 bg-gray-200 flex" v-if="qrcodeShown">
+              <div class="w-full px-8 h-auto flex m-auto">
+                <qrcode :value="ecnryptedData" 
+                    :options="{ 
+                      width: 300,
+                      color: { 
+                        dark: '#22543d',
+                        light: '#edf2f7' 
+                      }
+                    }"
+                    class="w-auto h-auto border-black border"/>
+                <div class="w-auto h-auto my-auto pl-4 font-monda-bold text-3xl">
+                  <span>Ambil gambar QRCODE disamping ini</span>
+                  <br>
+                  <span class="text-xl">(border berwarna hitam harus ada pada gambar agar proses scanning nya lancar)</span>
+                  <br>
+                  <span>Lalu scan gambar QRCODE nya di lab daskom (N109)</span>
+                  <br>
+                  <span class="text-xl">Silahkan refresh web nya jika ingin membuat ulang TP</span>
                 </div>
               </div>
-              <div class="w-full flex absolute bottom-0 rounded-bl-large animation-enable"
-                  :class="[{ 'bg-green-100 h-12full': soalOpened },
-                          { 'bg-green-400 h-12': !soalOpened }]">
-                <div class="w-full h-full relative flex-row">
-                  <div class="h-16 w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable"
-                      :class="[{ 'text-yellow-100 cursor-pointer': !soalOpened },
-                              { 'text-black': soalOpened }]"
-                      v-on:click="soalOpened = true">
-                    <span class="my-auto mx-4">SOAL</span>
+            </div>
+            <div class="w-full h-full flex" v-if="!qrcodeShown">
+              <div v-if="soalTPEssay.length === 0 && soalTPProgram.length === 0" 
+                  class="w-full h-full flex">
+                <div class="font-monda-bold h-auto w-auto m-auto text-center text-5xl">
+                  Tidak ada <br> Tugas Pendahuluan saat ini <br>
+                  <span class="text-xl">Silahkan cek kembali setelah ada pengumuman di OA</span>
+                </div>
+              </div>
+
+              <div class="h-full w-full flex-row relative"
+                  v-if="soalTPEssay.length > 0 && soalTPProgram.length > 0">
+                <div class="w-full flex absolute top-0 rounded-tl-large animation-enable"
+                    :class="[{ 'bg-green-400 h-12': soalOpened },
+                            { 'bg-green-100 h-12full': !soalOpened }]">
+                  <div class="w-full h-full relative flex">
+                    <div class="h-12 w-full select-none absolute bottom-0 flex pb-1 mx-auto font-overpass-mono-bold text-2xl animation-enable"
+                        :class="[{ 'text-yellow-100 cursor-pointer': soalOpened },
+                                { 'text-black': !soalOpened }]"
+                        v-on:click="soalOpened = false">
+                      <span class="m-auto">PEMBAHASAN</span> 
+                    </div>
+                    <div class="absolute top-0 w-full h-12full flex">
+                      <div class="w-full h-full" v-bar>
+                        <div>
+                          <div class="whitespace-pre-wrap break-words p-5 font-overpass text-2xl">
+                            <span>{{ pembahasanTp.pembahasan }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="w-full h-16full flex">
-                    <div class="w-full h-full">
-                      // TODO: add the soal list layout just like the praktikum
+                </div>
+                <div class="w-full flex absolute bottom-0 rounded-bl-large animation-enable"
+                    :class="[{ 'bg-green-100 h-12full': soalOpened },
+                            { 'bg-green-400 h-12': !soalOpened }]">
+                  <div class="w-full h-full relative flex">
+                    <div class="h-12 z-30 w-full select-none absolute top-0 flex pt-1 font-overpass-mono-bold text-2xl animation-enable"
+                        :class="[{ 'text-yellow-100 cursor-pointer': !soalOpened },
+                                { 'text-black': soalOpened }]"
+                        v-on:click="soalOpened = true">
+                      <span class="m-auto">SOAL <span class="font-overpass text-lg pt-0">(klik tombol selesai dipaling bawah jika sudah selesai)</span></span>
+                    </div>
+                    <div class="absolute bottom-0 w-full h-12full flex">
+                      <div class="w-full h-full" v-bar>
+                        <div>
+                          <div v-for="(soal, index) in soalTPEssay" v-bind:key="soal.id" 
+                              class="w-full flex-row h-auto">
+                            <div class="w-full h-auto flex my-10">
+                              <div class="h-full w-12 flex font-merri-bold text-xl">
+                                <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                              </div>
+                              <div class="h-12 px-1 w-4">
+                                <div class="h-full w-full bg-gray-900"/>
+                              </div>
+                              <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                                <span>{{ soal.soal }}</span>
+                              </div>
+                            </div>
+                            <div class="w-full h-auto flex px-5">
+                              <textarea v-model="jawabanTP[index].jawaban" cols="30" rows="10"
+                                    class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                    type="text" placeholder="Ketik jawabanmu disini ..."/>
+                            </div>
+                          </div>
+
+                          <div v-for="(soal, index) in soalTPProgram" v-bind:key="soal.id" 
+                              class="w-full flex-row h-auto">
+                            <div class="w-full h-auto flex my-10">
+                              <div class="h-full w-12 flex font-merri-bold text-xl">
+                                <div class="m-auto w-auto h-auto">{{ (index+1) + soalTPEssay.length }}</div>
+                              </div>
+                              <div class="h-12 px-1 w-4">
+                                <div class="h-full w-full bg-gray-900"/>
+                              </div>
+                              <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                                <span>{{ soal.soal }}</span>
+                              </div>
+                            </div>
+                            <div class="w-full h-auto flex px-5">
+                              <textarea v-model="jawabanTP[index + soalTPEssay.length].jawaban" cols="30" rows="10"
+                                    class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                    type="text" placeholder="Ketik jawabanmu disini ..."/>
+                            </div>
+                          </div>
+
+                          <div class="w-1/2 h-20 mx-auto">
+                            <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
+                                v-on:click="generateQRCODE()">
+                              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-green-600">
+                                <div class="m-auto">
+                                  Selesai
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -704,6 +788,21 @@ export default {
         jawaban: '',
       },
 
+      pembahasanTp: {
+        modul_id: '',
+        pembahasan: '',
+      },
+
+      qrcodeData: {
+        praktikan_id: '',
+        modul_id: '',
+        kelas_id: '',
+        allJawaban_id: '',
+      },
+
+      ecnryptedData: '',
+      qrcodeShown: false,
+
       jawabanFitb: [],
       jawabanJurnal: [],
       jawabanMandiri: [],
@@ -769,6 +868,7 @@ export default {
             });
           }
         }
+
         if(response.data.all_soalProgram !== null){
 
           globe.soalTPProgram = response.data.all_soalProgram;
@@ -782,11 +882,19 @@ export default {
             });
           }
         }
+      }
+    }); 
 
-      } else {
-        globe.$toasted.global.showError({
-          message: response.data.message
-        });
+    globe.$axios.post('/getPembahasanTP').then(response => {
+
+      if(response.data.message === "success") {
+
+        if(response.data.tp !== null) {
+
+          globe.pembahasanTp.modul_id = response.data.tp.modul_id;
+          globe.pembahasanTp.pembahasan = response.data.tp.pembahasan;
+          globe.qrcodeData.modul_id = response.data.tp.modul_id;
+        }
       }
     }); 
 
@@ -798,6 +906,7 @@ export default {
 
   beforeDestroy() {
 
+    const globe = this;
     Echo.leave(`daskom_database_praktikum.${globe.currentUser.kelas_id}`);
   },
 
@@ -811,6 +920,34 @@ export default {
       }
 
       return $arr;
+    },
+
+    generateQRCODE: function(){
+
+      const globe = this;
+      globe.$axios.post('/sendTempJawabanTP', globe.jawabanTP).then(response => {
+
+        if(response.data.message === "success") {
+
+          if(response.data.allJawaban_id !== null) {
+
+            globe.qrcodeShown = true;
+            globe.qrcodeData.allJawaban_id = response.data.allJawaban_id;
+            globe.qrcodeData.praktikan_id = globe.currentUser.id;
+            globe.qrcodeData.kelas_id = globe.currentUser.kelas_id;
+            
+            // Encryption of the data
+            var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(globe.qrcodeData), 'daskom_aja');
+            globe.ecnryptedData = ciphertext.toString();
+
+            //////////////////////////////////////////////////////////////////////////
+            // This is how to decrypt the data
+            // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'daskom_aja');
+            // var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+            //////////////////////////////////////////////////////////////////////////
+          }
+        }
+      }); 
     },
     
     finishPraktikum: function(){

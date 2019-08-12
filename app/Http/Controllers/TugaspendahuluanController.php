@@ -14,7 +14,14 @@ class TugaspendahuluanController extends Controller
      */
     public function index()
     {
-        //
+        $tp = null;
+        if(Tugaspendahuluan::where('isActive', true)->exists())
+            $tp = Tugaspendahuluan::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)->first();
+        
+            return response()->json([
+            'message'=> 'success',
+            'tp' => $tp,
+        ], 200);
     }
 
     /**

@@ -15,8 +15,8 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('registrationPraktikan_activation')->default(false);
-            $table->boolean('registrationAsisten_activation')->default(false);
+            $table->boolean('registrationPraktikan_activation')->default(true);
+            $table->boolean('registrationAsisten_activation')->default(true);
             $table->boolean('tp_activation')->default(false);
             $table->boolean('tubes_activation')->default(false);
             $table->boolean('secretfeature_activation')->default(false);

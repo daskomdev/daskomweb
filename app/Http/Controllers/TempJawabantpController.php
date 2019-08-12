@@ -35,16 +35,26 @@ class TempJawabantpController extends Controller
      */
     public function store(Request $request)
     {
-        Temp_Jawabantp::create([
-            'soal_id' => $request->soal_id,
-            'jawaban' => $request->jawaban,
-        ]);
+        $allJawaban_id = "";
+        for ($i=0; $i < count($request->all()); $i++) { 
+          
+            $temp_Jawabantp = Temp_Jawabantp::create([
+                'praktikan_id'  => $request->input($i.'.praktikan_id'),
+                'modul_id'      => $request->input($i.'.modul_id'),
+                'soal_id'       => $request->input($i.'.soal_id'),
+                'jawaban'       => $request->input($i.'.jawaban') == null ? 'empty' : $request->input($i.'.jawaban'),
+            ]);    
 
-        $id = Temp_Jawabantp::where('jawaban', $request->jawaban)
-            ->where('soal_id', $request->soal_id)
-            ->first()->id;
+            $allJawaban_id .= $temp_Jawabantp->id;
 
-        return '{"message": "success", "id": '. $id .'}';
+            if($i !== count($request->all())-1)
+                $allJawaban_id .= '-';
+        } 
+
+        return response()->json([
+            'message'=> 'success',
+            'allJawaban_id' => $allJawaban_id,
+        ], 200);
     }
 
     /**

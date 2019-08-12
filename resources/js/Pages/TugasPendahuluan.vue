@@ -47,7 +47,10 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
+                    { 'bg-yellow-500 text-white': changePage && menuListTp }]"
+            v-on:click='travel("listTp")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
@@ -209,7 +212,11 @@
                 <div class="w-full h-full flex">
                   <div class="w-1/3 h-full rounded-l-lg bg-yellow-700 flex-row">
                     <div class="w-full h-2/3 whitespace-pre-wrap font-monda-bold text-2xl p-2 text-white break-words flex">
-                      <span>{{ tp.judul }}</span>
+                      <div class="w-full h-full" v-bar>
+                        <div>
+                          <span>{{ tp.judul }}</span>
+                        </div>
+                      </div>
                     </div>
                     <div class="w-full h-1/3 flex">
                       <div class="w-auto h-auto m-auto"
@@ -341,7 +348,8 @@ export default {
         this.comingFrom === 'praktikum' ||
         this.comingFrom === 'plotting' ||
         this.comingFrom === 'kelas' ||
-        this.comingFrom === 'konfigurasi'){
+        this.comingFrom === 'konfigurasi' ||
+        this.comingFrom === 'listTp'){
 
       setTimeout(
         function() {

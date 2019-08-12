@@ -328,7 +328,7 @@
     </div>
 
     <!-- Signup Menu Activation -->
-    <div class="absolute rounded-lg w-16 h-16 bottom-0 right-0 bg-green-700 m-8 p-3 border-b-6 hover:border-b-0 cursor-pointer border-green-900"
+    <div class="absolute rounded-lg animation-enable-short w-16 h-16 bottom-0 right-0 bg-green-700 m-8 p-3 border-b-6 hover:border-b-0 cursor-pointer border-green-900"
         ref="signupMenu" v-on:click="openSignupPage">
       <svg class="w-full h-full" viewBox="0 0 24 24">
           <path fill="#f6e05e" d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" />
@@ -336,7 +336,7 @@
     </div>
 
     <!-- Login Menu Activation -->
-    <div class="absolute rounded-lg w-16 h-16 bottom-0 left-0 bg-green-700 m-8 p-3 border-b-6 hover:border-b-0 cursor-pointer border-green-900"
+    <div class="absolute rounded-lg animation-enable-short w-16 h-16 bottom-0 left-0 bg-green-700 m-8 p-3 border-b-6 hover:border-b-0 cursor-pointer border-green-900"
         ref="loginMenu" v-on:click="openLoginPage">
       <svg class="w-full h-full" viewBox="0 0 24 24">
         <path fill="#f6e05e" d="M19,21V19H15V17H19V15L22,18L19,21M10,4A4,4 0 0,1 14,8A4,4 0 0,1 10,12A4,4 0 0,1 6,8A4,4 0 0,1 10,4M10,14C11.15,14 12.25,14.12 13.24,14.34C12.46,15.35 12,16.62 12,18C12,18.7 12.12,19.37 12.34,20H2V18C2,15.79 5.58,14 10,14Z" />

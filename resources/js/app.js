@@ -35,12 +35,15 @@ import { faExclamationCircle,
         faCaretRight,
         faCalendarAlt,
         faCog,
-        faBookOpen} from '@fortawesome/free-solid-svg-icons';
+        faBookOpen,
+        faQrcode} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
 import StarRating from 'vue-star-rating';
 import ToggleButton from 'vue-js-toggle-button'
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+import VueQrcodeReader from "vue-qrcode-reader";
 
 library.add(faExclamationCircle);
 library.add(faCheckCircle);
@@ -75,6 +78,7 @@ library.add(faCaretLeft);
 library.add(faCaretRight);
 library.add(faCalendarAlt);
 library.add(faCog);
+library.add(faQrcode);
 library.add(faBookOpen);
 dom.watch(); 
 
@@ -83,14 +87,17 @@ Vue.use(Inertia)
 Vue.use(Toasted);
 Vue.use(Vuebar);
 Vue.use(ToggleButton);
+Vue.use(VueQrcodeReader);
 Vue.component('star-rating', StarRating);
+Vue.component(VueQrcode.name, VueQrcode);
 
-Vue.prototype.$axios = Axios
-window.$ = window.jQuery = require('jquery')
-const app = document.getElementById('app')
-const files = require.context('./', true, /\.vue$/i)
+Vue.prototype.$axios = Axios;
+window.$ = window.jQuery = require('jquery');
+window.CryptoJS = require("crypto-js");
+const app = document.getElementById('app');
+const files = require.context('./', true, /\.vue$/i);
 
-import Echo from "laravel-echo"
+import Echo from "laravel-echo";
 window.io = require('socket.io-client');
 // Have this in case you stop running your laravel echo server
 if (typeof io !== 'undefined') {
