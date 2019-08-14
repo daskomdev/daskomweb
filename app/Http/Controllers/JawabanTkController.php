@@ -35,12 +35,9 @@ class JawabanTkController extends Controller
      */
     public function store(Request $request)
     {
-        if(Jawaban_Tk::where('praktikan_id', $request->input($i.'.praktikan_id'))
-            ->where('modul_id', $request->input($i.'.modul_id'))
-            ->exists())
-            Jawaban_Tk::where('praktikan_id', $request->input($i.'.praktikan_id'))
-                    ->where('modul_id', $request->input($i.'.modul_id'))
-                    ->delete();
+        Jawaban_Tk::where('praktikan_id', $request->input('0.praktikan_id'))
+                ->where('modul_id', $request->input('0.modul_id'))
+                ->delete();
                  
         for ($i=0; $i < count($request->all()); $i++) { 
           
@@ -48,7 +45,7 @@ class JawabanTkController extends Controller
                 'praktikan_id'  => $request->input($i.'.praktikan_id'),
                 'modul_id'      => $request->input($i.'.modul_id'),
                 'soal_id'       => $request->input($i.'.soal_id'),
-                'jawaban'       => $request->input($i.'.jawaban'),
+                'jawaban'       => $request->input($i.'.jawaban') == '' ? '-' : $request->input($i.'.jawaban'),
             ]);    
         } 
 

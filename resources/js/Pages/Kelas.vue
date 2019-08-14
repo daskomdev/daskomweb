@@ -98,7 +98,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id === 2">
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
                       { 'bg-yellow-400 text-black': changePage }]">

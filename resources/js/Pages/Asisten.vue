@@ -6,7 +6,7 @@
         :class="[{ 'right-0': pageActive && !isMessageShown },
                 { 'right-minFull': !pageActive || changePage || isMessageShown }]">
       <div class="w-120full flex-row">
-        <div class="mx-auto mt-4 text-green-800 font-merri-bold text-4xl text-center">
+        <div class="mx-auto mt-4 px-4 break-words text-green-800 font-merri-bold text-4xl text-center">
           {{ currentUser.nama }}
         </div>
         <div class="relative w-full h-full">
@@ -136,7 +136,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id === 2">
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"

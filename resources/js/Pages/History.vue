@@ -97,7 +97,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id === 2">
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -219,15 +219,19 @@
     <div class="absolute w-120full h-full flex animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
-      <div class="w-full h-full" v-bar>
+      <div v-if="listAllHistory.length > 0" 
+          class="w-full h-full" v-bar>
         <div>
           <transition-group name="history-list" tag="div">
             <div v-for="(history) in listAllHistory" v-bind:key="history.id" 
                 class="animation-enable w-full h-72 flex">
-              <div class="w-full h-full px-6 flex-row">
+              <div class="w-full h-full px-6 flex-row mt-2">
                 <div class="w-full h-12 flex">
-                  <div class="w-auto h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ history.hari.toUpperCase() }} - {{ history.shift }}</span>
+                  <div class="w-1/2 h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
+                    <span>{{ history.hari.toUpperCase() }} - {{ history.shift }}  (Rp.25000)</span>
+                  </div>
+                  <div class="w-1/2 h-auto text-right my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
+                    <span>{{ history.created_at }}</span>
                   </div>
                 </div>
                 <div class="w-full h-12full flex bg-gray-300 rounded-lg">
@@ -236,7 +240,7 @@
                       <span>Modul<br>{{ history.judul }}</span>
                     </div>
                   </div>
-                  <div class="w-2/3 h-full p-4 bg-gray-200 rounded-r-lg flex">
+                  <div class="w-2/3 h-full p-4 bg-gray-200 rounded-r-lg overflow-y-auto flex">
                     <div class="w-full h-full whitespace-pre-wrap break-words font-overpass text-2xl text-black">
                       <span class="font-monda-bold text-3xl">Laporan :</span>
                       <br>
@@ -247,6 +251,12 @@
               </div>
             </div>
           </transition-group>
+        </div>
+      </div>
+      <div v-if="listAllHistory.length === 0"
+          class="w-full h-full flex">
+        <div class="w-auto h-auto m-auto font-monda-bold text-5xl text-white">
+          <span>Anda belum pernah menjaga praktikum :(</span>
         </div>
       </div>
     </div>

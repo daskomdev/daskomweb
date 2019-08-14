@@ -36,14 +36,16 @@ class HistoryIzinController extends Controller
      */
     public function store(Request $request)
     {
-        foreach (explode ("-", $request->allasisten_kode) as $kode => $value) {
-            History_Izin::create([
-                'hari'        => $request->hari,
-                'shift'       => $request->shift,
-                'status'      => $request->status,
-                'asisten_id'  => Asisten::where('kode', $value)->first()->id,
-                'modul_id'    => $request->modul_id,
-            ]); 
+        if($request->allasisten_kode != ''){
+            foreach (explode ("-", $request->allasisten_kode) as $kode => $value) {
+                History_Izin::create([
+                    'hari'        => $request->hari,
+                    'shift'       => $request->shift,
+                    'status'      => $request->status,
+                    'asisten_id'  => Asisten::where('kode', $value)->first()->id,
+                    'modul_id'    => $request->modul_id,
+                ]); 
+            }
         }
 
         return '{"message": "success"}';

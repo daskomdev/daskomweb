@@ -314,7 +314,7 @@
                       </div>
                       <div class="w-full h-auto flex px-5">
                         <textarea v-model="jawabanFitb[index].jawaban" cols="30" rows="10"
-                              class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                              class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                               type="text" placeholder="Ketik jawabanmu disini ..."/>
                       </div>
                     </div>
@@ -333,7 +333,7 @@
                       </div>
                       <div class="w-full h-auto flex px-5">
                         <textarea v-model="jawabanJurnal[index].jawaban" cols="30" rows="10"
-                              class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                              class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                               type="text" placeholder="Ketik jawabanmu disini ..."/>
                       </div>
                     </div>
@@ -357,13 +357,38 @@
                     Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
                   </div>
                 </div>
-                <div class="w-full h-1/3 flex bg-yellow-600 rounded-bl-large">
-                  <div class="h-auto text-white text-center w-auto m-auto font-monda-bold text-2xl">
-                    MANDIRI
+                <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
+                  <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
+                    <div class="m-auto">
+                      MANDIRI
+                    </div>
+                  </div>
+                  <div class="h-1/2 w-full flex"
+                      v-if="modulShown">
+                    <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                        v-on:click="modulShown = false">
+                      <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                        <div class="m-auto">
+                          Lihat Soal
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="h-1/2 w-full flex"
+                      v-if="!modulShown">
+                    <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                        v-on:click="modulShown = true">
+                      <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                        <div class="m-auto">
+                          Lihat Modul
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="w-3/4 h-full flex">
+              <div class="w-3/4 h-full flex" 
+                  v-if="!modulShown">
                 <div class="w-full h-full overflow-y-auto">
                   <div class="w-full h-auto flex-row">
                     <div v-for="(soal, index) in soalMandiri" v-bind:key="soal.id" 
@@ -381,11 +406,17 @@
                       </div>
                       <div class="w-full h-auto flex px-5">
                         <textarea v-model="jawabanMandiri[index].jawaban" cols="30" rows="10"
-                              class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                              class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                               type="text" placeholder="Ketik jawabanmu disini ..."/>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div class="w-3/4 h-full flex" 
+                  v-if="modulShown">
+                <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
+                  <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
             </div>
@@ -461,24 +492,26 @@
                   </div>
                 </div>
                 <div class="w-3/4 h-2 bg-black m-auto mt-4 rounded-full"/>
-                <div class="w-full h-auto flex mt-4">
-                  <div class="w-auto h-auto m-auto font-overpass-bold text-3xl text-center break-words">
-                    Bagaimana menurutmu <br> praktikum saat ini ?
+                <div class="w-3/4 mx-auto h-auto flex mt-4">
+                  <div class="w-1/2 h-auto flex-row">
+                    <div class="w-auto h-auto m-auto font-overpass-bold text-3xl text-center break-words">
+                      Bagaimana menurutmu <br> praktikum saat ini ?
+                    </div>
+                    <div class="w-full h-auto flex mt-2">
+                      <star-rating class="m-auto"
+                        style="width: 250px;" 
+                        v-model="laporanPraktikan.rating_praktikum"
+                        :increment="0.01" 
+                        :fixed-points="2"
+                        :show-rating="false"
+                        :star-size='50'/>
+                    </div>
                   </div>
-                </div>
-                <div class="w-full h-auto flex mt-2">
-                  <star-rating class="m-auto"
-                    style="width: 250px;" 
-                    v-model="laporanPraktikan.rating_praktikum"
-                    :increment="0.01" 
-                    :fixed-points="2"
-                    :show-rating="false"
-                    :star-size='50'/>
-                </div>
-                <div class="w-full h-auto flex mt-4">
-                  <textarea v-model="laporanPraktikan.pesan" cols="30" rows="5" 
-                        class="font-overpass-mono-bold mx-16 text-2xl bg-gray-600 appearance-none border-2 border-gray-300 rounded w-full h-full py-2 px-4 text-white leading-tight focus:outline-none focus:bg-gray-700 focus:border-teal-500" 
-                        type="text" placeholder="Ketikkan feedback mengenai praktikum / asisten saat ini ..."/>
+                  <div class="w-1/2 h-auto flex">
+                    <textarea v-model="laporanPraktikan.pesan" cols="30" rows="5" 
+                          class="font-overpass-mono-bold resize-none text-2xl bg-gray-600 appearance-none border-2 border-gray-300 rounded w-full h-full py-2 px-4 text-white leading-tight focus:outline-none focus:bg-gray-700 focus:border-teal-500" 
+                          type="text" placeholder="Ketikkan feedback mengenai praktikum / asisten saat ini ..."/>
+                  </div>
                 </div>
                 <div class="w-full h-24 flex mt-4 mb-8">
                   <div class="w-1/2 h-full mx-auto p-4 hover:p-5 cursor-pointer animation-enable-short"

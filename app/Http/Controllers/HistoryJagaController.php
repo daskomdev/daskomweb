@@ -45,15 +45,17 @@ class HistoryJagaController extends Controller
                 'asisten_id'    => $request->asisten_id,
             ]);
         else {
-            foreach (explode("-", $request->allasisten_kode) as $kode => $value) {
-                
-                History_Jaga::create([
-                    'hari'          => $request->hari,
-                    'shift'         => $request->shift,
-                    'pj'            => $request->pj,
-                    'modul_id'      => $request->modul_id,
-                    'asisten_id'    => Asisten::where('kode', $value)->first()->id,
-                ]); 
+            if($request->allasisten_kode != ''){
+                foreach (explode("-", $request->allasisten_kode) as $kode => $value) {
+                    
+                    History_Jaga::create([
+                        'hari'          => $request->hari,
+                        'shift'         => $request->shift,
+                        'pj'            => $request->pj,
+                        'modul_id'      => $request->modul_id,
+                        'asisten_id'    => Asisten::where('kode', $value)->first()->id,
+                    ]); 
+                }
             }
         }
 

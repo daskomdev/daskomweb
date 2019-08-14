@@ -9,7 +9,8 @@ use App\Jadwal_Jaga;
 use App\Asisten;
 use App\Configuration;
 use App\Tugaspendahuluan;
-use App\Laporan_Pj;
+use App\Laporan_Praktikan;
+use App\Nilai;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -253,7 +254,35 @@ Route::get('/listTp', function () {
         'allKelas' => $allKelas,
         'allModul' => $allModul,
     ]);
-})->name('tp')->middleware('loggedIn:asisten');
+})->name('listTp')->middleware('loggedIn:asisten');
+
+Route::get('/nilai', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    $allLaporan = Laporan_Praktikan::where('laporan__praktikans.asisten_id', $user->id)
+        ->leftJoin('praktikans', 'laporan__praktikans.praktikan_id', '=', 'praktikans.id')
+        ->leftJoin('moduls', 'laporan__praktikans.modul_id', '=', 'moduls.id')
+        ->get();
+
+    foreach ($allLaporan as $laporan => $value)
+        if(Nilai::where('praktikan_id', $value->praktikan_id)
+            ->where('modul_id', $value->modul_id)
+            ->where('asisten_id', $value->asisten_id)
+            ->exists())
+            $value->nilaiExists = true;
+        else 
+            $value->nilaiExists = false;
+
+    return Inertia::render('Nilai', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allLaporan' => $allLaporan === null ? [] : $allLaporan,
+    ]);
+})->name('nilai')->middleware('loggedIn:asisten');
 
 Route::get('/history', function () {
     $user = Auth::guard('asisten')->user();
@@ -285,7 +314,7 @@ Route::get('/history', function () {
         'userRole' => $userRole->role,
         'allHistory' => $allAsistenHistory === null ? 'nope' : $allAsistenHistory,
     ]);
-})->name('tp')->middleware('loggedIn:asisten');
+})->name('history')->middleware('loggedIn:asisten');
 
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
@@ -363,7 +392,7 @@ Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
 Route::get('/getSoalJURNAL', 'SoalJurnalController@show')->name('getSoalJURNAL');
 Route::get('/getSoalMANDIRI/{modul_id}', 'SoalMandiriController@show')->name('getSoalMANDIRI');
-///////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::post('/sendLaporan', 'LaporanPraktikanController@store')->name('sendLaporan')->middleware('loggedIn:praktikan');
 Route::post('/getLaporan/{praktikan_id}/{modul_id}', 'LaporanPraktikanController@show')->name('getLaporan')->middleware('loggedIn:praktikan');
@@ -387,3 +416,8 @@ Route::post('/deactivateTP/{modul_id}', 'TugaspendahuluanController@destroy')->n
 Route::post('/sendTempJawabanTP', 'TempJawabantpController@store')->name('sendTempJawabanTP')->middleware('loggedIn:praktikan');
 Route::post('/kumpulTp', 'KumpulTpController@store')->name('kumpulTp')->middleware('loggedIn:asisten');
 Route::post('/getKumpulTp/{kelas_id}/{modul_id}', 'KumpulTpController@show')->name('getKumpulTp')->middleware('loggedIn:asisten');
+
+Route::post('/createFormNilai/{praktikan_id}/{modul_id}', 'NilaiController@index')->name('createFormNilai')->middleware('loggedIn:asisten');
+Route::post('/getAllJawaban/{praktikan_id}/{modul_id}', 'NilaiController@list')->name('getAllJawaban')->middleware('loggedIn:asisten');
+Route::post('/inputNilai', 'NilaiController@store')->name('inputNilai')->middleware('loggedIn:asisten');
+Route::post('/getCurrentNilai/{praktikan_id}/{modul_id}', 'NilaiController@show')->name('getCurrentNilai')->middleware('loggedIn:asisten');

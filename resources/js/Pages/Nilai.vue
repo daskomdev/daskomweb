@@ -97,7 +97,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id === 2">
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -215,6 +215,255 @@
         </div>
       </div>
     </div>
+
+    <div class="absolute w-120full h-full flex animation-enable"
+        :class="[{ 'left-minFull': !currentPage || nilaiShown },
+                { 'left-0': currentPage && !nilaiShown }]">
+      <div v-if="listAllLaporan.length > 0" 
+          class="w-full h-full" v-bar>
+        <div>
+          <transition-group name="laporan-list" tag="div">
+            <div v-for="(laporan, index) in listAllLaporan" v-bind:key="laporan.id" 
+                class="animation-enable w-full h-120 flex">
+              <div class="w-full h-full px-6 flex-row mt-2">
+                <div class="w-full h-12 flex">
+                  <div class="w-auto h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
+                    <span>{{ laporan.nim }} [{{ laporan.nama }}]</span>
+                  </div>
+                </div>
+                <div class="w-full h-24full flex relative bg-gray-500 rounded-lg">
+                  <div class="w-1/4 h-full p-4 overflow-y-auto flex-row">
+                    <div class="w-full h-1/2 flex">
+                      <div class="w-auto h-auto m-auto font-monda-bold text-lg">
+                        <span>Asisten :</span>
+                        <star-rating 
+                          style="width: 150px;" 
+                          :increment="0.01" 
+                          :fixed-points="2"
+                          :read-only="true"
+                          :show-rating="false"
+                          :rating="laporan.rating_asisten"
+                          :star-size='30'/>
+                      </div>
+                    </div>
+                    <div class="w-full h-1/2 flex">
+                      <div class="w-auto h-auto m-auto font-monda-bold text-lg">
+                        <span>Praktikum :</span>
+                        <star-rating 
+                          style="width: 150px;" 
+                          :increment="0.01" 
+                          :fixed-points="2"
+                          :read-only="true"
+                          :show-rating="false"
+                          :rating="laporan.rating_praktikum"
+                          :star-size='30'/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-3/4 h-full p-4 bg-gray-400 rounded-r-lg overflow-y-auto flex">
+                    <div class="w-full h-full whitespace-pre-wrap break-words font-overpass text-2xl text-black">
+                      <span class="font-monda-bold text-3xl">Pesan :</span>
+                      <br>
+                      <span>{{ laporan.pesan }}</span>
+                      <div class="w-full h-12 flex"/>
+                    </div>
+                  </div>
+                  <div class="absolute bottom-0 p-0 hover:p-1 animation-enable-short cursor-pointer flex font-monda-bold text-xl right-0 m-4 w-auto h-12"
+                      v-on:click="showNilaiPage(laporan.praktikan_id, laporan.modul_id, laporan.kelas_id, index)">
+                    <div class="w-full h-full p-2 bg-yellow-600 text-white rounded-lg">
+                      <span>Lihat Nilai</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full h-12 flex px-8">
+                  <div class="w-full h-full flex rounded-b-lg"
+                    :class="[{ 'bg-gray-200': laporan.nilaiExists },
+                            { 'bg-green-300': !laporan.nilaiExists }]">
+                    <div class="w-auto h-auto m-auto font-overpass-bold whitespace-pre-wrap break-words text-2xl"
+                      :class="[{ 'text-black': laporan.nilaiExists },
+                              { 'text-green-700': !laporan.nilaiExists }]">
+                      <span v-if="laporan.nilaiExists">Nilai sudah dimasukkan</span>
+                      <span v-if="!laporan.nilaiExists">Nilai belum dimasukkan !!!</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </transition-group>
+        </div>
+      </div>
+      <div v-if="listAllLaporan.length === 0"
+          class="w-full h-full flex">
+        <div class="w-auto h-auto m-auto font-monda-bold text-5xl text-white">
+          <span>Tidak ada feedback praktikan saat ini :(</span>
+        </div>
+      </div>
+    </div>
+    <div class="absolute w-120full pt-8 px-8 h-full flex animation-enable"
+        :class="[{ 'bottom-minFull': !nilaiShown },
+                { 'bottom-0': nilaiShown }]">
+      <div class="w-full h-full bg-white rounded-t-lg flex-row p-2">
+        <div class="w-full h-20 flex">
+          <div class="w-1/6 h-full flex-row p-2"
+              v-on:click="showJawaban('Tp')">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              TP
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.tp"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="15" placeholder="15">
+            </div>
+          </div>
+          <div class="w-1/6 h-full flex-row p-2">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              TA
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.ta"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="15" placeholder="15" disabled>
+            </div>
+          </div>
+          <div class="w-1/6 h-full flex-row p-2">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              TK
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.tk"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="20" placeholder="20" disabled>
+            </div>
+          </div>
+          <div class="w-1/6 h-full flex-row p-2"
+              v-on:click="showJawaban('Jurnal')">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              Jurnal
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.jurnal"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="40" placeholder="40">
+            </div>
+          </div>
+          <div class="w-1/6 h-full flex-row p-2"
+              v-on:click="showJawaban('Skill')">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              Skill
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.skill"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="10" placeholder="10">
+            </div>
+          </div>
+          <div class="w-1/6 h-full flex-row p-2">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              Diskon
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.diskon"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
+            </div>
+          </div>
+        </div>
+        <div class="w-full h-36full flex">
+          <div v-if="showingJawaban === ''" 
+              class="w-full h-full p-8 flex">
+            <div class="w-auto h-auto m-auto whitespace-pre-wrap text-center break-words flex font-overpass-bold text-3xl">
+              <span>Silahkan pilih salah satu nilai untuk melihat jawaban praktikan</span>
+            </div>
+          </div>
+          <div v-if="showingJawaban === 'Tp'" 
+              class="w-full h-full p-8 flex">
+            <div v-if="allJawabanTp !== 'nope'" 
+                class="w-full h-full" v-bar>
+              <div>
+                <div class="w-full h-auto flex-row">
+                  <div v-for="(jawaban, index) in allJawabanTp" v-bind:key="jawaban.id" 
+                      class="w-full flex-row h-auto">
+                    <div class="w-full h-auto flex my-10">
+                      <div class="h-full w-12 flex font-merri-bold text-xl">
+                        <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                      </div>
+                      <div class="h-12 px-1 w-4">
+                        <div class="h-full w-full bg-gray-900"/>
+                      </div>
+                      <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                        <span>{{ jawaban.soal }}</span>
+                      </div>
+                    </div>
+                    <div class="w-full h-auto flex px-5">
+                      <textarea v-model="allJawabanTp[index].jawaban" cols="30" rows="10"
+                            class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                            type="text" disabled/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="allJawabanTp === 'nope'" 
+                class="w-full h-full flex">
+              <div class="w-auto h-auto m-auto font-overpass-bold text-3xl whitespace-pre-wrap break-words">
+                <span>Praktikan ini tidak mengumpulkan TP</span>
+              </div>
+            </div>
+          </div>
+          <div v-if="showingJawaban === 'Jurnal'" 
+              class="w-full h-full p-8 flex">
+            <div class="w-full h-full" v-bar>
+              <div>
+                <div class="w-full h-auto flex-row">
+                  <div v-for="(jawaban, index) in allJawabanJurnal" v-bind:key="jawaban.id" 
+                      class="w-full flex-row h-auto">
+                    <div class="w-full h-auto flex my-10">
+                      <div class="h-full w-12 flex font-merri-bold text-xl">
+                        <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                      </div>
+                      <div class="h-12 px-1 w-4">
+                        <div class="h-full w-full bg-gray-900"/>
+                      </div>
+                      <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                        <span>{{ jawaban.soal }}</span>
+                      </div>
+                    </div>
+                    <div class="w-full h-auto flex px-5">
+                      <textarea v-model="allJawabanJurnal[index].jawaban" cols="30" rows="10"
+                            class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                            type="text" disabled/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="showingJawaban === 'Skill'" 
+              class="w-full h-full p-8 flex">
+            <div class="w-auto h-auto m-auto font-monda-bold text-3xl">
+              <span>Silahkan beri rating untuk praktikan ini :</span>
+              <star-rating class="mx-auto"
+                style="width: 250px;" 
+                v-model="formNilai.rating"
+                :increment="0.01" 
+                :fixed-points="2"
+                :show-rating="false"
+                :star-size='50'/>
+            </div>
+          </div>
+        </div>
+        <div class="w-full h-16 p-2 flex">
+          <div class="w-full h-full p-0 hover:p-1 cursor-pointer animation-enable-short flex"
+              v-on:click="inputNilai()">
+            <div class="w-full h-full bg-green-600 rounded-lg flex">
+              <div class="w-auto h-auto m-auto font-monda-bold text-white text-2xl">
+                <span>Input Nilai</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -225,7 +474,7 @@ export default {
     'currentUser',
     'position',
     'userRole',
-    'currentConfig',
+    'allLaporan',
   ],
 
   data() {
@@ -234,6 +483,7 @@ export default {
       isMenuShown: false,
       changePage: false,
       currentPage: false,
+      nilaiShown: false,
 
       menuPraktikum: false,
       menuSoal: false,
@@ -247,6 +497,31 @@ export default {
       menuTp: false,
       menuNilai: false,
       menuKonfigurasi: false,
+
+      listAllLaporan: this.allLaporan,
+      showingJawaban: '',
+
+      allJawabanTp: [],
+      allJawabanJurnal: [],
+
+      chosenModulID: '',
+      chosenKelasID: '',
+      chosenPraktikanID: '',
+      chosenIndex: '',
+
+      formNilai: {
+        tp: '',
+        ta: '',
+        tk: '',
+        jurnal: '',
+        skill: '',
+        diskon: '',
+        rating: 0,
+        modul_id: '',
+        asisten_id: '',
+        kelas_id: '',
+        praktikan_id: '',
+      },
     }
   },
 
@@ -311,6 +586,7 @@ export default {
 
       const globe = this;
       this.currentPage = false;
+      this.nilaiShown = false;
       setTimeout(
         function() {
           globe.$inertia.replace('/'+ $whereTo +'?comingFrom=konfigurasi&position='+globe.$refs.menu.scrollTop);
@@ -327,6 +603,141 @@ export default {
           globe.$inertia.replace('/logoutAsisten')
         }, 1010); 
     },
+
+    showJawaban: function($type) {
+
+      const globe = this;
+      this.showingJawaban = $type;
+    },
+
+    showNilaiPage: function($praktikan_id, $modul_id, $kelas_id, $index){
+      
+      const globe = this;
+
+      this.chosenModulID = $modul_id;
+      this.chosenKelasID = $kelas_id;
+      this.chosenPraktikanID = $praktikan_id;
+      this.chosenIndex = $index;
+
+      this.nilaiShown = true;
+
+      if(this.listAllLaporan[$index].nilaiExists === true){
+
+        globe.$axios.post('/getCurrentNilai/'+$praktikan_id+"/"+$modul_id).then(response => {
+
+          if(response.data.message === "success"){
+
+            this.formNilai.ta = response.data.nilai.ta;
+            this.formNilai.tk = response.data.nilai.tk;
+            this.formNilai.tp = response.data.nilai.tp;
+            this.formNilai.skill = response.data.nilai.skill;
+            this.formNilai.jurnal = response.data.nilai.jurnal;
+            this.formNilai.diskon = response.data.nilai.diskon;
+            this.formNilai.rating = response.data.nilai.rating;
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        });
+
+      } else {
+
+        globe.$axios.post('/createFormNilai/'+$praktikan_id+"/"+$modul_id).then(response => {
+
+          if(response.data.message === "success"){
+
+            this.formNilai.ta = response.data.nilaiTa;
+            this.formNilai.tk = response.data.nilaiTk;
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        });
+      }
+      
+      globe.$axios.post('/getAllJawaban/'+$praktikan_id+"/"+$modul_id).then(response => {
+
+        if(response.data.message === "success"){
+
+          globe.allJawabanTp = response.data.allJawabanTp;
+          globe.allJawabanJurnal = response.data.allJawabanJurnal;
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    },
+
+    inputNilai: function(){
+
+      const globe = this;
+
+      if(this.formNilai.tp === '') {
+        globe.$toasted.global.showError({
+          message: "Input nilai TP terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.formNilai.jurnal === '') {
+        globe.$toasted.global.showError({
+          message: "Input nilai Jurnal terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.formNilai.skill === '') {
+        globe.$toasted.global.showError({
+          message: "Input skill terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.formNilai.rating === 0) {
+        globe.$toasted.global.showError({
+          message: "Input rating terlebih dahulu dengan mengklik nilai skill"
+        });
+        return;
+      }
+
+      if(this.formNilai.diskon === '') {
+        globe.$toasted.global.showError({
+          message: "Input diskon terlebih dahulu <br> Inputkan 0 jika tidak ada diskon"
+        });
+        return;
+      }
+
+      globe.formNilai.modul_id = globe.chosenModulID;
+      globe.formNilai.kelas_id = globe.chosenKelasID;
+      globe.formNilai.praktikan_id = globe.chosenPraktikanID;
+      globe.formNilai.asisten_id = globe.currentUser.id;
+      globe.$axios.post('/inputNilai', this.formNilai).then(response => {
+
+        if(response.data.message === "success"){
+
+          globe.formNilai.tp = '';
+          globe.formNilai.jurnal = '';
+          globe.formNilai.skill = '';
+          globe.formNilai.rating = 0;
+          globe.formNilai.diskon = '';
+          globe.formNilai.modul_id = '';
+          globe.formNilai.kelas_id = '';
+          globe.formNilai.praktikan_id = '';
+          globe.listAllLaporan[globe.chosenIndex].nilaiExists = true;
+          globe.nilaiShown = false;
+          globe.$toasted.global.showSuccess({
+            message: "Nilai berhasil di input"
+          });
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    }
   }
 }
 </script>

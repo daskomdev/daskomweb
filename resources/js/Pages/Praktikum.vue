@@ -100,7 +100,7 @@
 
         <!-- Role Based Menu -->
         <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id === 2">
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -445,7 +445,7 @@
                   :class="[{ 'pointer-events-none': praktikumStart },
                           { 'pointer-events-auto': !praktikumStart }]">
               <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
-                {{ kelas.kelas }} [ {{ kelas.hari }} - Shift {{ kelas.shift }} ]
+                {{ kelas.kelas }} [ {{ kelas.hari.toUpperCase() }} - Shift {{ kelas.shift }} ]
               </option>
             </select>
           </div>
@@ -1226,15 +1226,8 @@ export default {
                               });
                               globe.$axios.post('/stopPraktikum').then(response => {
 
-                                if(response.data.message === "success") {
-                                  globe.praktikumStart = false;
-                                  globe.statusPraktikum = 0;
-
-                                } else {
-                                  globe.$toasted.global.showError({
-                                    message: response.data.message
-                                  });
-                                }
+                                globe.praktikumStart = false;
+                                globe.statusPraktikum = 0;
                               });
 
                             } else {
