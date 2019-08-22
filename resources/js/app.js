@@ -1,4 +1,4 @@
-import Inertia from 'inertia-vue'
+import { InertiaApp } from '@inertiajs/inertia-vue'
 import Vue from 'vue'
 import VueAnime from 'vue-animejs';
 import Toasted from 'vue-toasted';
@@ -85,7 +85,7 @@ library.add(faClipboardCheck);
 dom.watch(); 
 
 Vue.use(VueAnime)
-Vue.use(Inertia)
+Vue.use(InertiaApp)
 Vue.use(Toasted);
 Vue.use(Vuebar);
 Vue.use(ToggleButton);
@@ -155,7 +155,7 @@ Vue.directive('scroll', {
 })
 
 new Vue({
-  render: h => h(Inertia, {
+  render: h => h(InertiaApp, {
     props: {
       initialPage: JSON.parse(app.dataset.page),
       resolveComponent: page => files(`./Pages/${page}.vue`).default,
