@@ -85,9 +85,10 @@
 
         <!-- Role Based Menu -->
         <div v-if="kelasPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none animation-enable"
-              :class="[{ 'bg-yellow-500 text-white': !changePage },
-                      { 'bg-yellow-400 text-black': changePage }]">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
+                      { 'bg-yellow-500 text-white': changePage && menuKelas }]"
+              v-on:click='travel("kelas")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher">
