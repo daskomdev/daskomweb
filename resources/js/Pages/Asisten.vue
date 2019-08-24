@@ -149,7 +149,9 @@
               Kelas
             </span>
           </div>
+        </div>
 
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
                       { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
@@ -162,7 +164,9 @@
               Plotting
             </span>
           </div>
+        </div>
 
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
                       { 'bg-yellow-500 text-white': changePage && menuModul }]"
@@ -175,7 +179,9 @@
               Modul
             </span>
           </div>
+        </div>
 
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
                       { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
@@ -188,7 +194,9 @@
               Konfigurasi
             </span>
           </div>
+        </div>
 
+        <div v-if="currentUser.role_id === 1">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
                       { 'bg-yellow-500 text-white': changePage && menuTp }]"
@@ -200,8 +208,8 @@
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               Tugas Pendahuluan
             </span>
-          </div> 
-        </div>
+          </div>
+        </div> 
       </div>
     </div>
 

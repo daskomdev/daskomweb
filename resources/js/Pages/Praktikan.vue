@@ -299,7 +299,7 @@
                   v-if="!modulShown">
                 <div class="w-full h-full overflow-y-auto">
                   <div class="w-full h-auto flex-row">
-                    <div v-for="(soal, index) in soalFitb" v-bind:key="soal.id" 
+                    <div v-for="(soal, index) in soalFitb" v-bind:key="index" 
                         class="w-full flex-row h-auto">
                       <div class="w-full h-auto flex my-10">
                         <div class="h-full w-12 flex font-merri-bold text-xl">
@@ -318,7 +318,7 @@
                               type="text" placeholder="Ketik jawabanmu disini ..."/>
                       </div>
                     </div>
-                    <div v-for="(soal, index) in soalJurnal" v-bind:key="soal.id" 
+                    <div v-for="(soal, index) in soalJurnal" v-bind:key="index+1" 
                         class="w-full flex-row h-auto">
                       <div class="w-full h-auto flex my-10">
                         <div class="h-full w-12 flex font-merri-bold text-xl">
@@ -873,8 +873,9 @@ export default {
 
         if(response.data.current_praktikum != null){
 
-          //There is currently active praktikum
-          globe.setCurrentPraktikumState(response.data.current_praktikum, false);
+          //There is currently active praktikum && kelas_id === current_praktikum.kelas_id
+          if(response.data.current_praktikum.kelas_id === globe.currentUser.kelas_id)
+            globe.setCurrentPraktikumState(response.data.current_praktikum, false);
         }
 
       } else {
@@ -996,6 +997,13 @@ export default {
       if(this.laporanPraktikan.pesan === ''){
         globe.$toasted.global.showError({
           message: 'Masukkan pesan untuk praktikum / asisten terlebih dahulu'
+        });
+        return;
+      }
+
+      if(this.laporanPraktikan.pesan.length < 20){
+        globe.$toasted.global.showError({
+          message: 'Pesan berisi minimal 20 karakter'
         });
         return;
       }

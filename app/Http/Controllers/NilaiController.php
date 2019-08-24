@@ -51,6 +51,27 @@ class NilaiController extends Controller
         ], 200);
     }
 
+    function my_array_unique($array, $keep_key_assoc = false){
+        $duplicate_keys = array();
+        $tmp = array();       
+    
+        foreach ($array as $key => $val){
+            // convert objects to arrays, in_array() does not support objects
+            if (is_object($val))
+                $val = (array)$val;
+    
+            if (!in_array($val, $tmp))
+                $tmp[] = $val;
+            else
+                $duplicate_keys[] = $key;
+        }
+    
+        foreach ($duplicate_keys as $key)
+            unset($array[$key]);
+    
+        return $keep_key_assoc ? $array : array_values($array);
+    }
+
     public function list($praktikan_id, $modul_id)
     {
         $allJawabanJurnal = [];
@@ -79,6 +100,8 @@ class NilaiController extends Controller
         foreach ($jawabans as $jawaban => $value)
             array_push($allJawabanJurnal, $value);
 
+        $allJawabanJurnal = my_array_unique($allJawabanJurnal);
+
         if(Jawaban_Tp::where('praktikan_id', $praktikan_id)
             ->where('modul_id', $modul_id)
             ->exists()) {
@@ -91,6 +114,8 @@ class NilaiController extends Controller
             
             foreach ($jawabans as $jawaban => $value)
                 array_push($allJawabanTp, $value);
+
+            $allJawabanTp = my_array_unique($allJawabanTp);
 
         } else {
             $allJawabanTp = "nope";

@@ -219,338 +219,348 @@
       </div>
     </div>
 
-    <!-- Praktikum Layout -->
+    <!-- Praktikum Layout (No praktikum exist || "i am the PJ") -->
     <div class="relative h-full w-120full relative animation-enable"
-        :class="[{ 'left-0': currentPage },
-                { 'left-minFull': !currentPage }]"
+        :class="[{ 'left-0': currentPage},
+                { 'left-minFull': !currentPage}]"
         @mouseover="isMenuShown = false;">
 
-      <div v-if="statusPraktikum === 5 ||
-                 statusPraktikum === 6"
-          class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
-        <div class="w-full h-36full flex pointer-events-auto px-10">
-          <div v-if="statusPraktikum === 5"  
-              class="w-full h-full flex-row">
-            <div class="w-full h-full flex">
-              <div
-                  class="font-overpass-bold text-4xl text-white text-center m-auto">
-                PRAKTIKUM SELESAI <br>
-                Terimakasih atas kehadirannya <br>
-                (Silahkan rating asisten dan praktikumnya  😄 )
-              </div>
-            </div>
-          </div>
-          <div v-if="statusPraktikum === 6" 
-              class="w-3/4 h-24full px-5 m-auto flex-row">
-            <div class="w-full h-1/5 flex">
-              <div class="w-1/4 h-full flex">
-                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  Asisten JAGA
-                </div>
-              </div>
-              <div class="w-3/4 h-full py-2 flex">
-                <div class="w-full h-full">
-                  <input v-model="formHistoryJaga.allasisten_kode"
-                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
-                </div>
-              </div>
-            </div>
-            <div class="w-full h-1/5 flex">
-              <div class="w-1/4 h-full flex">
-                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  Asisten IZIN
-                </div>
-              </div>
-              <div class="w-3/4 h-full py-2 flex">
-                <div class="w-full h-full">
-                  <input v-model="formHistoryIzin_Izin.allasisten_kode"
-                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
-                </div>
-              </div>
-            </div>
-            <div class="w-full h-1/5 flex">
-              <div class="w-1/4 h-full flex">
-                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  Asisten SAKIT
-                </div>
-              </div>
-              <div class="w-3/4 h-full py-2 flex">
-                <div class="w-full h-full">
-                  <input v-model="formHistoryIzin_Sakit.allasisten_kode"
-                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
-                </div>
-              </div>
-            </div>
-            <div class="w-full h-1/5 flex">
-              <div class="w-1/4 h-full flex">
-                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  Asisten ALFA
-                </div>
-              </div>
-              <div class="w-3/4 h-full py-2 flex">
-                <div class="w-full h-full">
-                  <input v-model="formHistoryIzin_Alfa.allasisten_kode"
-                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
-                </div>
-              </div>
-            </div>
-            <div class="w-full h-1/5 flex">
-              <div class="w-1/4 h-full flex">
-                <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
-                  Praktikan ALFA
-                </div>
-              </div>
-              <div class="w-3/4 h-full py-2 flex">
-                <div class="w-full h-full">
-                  <input v-model="formPraktikan_Alfa.allpraktikan_nim"
-                        class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                        id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="statusPraktikum === 6"  
-              class="w-1/4 pb-10 px-5 h-24full m-auto flex-row">
-            <span class="font-merri w-full text-left text-white text-lg h-1/4">
-              Laporan
-            </span>
-            <div class="w-full h-full">
-              <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
-                    class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    id="Laporan" type="text" placeholder="Asisten FAI jaga 2 kelompok"/>
-            </div>
-          </div>
-        </div>
-        <div class="w-1/3 h-full m-auto flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
-            v-on:click="goToNextSection(false)">
-          <div class="w-full h-16 bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
-            <div class="w-auto select-none h-full m-auto items-center flex">
-              NEXT
-            </div>
-          </div>
+      <div class="w-full h-full flex"
+          v-if="isForbidden">
+        <div class="m-auto w-auto h-auto text-center">
+          <span class="font-monda-bold whitespace-pre-wrap break-words text-3xl text-white">Ada praktikum yang sedang berlangsung<br>(liat menu lain aja)</span>
         </div>
       </div>
 
-      <div v-if="statusPraktikum === 0 ||
-                 statusPraktikum === 1 ||
-                 statusPraktikum === 2 ||
-                 statusPraktikum === 3 ||
-                 statusPraktikum === 4" 
-          class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
-        <div class="w-full h-1/2 flex">
-          <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
-            <span class="font-overpass-bold text-3xl text-center"
-                :class="[{ 'visible': statusPraktikum === 0 },
-                        { 'hidden': statusPraktikum != 0 }]">
-              PRAKTIKUM DASKOM<br>
-              (Klik START untuk memulai TA)
-            </span> 
-            <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum === 1 },
-                        { 'hidden': statusPraktikum != 1 }]">
-              TA
-            </span> 
-            <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum === 2 },
-                        { 'hidden': statusPraktikum != 2 }]">
-              JURNAL
-            </span> 
-            <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum === 3 },
-                        { 'hidden': statusPraktikum != 3 }]">
-              MANDIRI
-            </span> 
-            <span class="font-overpass-bold text-9xl " 
-                :class="[{ 'visible': statusPraktikum === 4 },
-                        { 'hidden': statusPraktikum != 4 }]">
-              TK
-            </span> 
-          </div>
-        </div>
-        <div class="w-full h-1/2 flex-row">
-          <div class="w-full h-1/3 flex">
-            <div class="w-3/4 bg-yellow-400 rounded-large font-monda-bold text-6xl h-full items-center m-auto flex">
-              <div class="w-auto h-auto text-green-600 pt-1 m-auto">
-                {{ time }}
+      <div class="w-full h-full flex"
+          v-if="!isForbidden">
+        <div v-if="statusPraktikum === 5 ||
+                  statusPraktikum === 6"
+            class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
+          <div class="w-full h-36full flex pointer-events-auto px-10">
+            <div v-if="statusPraktikum === 5"  
+                class="w-full h-full flex-row">
+              <div class="w-full h-full flex">
+                <div
+                    class="font-overpass-bold text-4xl text-white text-center m-auto">
+                  PRAKTIKUM SELESAI <br>
+                  Terimakasih atas kehadirannya <br>
+                  (Silahkan rating asisten dan praktikumnya  😄 )
+                </div>
+              </div>
+            </div>
+            <div v-if="statusPraktikum === 6" 
+                class="w-3/4 h-24full px-5 m-auto flex-row">
+              <div class="w-full h-1/5 flex">
+                <div class="w-1/4 h-full flex">
+                  <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                    Asisten JAGA
+                  </div>
+                </div>
+                <div class="w-3/4 h-full py-2 flex">
+                  <div class="w-full h-full">
+                    <input v-model="formHistoryJaga.allasisten_kode"
+                          class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                          id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-1/5 flex">
+                <div class="w-1/4 h-full flex">
+                  <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                    Asisten IZIN
+                  </div>
+                </div>
+                <div class="w-3/4 h-full py-2 flex">
+                  <div class="w-full h-full">
+                    <input v-model="formHistoryIzin_Izin.allasisten_kode"
+                          class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                          id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-1/5 flex">
+                <div class="w-1/4 h-full flex">
+                  <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                    Asisten SAKIT
+                  </div>
+                </div>
+                <div class="w-3/4 h-full py-2 flex">
+                  <div class="w-full h-full">
+                    <input v-model="formHistoryIzin_Sakit.allasisten_kode"
+                          class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                          id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-1/5 flex">
+                <div class="w-1/4 h-full flex">
+                  <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                    Asisten ALFA
+                  </div>
+                </div>
+                <div class="w-3/4 h-full py-2 flex">
+                  <div class="w-full h-full">
+                    <input v-model="formHistoryIzin_Alfa.allasisten_kode"
+                          class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                          id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-1/5 flex">
+                <div class="w-1/4 h-full flex">
+                  <div class="ml-auto my-auto mr-4 font-monda-bold text-2xl text-white">
+                    Praktikan ALFA
+                  </div>
+                </div>
+                <div class="w-3/4 h-full py-2 flex">
+                  <div class="w-full h-full">
+                    <input v-model="formPraktikan_Alfa.allpraktikan_nim"
+                          class="font-overpass-mono-bold uppercase text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                          id="kode" type="text" placeholder='Pisahkan dengan tanda "-" untuk penulisan'>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="statusPraktikum === 6"  
+                class="w-1/4 pb-10 px-5 h-24full m-auto flex-row">
+              <span class="font-merri w-full text-left text-white text-lg h-1/4">
+                Laporan
+              </span>
+              <div class="w-full h-full">
+                <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
+                      class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                      id="Laporan" type="text" placeholder="Asisten FAI jaga 2 kelompok"/>
               </div>
             </div>
           </div>
-          <div class="w-full h-24 flex">
-            <div class="w-3/4 h-full m-auto flex">
-              <div class="w-full h-full flex">
-                <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
-                    :class="[{ 'w-1/2': statusPraktikum === 0 },
-                            { 'w-1/3': statusPraktikum !== 0 }]"
-                    v-on:click="rollbackPraktikum(false)">
-                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
-                    <div class="w-auto select-none h-full m-auto items-center flex">
-                      ROLLBACK
+          <div class="w-1/3 h-full m-auto flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+              v-on:click="goToNextSection(false)">
+            <div class="w-full h-16 bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+              <div class="w-auto select-none h-full m-auto items-center flex">
+                NEXT
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="statusPraktikum === 0 ||
+                  statusPraktikum === 1 ||
+                  statusPraktikum === 2 ||
+                  statusPraktikum === 3 ||
+                  statusPraktikum === 4" 
+            class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
+          <div class="w-full h-1/2 flex">
+            <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
+              <span class="font-overpass-bold text-3xl text-center"
+                  :class="[{ 'visible': statusPraktikum === 0 },
+                          { 'hidden': statusPraktikum != 0 }]">
+                PRAKTIKUM DASKOM<br>
+                (Klik START untuk memulai TA)
+              </span> 
+              <span class="font-overpass-bold text-9xl " 
+                  :class="[{ 'visible': statusPraktikum === 1 },
+                          { 'hidden': statusPraktikum != 1 }]">
+                TA
+              </span> 
+              <span class="font-overpass-bold text-9xl " 
+                  :class="[{ 'visible': statusPraktikum === 2 },
+                          { 'hidden': statusPraktikum != 2 }]">
+                JURNAL
+              </span> 
+              <span class="font-overpass-bold text-9xl " 
+                  :class="[{ 'visible': statusPraktikum === 3 },
+                          { 'hidden': statusPraktikum != 3 }]">
+                MANDIRI
+              </span> 
+              <span class="font-overpass-bold text-9xl " 
+                  :class="[{ 'visible': statusPraktikum === 4 },
+                          { 'hidden': statusPraktikum != 4 }]">
+                TK
+              </span> 
+            </div>
+          </div>
+          <div class="w-full h-1/2 flex-row">
+            <div class="w-full h-1/3 flex">
+              <div class="w-3/4 bg-yellow-400 rounded-large font-monda-bold text-6xl h-full items-center m-auto flex">
+                <div class="w-auto h-auto text-green-600 pt-1 m-auto">
+                  {{ time }}
+                </div>
+              </div>
+            </div>
+            <div class="w-full h-24 flex">
+              <div class="w-3/4 h-full m-auto flex">
+                <div class="w-full h-full flex">
+                  <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                      :class="[{ 'w-1/2': statusPraktikum === 0 },
+                              { 'w-1/3': statusPraktikum !== 0 }]"
+                      v-on:click="rollbackPraktikum(false)">
+                    <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                      <div class="w-auto select-none h-full m-auto items-center flex">
+                        ROLLBACK
+                      </div>
+                    </div>
+                  </div>
+                  <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                      :class="[{ 'hidden': countdownStarted },
+                              { 'visible': !countdownStarted },
+                              { 'w-1/2': statusPraktikum === 0 },
+                              { 'w-1/3': statusPraktikum !== 0 }]"
+                      v-on:click="startCountdown()">
+                    <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                      <div class="w-auto select-none h-full m-auto items-center flex">
+                        START
+                      </div>
+                    </div>
+                  </div>
+                  <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                      :class="[{ 'hidden': !countdownStarted },
+                              { 'visible': countdownStarted },
+                              { 'w-1/2': statusPraktikum === 0 },
+                              { 'w-1/3': statusPraktikum !== 0 }]"
+                      v-on:click="pauseCountdown()">
+                    <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                      <div class="w-auto select-none h-full m-auto items-center flex">
+                        PAUSE
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
+                      :class="[{ 'hidden': statusPraktikum === 0 },
+                              { 'visible': statusPraktikum !== 0 }]"
+                      v-on:click="goToNextSection(false)">
+                    <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
+                      <div class="w-auto select-none h-full m-auto items-center flex">
+                        NEXT
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
-                    :class="[{ 'hidden': countdownStarted },
-                            { 'visible': !countdownStarted },
-                            { 'w-1/2': statusPraktikum === 0 },
-                            { 'w-1/3': statusPraktikum !== 0 }]"
-                    v-on:click="startCountdown()">
-                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
-                    <div class="w-auto select-none h-full m-auto items-center flex">
+              </div>
+            </div>
+          </div>
+        </div>  
+
+        <div class="w-full h-24 px-8 mt-8 flex z-20">
+          <div class="w-1/2 h-full flex-row">
+            <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
+              <span class="h-auto my-auto">
+                Kelas
+              </span>
+            </div>
+            <div class="w-full h-1/2 tatkOption">
+              <select :onchange="getAllAsistenPraktikan()" v-model="chosenKelasID" 
+                    class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
+                    :class="[{ 'pointer-events-none': praktikumStart },
+                            { 'pointer-events-auto': !praktikumStart }]">
+                <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
+                  {{ kelas.kelas }} [ {{ kelas.hari.toUpperCase() }} - Shift {{ kelas.shift }} ]
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="w-1/2 pl-8 h-full flex-row">
+            <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
+              <span class="h-auto my-auto">
+                Modul
+              </span>
+            </div>
+            <div class="w-full h-1/2 tatkOption">
+              <select v-model="chosenModulID"
+                    class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
+                    :class="[{ 'pointer-events-none': praktikumStart },
+                            { 'pointer-events-auto': !praktikumStart }]">
+                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
+                  {{ modul.judul }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full h-24full absolute animation-enable pt-4 z-20"
+            :class="[{ 'bottom-0': !praktikumStart },
+                    { 'bottom-minFull': praktikumStart }]">
+          <div class="w-16full bg-green-500 rounded-t-lg mx-auto h-full" v-bar>
+            <div class="p-8">
+              <div class="w-full h-auto flex rounded-lg bg-gray-300">
+                <div class="w-full h-auto flex"
+                    v-if="listAllAsisten.length > 0 &&
+                          listAllPraktikan.length > 0">
+                  <div class="w-1/3 h-auto flex-row">
+                    <transition-group name="asisten-list" tag="div">
+                      <div v-for="(asisten, index) in listAllAsisten" v-bind:key="asisten.id" 
+                          class="animation-enable w-full flex-row"
+                          :class="['h-'+ 12 * (praktikanComplete + (praktikanLeft-(index+1) >= 0 ? 1 : 0)),
+                                  { 'bg-gray-300 text-black': index % 2 === 0 },
+                                  { 'bg-gray-600 text-white': index % 2 != 0 },
+                                  { 'rounded-tl-lg': index === 0 },
+                                  { 'rounded-bl-lg': index+1 === listAllAsisten.length }]">
+                        <div class="w-full h-1/2 flex">
+                          <div class="mx-auto mt-auto font-overpass-bold pt-8 text-4xl">
+                            {{ asisten.kode }}
+                          </div>
+                        </div>
+                        <div class="w-full flex">
+                          <div class="mx-auto mb-auto font-merri text-2xl">
+                            {{ index }}
+                          </div>
+                        </div>
+                      </div>
+                    </transition-group>
+                  </div>
+
+                  <div class="w-2/3 h-auto flex-row">
+                    <transition-group name="asisten-list" tag="div">
+                      <div v-for="(praktikan, index) in listAllPraktikan" v-bind:key="praktikan.id" 
+                          class="animation-enable w-full h-12 flex-row">
+                        <div class="w-full h-full flex"
+                          :class="[{ 'rounded-tr-lg': index === 0 },
+                                  { 'rounded-br-lg': index === listAllPraktikan.length-1 },
+                                  { 'bg-gray-600 text-white': 
+                                      parseInt((praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? index : index+(praktikanComplete - praktikanLeft)) / 
+                                        (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? praktikanComplete+1 : praktikanComplete)) 
+                                      % 2 === (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 === 1 && praktikanLeft < praktikanComplete || praktikanLeft === praktikanComplete ? 0 : 1)) }]">
+                          <div class="m-auto font-monda text-2xl whitespace-pre-wrap">{{ praktikan.nim.substring(0,6) }}   {{ praktikan.nim.substring(6,10) }}</div>
+                        </div>
+                      </div>
+                    </transition-group>
+                  </div>
+                </div>
+                <div class="w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
+                    v-if="listAllPraktikan < 1">
+                  Tidak ada PRAKTIKAN di kelas ini
+                </div>
+                <div class="w-auto m-auto h-24 items-center font-merri-bold text-4xl flex"
+                    v-if="listAllAsisten.length < 1 &&
+                          listAllPraktikan.length < 1">
+                  &
+                </div>
+                <div class="w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
+                    v-if="listAllAsisten < 1">
+                  Tidak ada ASISTEN di kelas ini
+                </div>
+              </div>
+
+              <div class="w-full h-24 mt-4 mb-8 flex">
+                <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                    v-on:click="shuffleEmAll()">
+                  <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
+                    <div class="w-auto select-none h-auto m-auto">
+                      SHUFFLE
+                    </div>
+                  </div>
+                </div>
+                <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                    v-on:click="startThePracticum()">
+                  <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
+                    <div class="w-auto select-none h-auto m-auto">
                       START
                     </div>
                   </div>
                 </div>
-                <div class="h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
-                    :class="[{ 'hidden': !countdownStarted },
-                            { 'visible': countdownStarted },
-                            { 'w-1/2': statusPraktikum === 0 },
-                            { 'w-1/3': statusPraktikum !== 0 }]"
-                    v-on:click="pauseCountdown()">
-                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
-                    <div class="w-auto select-none h-full m-auto items-center flex">
-                      PAUSE
-                    </div>
-                  </div>
-                </div>
-                <div class="w-1/3 h-full flex p-4 hover:p-5 animation-enable-short cursor-pointer pointer-events-auto"
-                    :class="[{ 'hidden': statusPraktikum === 0 },
-                            { 'visible': statusPraktikum !== 0 }]"
-                    v-on:click="goToNextSection(false)">
-                  <div class="w-full h-full bg-gray-300 flex font-merri-bold text-2xl items-center rounded-full">
-                    <div class="w-auto select-none h-full m-auto items-center flex">
-                      NEXT
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </div>              
             </div>
-          </div>
-        </div>
-      </div>  
-
-      <div class="w-full h-24 px-8 mt-8 flex z-20">
-        <div class="w-1/2 h-full flex-row">
-          <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
-            <span class="h-auto my-auto">
-              Kelas
-            </span>
-          </div>
-          <div class="w-full h-1/2 tatkOption">
-            <select :onchange="getAllAsistenPraktikan()" v-model="chosenKelasID" 
-                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
-                  :class="[{ 'pointer-events-none': praktikumStart },
-                          { 'pointer-events-auto': !praktikumStart }]">
-              <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
-                {{ kelas.kelas }} [ {{ kelas.hari.toUpperCase() }} - Shift {{ kelas.shift }} ]
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="w-1/2 pl-8 h-full flex-row">
-          <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
-            <span class="h-auto my-auto">
-              Modul
-            </span>
-          </div>
-          <div class="w-full h-1/2 tatkOption">
-            <select v-model="chosenModulID"
-                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
-                  :class="[{ 'pointer-events-none': praktikumStart },
-                          { 'pointer-events-auto': !praktikumStart }]">
-              <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
-                {{ modul.judul }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="w-full h-24full absolute animation-enable pt-4 z-20"
-          :class="[{ 'bottom-0': !praktikumStart },
-                  { 'bottom-minFull': praktikumStart }]">
-        <div class="w-16full bg-green-500 rounded-t-lg mx-auto h-full" v-bar>
-          <div class="p-8">
-            <div class="w-full h-auto flex rounded-lg bg-gray-300">
-              <div class="w-full h-auto flex"
-                  v-if="listAllAsisten.length > 0 &&
-                        listAllPraktikan.length > 0">
-                <div class="w-1/3 h-auto flex-row">
-                  <transition-group name="asisten-list" tag="div">
-                    <div v-for="(asisten, index) in listAllAsisten" v-bind:key="asisten.id" 
-                        class="animation-enable w-full flex-row"
-                        :class="['h-'+ 12 * (praktikanComplete + (praktikanLeft-(index+1) >= 0 ? 1 : 0)),
-                                { 'bg-gray-300 text-black': index % 2 === 0 },
-                                { 'bg-gray-600 text-white': index % 2 != 0 },
-                                { 'rounded-tl-lg': index === 0 },
-                                { 'rounded-bl-lg': index+1 === listAllAsisten.length }]">
-                      <div class="w-full h-1/2 flex">
-                        <div class="mx-auto mt-auto font-overpass-bold pt-8 text-4xl">
-                          {{ asisten.kode }}
-                        </div>
-                      </div>
-                      <div class="w-full flex">
-                        <div class="mx-auto mb-auto font-merri text-2xl">
-                          {{ index }}
-                        </div>
-                      </div>
-                    </div>
-                  </transition-group>
-                </div>
-
-                <div class="w-2/3 h-auto flex-row">
-                  <transition-group name="asisten-list" tag="div">
-                    <div v-for="(praktikan, index) in listAllPraktikan" v-bind:key="praktikan.id" 
-                        class="animation-enable w-full h-12 flex-row">
-                      <div class="w-full h-full flex"
-                        :class="[{ 'rounded-tr-lg': index === 0 },
-                                { 'rounded-br-lg': index === listAllPraktikan.length-1 },
-                                { 'bg-gray-600 text-white': 
-                                    parseInt((praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? index : index+(praktikanComplete - praktikanLeft)) / 
-                                      (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? praktikanComplete+1 : praktikanComplete)) 
-                                    % 2 === (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 === 1 && praktikanLeft < praktikanComplete || praktikanLeft === praktikanComplete ? 0 : 1)) }]">
-                        <div class="m-auto font-monda text-2xl whitespace-pre-wrap">{{ praktikan.nim.substring(0,6) }}   {{ praktikan.nim.substring(6,10) }}</div>
-                      </div>
-                    </div>
-                  </transition-group>
-                </div>
-              </div>
-              <div class="w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
-                  v-if="listAllPraktikan < 1">
-                Tidak ada PRAKTIKAN di kelas ini
-              </div>
-              <div class="w-auto m-auto h-24 items-center font-merri-bold text-4xl flex"
-                  v-if="listAllAsisten.length < 1 &&
-                        listAllPraktikan.length < 1">
-                &
-              </div>
-              <div class="w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
-                  v-if="listAllAsisten < 1">
-                Tidak ada ASISTEN di kelas ini
-              </div>
-            </div>
-
-            <div class="w-full h-24 mt-4 mb-8 flex">
-              <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
-                  v-on:click="shuffleEmAll()">
-                <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
-                  <div class="w-auto select-none h-auto m-auto">
-                    SHUFFLE
-                  </div>
-                </div>
-              </div>
-              <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
-                  v-on:click="startThePracticum()">
-                <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
-                  <div class="w-auto select-none h-auto m-auto">
-                    START
-                  </div>
-                </div>
-              </div>
-            </div>              
           </div>
         </div>
       </div>
@@ -691,6 +701,7 @@ export default {
       isMenuShown: false,
       changePage: false,
       currentPage: false,
+      isForbidden: false,
 
       formHovered: false,
       buttonHovered: false,
@@ -848,6 +859,11 @@ export default {
       if(response.data.message === "success") {
 
         if(response.data.current_praktikum != null){
+
+          if(response.data.current_praktikum.asisten_id !== globe.currentUser.id){
+            globe.isForbidden = true;
+            return;
+          }
 
           //There is currently active praktikum
           globe.formCurrentPraktikum.asisten_id = response.data.current_praktikum.asisten_id;
@@ -1407,6 +1423,21 @@ export default {
     startThePracticum: function(){
 
       const globe = this;
+
+      globe.$axios.post('/checkPraktikum').then(response => {
+        if(response.data.message === "success")
+          if(response.data.current_praktikum != null){
+            if(response.data.current_praktikum.asisten_id !== globe.currentUser.id){
+              globe.isForbidden = true;
+              return;
+            }
+          }
+        else
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+      });
+      
       if(this.chosenKelasID === ""){
 
         globe.$toasted.global.showError({

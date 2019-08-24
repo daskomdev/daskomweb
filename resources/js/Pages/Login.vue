@@ -15,7 +15,7 @@
                   { 'right-0': isLogin },
                   { 'animation-enable': animate }]">
       <div class="flex h-full">
-        <form class="w-full max-w-sm m-auto">
+        <form class="w-full max-w-sm m-auto" @keyup.enter="loginPraktikan">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
             LOGIN
@@ -69,7 +69,7 @@
                   { 'left-0': !isLogin },
                   { 'animation-enable': animate }]">
       <div class="flex h-full">
-        <form id="signupPraktikanForm" class="w-full max-w-sm m-auto">
+        <form id="signupPraktikanForm" class="w-full max-w-sm m-auto" @keyup.enter="signupPraktikan">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
             SIGNUP
@@ -173,7 +173,7 @@
                   { 'right-0': isLogin },
                   { 'animation-enable': animate }]">
       <div class="flex h-full">
-        <form class="w-full max-w-sm m-auto">
+        <form class="w-full max-w-sm m-auto" @keyup.enter="loginAsisten">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
             LOGIN
@@ -227,7 +227,7 @@
                   { 'left-0': !isLogin },
                   { 'animation-enable': animate }]">
       <div class="flex h-full">
-        <form id="signupAsistenForm" class="w-full max-w-sm m-auto">
+        <form id="signupAsistenForm" class="w-full max-w-sm m-auto" @keyup.enter="signupAsisten">
           <span class="flex font-semibold font-overpass-mono-bold text-6xl text-teal-900"
                 style="letter-spacing: 0.5rem">
             SIGNUP
@@ -573,7 +573,16 @@ export default {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          globe.errors = error.response.data.errors
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.kode != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.kode[0]
+              });
+            if(error.response.data.errors.password != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.password[0]
+              });
+          }
         }
       });
     },
@@ -596,7 +605,16 @@ export default {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          globe.errors = error.response.data.errors
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.nim != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nim[0]
+              });
+            if(error.response.data.errors.password != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.password[0]
+              });
+          }
         }
       });
     },
@@ -622,7 +640,28 @@ export default {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          globe.errors = error.response.data.errors
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.nama != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nama[0]
+              });
+            if(error.response.data.errors.kode != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.kode[0]
+              });
+            if(error.response.data.errors.password != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.password[0]
+              });
+            if(error.response.data.errors.role_id != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.role_id[0]
+              });
+            if(error.response.data.errors.deskripsi != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.deskripsi[0]
+              });
+          }
         }
       });
     },
@@ -648,7 +687,36 @@ export default {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          globe.errors = error.response.data.errors
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.nama != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nama[0]
+              });
+            if(error.response.data.errors.nim != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nim[0]
+              });
+            if(error.response.data.errors.password != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.password[0]
+              });
+            if(error.response.data.errors.kelas_id != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.kelas_id[0]
+              });
+            if(error.response.data.errors.alamat != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.alamat[0]
+              });
+            if(error.response.data.errors.nomor_telepon != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nomor_telepon[0]
+              });
+            if(error.response.data.errors.email != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.email[0]
+              });
+          }
         }
       });
     },
