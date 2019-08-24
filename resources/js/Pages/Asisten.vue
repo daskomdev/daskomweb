@@ -73,19 +73,6 @@
         </div>
 
         <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
-                    { 'bg-yellow-500 text-white': changePage && menuSoal }]"
-            v-on:click='travel("soal")'>
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            Soal
-          </span>
-        </div>
-
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
             :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
                     { 'bg-yellow-500 text-white': changePage && menuListTp }]"
             v-on:click='travel("listTp")'>
@@ -135,8 +122,7 @@
         </div>
 
         <!-- Role Based Menu -->
-        <!-- TODO: Change Role Layout -->
-        <div v-if="currentUser.role_id === 1">
+        <div v-if="kelasPriviledge.includes(currentUser.role_id)">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -151,7 +137,22 @@
           </div>
         </div>
 
-        <div v-if="currentUser.role_id === 1">
+        <div v-if="soalPriviledge.includes(currentUser.role_id)">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
+                      { 'bg-yellow-500 text-white': changePage && menuSoal }]"
+              v-on:click='travel("soal")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Soal
+            </span>
+          </div>
+        </div>
+
+        <div v-if="plottingPriviledge.includes(currentUser.role_id)">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
                       { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
@@ -166,7 +167,7 @@
           </div>
         </div>
 
-        <div v-if="currentUser.role_id === 1">
+        <div v-if="modulPriviledge.includes(currentUser.role_id)">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
                       { 'bg-yellow-500 text-white': changePage && menuModul }]"
@@ -181,7 +182,7 @@
           </div>
         </div>
 
-        <div v-if="currentUser.role_id === 1">
+        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
                       { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
@@ -196,7 +197,7 @@
           </div>
         </div>
 
-        <div v-if="currentUser.role_id === 1">
+        <div v-if="tpPriviledge.includes(currentUser.role_id)">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
                       { 'bg-yellow-500 text-white': changePage && menuTp }]"
@@ -367,6 +368,13 @@ export default {
 
   data() {
     return {
+      kelasPriviledge: [1,2,4,5],
+      plottingPriviledge: [1,2,4,5],
+      modulPriviledge: [1,2,4,15],
+      konfigurasiPriviledge: [1,2,4,18],
+      tpPriviledge: [1,2,15],
+      soalPriviledge: [1,2,15],
+
       pageActive: false,
       isMenuShown: false,
       isMessageShown: false,
