@@ -56,6 +56,23 @@ class SoalJurnalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showRunmod()
+    {
+        $all_soalJurnalID = explode ("-", Temp_Soaljurnal::latest()->first()->allJurnal_id);
+        foreach ($all_soalJurnalID as $soalId) {
+            $all_soal[] = Soal_Jurnal::find($soalId);
+        }
+        return response()->json([
+            'message'=> 'success',
+            'all_soal' => $all_soal,
+        ], 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function show()
     {
         $all_soalJurnalID = explode ("-", Temp_Soaljurnal::latest()->first()->allJurnal_id);

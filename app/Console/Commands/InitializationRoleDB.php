@@ -125,6 +125,7 @@ class InitializationRoleDB extends Command
                 Configuration::create([
                     'registrationPraktikan_activation' => 1,
                     'registrationAsisten_activation' => 1,
+                    'runmod_activation' => 1,
                 ]);
                 $bar->advance();
                 $bar->finish();

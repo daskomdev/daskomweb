@@ -23,13 +23,39 @@ class CurrentPraktikumController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    // FOR RUNMOD ONLY
+    public function create(Request $request)
     {
-        //
+        DB::table('current__praktikums')->truncate();
+
+        $praktikum = Current_Praktikum::create([
+            'asisten_id' => $request->asisten_id,
+            'kelas_id'   => $request->kelas_id,
+            'modul_id'   => $request->modul_id,
+            'status'     => 123,
+        ]);
+
+        $all_soalJurnal = Soal_Jurnal::where('modul_id', $request->modul_id)->inRandomOrder()->take(2)->get();
+        
+        $all_soalJurnalID = '';
+        for ($i=0; $i < count($all_soalJurnal); $i++) { 
+            $all_soalJurnalID .= $all_soalJurnal[$i]->id;
+            if($i !== count($all_soalJurnal)-1)
+                $all_soalJurnalID .= '-';
+        }
+        Temp_Soaljurnal::create([
+            'allJurnal_id' => $all_soalJurnalID,
+            'allFitb_id' => "",
+        ]);
+
+        broadcast(new praktikumStatusUpdated($praktikum));
+
+        return '{"message": "success"}';
     }
 
     /**
@@ -38,6 +64,7 @@ class CurrentPraktikumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // FOR USUAL PRAKTIKUM
     public function store(Request $request)
     {
         DB::table('current__praktikums')->truncate();

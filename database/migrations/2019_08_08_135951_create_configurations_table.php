@@ -17,6 +17,7 @@ class CreateConfigurationsTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('registrationPraktikan_activation')->default(true);
             $table->boolean('registrationAsisten_activation')->default(true);
+            $table->boolean('runmod_activation')->default(true);
             $table->boolean('tp_activation')->default(false);
             $table->boolean('tubes_activation')->default(false);
             $table->boolean('secretfeature_activation')->default(false);

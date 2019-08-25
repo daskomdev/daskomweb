@@ -42,6 +42,7 @@ class ConfigurationController extends Controller
             'registrationAsisten_activation' => $request->registrationAsisten_activation,
             'tp_activation' => $request->tp_activation,
             'tubes_activation' => $request->tubes_activation,
+            'runmod_activation' => $request->runmod_activation,
         ]);
         
         return '{"message": "success"}';

@@ -22,26 +22,38 @@ class NilaiController extends Controller
      */
     public function index($praktikan_id, $modul_id)
     {
-        $allJawabanTa = Jawaban_Ta::where('praktikan_id', $praktikan_id)
-            ->where('modul_id', $modul_id)
-            ->get();
+        if($modul_id == 1){
 
-        $nilaiTa = 0;
-        foreach ($allJawabanTa as $jawaban => $j) {
-            $currentSoal = Soal_Ta::find($j->soal_id);
-            if($j->jawaban == $currentSoal->jawaban_benar)
-                $nilaiTa += 3;
-        }
+            $nilaiTa = 15;
+            $nilaiTk = 20;
 
-        $allJawabanTk = Jawaban_Tk::where('praktikan_id', $praktikan_id)
-            ->where('modul_id', $modul_id)
-            ->get();
+        } else {
 
-        $nilaiTk = 0;
-        foreach ($allJawabanTk as $jawaban => $j) {
-            $currentSoal = Soal_Tk::find($j->soal_id);
-            if($j->jawaban == $currentSoal->jawaban_benar)
-                $nilaiTa += 3;
+            $allJawabanTa = Jawaban_Ta::where('praktikan_id', $praktikan_id)
+                ->where('modul_id', $modul_id)
+                ->get();
+
+            $nilaiTaCorrect = 0;
+            foreach ($allJawabanTa as $jawaban => $j) {
+                $currentSoal = Soal_Ta::find($j->soal_id);
+                if($j->jawaban == $currentSoal->jawaban_benar)
+                    $nilaiTaCorrect++;
+            }
+
+            $nilaiTa = $nilaiTaCorrect * /*Max Nilai*/15 / /*Max Soal*/10;
+
+            $allJawabanTk = Jawaban_Tk::where('praktikan_id', $praktikan_id)
+                ->where('modul_id', $modul_id)
+                ->get();
+
+            $nilaiTkCorrect = 0;
+            foreach ($allJawabanTk as $jawaban => $j) {
+                $currentSoal = Soal_Tk::find($j->soal_id);
+                if($j->jawaban == $currentSoal->jawaban_benar)
+                    $nilaiTaCorrect++;
+            }
+
+            $nilaiTk = $nilaiTkCorrect * /*Max Nilai*/20 / /*Max Soal*/10;
         }
 
         return response()->json([
@@ -51,7 +63,7 @@ class NilaiController extends Controller
         ], 200);
     }
 
-    function my_array_unique($array, $keep_key_assoc = false){
+    public function my_array_unique($array, $keep_key_assoc = false){
         $duplicate_keys = array();
         $tmp = array();       
     
@@ -100,7 +112,7 @@ class NilaiController extends Controller
         foreach ($jawabans as $jawaban => $value)
             array_push($allJawabanJurnal, $value);
 
-        $allJawabanJurnal = my_array_unique($allJawabanJurnal);
+        $allJawabanJurnal = $this->my_array_unique($allJawabanJurnal);
 
         if(Jawaban_Tp::where('praktikan_id', $praktikan_id)
             ->where('modul_id', $modul_id)
@@ -115,7 +127,7 @@ class NilaiController extends Controller
             foreach ($jawabans as $jawaban => $value)
                 array_push($allJawabanTp, $value);
 
-            $allJawabanTp = my_array_unique($allJawabanTp);
+            $allJawabanTp = $this->my_array_unique($allJawabanTp);
 
         } else {
             $allJawabanTp = "nope";

@@ -45,6 +45,8 @@ import StarRating from 'vue-star-rating';
 import ToggleButton from 'vue-js-toggle-button'
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import VueQrcodeReader from "vue-qrcode-reader";
+import VueCharts from 'vue-chartjs';
+import Chart from './Chart.vue';
 
 library.add(faExclamationCircle);
 library.add(faCheckCircle);
@@ -90,6 +92,8 @@ Vue.use(Toasted);
 Vue.use(Vuebar);
 Vue.use(ToggleButton);
 Vue.use(VueQrcodeReader);
+Vue.use(VueCharts);
+Vue.component('chart', Chart);
 Vue.component('star-rating', StarRating);
 Vue.component(VueQrcode.name, VueQrcode);
 

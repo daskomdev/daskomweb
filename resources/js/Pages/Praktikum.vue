@@ -357,7 +357,8 @@
                   statusPraktikum === 1 ||
                   statusPraktikum === 2 ||
                   statusPraktikum === 3 ||
-                  statusPraktikum === 4" 
+                  statusPraktikum === 4 ||
+                  statusPraktikum === 123" 
             class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
           <div class="w-full h-1/2 flex">
             <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
@@ -373,8 +374,8 @@
                 TA
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 2 },
-                          { 'hidden': statusPraktikum != 2 }]">
+                  :class="[{ 'visible': statusPraktikum === 2 || statusPraktikum === 123 },
+                          { 'hidden': statusPraktikum != 2 && statusPraktikum != 123 }]">
                 JURNAL
               </span> 
               <span class="font-overpass-bold text-9xl " 
@@ -451,7 +452,9 @@
         </div>  
 
         <div class="w-full h-24 px-8 mt-8 flex z-20">
-          <div class="w-1/2 h-full flex-row">
+          <div class="h-full flex-row"
+              :class="[{ 'w-1/2': !isRunmod },
+                        { 'w-full': isRunmod }]">
             <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
               <span class="h-auto my-auto">
                 Kelas
@@ -468,7 +471,8 @@
               </select>
             </div>
           </div>
-          <div class="w-1/2 pl-8 h-full flex-row">
+          <div v-if="!isRunmod" 
+              class="w-1/2 pl-8 h-full flex-row">
             <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
               <span class="h-auto my-auto">
                 Modul
@@ -702,6 +706,7 @@ export default {
     'userRole',
     'allKelas',
     'allModul',
+    'isRunmod',
   ],
 
   data() {
@@ -767,6 +772,7 @@ export default {
       // 6: Open The Laporan PJ and write down the condition of the praktikum
       //    (Only shows "DONE" button for ending the praktikum)
       //    (Dont forget to add data to history_jaga table)
+      // 123: Special Case (RunMod Start)
       statusPraktikum: 0,
 
       formPraktikum: {
@@ -833,6 +839,7 @@ export default {
       // ***************************************************** //
       TAtiming: moment().startOf('day').add(10, 'minutes'),
       JURNALtiming: moment().startOf('day').add(80, 'minutes'),
+      RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
       MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
       countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
@@ -850,6 +857,8 @@ export default {
     $('body').addClass('closed');
     this.$refs.menu.scrollTop = this.position;
 
+    if(this.isRunmod)
+      this.chosenModulID = 1;
     const globe = this;
 
     if(this.comingFrom === 'asisten' ||
@@ -904,6 +913,9 @@ export default {
               break;
             case 4:
               globe.countDown = globe.TKtiming;
+              break;
+            case 123:
+              globe.countDown = globe.RUNMODtiming;
               break;
           }
 
@@ -1303,7 +1315,11 @@ export default {
       globe.bigRatingQuestionShown = false;
       globe.soundPlayed = false;
       globe.countdownStarted = false;
-      globe.statusPraktikum++;
+
+      if(globe.statusPraktikum !== 123)
+        globe.statusPraktikum++;
+      else 
+        globe.statusPraktikum = 5;
 
       globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
 
@@ -1327,6 +1343,9 @@ export default {
           break;
         case 4:
           globe.countDown = globe.TKtiming;
+          break;
+        case 123:
+          globe.countDown = globe.RUNMODtiming;
           break;
       }
     },
@@ -1411,7 +1430,10 @@ export default {
       
       if(this.statusPraktikum === 0){
         
-        this.statusPraktikum = 1;
+        if(!globe.isRunmod)
+          this.statusPraktikum = 1;
+        else
+          this.statusPraktikum = 123;
         globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
 
           if(response.data.message === "success") {
@@ -1441,17 +1463,19 @@ export default {
       const globe = this;
 
       globe.$axios.post('/checkPraktikum').then(response => {
-        if(response.data.message === "success")
+        if(response.data.message === "success") {
           if(response.data.current_praktikum != null){
             if(response.data.current_praktikum.asisten_id !== globe.currentUser.id){
               globe.isForbidden = true;
               return;
             }
           }
-        else
+        } else {
+        
           globe.$toasted.global.showError({
             message: response.data.message
           });
+        }
       });
       
       if(this.chosenKelasID === ""){

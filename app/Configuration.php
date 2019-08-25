@@ -12,6 +12,6 @@ class Configuration extends Model
      * @var array
      */
     protected $fillable = [
-        'registration_activation', 'tp_activation', 'tubes_activation', 'secretfeature_activation',
+        'registration_activation', 'tp_activation', 'tubes_activation', 'secretfeature_activation', 'runmod_activation',
     ];
 }

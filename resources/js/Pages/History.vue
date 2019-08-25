@@ -233,14 +233,14 @@
         <div>
           <transition-group name="history-list" tag="div">
             <div v-for="(history) in listAllHistory" v-bind:key="history.id" 
-                class="animation-enable w-full h-72 flex">
+                class="animation-enable w-full h-72 flex mb-8">
               <div class="w-full h-full px-6 flex-row mt-2">
                 <div class="w-full h-12 flex">
                   <div class="w-1/2 h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
                     <span>{{ history.hari.toUpperCase() }} - {{ history.shift }}  (Rp.25000)</span>
                   </div>
                   <div class="w-1/2 h-auto text-right my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ history.created_at }}</span>
+                    <span>{{ history.created_at | moment }}</span>
                   </div>
                 </div>
                 <div class="w-full h-12full flex bg-gray-300 rounded-lg">
@@ -273,6 +273,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
   props: [
     'comingFrom',
@@ -336,6 +337,12 @@ export default {
         function() {
           globe.currentPage = true;
         }, 10); 
+    }
+  },
+  
+  filters: {
+    moment: function (date) {
+      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
     }
   },
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asisten;
 use App\Configuration;
+use App\History_Jaga;
 use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -68,6 +69,7 @@ class AsistenController extends Controller
     public function show($asisten_id)
     {
         $allAsistenData = Laporan_Praktikan::where('asisten_id', $asisten_id)->get();
+        $allAsistenHistory = History_Jaga::where('asisten_id', $asisten_id)->get();
         
         $ratingAsisten = 0;
         $gajiAsisten = 0;
@@ -78,7 +80,7 @@ class AsistenController extends Controller
         if(count($allAsistenData) !== 0){
 
             $ratingAsisten /= count($allAsistenData);
-            $gajiAsisten = count($allAsistenData) * 25000;
+            $gajiAsisten = count($allAsistenHistory) * 25000;
             $gajiAsisten -= ($gajiAsisten * 0.01);
         }
 

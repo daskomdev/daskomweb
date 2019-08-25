@@ -228,84 +228,106 @@
     <div class="absolute h-36full w-120full animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
-      <div class="w-full h-full flex-row">
-        <div class="w-full h-1/5 flex my-5">
-          <div class="w-1/2 h-full flex">
-            <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
-              :class="[{ 'text-yellow-200': !formConfig.tp_activation },
-                      { 'text-yellow-500': formConfig.tp_activation }]">
-              <span>Tugas Pendahuluan</span>
+      <div class="w-full h-full flex-row" v-bar>
+        <div>
+          <div class="w-full h-1/5 flex my-5">
+            <div class="w-1/2 h-full flex">
+              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                :class="[{ 'text-yellow-200': !formConfig.tp_activation },
+                        { 'text-yellow-500': formConfig.tp_activation }]">
+                <span>Tugas Pendahuluan</span>
+              </div>
+            </div>
+            <div class="w-1/2 h-full flex ml-10 mt-2">
+              <div class="w-auto h-auto my-auto">
+                <toggle-button v-model="formConfig.tp_activation"
+                  :value="formConfig.tp_activation"
+                  :sync="true"
+                  :labels="true"
+                  :width="125"
+                  :height="50"
+                  :font-size="20"/>
+              </div>
             </div>
           </div>
-          <div class="w-1/2 h-full flex ml-10 mt-2">
-            <div class="w-auto h-auto my-auto">
-              <toggle-button v-model="formConfig.tp_activation"
-                :value="formConfig.tp_activation"
-                :sync="true"
-                :labels="true"
-                :width="125"
-                :height="50"
-                :font-size="20"/>
+          <div class="w-full h-1/5 flex my-5">
+            <div class="w-1/2 h-full flex">
+              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                :class="[{ 'text-yellow-200': !formConfig.runmod_activation },
+                        { 'text-yellow-500': formConfig.runmod_activation }]">
+                <span>Running modul</span>
+              </div>
+            </div>
+            <div class="w-1/2 h-full flex ml-10 mt-2">
+              <div class="w-auto h-auto my-auto">
+                <toggle-button v-model="formConfig.runmod_activation"
+                  :value="formConfig.runmod_activation"
+                  :sync="true"
+                  :labels="true"
+                  :width="125"
+                  :height="50"
+                  :font-size="20"/>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="w-full h-1/5 flex my-5">
-          <div class="w-1/2 h-full flex">
-            <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
-              :class="[{ 'text-yellow-200': !formConfig.registrationPraktikan_activation },
-                      { 'text-yellow-500': formConfig.registrationPraktikan_activation }]">
-              <span>Registrasi Praktikan</span>
+          <div class="w-full h-1/5 flex my-5">
+            <div class="w-1/2 h-full flex">
+              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                :class="[{ 'text-yellow-200': !formConfig.registrationPraktikan_activation },
+                        { 'text-yellow-500': formConfig.registrationPraktikan_activation }]">
+                <span>Registrasi Praktikan</span>
+              </div>
+            </div>
+            <div class="w-1/2 h-full flex ml-10 mt-2">
+              <div class="w-auto h-auto my-auto">
+                <toggle-button v-model="formConfig.registrationPraktikan_activation"
+                  :value="formConfig.registrationPraktikan_activation"
+                  :sync="true"
+                  :labels="true"
+                  :width="125"
+                  :height="50"
+                  :font-size="20"/>
+              </div>
             </div>
           </div>
-          <div class="w-1/2 h-full flex ml-10 mt-2">
-            <div class="w-auto h-auto my-auto">
-              <toggle-button v-model="formConfig.registrationPraktikan_activation"
-                :value="formConfig.registrationPraktikan_activation"
-                :sync="true"
-                :labels="true"
-                :width="125"
-                :height="50"
-                :font-size="20"/>
+          <div class="w-full h-1/5 flex my-5">
+            <div class="w-1/2 h-full flex">
+              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                :class="[{ 'text-yellow-200': !formConfig.registrationAsisten_activation },
+                        { 'text-yellow-500': formConfig.registrationAsisten_activation }]">
+                <span>Registrasi Asisten</span>
+              </div>
+            </div>
+            <div class="w-1/2 h-full flex ml-10 mt-2">
+              <div class="w-auto h-auto my-auto">
+                <toggle-button v-model="formConfig.registrationAsisten_activation"
+                  :value="formConfig.registrationAsisten_activation"
+                  :sync="true"
+                  :labels="true"
+                  :width="125"
+                  :height="50"
+                  :font-size="20"/>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="w-full h-1/5 flex my-5">
-          <div class="w-1/2 h-full flex">
-            <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
-              :class="[{ 'text-yellow-200': !formConfig.registrationAsisten_activation },
-                      { 'text-yellow-500': formConfig.registrationAsisten_activation }]">
-              <span>Registrasi Asisten</span>
+          <div class="w-full h-1/5 flex my-5">
+            <div class="w-1/2 h-full flex">
+              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                :class="[{ 'text-yellow-200': !formConfig.tubes_activation },
+                        { 'text-yellow-500': formConfig.tubes_activation }]">
+                <span>Tugas Besar</span>
+              </div>
             </div>
-          </div>
-          <div class="w-1/2 h-full flex ml-10 mt-2">
-            <div class="w-auto h-auto my-auto">
-              <toggle-button v-model="formConfig.registrationAsisten_activation"
-                :value="formConfig.registrationAsisten_activation"
-                :sync="true"
-                :labels="true"
-                :width="125"
-                :height="50"
-                :font-size="20"/>
-            </div>
-          </div>
-        </div>
-        <div class="w-full h-1/5 flex my-5">
-          <div class="w-1/2 h-full flex">
-            <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
-              :class="[{ 'text-yellow-200': !formConfig.tubes_activation },
-                      { 'text-yellow-500': formConfig.tubes_activation }]">
-              <span>Tugas Besar</span>
-            </div>
-          </div>
-          <div class="w-1/2 h-full flex ml-10 mt-2">
-            <div class="w-auto h-auto my-auto">
-              <toggle-button v-model="formConfig.tubes_activation"
-                :value="formConfig.tubes_activation"
-                :sync="true"
-                :labels="true"
-                :width="125"
-                :height="50"
-                :font-size="20"/>
+            <div class="w-1/2 h-full flex ml-10 mt-2">
+              <div class="w-auto h-auto my-auto">
+                <toggle-button v-model="formConfig.tubes_activation"
+                  :value="formConfig.tubes_activation"
+                  :sync="true"
+                  :labels="true"
+                  :width="125"
+                  :height="50"
+                  :font-size="20"/>
+              </div>
             </div>
           </div>
         </div>
@@ -367,6 +389,7 @@ export default {
 
       formConfig: {
 
+        runmod_activation: this.currentConfig === 'nope' ? false : this.currentConfig.runmod_activation,
         registrationPraktikan_activation: this.currentConfig === 'nope' ? false : this.currentConfig.registrationPraktikan_activation,
         registrationAsisten_activation: this.currentConfig === 'nope' ? false : this.currentConfig.registrationAsisten_activation,
         tp_activation: this.currentConfig === 'nope' ? false : this.currentConfig.tp_activation,
@@ -468,6 +491,7 @@ export default {
     resetConfig: function(){
 
       this.formConfig.registrationAsisten_activation = this.currentConfig === 'nope' ? false : this.currentConfig.registrationAsisten_activation;
+      this.formConfig.runmod_activation = this.currentConfig === 'nope' ? false : this.currentConfig.runmod_activation;
       this.formConfig.registrationPraktikan_activation = this.currentConfig === 'nope' ? false : this.currentConfig.registrationPraktikan_activation;
       this.formConfig.tp_activation = this.currentConfig === 'nope' ? false : this.currentConfig.tp_activation;
       this.formConfig.tubes_activation = this.currentConfig === 'nope' ? false : this.currentConfig.tubes_activation;
@@ -480,6 +504,7 @@ export default {
 
         if(response.data.message === "success") {
 
+          this.currentConfig.runmod_activation = this.formConfig.runmod_activation;
           this.currentConfig.registrationPraktikan_activation = this.formConfig.registrationPraktikan_activation;
           this.currentConfig.registrationAsisten_activation = this.formConfig.registrationAsisten_activation;
           this.currentConfig.tp_activation = this.formConfig.tp_activation;

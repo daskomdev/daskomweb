@@ -77,10 +77,12 @@ Route::get('/praktikan', function () {
     $user->kelas = Kelas::where('id', $user->kelas_id)->first()->kelas;
     $allAsisten = Asisten::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $isRunmod = Configuration::find(1)->runmod_activation;
     return Inertia::render('Praktikan', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
         'allAsisten' => $allAsisten,
+        'isRunmod' => $isRunmod,
     ]);
 })->name('praktikan')->middleware('loggedIn:praktikan');
 
@@ -184,6 +186,7 @@ Route::get('/praktikum', function () {
     $allModul = Modul::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
+    $isRunmod = Configuration::find(1)->runmod_activation;
     return Inertia::render('Praktikum', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -191,6 +194,7 @@ Route::get('/praktikum', function () {
         'userRole' => $userRole->role,
         'allKelas' => $allKelas,
         'allModul' => $allModul,
+        'isRunmod' => $isRunmod,
     ]);
 })->name('praktikum')->middleware('loggedIn:asisten');
 
@@ -391,6 +395,7 @@ Route::get('/getSoalTA/{modul_id}', 'SoalTaController@show')->name('getSoalTA');
 Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
 Route::get('/getSoalJURNAL', 'SoalJurnalController@show')->name('getSoalJURNAL');
+Route::get('/getSoalRUNMOD', 'SoalJurnalController@showRunmod')->name('getSoalRUNMOD');
 Route::get('/getSoalMANDIRI/{modul_id}', 'SoalMandiriController@show')->name('getSoalMANDIRI');
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

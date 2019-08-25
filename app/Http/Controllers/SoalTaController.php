@@ -75,7 +75,7 @@ class SoalTaController extends Controller
      */
     public function show($modul_id)
     {
-        $all_soal = Soal_Ta::where('modul_id', $modul_id)->inRandomOrder()->take(5)->get();
+        $all_soal = Soal_Ta::where('modul_id', $modul_id)->inRandomOrder()->take(10)->get();
         return response()->json([
             'message'=> 'success',
             'all_soal' => $all_soal,

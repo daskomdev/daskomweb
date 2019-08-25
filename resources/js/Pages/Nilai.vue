@@ -659,6 +659,12 @@ export default {
 
       } else {
 
+        if($modul_id === 1) {
+
+          this.formNilai.tp = 15;
+          this.formNilai.skill = 10;
+        }
+
         globe.$axios.post('/createFormNilai/'+$praktikan_id+"/"+$modul_id).then(response => {
 
           if(response.data.message === "success"){
