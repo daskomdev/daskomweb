@@ -188,7 +188,29 @@
 
           <!-- Nilai Layout -->
           <div v-if="isNilai" class="w-full h-full flex">
-            <chart class="w-full h-full p-4"></chart>
+            <chart class="w-full h-full p-4"
+                :chartdata="allNilaiData"
+                :options="{
+                  responsive: true,
+                  maintainAspectRatio: false,
+
+                  scales: {
+                    yAxes: [{
+                      ticks: {
+                        beginAtZero: true
+                      },
+                      gridLines: {
+                        display: false
+                      }
+                    }],
+                    xAxes: [ {
+                      gridLines: {
+                        display: false
+                      },
+                    }]
+                  }
+                }">
+            </chart>
           </div>
 
           <!-- Praktikum Layout -->
@@ -942,6 +964,18 @@ export default {
         praktikan_id: '',
         modul_id: '',
       },
+
+      allNilaiData: {
+        labels: [],
+        datasets: []
+      },
+
+      allNilaiTP: [],
+      allNilaiTA: [],
+      allNilaiJURNAL: [],
+      allNilaiTK: [],
+      allNilaiSKILL: [],
+      allNilaiDISKON: [],
     }
   },
 
@@ -977,6 +1011,142 @@ export default {
         });
       }
     });
+
+    globe.$axios.post('/getAllNilai/'+globe.currentUser.id).then(response => {
+
+      if(response.data.message === "success") {
+
+        response.data.allNilai.forEach(nilai => {
+
+          globe.allNilaiData.labels.push(nilai.judul);
+          globe.allNilaiTP.push(nilai.tp);
+          globe.allNilaiTA.push(nilai.ta);
+          globe.allNilaiJURNAL.push(nilai.jurnal);
+          globe.allNilaiTK.push(nilai.tk);
+          globe.allNilaiSKILL.push(nilai.skill);
+          globe.allNilaiDISKON.push(nilai.diskon);
+        });
+
+        for (let index = 0; index < 6; index++) {
+
+          switch(index) {
+
+            case 0:
+              globe.allNilaiData.datasets.push({
+
+                label: "TP",
+                backgroundColor : 'rgba(75,192,192,0.1)',
+                borderColor : '#00c853',
+                pointBackgroundColor: 'black', 
+                borderWidth: 2, 
+                pointBorderColor: 'black',
+                data: []
+              });
+
+              response.data.allNilai.forEach(nilai => {
+
+                globe.allNilaiData.datasets[index].data.push(nilai.tp);
+              });
+              break;
+            
+            case 1:
+              globe.allNilaiData.datasets.push({
+
+                label: "TA",
+                backgroundColor : 'rgba(75,192,192,0.1)',
+                borderColor : '#00c853',
+                pointBackgroundColor: 'black', 
+                borderWidth: 2, 
+                pointBorderColor: 'black',
+                data: []
+              });
+
+              response.data.allNilai.forEach(nilai => {
+
+                globe.allNilaiData.datasets[index].data.push(nilai.ta);
+              });
+              break;
+
+            case 2:
+              globe.allNilaiData.datasets.push({
+
+                label: "JURNAL",
+                backgroundColor : 'rgba(75,192,192,0.1)',
+                borderColor : '#00c853',
+                pointBackgroundColor: 'black', 
+                borderWidth: 2, 
+                pointBorderColor: 'black',
+                data: []
+              });
+
+              response.data.allNilai.forEach(nilai => {
+
+                globe.allNilaiData.datasets[index].data.push(nilai.jurnal);
+              });
+              break;
+
+            case 3:
+              globe.allNilaiData.datasets.push({
+
+                label: "TK",
+                backgroundColor : 'rgba(75,192,192,0.1)',
+                borderColor : '#00c853',
+                pointBackgroundColor: 'black', 
+                borderWidth: 2, 
+                pointBorderColor: 'black',
+                data: []
+              });
+
+              response.data.allNilai.forEach(nilai => {
+
+                globe.allNilaiData.datasets[index].data.push(nilai.tk);
+              });
+              break;
+
+            case 4:
+              globe.allNilaiData.datasets.push({
+
+                label: "SKILL",
+                backgroundColor : 'rgba(75,192,192,0.1)',
+                borderColor : '#00c853',
+                pointBackgroundColor: 'black', 
+                borderWidth: 2, 
+                pointBorderColor: 'black',
+                data: []
+              });
+
+              response.data.allNilai.forEach(nilai => {
+
+                globe.allNilaiData.datasets[index].data.push(nilai.skill);
+              });
+              break;
+
+            case 5:
+              globe.allNilaiData.datasets.push({
+
+                label: "DISKON",
+                backgroundColor : 'rgba(75,192,192,0.1)',
+                borderColor : '#00c853',
+                pointBackgroundColor: 'black', 
+                borderWidth: 2, 
+                pointBorderColor: 'black',
+                data: []
+              });
+
+              response.data.allNilai.forEach(nilai => {
+
+                globe.allNilaiData.datasets[index].data.push(nilai.diskon);
+              });
+              break;
+          }
+        }
+
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    }); 
 
     globe.$axios.get('/getSoalTP').then(response => {
 

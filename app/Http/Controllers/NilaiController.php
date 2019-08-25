@@ -189,6 +189,24 @@ class NilaiController extends Controller
      * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
+    public function showAll($praktikan_id)
+    {
+        $allNilai = Nilai::where('praktikan_id', $praktikan_id)
+            ->leftJoin('moduls', 'nilais.modul_id', '=', 'moduls.id')
+            ->get();
+
+        return response()->json([
+            'message' => 'success',
+            'allNilai' => $allNilai,
+        ], 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Nilai  $nilai
+     * @return \Illuminate\Http\Response
+     */
     public function show($praktikan_id, $modul_id)
     {
         $currentNilai = Nilai::where('praktikan_id', $praktikan_id)

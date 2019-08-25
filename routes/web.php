@@ -426,3 +426,5 @@ Route::post('/createFormNilai/{praktikan_id}/{modul_id}', 'NilaiController@index
 Route::post('/getAllJawaban/{praktikan_id}/{modul_id}', 'NilaiController@list')->name('getAllJawaban')->middleware('loggedIn:asisten');
 Route::post('/inputNilai', 'NilaiController@store')->name('inputNilai')->middleware('loggedIn:asisten');
 Route::post('/getCurrentNilai/{praktikan_id}/{modul_id}', 'NilaiController@show')->name('getCurrentNilai')->middleware('loggedIn:asisten');
+
+Route::post('/getAllNilai/{praktikan_id}', 'NilaiController@showAll')->name('getAllNilai')->middleware('loggedIn:praktikan');
