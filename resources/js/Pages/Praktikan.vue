@@ -1579,11 +1579,15 @@ export default {
 
           case 5: 
 
-            if(isRunmod) {
+            if(globe.isRunmod) {
+
+              console.log("runmoddddd")
               
               // Realtime connection make changes to status 5
               // Meaning we should send jawaban in status 4 (Soal TK)
               if(isRealtime){
+
+                console.log("cominggg")
                 
                 globe.$axios.post('/sendJawabanJurnal', globe.jawabanRunmod).then(response => {
 
@@ -1598,10 +1602,14 @@ export default {
                 }); 
               }
             } else {
+
+              console.log("nopeeeeee")
               
               // Realtime connection make changes to status 5
               // Meaning we should send jawaban in status 4 (Soal TK)
               if(isRealtime){
+
+                console.log("cominggg")
                 
                 globe.$axios.post('/sendJawabanTK', globe.chosenJawaban).then(response => {
 

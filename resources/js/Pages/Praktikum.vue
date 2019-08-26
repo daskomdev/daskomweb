@@ -363,10 +363,18 @@
           <div class="w-full h-1/2 flex">
             <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
               <span class="font-overpass-bold text-3xl text-center"
+                  v-if="!isRunmod"
                   :class="[{ 'visible': statusPraktikum === 0 },
                           { 'hidden': statusPraktikum != 0 }]">
                 PRAKTIKUM DASKOM<br>
                 (Klik START untuk memulai TA)
+              </span> 
+              <span class="font-overpass-bold text-3xl text-center"
+                  v-if="isRunmod"
+                  :class="[{ 'visible': statusPraktikum === 0 },
+                          { 'hidden': statusPraktikum != 0 }]">
+                PRAKTIKUM DASKOM<br>
+                (Klik START untuk memulai JURNAL)
               </span> 
               <span class="font-overpass-bold text-9xl " 
                   :class="[{ 'visible': statusPraktikum === 1 },
@@ -842,7 +850,7 @@ export default {
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
       MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
-      countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
+      countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
     }
   },
 
@@ -1403,7 +1411,12 @@ export default {
       globe.countdownStarted = false;
       globe.bigNextQuestionShown = false;
       globe.bigRatingQuestionShown = false;
-      globe.countDown = globe.TAtiming;
+      
+      if(!globe.isRunmod)
+        globe.countDown = globe.TAtiming;
+      else 
+        globe.countDown = globe.RUNMODtiming;
+
       globe.firstTimeCounting = true;
       globe.praktikumStart = false;
       globe.soundPlayed = false;
