@@ -576,9 +576,14 @@ export default {
       this.turnCameraOff();
       
       const globe = this;
-      var bytes  = CryptoJS.AES.decrypt(content, 'daskom_aja');
-      var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-      this.decodedQrcode = JSON.parse(decryptedData);
+
+      try {
+        var bytes  = CryptoJS.AES.decrypt(content, 'daskom_aja');
+        var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+        this.decodedQrcode = JSON.parse(decryptedData); 
+      } catch (e) {
+        console.log("error");
+      }
 
       setTimeout(() => {
           

@@ -81,7 +81,7 @@ class AsistenController extends Controller
 
             $ratingAsisten /= count($allAsistenData);
             $gajiAsisten = count($allAsistenHistory) * 25000;
-            $gajiAsisten -= ($gajiAsisten * 0.01);
+            $gajiAsisten -= ($gajiAsisten * 0.1);
         }
 
         return response()->json([
