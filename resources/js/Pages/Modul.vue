@@ -239,7 +239,7 @@
         <div class="w-full h-full relative p-8 pointer-events-none">
           <form id="modulForm" class="pointer-events-auto relative flex w-full h-full bg-gray-400 rounded-lg">
             <div class="h-full w-1/3">
-              <div class="w-full py-2 px-5 h-1/3 flex-row">
+              <div class="w-full py-2 px-5 h-1/4 flex-row">
                 <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
                   Judul
                 </span>
@@ -249,7 +249,7 @@
                         id="Kelas" type="text" placeholder="Pengenalan Bahasa C">
                 </div>
               </div>
-              <div class="w-full py-2 px-5 h-2/3 flex-row">
+              <div class="w-full py-2 px-5 h-1/2 flex-row">
                 <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
                   Deskripsi
                 </span>
@@ -258,6 +258,25 @@
                         class="font-overpass-bold text-lg bg-gray-200 resize-none appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                         id="Kelas" type="text" 
                         placeholder='Modul ini menjelaskan apa itu bahasa C dan cara menggunakannya'/>
+                </div>
+              </div>
+              <div class="w-full py-2 px-5 h-1/4 flex">
+                <div class="w-1/2 h-full flex">
+                  <div class="w-auto h-auto my-auto ml-auto font-merri text-lg text-gray-700">
+                    <span>isEnglish</span>
+                  </div>
+                </div>
+                <div class="w-1/2 h-full flex">
+                  <div class="w-auto h-auto m-auto">
+                    <toggle-button
+                      v-model="formModul.isEnglish"
+                      :value="formModul.isEnglish"
+                      :sync="true"
+                      :labels="true"
+                      :width="100"
+                      :height="30"
+                      :font-size="15"/>
+                  </div>
                 </div>
               </div>
             </div>
@@ -335,7 +354,7 @@
                 <div class="w-full flex h-1/4">
                   <div class="w-auto font-merri-bold text-xl text-center h-full flex rounded-br-lg bg-gray-300">
                     <span class="my-auto px-8">
-                      {{ modul.judul }}
+                      {{ modul.judul }} {{ modul.isEnglish ? '(English)' : '(Indonesia)' }}
                     </span>
                   </div>
                 </div>
@@ -353,7 +372,7 @@
               </div>
 
               <div class="w-24 z-10 h-48 flex-row pr-8">
-                <div class="w-full h-1/3 p-2 rounded-tr-lg bg-gray-500">
+                <div class="w-full h-1/2 p-2 rounded-tr-lg bg-gray-500">
                   <span class="w-full h-full visible cursor-pointer hover:p-1 p-0 flex animation-enable-short"
                       :class="[{ 'opacity-100 pointer-events-auto': !moreOpened },
                               { 'opacity-0 pointer-events-none': moreOpened },
@@ -369,15 +388,18 @@
                     <img class="w-full h-full rounded-lg p-3 bg-yellow-400 fas fa-times">
                   </span>
                 </div>
-                <div class="w-full h-1/3 p-2 bg-gray-500">
+
+                <!-- Open this only when needed :v -->
+                <!-- <div class="w-full h-1/3 p-2 bg-gray-500">
                   <span class="w-full h-full cursor-pointer hover:p-1 p-0 flex animation-enable-short"
                       :class="[{ 'opacity-100 pointer-events-auto': !moreOpened },
                               { 'opacity-0 pointer-events-none': moreOpened }]"
                       v-on:click="deleteModul(modul.id)">
                     <img class="w-full h-full rounded-lg p-3 bg-yellow-400 fas fa-trash">
                   </span>
-                </div>
-                <div class="w-full h-1/3 p-2 rounded-br-lg bg-gray-500">
+                </div> -->
+
+                <div class="w-full h-1/2 p-2 rounded-br-lg bg-gray-500">
                   <span class="w-full visible h-full cursor-pointer hover:p-1 p-0 flex animation-enable-short"
                       :class="'moreOpen-'+modul.id"
                       v-on:click="showMore(modul.id, true)">
@@ -421,12 +443,12 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [1,2,4,5],
+      kelasPriviledge: [],
       plottingPriviledge: [1,2,4,5],
-      modulPriviledge: [1,2,4,15],
-      konfigurasiPriviledge: [1,2,4,18],
-      tpPriviledge: [1,2,15],
-      soalPriviledge: [1,2,15],
+      modulPriviledge: [1,2,4,15,7],
+      konfigurasiPriviledge: [1,2,4,18,7],
+      tpPriviledge: [1,2,15,11,7],
+      soalPriviledge: [1,2,15,11,7],
 
       pageActive: true,
       isMenuShown: false,
@@ -458,6 +480,7 @@ export default {
         judul: '',
         deskripsi: '',
         isi: '',
+        isEnglish: false,
       },
     }
   },
@@ -554,6 +577,7 @@ export default {
         globe.formModul.judul = $modul.judul;
         globe.formModul.deskripsi = $modul.deskripsi;
         globe.formModul.isi = $modul.isi;
+        globe.formModul.isEnglish = $modul.isEnglish;
       } else {
 
         $(".editClose-"+$modul.id).removeClass("visible");
@@ -566,6 +590,7 @@ export default {
         globe.formModul.judul = "";
         globe.formModul.deskripsi = "";
         globe.formModul.isi = "";
+        globe.formModul.isEnglish = false;
       }
     },
 
@@ -599,6 +624,7 @@ export default {
           globe.formModul.judul = "";
           globe.formModul.deskripsi = "";
           globe.formModul.isi = "";
+          globe.formModul.isEnglish = false;
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
@@ -736,6 +762,7 @@ export default {
             judul: globe.formModul.judul,
             deskripsi: globe.formModul.deskripsi,
             isi: globe.formModul.isi,
+            isEnglish: globe.formModul.isEnglish,
           })
         } else {
           globe.$toasted.global.showError({

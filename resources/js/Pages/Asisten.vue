@@ -13,7 +13,7 @@
           <div class="absolute w-full h-full px-8 pt-8">
             <div class="bg-yellow-800 rounded-t-lg w-full h-full flex">
               <div class="w-full h-auto break-words pt-16 text-center text-yellow-200 font-merri text-2xl p-8">
-                {{ currentUser.deskripsi }}
+                <span class="whitespace-pre-wrap">{{ currentUser.deskripsi }}</span>
               </div>
             </div>
           </div>
@@ -368,12 +368,12 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [1,2,4,5],
+      kelasPriviledge: [],
       plottingPriviledge: [1,2,4,5],
-      modulPriviledge: [1,2,4,15],
-      konfigurasiPriviledge: [1,2,4,18],
-      tpPriviledge: [1,2,15],
-      soalPriviledge: [1,2,15],
+      modulPriviledge: [1,2,4,15,7],
+      konfigurasiPriviledge: [1,2,4,18,7],
+      tpPriviledge: [1,2,15,11,7],
+      soalPriviledge: [1,2,15,11,7],
 
       pageActive: false,
       isMenuShown: false,

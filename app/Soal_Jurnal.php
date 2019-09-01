@@ -12,6 +12,6 @@ class Soal_Jurnal extends Model
      * @var array
      */
     protected $fillable = [
-        'soal', 'modul_id',
+        'soal', 'modul_id', 'isSulit',
     ];
 }

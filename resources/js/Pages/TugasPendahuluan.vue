@@ -333,12 +333,12 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [1,2,4,5],
+      kelasPriviledge: [],
       plottingPriviledge: [1,2,4,5],
-      modulPriviledge: [1,2,4,15],
-      konfigurasiPriviledge: [1,2,4,18],
-      tpPriviledge: [1,2,15],
-      soalPriviledge: [1,2,15],
+      modulPriviledge: [1,2,4,15,7],
+      konfigurasiPriviledge: [1,2,4,18,7],
+      tpPriviledge: [1,2,15,11,7],
+      soalPriviledge: [1,2,15,11,7],
 
       pageActive: true,
       isMenuShown: false,
@@ -442,8 +442,9 @@ export default {
         this.processing = false;
         if(this.listAllTP[index].isActive === false){
           this.listAllTP.forEach(element => {
-            if(element !== this.listAllTP[index].id)
-              element.isActive = false;
+            if(element.id !== this.listAllTP[index].id)
+              if(this.listAllTP[index].isEnglish === element.isEnglish)
+                element.isActive = false;
           });
           this.$axios.post('/activateTP/'+this.listAllTP[index].modul_id).then(response => {
             if(response.data.message === "success") {

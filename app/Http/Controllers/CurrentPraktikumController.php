@@ -76,15 +76,18 @@ class CurrentPraktikumController extends Controller
             'status'     => 0,
         ]);
 
-        $all_soalJurnal = Soal_Jurnal::where('modul_id', $request->modul_id)->inRandomOrder()->take(2)->get();
-        $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(1)->get();
+        $soalJurnal_sedang = Soal_Jurnal::where('modul_id', $request->modul_id)
+            ->where('isSulit', false)->inRandomOrder()->take(1)->get();
+
+        $soalJurnal_sulit = Soal_Jurnal::where('modul_id', $request->modul_id)
+            ->where('isSulit', true)->inRandomOrder()->take(1)->get();
         
         $all_soalJurnalID = '';
-        for ($i=0; $i < count($all_soalJurnal); $i++) { 
-            $all_soalJurnalID .= $all_soalJurnal[$i]->id;
-            if($i !== count($all_soalJurnal)-1)
-                $all_soalJurnalID .= '-';
-        }
+        $all_soalJurnalID .= $soalJurnal_sedang[0]->id;
+        $all_soalJurnalID .= '-';
+        $all_soalJurnalID .= $soalJurnal_sulit[0]->id;
+
+        $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(1)->get();
 
         $all_soalFitbID = '';
         for ($i=0; $i < count($all_soalFitb); $i++) { 

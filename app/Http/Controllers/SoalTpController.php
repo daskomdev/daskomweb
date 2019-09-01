@@ -62,17 +62,34 @@ class SoalTpController extends Controller
      * @param  \App\Soal_Tp  $soal_Tp
      * @return \Illuminate\Http\Response
      */
-    public function show(Soal_Tp $soal_Tp)
+    public function show($isEnglish)
     {
         if(!Configuration::find(1)->tp_activation)
             return '{"message": "nope"}';
 
-        $all_soalEssay = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
-                            ->where('isEssay', true)
-                            ->inRandomOrder()->take(5)->get();
-        $all_soalProgram = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
-                            ->where('isProgram', true)
-                            ->inRandomOrder()->take(3)->get();
+        if($isEnglish === 'true') {
+            $allTP = Tugaspendahuluan::where('isActive', true)->get();
+            foreach ($allTP as $tp => $value) {
+                if(Modul::where('id', $value->modul_id)->first()->isEnglish){
+                    $all_soalEssay = Soal_Tp::where('modul_id', $value->modul_id)
+                                ->where('isEssay', true)
+                                ->inRandomOrder()->take(5)->get();
+                    $all_soalProgram = Soal_Tp::where('modul_id', $value->modul_id)
+                                ->where('isProgram', true)
+                                ->inRandomOrder()->take(3)->get();
+                }
+            }
+
+        } else {
+
+            $all_soalEssay = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
+                        ->where('isEssay', true)
+                        ->inRandomOrder()->take(5)->get();
+            $all_soalProgram = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
+                        ->where('isProgram', true)
+                        ->inRandomOrder()->take(3)->get();
+        }
+
         return response()->json([
             'message'=> 'success',
             'all_soalEssay' => $all_soalEssay,

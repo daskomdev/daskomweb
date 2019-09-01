@@ -1148,52 +1148,104 @@ export default {
       }
     }); 
 
-    globe.$axios.get('/getSoalTP').then(response => {
+    if(globe.currentUser.kelas.substring(6, 10) === 'INT'){
 
-      if(response.data.message === "success") {
+      globe.$axios.get('/getSoalTP/true').then(response => {
 
-        if(response.data.all_soalEssay !== null){
+        if(response.data.message === "success") {
 
-          globe.soalTPEssay = response.data.all_soalEssay;
-          for (let index = 0; index < globe.soalTPEssay.length; index++) {
-            const soal = globe.soalTPEssay[index];
-            globe.jawabanTP.push({
-              soal_id: soal.id,
-              modul_id: soal.modul_id,
-              praktikan_id: globe.currentUser.id,
-              jawaban: '',
-            });
+          if(response.data.all_soalEssay !== null){
+
+            globe.soalTPEssay = response.data.all_soalEssay;
+            for (let index = 0; index < globe.soalTPEssay.length; index++) {
+              const soal = globe.soalTPEssay[index];
+              globe.jawabanTP.push({
+                soal_id: soal.id,
+                modul_id: soal.modul_id,
+                praktikan_id: globe.currentUser.id,
+                jawaban: '',
+              });
+            }
+          }
+
+          if(response.data.all_soalProgram !== null){
+
+            globe.soalTPProgram = response.data.all_soalProgram;
+            for (let index = 0; index < globe.soalTPProgram.length; index++) {
+              const soal = globe.soalTPProgram[index];
+              globe.jawabanTP.push({
+                soal_id: soal.id,
+                modul_id: soal.modul_id,
+                praktikan_id: globe.currentUser.id,
+                jawaban: '',
+              });
+            }
           }
         }
+      }); 
 
-        if(response.data.all_soalProgram !== null){
+      globe.$axios.post('/getPembahasanTP/true').then(response => {
 
-          globe.soalTPProgram = response.data.all_soalProgram;
-          for (let index = 0; index < globe.soalTPProgram.length; index++) {
-            const soal = globe.soalTPProgram[index];
-            globe.jawabanTP.push({
-              soal_id: soal.id,
-              modul_id: soal.modul_id,
-              praktikan_id: globe.currentUser.id,
-              jawaban: '',
-            });
+        if(response.data.message === "success") {
+
+          if(response.data.tp !== null) {
+
+            globe.pembahasanTp.modul_id = response.data.tp.modul_id;
+            globe.pembahasanTp.pembahasan = response.data.tp.pembahasan;
+            globe.qrcodeData.modul_id = response.data.tp.modul_id;
           }
         }
-      }
-    }); 
+      });
 
-    globe.$axios.post('/getPembahasanTP').then(response => {
+    } else {
 
-      if(response.data.message === "success") {
+      globe.$axios.get('/getSoalTP/false').then(response => {
 
-        if(response.data.tp !== null) {
+        if(response.data.message === "success") {
 
-          globe.pembahasanTp.modul_id = response.data.tp.modul_id;
-          globe.pembahasanTp.pembahasan = response.data.tp.pembahasan;
-          globe.qrcodeData.modul_id = response.data.tp.modul_id;
+          if(response.data.all_soalEssay !== null){
+
+            globe.soalTPEssay = response.data.all_soalEssay;
+            for (let index = 0; index < globe.soalTPEssay.length; index++) {
+              const soal = globe.soalTPEssay[index];
+              globe.jawabanTP.push({
+                soal_id: soal.id,
+                modul_id: soal.modul_id,
+                praktikan_id: globe.currentUser.id,
+                jawaban: '',
+              });
+            }
+          }
+
+          if(response.data.all_soalProgram !== null){
+
+            globe.soalTPProgram = response.data.all_soalProgram;
+            for (let index = 0; index < globe.soalTPProgram.length; index++) {
+              const soal = globe.soalTPProgram[index];
+              globe.jawabanTP.push({
+                soal_id: soal.id,
+                modul_id: soal.modul_id,
+                praktikan_id: globe.currentUser.id,
+                jawaban: '',
+              });
+            }
+          }
         }
-      }
-    }); 
+      }); 
+
+      globe.$axios.post('/getPembahasanTP/false').then(response => {
+
+        if(response.data.message === "success") {
+
+          if(response.data.tp !== null) {
+
+            globe.pembahasanTp.modul_id = response.data.tp.modul_id;
+            globe.pembahasanTp.pembahasan = response.data.tp.pembahasan;
+            globe.qrcodeData.modul_id = response.data.tp.modul_id;
+          }
+        }
+      });
+    } 
 
     Echo.channel(`daskom_database_praktikum.${globe.currentUser.kelas_id}`)
         .listen('praktikumStatusUpdated', (data) => {
@@ -1582,7 +1634,7 @@ export default {
             if(globe.isRunmod) {
               
               // Realtime connection make changes to status 5
-              // Meaning we should send jawaban in status 4 (Soal TK)
+              // Meaning we should send jawaban in status 4 (Soal Jurnal (RUNMOD))
               if(isRealtime){
                 
                 globe.$axios.post('/sendJawabanJurnal', globe.jawabanRunmod).then(response => {

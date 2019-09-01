@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asisten;
+use App\Kelas;
 use App\Configuration;
 use App\History_Jaga;
 use App\Laporan_Praktikan;
@@ -77,10 +78,19 @@ class AsistenController extends Controller
             $ratingAsisten += $value->rating_asisten;    
         }
 
+        $intHistoryCount = 0;
+        $regHistoryCount = 0;
+        foreach ($allAsistenHistory as $history => $value)
+            if(substr(Kelas::where('hari', $value->hari)->where('shift', $value->shift)->first->kelas,6) === 'INT')
+                $intHistoryCount++;
+
+        $regHistoryCount = count($allAsistenHistory) - $intHistoryCount;
+
         if(count($allAsistenData) !== 0){
 
             $ratingAsisten /= count($allAsistenData);
-            $gajiAsisten = count($allAsistenHistory) * 25000;
+            $gajiAsisten = $regHistoryCount * 25000;
+            $gajiAsisten += $intHistoryCount * 62500;
             $gajiAsisten -= ($gajiAsisten * 0.1);
         }
 

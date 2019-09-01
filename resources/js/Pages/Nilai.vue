@@ -378,14 +378,16 @@
           </div>
         </div>
         <div class="w-full h-36full flex">
-          <div v-if="showingJawaban === ''" 
-              class="w-full h-full p-8 flex">
+          <div class="w-full h-full p-8 flex"
+              :class="[{ 'visible': showingJawaban === '' },
+                      { 'hidden': showingJawaban !== '' }]">
             <div class="w-auto h-auto m-auto whitespace-pre-wrap text-center break-words flex font-overpass-bold text-3xl">
               <span>Silahkan pilih salah satu nilai untuk melihat jawaban praktikan</span>
             </div>
           </div>
-          <div v-if="showingJawaban === 'Tp'" 
-              class="w-full h-full p-8 flex">
+          <div class="w-full h-full p-8 flex"
+              :class="[{ 'visible': showingJawaban === 'Tp' },
+                      { 'hidden': showingJawaban !== 'Tp' }]">
             <div v-if="allJawabanTp !== 'nope'" 
                 class="w-full h-full" v-bar>
               <div>
@@ -419,8 +421,9 @@
               </div>
             </div>
           </div>
-          <div v-if="showingJawaban === 'Jurnal'" 
-              class="w-full h-full p-8 flex">
+          <div class="w-full h-full p-8 flex"
+              :class="[{ 'visible': showingJawaban === 'Jurnal' },
+                      { 'hidden': showingJawaban !== 'Jurnal' }]">
             <div class="w-full h-full" v-bar>
               <div>
                 <div class="w-full h-auto flex-row">
@@ -447,8 +450,9 @@
               </div>
             </div>
           </div>
-          <div v-if="showingJawaban === 'Skill'" 
-              class="w-full h-full p-8 flex">
+          <div class="w-full h-full p-8 flex"
+              :class="[{ 'visible': showingJawaban === 'Skill' },
+                      { 'hidden': showingJawaban !== 'Skill' }]">
             <div class="w-auto h-auto m-auto font-monda-bold text-3xl">
               <span>Silahkan beri rating untuk praktikan ini :</span>
               <star-rating class="mx-auto"
@@ -488,12 +492,12 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [1,2,4,5],
+      kelasPriviledge: [],
       plottingPriviledge: [1,2,4,5],
-      modulPriviledge: [1,2,4,15],
-      konfigurasiPriviledge: [1,2,4,18],
-      tpPriviledge: [1,2,15],
-      soalPriviledge: [1,2,15],
+      modulPriviledge: [1,2,4,15,7],
+      konfigurasiPriviledge: [1,2,4,18,7],
+      tpPriviledge: [1,2,15,11,7],
+      soalPriviledge: [1,2,15,11,7],
 
       pageActive: true,
       isMenuShown: false,

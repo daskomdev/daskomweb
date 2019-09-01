@@ -44,12 +44,14 @@ class ModulController extends Controller
             'judul'     => 'required|unique:moduls|string',
             'deskripsi' => 'required|string',
             'isi'       => 'required|string',
+            'isEnglish' => 'required',
         ]);
 
         Modul::create([
             'judul'     => $request->judul,
             'deskripsi' => $request->deskripsi,
             'isi'       => $request->isi,
+            'isEnglish' => $request->isEnglish,
         ]);
 
         $id = Modul::where('judul', $request->judul)->first()->id;
@@ -86,6 +88,7 @@ class ModulController extends Controller
             'judul'       => 'required|string',
             'deskripsi'   => 'required|string',
             'isi'         => 'required|string',
+            'isEnglish'   => 'required',
         ]);    
 
         if($request->judul != $request->oldJudul)
@@ -97,12 +100,14 @@ class ModulController extends Controller
         $modul->judul = $request->judul;
         $modul->deskripsi = $request->deskripsi;
         $modul->isi = $request->isi;
+        $modul->isEnglish = $request->isEnglish;
         $modul->save();
 
         $modul->id = $request->id;
         $modul->judul = $request->judul;
         $modul->deskripsi = $request->deskripsi;
         $modul->isi = $request->isi;
+        $modul->isEnglish = $request->isEnglish;
 
         return response()->json([
             'message'=> 'success',

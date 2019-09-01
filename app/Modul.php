@@ -12,6 +12,6 @@ class Modul extends Model
      * @var array
      */
     protected $fillable = [
-        'judul', 'deskripsi', 'isi',
+        'judul', 'deskripsi', 'isi', 'isEnglish',
     ];
 }

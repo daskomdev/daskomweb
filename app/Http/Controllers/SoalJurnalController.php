@@ -39,11 +39,13 @@ class SoalJurnalController extends Controller
         $request->validate([
             'soal'        => 'required|unique:soal__jurnals|string',
             'modul_id'    => 'required',
+            'isSulit'     => 'required',
         ]);
 
         Soal_Jurnal::create([
             'soal'        => $request->soal,
             'modul_id'    => $request->modul_id,
+            'isSulit'     => $request->isSulit,
         ]);
 
         $id = Soal_Jurnal::where('soal', $request->soal)->first()->id;
@@ -108,6 +110,7 @@ class SoalJurnalController extends Controller
         $request->validate([
             'soal'        => 'required|string',
             'modul_id'    => 'required',
+            'isSulit'     => 'required',
         ]);
 
         if($request->soal != $request->oldSoal)
@@ -118,11 +121,13 @@ class SoalJurnalController extends Controller
         $soal = Soal_Jurnal::find($request->id);
         $soal->soal = $request->soal;
         $soal->modul_id = $request->modul_id;
+        $soal->isSulit = $request->isSulit;
         $soal->save();
 
         $soal->id = $request->id;
         $soal->soal = $request->soal;
         $soal->modul_id = $request->modul_id;
+        $soal->isSulit = $request->isSulit;
 
         return response()->json([
             'message'=> 'success',

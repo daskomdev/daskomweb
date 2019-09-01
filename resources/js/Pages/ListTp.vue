@@ -287,8 +287,9 @@
               <span>PILIH KELAS DAN MODUL DULU</span>
             </div>
             <div v-if="chosenModulID !== '' && chosenKelasID !== '' && listAllKumpulTP.length > 0" 
-                class="w-full h-full" v-bar>
-              <div>
+                class="w-full h-full flex">
+              <div class="w-full h-full" 
+                  v-bar>
                 <transition-group name="listTp-list" tag="div">
                   <div v-for="kumpulTP in listAllKumpulTP" v-bind:key="kumpulTP.id" 
                       class="animation-enable w-full h-12 flex-row mb-4">
@@ -404,12 +405,12 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [1,2,4,5],
+      kelasPriviledge: [],
       plottingPriviledge: [1,2,4,5],
-      modulPriviledge: [1,2,4,15],
-      konfigurasiPriviledge: [1,2,4,18],
-      tpPriviledge: [1,2,15],
-      soalPriviledge: [1,2,15],
+      modulPriviledge: [1,2,4,15,7],
+      konfigurasiPriviledge: [1,2,4,18,7],
+      tpPriviledge: [1,2,15,11,7],
+      soalPriviledge: [1,2,15,11,7],
 
       pageActive: true,
       isMenuShown: false,

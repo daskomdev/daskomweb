@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tugaspendahuluan;
+use App\Modul;
 use Illuminate\Http\Request;
 
 class TugaspendahuluanController extends Controller
@@ -12,13 +13,25 @@ class TugaspendahuluanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($isEnglish)
     {
         $tp = null;
-        if(Tugaspendahuluan::where('isActive', true)->exists())
-            $tp = Tugaspendahuluan::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)->first();
-        
-            return response()->json([
+
+        if(Tugaspendahuluan::where('isActive', true)->exists()) {
+            if($isEnglish === 'true') {
+                $allTP = Tugaspendahuluan::where('isActive', true)->get();
+                foreach ($allTP as $tp => $value) {
+                    if(Modul::where('id', $value->modul_id)->first()->isEnglish){
+                        $tp = Tugaspendahuluan::where('modul_id', $value->modul_id)->first();
+                    }
+                }
+            
+            } else {
+                $tp = Tugaspendahuluan::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)->first();
+            }
+        }
+
+        return response()->json([
             'message'=> 'success',
             'tp' => $tp,
         ], 200);
@@ -68,10 +81,32 @@ class TugaspendahuluanController extends Controller
      */
     public function show($modul_id)
     {
+
         if(Tugaspendahuluan::where('isActive', 1)->exists()){
-            $tp = Tugaspendahuluan::where('isActive', 1)->first();
-            $tp->isActive = 0;
-            $tp->save();
+
+            if(Modul::where('id', $modul_id)->first()->isEnglish){
+                $allTP = Tugaspendahuluan::where('isActive', 1)->get();
+                foreach ($allTP as $TP => $value) {
+                    if(Modul::where('id', $value->modul_id)->first()->isEnglish) {
+
+                        $tp = $value;
+                        $tp->isActive = 0;
+                        $tp->save();
+                    }
+                }
+
+            } else {
+
+                $allTP = Tugaspendahuluan::where('isActive', 1)->get();
+                foreach ($allTP as $TP => $value) {
+                    if(!Modul::where('id', $value->modul_id)->first()->isEnglish) {
+
+                        $tp = $value;
+                        $tp->isActive = 0;
+                        $tp->save();
+                    }
+                }
+            }
         }
 
         $tp = Tugaspendahuluan::where('modul_id', $modul_id)->first();

@@ -297,10 +297,10 @@
                         <div class="w-full h-1/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300">
                           <div class="w-auto h-auto m-auto">
                             <span v-if="soal.isEssay">
-                              Essay
+                              Essay 
                             </span>
                             <span v-if="soal.isProgram">
-                              Program
+                              Program 
                             </span>
                           </div>
                         </div>
@@ -312,12 +312,15 @@
                           </div>
                         </div>
                         <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                          <div class="w-full h-1/2 flex">
+
+                          <!-- Open this only when needed -->
+                          <!-- <div class="w-full h-1/2 flex">
                             <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
                                 v-on:click="deleteSoal(soal.id)">
                               <img class="w-full h-full p-1 fas fa-trash">
                             </span>
-                          </div>
+                          </div> -->
+
                           <div class="w-full h-1/2 flex">
                             <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
                                 :class="'editOpenTP-'+soal.id"
@@ -345,7 +348,7 @@
                         <div class="w-1/2 h-full flex-row">
                           <div class="w-full h-1/3 flex rounded-tl-lg font-merri-bold text-xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
-                              {{ soal.judul }}
+                              {{ soal.judul }} 
                             </div>
                           </div>
                           <div class="w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300 overflow-y-auto">
@@ -371,12 +374,15 @@
                           </div>
                         </div>
                         <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                          <div class="w-full h-1/2 flex">
+
+                          <!-- Open this only when needed -->
+                          <!-- <div class="w-full h-1/2 flex">
                             <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
                                 v-on:click="deleteSoal(soal.id)">
                               <img class="w-full h-full p-1 fas fa-trash">
                             </span>
-                          </div>
+                          </div> -->
+
                           <div class="w-full h-1/2 flex">
                             <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
                                 :class="'editOpenTA-'+soal.id"
@@ -402,7 +408,7 @@
                         <div class="w-1/2 h-full flex-row">
                           <div class="w-full h-1/3 flex rounded-tl-lg font-merri-bold text-xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
-                              {{ soal.judul }}
+                              {{ soal.judul }} 
                             </div>
                           </div>
                           <div class="w-full h-2/3 flex font-overpass-mono-bold text-xl rounded-bl-lg bg-yellow-300 overflow-y-auto">
@@ -428,12 +434,15 @@
                           </div>
                         </div>
                         <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                          <div class="w-full h-1/2 flex">
+
+                          <!-- Open this only when needed -->
+                          <!-- <div class="w-full h-1/2 flex">
                             <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
                                 v-on:click="deleteSoal(soal.id)">
                               <img class="w-full h-full p-1 fas fa-trash">
                             </span>
-                          </div>
+                          </div> -->
+
                           <div class="w-full h-1/2 flex">
                             <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
                                 :class="'editOpenTK-'+soal.id"
@@ -461,7 +470,7 @@
                         <div class="w-1/3 h-full flex-row">
                           <div class="w-full h-full flex rounded-l-lg font-merri-bold text-3xl bg-yellow-400">
                             <div class="w-auto h-auto m-auto">
-                              {{ soal.judul }}
+                              {{ soal.judul }} <br> {{ soal.isSulit ? '(Sulit)' : '(Sedang)' }}
                             </div>
                           </div>
                         </div>
@@ -472,12 +481,15 @@
                             </div>
                           </div>
                           <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                            <div class="w-full h-1/2 flex">
+
+                            <!-- Open this only when needed -->
+                            <!-- <div class="w-full h-1/2 flex">
                               <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
                                   v-on:click="deleteSoal(soal.id)">
                                 <img class="w-full h-full p-1 fas fa-trash">
                               </span>
-                            </div>
+                            </div> -->
+
                             <div class="w-full h-1/2 flex">
                               <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
                                   :class="'editOpenJurnal-'+soal.id"
@@ -515,12 +527,15 @@
                             </div>
                           </div>
                           <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                            <div class="w-full h-1/2 flex">
+
+                            <!-- Open this only when needed -->
+                            <!-- <div class="w-full h-1/2 flex">
                               <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
                                   v-on:click="deleteSoal(soal.id)">
                                 <img class="w-full h-full p-1 fas fa-trash">
                               </span>
-                            </div>
+                            </div> -->
+
                             <div class="w-full h-1/2 flex">
                               <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
                                   :class="'editOpenMandiri-'+soal.id"
@@ -558,12 +573,15 @@
                             </div>
                           </div>
                           <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
-                            <div class="w-full h-1/2 flex">
+
+                            <!-- Open this only when needed -->
+                            <!-- <div class="w-full h-1/2 flex">
                               <span class="w-full h-full p-3 hover:p-4 cursor-pointer animation-enable-short"
                                   v-on:click="deleteSoal(soal.id)">
                                 <img class="w-full h-full p-1 fas fa-trash">
                               </span>
-                            </div>
+                            </div> -->
+
                             <div class="w-full h-1/2 flex">
                               <span class="w-full h-full p-3 visible hover:p-4 cursor-pointer animation-enable-short"
                                   :class="'editOpenFITB-'+soal.id"
@@ -747,8 +765,66 @@
 
               <form id="jmfitbForm" 
                   class="w-full h-full p-4 flex-row"
-                  :class="[{ 'visible': isJurnal || isMandiri || isFITB },
-                          { 'hidden': !isJurnal && !isMandiri && !isFITB }]">
+                  :class="[{ 'visible': isJurnal },
+                          { 'hidden': !isJurnal }]">
+                <div class="w-full h-1/3 flex-row">
+                  <div class="w-full h-full flex">
+                    <div class="w-1/2 px-2 h-full flex-row">
+                      <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
+                        <span class="h-auto my-auto">
+                          Modul
+                        </span>
+                      </div>
+                      <div class="w-full h-2/3 jmfitbOption">
+                        <select v-model="formJMFITB.modul_id" 
+                              class="block font-monda-bold text-3xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">{{ modul.judul }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="w-1/2 h-full m-auto flex">
+                      <div class="w-1/2 h-full flex">
+                        <div class="w-auto h-auto my-auto ml-auto font-merri text-lg text-gray-700">
+                          <span>isSulit</span>
+                        </div>
+                      </div>
+                      <div class="w-1/2 h-full flex">
+                        <div class="w-auto h-auto m-auto">
+                          <toggle-button
+                            v-model="formJMFITB.isSulit"
+                            :value="formJMFITB.isSulit"
+                            :sync="true"
+                            :labels="true"
+                            :width="100"
+                            :height="30"
+                            :font-size="15"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full h-2/3">
+                  <div class="w-full h-full flex">
+                    <div class="w-full px-2 h-full flex-row">
+                      <div class="font-merri w-full flex text-left text-gray-700 text-lg h-8">
+                        <span class="h-auto my-auto">
+                          Pertanyaan
+                        </span>
+                      </div>
+                      <div class="w-full h-4full flex">
+                        <textarea v-model="formJMFITB.soal" cols="30" rows="10"
+                              class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                              id="Pertanyaan" type="text" placeholder="Siapakah penemu bahasa C ?"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <form id="jmfitbForm" 
+                  class="w-full h-full p-4 flex-row"
+                  :class="[{ 'visible': isMandiri || isFITB },
+                          { 'hidden': !isMandiri && !isFITB }]">
                 <div class="w-full h-1/3 flex-row">
                   <div class="w-full h-full">
                     <div class="w-full px-2 h-full flex-row">
@@ -857,12 +933,12 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [1,2,4,5],
+      kelasPriviledge: [],
       plottingPriviledge: [1,2,4,5],
-      modulPriviledge: [1,2,4,15],
-      konfigurasiPriviledge: [1,2,4,18],
-      tpPriviledge: [1,2,15],
-      soalPriviledge: [1,2,15],
+      modulPriviledge: [1,2,4,15,7],
+      konfigurasiPriviledge: [1,2,4,18,7],
+      tpPriviledge: [1,2,15,11,7],
+      soalPriviledge: [1,2,15,11,7],
 
       pageActive: true,
       isMenuShown: false,
@@ -919,6 +995,7 @@ export default {
         soal: '',
         oldModul_id: '',
         modul_id: '',
+        isSulit: false,
       },
 
       // Form for Tugas Pendahuluan and FITB
@@ -1521,9 +1598,11 @@ export default {
               judul: judul,
               modul_id: globe.formJMFITB.modul_id,
               soal: globe.formJMFITB.soal,
+              isSulit: globe.formJMFITB.isSulit,
             })
             globe.formJMFITB.modul_id = "";
             globe.formJMFITB.soal = "";
+            globe.formJMFITB.isSulit = false;
           } else {
             globe.$toasted.global.showError({
               message: response.data.message

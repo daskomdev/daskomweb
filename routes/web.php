@@ -220,7 +220,7 @@ Route::get('/tp', function () {
     $position = request('position') === null ? 0:request('position');
     $allTP = DB::table('tugaspendahuluans')
         ->join('moduls', 'tugaspendahuluans.modul_id', '=', 'moduls.id')
-        ->select('tugaspendahuluans.*', 'moduls.judul')->get();
+        ->select('tugaspendahuluans.*', 'moduls.judul', 'moduls.isEnglish')->get();
     $allModul = Modul::all();
 
     if($allTP !== null){
@@ -390,7 +390,7 @@ Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzi
 Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');
 
 // TODO: Secure this "getSoal" route from others by adding some private key algorithm to the request
-Route::get('/getSoalTP', 'SoalTpController@show')->name('getSoalTP');
+Route::get('/getSoalTP/{isEnglish}', 'SoalTpController@show')->name('getSoalTP');
 Route::get('/getSoalTA/{modul_id}', 'SoalTaController@show')->name('getSoalTA');
 Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
@@ -414,7 +414,7 @@ Route::get('/getProfilAsisten/{asisten_id}', 'AsistenController@show')->name('ge
 Route::post('/saveConfiguration', 'ConfigurationController@store')->name('saveConfiguration')->middleware('loggedIn:asisten');
 
 Route::post('/addPembahasanTP', 'TugaspendahuluanController@store')->name('addPembahasanTP')->middleware('loggedIn:asisten');
-Route::post('/getPembahasanTP', 'TugaspendahuluanController@index')->name('getPembahasanTP')->middleware('loggedIn:all');
+Route::post('/getPembahasanTP/{isEnglish}', 'TugaspendahuluanController@index')->name('getPembahasanTP')->middleware('loggedIn:all');
 Route::post('/activateTP/{modul_id}', 'TugaspendahuluanController@show')->name('activateTP')->middleware('loggedIn:asisten');
 Route::post('/deactivateTP/{modul_id}', 'TugaspendahuluanController@destroy')->name('activateTP')->middleware('loggedIn:asisten');
 
