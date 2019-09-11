@@ -81,7 +81,7 @@ class AsistenController extends Controller
         $intHistoryCount = 0;
         $regHistoryCount = 0;
         foreach ($allAsistenHistory as $history => $value)
-            if(substr(Kelas::where('hari', $value->hari)->where('shift', $value->shift)->first->kelas,6) === 'INT')
+            if(substr(Kelas::where('hari', $value->hari)->where('shift', $value->shift)->first()->kelas,6) === 'INT')
                 $intHistoryCount++;
 
         $regHistoryCount = count($allAsistenHistory) - $intHistoryCount;

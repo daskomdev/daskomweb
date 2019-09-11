@@ -142,6 +142,7 @@
                             </div>
                             <div class="w-full h-auto flex px-5">
                               <textarea v-model="jawabanTP[index].jawaban" cols="30" rows="10"
+                                    onselectstart="return false" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off"
                                     class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                                     type="text" placeholder="Ketik jawabanmu disini ..."/>
                             </div>
@@ -162,6 +163,7 @@
                             </div>
                             <div class="w-full h-auto flex px-5">
                               <textarea v-model="jawabanTP[index + soalTPEssay.length].jawaban" cols="30" rows="10"
+                                    onselectstart="return false" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off"
                                     class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                                     type="text" placeholder="Ketik jawabanmu disini ..."/>
                             </div>
@@ -1148,7 +1150,7 @@ export default {
       }
     }); 
 
-    if(globe.currentUser.kelas.substring(6, 10) === 'INT'){
+    if(globe.currentUser.kelas.substring(6, 10) == 'INT'){
 
       globe.$axios.get('/getSoalTP/true').then(response => {
 

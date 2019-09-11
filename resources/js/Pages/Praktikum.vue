@@ -5,176 +5,347 @@
     <div id="sound"></div>
 
     <!-- Main Menu -->
-    <div class="absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable"
-        :class="[{ 'right-0': pageActive },
-                { 'right-min20rem': !pageActive }]" @mouseover="isMenuShown = false">
-      <div class="w-full h-full animation-enable overflow-y-auto"
-          :class="[{ 'rounded-none': changePage && menuProfil },
-                  { 'rounded-tl-large': !changePage || !menuProfil }]" ref="menu">
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuProfil },
-                    { 'bg-yellow-500 text-white': changePage && menuProfil }]"
-            v-on:click="travel('asisten')">
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            Profil
-          </span>
-        </div>
+    <div :class="[{ 'hidden' : !menuDisabled },
+                  { 'visible' : menuDisabled }]">
+      <div class="absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable"
+          :class="[{ 'right-0': pageActive },
+                  { 'right-min20rem': !pageActive }]" @mouseover="isMenuShown = false">
+        <div class="w-full h-full animation-enable overflow-y-auto"
+            :class="[{ 'rounded-none': changePage && menuProfil },
+                    { 'rounded-tl-large': !changePage || !menuProfil }]" ref="menu">
 
-        <div class="w-full p-4 h-24 flex select-none animation-enable"
-            :class="[{ 'bg-yellow-500 text-white': !changePage },
-                    { 'bg-yellow-400 text-black': changePage }]">
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-code">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            Praktikum
-          </span>
-        </div>
-
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
-                    { 'bg-yellow-500 text-white': changePage && menuListTp }]"
-            v-on:click='travel("listTp")'>
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            List TP
-          </span>
-        </div>
-
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
-                    { 'bg-yellow-500 text-white': changePage && menuHistory }]"
-            v-on:click='travel("history")'>
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-history">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            History
-          </span>
-        </div>
-
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuNilai },
-                    { 'bg-yellow-500 text-white': changePage && menuNilai }]"
-            v-on:click='travel("nilai")'>
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-clipboard-check">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            Nilai
-          </span>
-        </div>
-
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            Polling
-          </span>
-        </div>
-
-        <!-- Role Based Menu -->
-        <div v-if="kelasPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
-                      { 'bg-yellow-500 text-white': changePage && menuKelas }]"
-              v-on:click='travel("kelas")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Kelas
+              Profil
             </span>
           </div>
-        </div>
 
-        <div v-if="soalPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
-                      { 'bg-yellow-500 text-white': changePage && menuSoal }]"
-              v-on:click='travel("soal")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-code">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Soal
+              Praktikum
             </span>
           </div>
-        </div>
 
-        <div v-if="plottingPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
-                      { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
-              v-on:click='travel("plotting")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Plotting
+              List TP
             </span>
           </div>
-        </div>
 
-        <div v-if="modulPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
-                      { 'bg-yellow-500 text-white': changePage && menuModul }]"
-              v-on:click='travel("modul")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-book">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-history">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Modul
+              History
             </span>
           </div>
-        </div>
 
-        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
-                      { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
-              v-on:click='travel("konfigurasi")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-cog">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-clipboard-check">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Konfigurasi
+              Nilai
             </span>
           </div>
-        </div>
 
-        <div v-if="tpPriviledge.includes(currentUser.role_id)">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
-                      { 'bg-yellow-500 text-white': changePage && menuTp }]"
-              v-on:click='travel("tp")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-book-open">
+              <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
             </div>
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              Tugas Pendahuluan
+              Polling
             </span>
           </div>
-        </div> 
+
+          <!-- Role Based Menu -->
+          <div v-if="kelasPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none animation-enable"
+                :class="[{ 'bg-yellow-500 text-white': !changePage },
+                        { 'bg-yellow-400 text-black': changePage }]">
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Kelas
+              </span>
+            </div>
+          </div>
+
+          <div v-if="soalPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none animation-enable"
+                :class="[{ 'bg-yellow-500 text-white': !changePage },
+                        { 'bg-yellow-400 text-black': changePage }]">
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Soal
+              </span>
+            </div>
+          </div>
+
+          <div v-if="plottingPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none animation-enable"
+                :class="[{ 'bg-yellow-500 text-white': !changePage },
+                        { 'bg-yellow-400 text-black': changePage }]">
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Plotting
+              </span>
+            </div>
+          </div>
+
+          <div v-if="modulPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none animation-enable"
+                :class="[{ 'bg-yellow-500 text-white': !changePage },
+                        { 'bg-yellow-400 text-black': changePage }]">
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-book">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Modul
+              </span>
+            </div>
+          </div>
+
+          <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none animation-enable"
+                :class="[{ 'bg-yellow-500 text-white': !changePage },
+                        { 'bg-yellow-400 text-black': changePage }]">
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-cog">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Konfigurasi
+              </span>
+            </div>
+          </div>
+
+          <div v-if="tpPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none animation-enable"
+                :class="[{ 'bg-yellow-500 text-white': !changePage },
+                        { 'bg-yellow-400 text-black': changePage }]">
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-book-open">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Tugas Pendahuluan
+              </span>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+    <div  :class="[{ 'hidden' : menuDisabled },
+                  { 'visible' : !menuDisabled }]">
+      <div class="absolute w-120 z-20 h-48full bottom-0 right-0 animation-enable"
+          :class="[{ 'right-0': pageActive },
+                  { 'right-min20rem': !pageActive }]" @mouseover="isMenuShown = false">
+        <div class="w-full h-full animation-enable overflow-y-auto"
+            :class="[{ 'rounded-none': changePage && menuProfil },
+                    { 'rounded-tl-large': !changePage || !menuProfil }]" ref="menu">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuProfil },
+                      { 'bg-yellow-500 text-white': changePage && menuProfil }]"
+              v-on:click="travel('asisten')">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Profil
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-code">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Praktikum
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
+                      { 'bg-yellow-500 text-white': changePage && menuListTp }]"
+              v-on:click='travel("listTp")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              List TP
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
+                      { 'bg-yellow-500 text-white': changePage && menuHistory }]"
+              v-on:click='travel("history")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-history">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              History
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuNilai },
+                      { 'bg-yellow-500 text-white': changePage && menuNilai }]"
+              v-on:click='travel("nilai")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-clipboard-check">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Nilai
+            </span>
+          </div>
+
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Polling
+            </span>
+          </div>
+
+          <!-- Role Based Menu -->
+          <div v-if="kelasPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
+                        { 'bg-yellow-500 text-white': changePage && menuKelas }]"
+                v-on:click='travel("kelas")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-chalkboard-teacher">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Kelas
+              </span>
+            </div>
+          </div>
+
+          <div v-if="soalPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
+                        { 'bg-yellow-500 text-white': changePage && menuSoal }]"
+                v-on:click='travel("soal")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-file-code">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Soal
+              </span>
+            </div>
+          </div>
+
+          <div v-if="plottingPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
+                        { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
+                v-on:click='travel("plotting")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Plotting
+              </span>
+            </div>
+          </div>
+
+          <div v-if="modulPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
+                        { 'bg-yellow-500 text-white': changePage && menuModul }]"
+                v-on:click='travel("modul")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-book">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Modul
+              </span>
+            </div>
+          </div>
+
+          <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
+                        { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
+                v-on:click='travel("konfigurasi")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-cog">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Konfigurasi
+              </span>
+            </div>
+          </div>
+
+          <div v-if="tpPriviledge.includes(currentUser.role_id)">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
+                        { 'bg-yellow-500 text-white': changePage && menuTp }]"
+                v-on:click='travel("tp")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-book-open">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Tugas Pendahuluan
+              </span>
+            </div>
+          </div> 
+        </div>
       </div>
     </div>
 
@@ -746,6 +917,7 @@ export default {
       menuKonfigurasi: false,
       menuTp: false,
       menuNilai: false,
+      menuDisabled : false,
 
       listAllAsisten: [],
       listAllPraktikan: [],
@@ -910,6 +1082,7 @@ export default {
           globe.formLaporanPj.laporan = "empty";
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
+          globe.menuDisabled = true;
 
           //(If status Praktikum === 1, means all the layout condition still on its default state)
           switch (globe.statusPraktikum) {
@@ -1280,6 +1453,7 @@ export default {
 
                                 globe.praktikumStart = false;
                                 globe.statusPraktikum = 0;
+                                globe.menuDisabled = false;          
                               });
 
                             } else {
@@ -1579,7 +1753,7 @@ export default {
           globe.$axios.post('/startPraktikum', globe.formCurrentPraktikum).then(response => {
 
             if(response.data.message === "success") {
-                //DO NOTHING (it runs as we expected)
+              globe.menuDisabled = true;
 
             } else {
               globe.$toasted.global.showError({

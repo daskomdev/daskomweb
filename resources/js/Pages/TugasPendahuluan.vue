@@ -271,7 +271,7 @@
       </div>
       <div class="w-full h-48 p-6 z-20 absolute bottom-0 left-0 flex">
         <form id="tpForm" class="pointer-events-auto relative flex w-full h-full bg-gray-400 rounded-lg">
-          <div class="h-full w-1/3">
+          <div class="h-full w-full">
             <div class="w-full py-2 px-5 h-full flex-row">
               <span class="font-merri w-full text-left text-gray-700 text-lg h-4">
                 Modul
@@ -283,18 +283,6 @@
                     <span>{{ modul.judul }}</span>
                   </option>
                 </select>
-              </div>
-            </div>
-          </div>
-          <div class="h-full w-2/3">
-            <div class="w-full px-5 h-full py-2">
-              <span class="font-merri w-full text-left text-gray-700 text-lg h-4">
-                Pembahasan
-              </span>
-              <div class="w-full h-5/4 h-4full">
-                <textarea v-model="formTP.pembahasan" cols="30" rows="10"
-                      class="font-overpass-mono-bold text-base bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                      id="Kelas" type="text" placeholder="EL-41-05"/>
               </div>
             </div>
           </div>
@@ -349,7 +337,7 @@ export default {
 
       formTP: {
         modul_id: '',
-        pembahasan: '',
+        pembahasan: 'abaikan ini',
       },
       processing: false,
 

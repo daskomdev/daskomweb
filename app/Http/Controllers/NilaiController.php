@@ -50,7 +50,7 @@ class NilaiController extends Controller
             foreach ($allJawabanTk as $jawaban => $j) {
                 $currentSoal = Soal_Tk::find($j->soal_id);
                 if($j->jawaban == $currentSoal->jawaban_benar)
-                    $nilaiTaCorrect++;
+                    $nilaiTkCorrect++;
             }
 
             $nilaiTk = $nilaiTkCorrect * /*Max Nilai*/20 / /*Max Soal*/10;

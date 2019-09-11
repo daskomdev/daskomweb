@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Soal_Tp;
+use App\Modul;
 use App\Configuration;
 use App\Tugaspendahuluan;
 use Illuminate\Http\Request;
@@ -82,12 +83,17 @@ class SoalTpController extends Controller
 
         } else {
 
-            $all_soalEssay = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
-                        ->where('isEssay', true)
-                        ->inRandomOrder()->take(5)->get();
-            $all_soalProgram = Soal_Tp::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)
-                        ->where('isProgram', true)
-                        ->inRandomOrder()->take(3)->get();
+            $allTP = Tugaspendahuluan::where('isActive', true)->get();
+            foreach ($allTP as $tp => $value) { 
+                if(!Modul::where('id', $value->modul_id)->first()->isEnglish){
+                    $all_soalEssay = Soal_Tp::where('modul_id', $value->modul_id)
+                                ->where('isEssay', true)
+                                ->inRandomOrder()->take(5)->get();
+                    $all_soalProgram = Soal_Tp::where('modul_id', $value->modul_id)
+                                ->where('isProgram', true)
+                                ->inRandomOrder()->take(3)->get();
+                }
+            }
         }
 
         return response()->json([
