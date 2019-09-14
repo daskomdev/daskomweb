@@ -87,7 +87,7 @@ class CurrentPraktikumController extends Controller
         $all_soalJurnalID .= '-';
         $all_soalJurnalID .= $soalJurnal_sulit[0]->id;
 
-        $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(1)->get();
+        $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(3)->get();
 
         $all_soalFitbID = '';
         for ($i=0; $i < count($all_soalFitb); $i++) { 

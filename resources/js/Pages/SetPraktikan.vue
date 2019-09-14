@@ -47,9 +47,10 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none animation-enable"
-            :class="[{ 'bg-yellow-500 text-white': !changePage },
-                    { 'bg-yellow-400 text-black': changePage }]">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
+                    { 'bg-yellow-500 text-white': changePage && menuHistory }]"
+            v-on:click='travel("history")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-history">
@@ -79,6 +80,18 @@
           </div>
           <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
             Polling
+          </span>
+        </div>
+
+        <div class="w-full p-4 h-24 flex select-none animation-enable"
+            :class="[{ 'bg-yellow-500 text-white': !changePage },
+                    { 'bg-yellow-400 text-black': changePage }]">
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-users">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Set Praktikan
           </span>
         </div>
 
@@ -224,51 +237,6 @@
         </div>
       </div>
     </div>
-
-    <div class="absolute w-120full h-full flex animation-enable"
-        :class="[{ 'left-minFull': !currentPage },
-                { 'left-0': currentPage }]">
-      <div v-if="listAllHistory.length > 0" 
-          class="w-full h-full" v-bar>
-        <div>
-          <transition-group name="history-list" tag="div">
-            <div v-for="(history) in listAllHistory" v-bind:key="history.id" 
-                class="animation-enable w-full h-72 flex mb-8">
-              <div class="w-full h-full px-6 flex-row mt-2">
-                <div class="w-full h-12 flex">
-                  <div class="w-1/2 h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ history.hari.toUpperCase() }} - {{ history.shift }}  (Rp.25000)</span>
-                  </div>
-                  <div class="w-1/2 h-auto text-right my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ history.created_at | moment }}</span>
-                  </div>
-                </div>
-                <div class="w-full h-12full flex bg-gray-300 rounded-lg">
-                  <div class="w-1/3 h-full p-4 overflow-y-auto flex">
-                    <div class="w-auto h-auto m-auto whitespace-pre-wrap break-words font-merri-bold text-2xl text-black">
-                      <span>Modul<br>{{ history.judul }}</span>
-                    </div>
-                  </div>
-                  <div class="w-2/3 h-full p-4 bg-gray-200 rounded-r-lg overflow-y-auto flex">
-                    <div class="w-full h-full whitespace-pre-wrap break-words font-overpass text-2xl text-black">
-                      <span class="font-monda-bold text-3xl">Laporan :</span>
-                      <br>
-                      <span>{{ history.laporan }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </transition-group>
-        </div>
-      </div>
-      <div v-if="listAllHistory.length === 0"
-          class="w-full h-full flex">
-        <div class="w-auto h-auto m-auto font-monda-bold text-5xl text-white">
-          <span>Anda belum pernah menjaga praktikum :(</span>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -280,7 +248,6 @@ export default {
     'currentUser',
     'position',
     'userRole',
-    'allHistory',
   ],
 
   data() {
@@ -309,8 +276,6 @@ export default {
       menuTp: false,
       menuKonfigurasi: false,
       menuNilai: false,
-
-      listAllHistory: this.allHistory,
     }
   },
 
@@ -331,18 +296,13 @@ export default {
         this.comingFrom === 'tp' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'konfigurasi'||
-        this.comingFrom === 'nilai'){
+        this.comingFrom === 'nilai'||
+        this.comingFrom === 'history'){
 
       setTimeout(
         function() {
           globe.currentPage = true;
         }, 10); 
-    }
-  },
-  
-  filters: {
-    moment: function (date) {
-      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
     }
   },
 
@@ -372,6 +332,8 @@ export default {
         this.menuTp = $bool;
       if($whereTo === "nilai")
         this.menuNilai = $bool;
+      if($whereTo === "history")
+        this.menuHistory = $bool;
     },
 
     travel: function($whereTo){
@@ -383,7 +345,7 @@ export default {
       this.currentPage = false;
       setTimeout(
         function() {
-          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=history&position='+globe.$refs.menu.scrollTop);
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=setpraktikan&position='+globe.$refs.menu.scrollTop);
         }, 501); 
     },
 

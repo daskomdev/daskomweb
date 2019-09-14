@@ -256,7 +256,7 @@
           </div>
 
           <!-- Role Based Menu -->
-          <div v-if="kelasPriviledge.includes(currentUser.role_id)">
+          <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
                 :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                         { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -271,7 +271,7 @@
             </div>
           </div>
 
-          <div v-if="soalPriviledge.includes(currentUser.role_id)">
+          <div v-if="soalPriviledge.includes(currentUser.role_id) || soalPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
                 :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
                         { 'bg-yellow-500 text-white': changePage && menuSoal }]"
@@ -286,7 +286,7 @@
             </div>
           </div>
 
-          <div v-if="plottingPriviledge.includes(currentUser.role_id)">
+          <div v-if="plottingPriviledge.includes(currentUser.role_id) || plottingPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
                 :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
                         { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
@@ -301,7 +301,7 @@
             </div>
           </div>
 
-          <div v-if="modulPriviledge.includes(currentUser.role_id)">
+          <div v-if="modulPriviledge.includes(currentUser.role_id) || modulPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
                 :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
                         { 'bg-yellow-500 text-white': changePage && menuModul }]"
@@ -316,7 +316,7 @@
             </div>
           </div>
 
-          <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
+          <div v-if="konfigurasiPriviledge.includes(currentUser.role_id) || konfigurasiPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
                 :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
                         { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
@@ -331,7 +331,7 @@
             </div>
           </div>
 
-          <div v-if="tpPriviledge.includes(currentUser.role_id)">
+          <div v-if="tpPriviledge.includes(currentUser.role_id) || tpPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
                 :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
                         { 'bg-yellow-500 text-white': changePage && menuTp }]"
@@ -895,7 +895,7 @@ export default {
       modulPriviledge: [1,2,4,15,7],
       konfigurasiPriviledge: [1,2,4,18,7],
       tpPriviledge: [1,2,15,11,7],
-      soalPriviledge: [1,2,15,11,7],
+      soalPriviledge: "all",
 
       pageActive: true,
       isMenuShown: false,
@@ -1595,6 +1595,7 @@ export default {
       globe.praktikumStart = false;
       globe.soundPlayed = false;
       globe.statusPraktikum = 0;
+      globe.menuDisabled = false;
       globe.$axios.post('/stopPraktikum');
       globe.$axios.post('/deleteLaporanPJ/'+globe.formLaporanPj.id);
       globe.$axios.post('/deleteHistory/jaga', globe.formHistoryJaga).then(response => {

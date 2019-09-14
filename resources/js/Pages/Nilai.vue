@@ -83,7 +83,7 @@
         </div>
 
         <!-- Role Based Menu -->
-        <div v-if="kelasPriviledge.includes(currentUser.role_id)">
+        <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -98,7 +98,7 @@
           </div>
         </div>
 
-        <div v-if="soalPriviledge.includes(currentUser.role_id)">
+        <div v-if="soalPriviledge.includes(currentUser.role_id) || soalPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
                       { 'bg-yellow-500 text-white': changePage && menuSoal }]"
@@ -113,7 +113,7 @@
           </div>
         </div>
 
-        <div v-if="plottingPriviledge.includes(currentUser.role_id)">
+        <div v-if="plottingPriviledge.includes(currentUser.role_id) || plottingPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
                       { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div v-if="modulPriviledge.includes(currentUser.role_id)">
+        <div v-if="modulPriviledge.includes(currentUser.role_id) || modulPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
                       { 'bg-yellow-500 text-white': changePage && menuModul }]"
@@ -143,7 +143,7 @@
           </div>
         </div>
 
-        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
+        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id) || konfigurasiPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
                       { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
@@ -158,7 +158,7 @@
           </div>
         </div>
 
-        <div v-if="tpPriviledge.includes(currentUser.role_id)">
+        <div v-if="tpPriviledge.includes(currentUser.role_id) || tpPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
                       { 'bg-yellow-500 text-white': changePage && menuTp }]"
@@ -313,7 +313,7 @@
                 { 'bottom-0': nilaiShown }]">
       <div class="w-full h-full bg-white rounded-t-lg flex-row p-2">
         <div class="w-full h-20 flex">
-          <div class="w-1/6 h-full flex-row p-2"
+          <div class="w-1/7 h-full flex-row p-2"
               v-on:click="showJawaban('Tp')">
             <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
               TP
@@ -324,7 +324,7 @@
                     type="number" step="0.01" min="0" max="15" placeholder="15">
             </div>
           </div>
-          <div class="w-1/6 h-full flex-row p-2">
+          <div class="w-1/7 h-full flex-row p-2">
             <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
               TA
             </span>
@@ -334,7 +334,7 @@
                     type="number" step="0.01" min="0" max="15" placeholder="15" disabled>
             </div>
           </div>
-          <div class="w-1/6 h-full flex-row p-2">
+          <div class="w-1/7 h-full flex-row p-2">
             <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
               TK
             </span>
@@ -344,7 +344,7 @@
                     type="number" step="0.01" min="0" max="20" placeholder="20" disabled>
             </div>
           </div>
-          <div class="w-1/6 h-full flex-row p-2"
+          <div class="w-1/7 h-full flex-row p-2"
               v-on:click="showJawaban('Jurnal')">
             <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
               Jurnal
@@ -355,7 +355,7 @@
                     type="number" step="0.01" min="0" max="40" placeholder="40">
             </div>
           </div>
-          <div class="w-1/6 h-full flex-row p-2"
+          <div class="w-1/7 h-full flex-row p-2"
               v-on:click="showJawaban('Skill')">
             <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
               Skill
@@ -366,12 +366,22 @@
                     type="number" step="0.01" min="0" max="10" placeholder="10">
             </div>
           </div>
-          <div class="w-1/6 h-full flex-row p-2">
+          <div class="w-1/7 h-full flex-row p-2">
             <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
               Diskon
             </span>
             <div class="w-full h-3/4">
               <input v-model="formNilai.diskon"
+                    class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
+            </div>
+          </div>
+          <div class="w-1/7 h-full flex-row p-2">
+            <span class="font-merri w-full text-left text-gray-700 text-lg h-1/4">
+              Total
+            </span>
+            <div class="w-full h-3/4">
+              <input v-model="formNilai.total"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                     type="number" step="0.01" min="0" max="100" placeholder="100">
             </div>
@@ -466,6 +476,15 @@
           </div>
         </div>
         <div class="w-full h-16 p-2 flex">
+          <div class="w-1/4 h-full p-0 hover:p-1 cursor-pointer animation-enable-short flex"
+              v-on:click="nilaiShown = false">
+            <div class="w-full h-full bg-green-600 rounded-lg flex">
+              <div class="w-auto h-auto m-auto font-monda-bold text-white text-2xl">
+                <span>Kembali</span>
+              </div>
+            </div>
+          </div>
+          <div class="w-4 h-full"/>
           <div class="w-full h-full p-0 hover:p-1 cursor-pointer animation-enable-short flex"
               v-on:click="inputNilai()">
             <div class="w-full h-full bg-green-600 rounded-lg flex">
@@ -497,7 +516,7 @@ export default {
       modulPriviledge: [1,2,4,15,7],
       konfigurasiPriviledge: [1,2,4,18,7],
       tpPriviledge: [1,2,15,11,7],
-      soalPriviledge: [1,2,15,11,7],
+      soalPriviledge: "all",
 
       pageActive: true,
       isMenuShown: false,
@@ -536,6 +555,7 @@ export default {
         jurnal: '',
         skill: '',
         diskon: '',
+        total: 0,
         rating: 0,
         modul_id: '',
         asisten_id: '',
@@ -543,6 +563,60 @@ export default {
         praktikan_id: '',
       },
     }
+  },
+
+  watch: {
+    'formNilai.tp': function(val) {
+      if (val) {
+      
+        this.formNilai.total = 
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+      }
+    },
+
+    'formNilai.jurnal': function(val) {
+      if (val) {
+      
+        this.formNilai.total = 
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+      }
+    },
+
+    'formNilai.skill': function(val) {
+      if (val) {
+      
+        this.formNilai.total = 
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+      }
+    },
+
+    'formNilai.diskon': function(val) {
+      if (val) {
+      
+        this.formNilai.total = 
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+      }
+    },
   },
 
   mounted() {

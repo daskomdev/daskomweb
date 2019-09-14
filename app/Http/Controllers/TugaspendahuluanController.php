@@ -29,8 +29,13 @@ class TugaspendahuluanController extends Controller
             
             } else {
 
-                $tp = Tugaspendahuluan::where('modul_id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)->first();
-                $tp->pembahasan = Modul::where('id', Tugaspendahuluan::where('isActive', true)->first()->modul_id)->first()->isi;
+                $allTP = Tugaspendahuluan::where('isActive', true)->get();
+                foreach ($allTP as $tp => $value) {
+                    if(!Modul::where('id', $value->modul_id)->first()->isEnglish){
+                        $tp = Tugaspendahuluan::where('modul_id', $value->modul_id)->first();
+                        $tp->pembahasan = Modul::where('id', $value->modul_id)->first()->isi;
+                    }
+                }
             }
         }
 

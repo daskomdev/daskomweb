@@ -37,7 +37,8 @@ import { faExclamationCircle,
         faCog,
         faBookOpen,
         faQrcode,
-        faClipboardCheck} from '@fortawesome/free-solid-svg-icons';
+        faClipboardCheck,
+        faUsers} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
@@ -63,6 +64,7 @@ library.add(faEnvelope);
 library.add(faWindowClose);
 library.add(faPaperPlane);
 library.add(faAddressCard);
+library.add(faUsers);
 library.add(faWindowMaximize);
 library.add(faLine);
 library.add(faInstagram);

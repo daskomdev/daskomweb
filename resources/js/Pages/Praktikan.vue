@@ -11,7 +11,9 @@
           :class="[{ 'h-36full': !openWide },
                   { 'h-4full': openWide }]">
         <div class="h-full w-12 flex pointer-events-auto">
-          <div class="w-8 h-8 m-auto">
+          <div class="w-8 h-8 m-auto"
+            :class="[{ 'visible': !praktikumExist },
+                    { 'hidden': praktikumExist }]">
             <span class="w-full h-full cursor-pointer"
                 :class="[{ 'visible': !openWide },
                         { 'hidden': openWide }]"
@@ -894,6 +896,8 @@ export default {
       openWide: false,
       modulShown: false,
 
+      praktikumExist: false,
+
       current_praktikum: {
         kelas_id: '',
         modul_id: '',
@@ -1003,8 +1007,9 @@ export default {
         if(response.data.current_praktikum != null){
 
           //There is currently active praktikum && kelas_id === current_praktikum.kelas_id
-          if(response.data.current_praktikum.kelas_id === globe.currentUser.kelas_id)
+          if(response.data.current_praktikum.kelas_id === globe.currentUser.kelas_id){
             globe.setCurrentPraktikumState(response.data.current_praktikum, false);
+          }
         }
 
       } else {
@@ -1357,7 +1362,7 @@ export default {
     },
 
     setCurrentPraktikumState: function(current_praktikum, isRealtime){
-
+      
       const globe = this;
       globe.current_praktikum.asisten_id = current_praktikum.asisten_id;
       globe.current_praktikum.modul_id = current_praktikum.modul_id;
@@ -1399,8 +1404,9 @@ export default {
 
           case 0:
 
-            // DO nothing as the initialization just begin
-            // Added for escaping the default scenario
+            globe.praktikumExist = true;
+            globe.showPraktikum();
+            globe.openWide = true;
             break;
 
           case 1:
@@ -1678,6 +1684,8 @@ export default {
                 
                 // Change status to 777 if the praktikan already fill in the laporan form
                 globe.current_praktikum.status = 777;
+                globe.praktikumExist = false;
+                globe.openWide = false;
               }
 
               //else just run it as usual
@@ -1718,6 +1726,8 @@ export default {
 
             // Ignore other case and cast the status to 777
             globe.current_praktikum.status = 777;
+            globe.praktikumExist = false;
+            globe.openWide = false;
             break;
         }
       }
@@ -1764,6 +1774,7 @@ export default {
     },  
 
     showPraktikum: function(){
+
       this.isPraktikum = true;
       this.isTP = false;
       this.isNilai = false;

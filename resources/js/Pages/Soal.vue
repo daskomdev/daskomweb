@@ -84,7 +84,7 @@
         </div>
 
         <!-- Role Based Menu -->
-        <div v-if="kelasPriviledge.includes(currentUser.role_id)">
+        <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKelas },
                       { 'bg-yellow-500 text-white': changePage && menuKelas }]"
@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        <div v-if="soalPriviledge.includes(currentUser.role_id)">
+        <div v-if="soalPriviledge.includes(currentUser.role_id) || soalPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
                       { 'bg-yellow-400 text-black': changePage }]">
@@ -113,7 +113,7 @@
           </div>
         </div>
 
-        <div v-if="plottingPriviledge.includes(currentUser.role_id)">
+        <div v-if="plottingPriviledge.includes(currentUser.role_id) || plottingPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
                       { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div v-if="modulPriviledge.includes(currentUser.role_id)">
+        <div v-if="modulPriviledge.includes(currentUser.role_id) || modulPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuModul },
                       { 'bg-yellow-500 text-white': changePage && menuModul }]"
@@ -143,7 +143,7 @@
           </div>
         </div>
 
-        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id)">
+        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id) || konfigurasiPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
                       { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
@@ -158,7 +158,7 @@
           </div>
         </div>
 
-        <div v-if="tpPriviledge.includes(currentUser.role_id)">
+        <div v-if="tpPriviledge.includes(currentUser.role_id) || tpPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
                       { 'bg-yellow-500 text-white': changePage && menuTp }]"
@@ -433,7 +433,8 @@
                             </div>
                           </div>
                         </div>
-                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row"
+                            v-if="editPriviledge.includes(currentUser.role_id)">
 
                           <!-- Open this only when needed -->
                           <!-- <div class="w-full h-1/2 flex">
@@ -480,7 +481,8 @@
                               <span>{{ soal.soal }}</span>
                             </div>
                           </div>
-                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row"
+                            v-if="editPriviledge.includes(currentUser.role_id)">
 
                             <!-- Open this only when needed -->
                             <!-- <div class="w-full h-1/2 flex">
@@ -526,7 +528,8 @@
                               <span>{{ soal.soal }}</span>
                             </div>
                           </div>
-                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row"
+                            v-if="editPriviledge.includes(currentUser.role_id)">
 
                             <!-- Open this only when needed -->
                             <!-- <div class="w-full h-1/2 flex">
@@ -572,7 +575,8 @@
                               <span>{{ soal.soal }}</span>
                             </div>
                           </div>
-                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                          <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row"
+                            v-if="editPriviledge.includes(currentUser.role_id)">
 
                             <!-- Open this only when needed -->
                             <!-- <div class="w-full h-1/2 flex">
@@ -606,7 +610,8 @@
         </div>
 
         <!-- Menu Layout -->
-        <div class="absolute bottom-0 w-full h-120 pb-8 flex pointer-events-none">
+        <div class="absolute bottom-0 w-full h-140 pb-8 flex pointer-events-none"
+            v-if="editPriviledge.includes(currentUser.role_id)">
           <div class="absolute w-4full pb-8 h-full flex animation-enable pointer-events-auto"
               :class="[{ 'left-0': soalMenuShown },
                       { 'left-minFull': !soalMenuShown }]">
@@ -767,7 +772,7 @@
                   class="w-full h-full p-4 flex-row"
                   :class="[{ 'visible': isJurnal },
                           { 'hidden': !isJurnal }]">
-                <div class="w-full h-1/3 flex-row">
+                <div class="w-full h-1/4 flex-row">
                   <div class="w-full h-full flex">
                     <div class="w-1/2 px-2 h-full flex-row">
                       <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
@@ -803,7 +808,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-full h-2/3">
+                <div class="w-full h-3/4">
                   <div class="w-full h-full flex">
                     <div class="w-full px-2 h-full flex-row">
                       <div class="font-merri w-full flex text-left text-gray-700 text-lg h-8">
@@ -825,7 +830,7 @@
                   class="w-full h-full p-4 flex-row"
                   :class="[{ 'visible': isMandiri || isFITB },
                           { 'hidden': !isMandiri && !isFITB }]">
-                <div class="w-full h-1/3 flex-row">
+                <div class="w-full h-1/4 flex-row">
                   <div class="w-full h-full">
                     <div class="w-full px-2 h-full flex-row">
                       <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
@@ -842,7 +847,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-full h-2/3">
+                <div class="w-full h-3/4">
                   <div class="w-full h-full flex">
                     <div class="w-full px-2 h-full flex-row">
                       <div class="font-merri w-full flex text-left text-gray-700 text-lg h-8">
@@ -938,7 +943,8 @@ export default {
       modulPriviledge: [1,2,4,15,7],
       konfigurasiPriviledge: [1,2,4,18,7],
       tpPriviledge: [1,2,15,11,7],
-      soalPriviledge: [1,2,15,11,7],
+      soalPriviledge: "all",
+      editPriviledge: [1,2,15,11,7],
 
       pageActive: true,
       isMenuShown: false,
