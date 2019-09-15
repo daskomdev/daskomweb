@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jawaban_Tp;
+use App\Praktikan;
 use Illuminate\Http\Request;
 
 class JawabanTpController extends Controller
@@ -44,9 +45,25 @@ class JawabanTpController extends Controller
      * @param  \App\Jawaban_Tp  $jawaban_Tp
      * @return \Illuminate\Http\Response
      */
-    public function show(Jawaban_Tp $jawaban_Tp)
+    public function show($praktikan_nim)
     {
-        //
+        if(Jawaban_Tp::where('praktikan_id', Praktikan::where('nim', $praktikan_nim)->first()->id)
+            ->exists()) {
+
+            return response()->json([
+                'message' => 'success',
+                'all_tp' => Jawaban_Tp::where('praktikan_id', Praktikan::where('nim', $praktikan_nim)->first()->id)
+                    ->leftJoin('soal__tps', 'jawaban__tps.soal_id', '=', 'soal__tps.id')
+                    ->orderBy('jawaban__tps.modul_id', 'asc')
+                    ->get()
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'message' => 'Praktikan ini tidak mengumpulkan TP'
+            ], 200);
+        }
     }
 
     /**

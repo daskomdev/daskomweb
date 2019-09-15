@@ -13,9 +13,12 @@ class LaporanPjController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($modul_id)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'all_laporan' => Laporan_Pj::where('modul_id', $modul_id)->get()
+        ], 200);
     }
 
     /**
