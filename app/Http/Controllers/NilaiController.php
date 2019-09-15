@@ -11,6 +11,9 @@ use App\Jawaban_Fitb;
 use App\Jawaban_Jurnal;
 use App\Jawaban_Mandiri;
 use App\Jawaban_Tp;
+use App\Praktikan;
+use App\Asisten;
+use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 
 class NilaiController extends Controller
@@ -219,15 +222,51 @@ class NilaiController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Nilai  $nilai
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Nilai $nilai)
+    public function edit($praktikan_nim, $asisten_id, $modul_id)
     {
-        //
+        if(!Praktikan::where("nim", $praktikan_nim)->exists()) {
+
+            return response()->json([
+                'message' => 'Praktikan ini tidak ada dalam database',
+            ], 200);
+        }
+
+        if(Laporan_Praktikan::where("praktikan_id", Praktikan::where("nim", $praktikan_nim)->first()->id)
+            ->where("asisten_id", $asisten_id)
+            ->where("modul_id", $modul_id)
+            ->exists()) {
+
+            return response()->json([
+                'message' => 'Praktikan ini tidak perlu di set karena sudah masuk sesuai sistem',
+            ], 200);
+        }
+
+        if(Laporan_Praktikan::where("praktikan_id", Praktikan::where("nim", $praktikan_nim)->first()->id)
+            ->where("modul_id", $modul_id)
+            ->exists()) {
+
+            $currentLaporan = Laporan_Praktikan::where("praktikan_id", Praktikan::where("nim", $praktikan_nim)->first()->id)
+                ->where("modul_id", $modul_id)->first();
+            
+            $currentLaporan->pesan = $currentLaporan->pesan." (set manual by ". Asisten::where('id', $asisten_id)->first()->kode .")";
+            $currentLaporan->asisten_id = $asisten_id;
+            $currentLaporan->save();
+
+        } else {
+
+            Laporan_Praktikan::create([
+                'pesan'              => "set manual by ". Asisten::where('id', $asisten_id)->first()->kode,
+                'modul_id'           => $modul_id,
+                'praktikan_id'       => Praktikan::where("nim", $praktikan_nim)->first()->id,
+                'asisten_id'         => $asisten_id,
+                'rating_asisten'     => 5,
+                'rating_praktikum'   => 5,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'success',
+        ], 200);
     }
 
     /**

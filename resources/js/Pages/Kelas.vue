@@ -83,6 +83,19 @@
           </span>
         </div>
 
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSetPraktikan },
+                    { 'bg-yellow-500 text-white': changePage && menuSetPraktikan }]"
+            v-on:click='travel("setpraktikan")'>
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-users">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Set Praktikan
+          </span>
+        </div>
+
         <!-- Role Based Menu -->
         <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none animation-enable"
@@ -409,6 +422,7 @@ export default {
       menuKonfigurasi: false,
       menuTp: false,
       menuNilai: false,
+      menuSetPraktikan: false,
 
       listAllKelas: this.allKelas === null ? [] : this.allKelas,
 
@@ -446,7 +460,8 @@ export default {
         this.comingFrom === 'tp' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'history'||
-        this.comingFrom === 'nilai'){
+        this.comingFrom === 'nilai'||
+        this.comingFrom === 'setpraktikan'){
 
       setTimeout(
         function() {
@@ -481,6 +496,8 @@ export default {
         this.menuTp = $bool;
       if($whereTo === 'nilai')
         this.menuNilai = $bool;
+      if($whereTo === "setpraktikan")
+        this.menuSetPraktikan = $bool;
     },
 
     resetForm: function($kelas){

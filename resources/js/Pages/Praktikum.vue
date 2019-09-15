@@ -255,6 +255,19 @@
             </span>
           </div>
 
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSetPraktikan },
+                      { 'bg-yellow-500 text-white': changePage && menuSetPraktikan }]"
+              v-on:click='travel("setpraktikan")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-users">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Set Praktikan
+            </span>
+          </div>
+
           <!-- Role Based Menu -->
           <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
             <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
@@ -735,7 +748,7 @@
               </div>
 
               <div class="w-full h-24 mt-4 mb-8 flex">
-                <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                <div class="w-1/3 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
                     v-on:click="shuffleEmAll()">
                   <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
                     <div class="w-auto select-none h-auto m-auto">
@@ -743,7 +756,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-1/2 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                <div class="w-1/3 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                    v-on:click="showBigView()">
+                  <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
+                    <div class="w-auto select-none h-auto m-auto">
+                      VIEW
+                    </div>
+                  </div>
+                </div>
+                <div class="w-1/3 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
                     v-on:click="startThePracticum()">
                   <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
                     <div class="w-auto select-none h-auto m-auto">
@@ -827,6 +848,14 @@
         </div>
       </div>
     </div>
+
+    <!-- <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
+        :class="[{ 'hidden': !bigviewShown },
+                { 'visible': bigviewShown }]">
+      <div class="">
+
+      </div>
+    </div> -->
 
     <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
         :class="[{ 'hidden': !bigRatingQuestionShown },
@@ -917,6 +946,7 @@ export default {
       menuKonfigurasi: false,
       menuTp: false,
       menuNilai: false,
+      menuSetPraktikan: false,
       menuDisabled : false,
 
       listAllAsisten: [],
@@ -932,6 +962,8 @@ export default {
       bigNextQuestionShown: false,
       bigRatingQuestionShown: false,
       soundPlayed: false,
+
+      bigviewShown: false,
 
       oldKelasID: '',
       chosenKelasID: '',
@@ -1051,7 +1083,8 @@ export default {
         this.comingFrom === 'tp' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'history'||
-        this.comingFrom === 'nilai'){
+        this.comingFrom === 'nilai'||
+        this.comingFrom === 'setpraktikan'){
 
       setTimeout(
         function() {
@@ -1167,6 +1200,8 @@ export default {
         this.menuTp = $bool;
       if($whereTo === "nilai")
         this.menuNilai = $bool;
+      if($whereTo === "setpraktikan")
+        this.menuSetPraktikan = $bool;
     },
 
     travel: function($whereTo){
@@ -1530,6 +1565,36 @@ export default {
           globe.countDown = globe.RUNMODtiming;
           break;
       }
+    },
+
+    showBigView: function(){
+
+      const globe = this;
+      if(this.chosenKelasID === ""){
+
+        globe.$toasted.global.showError({
+          message: "Pilih kelas terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.listAllAsisten.length < 1){
+
+        globe.$toasted.global.showError({
+          message: "Tidak terdapat asisten di kelas ini"
+        });
+        return;
+      }
+
+      if(this.listAllPraktikan.length < 1){
+
+        globe.$toasted.global.showError({
+          message: "Tidak terdapat praktikan di kelas ini"
+        });
+        return;
+      }
+
+      this.bigviewShown = true;
     },
 
     shuffleEmAll: function(){

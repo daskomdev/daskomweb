@@ -80,15 +80,22 @@ class PraktikanController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Praktikan  $praktikan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Praktikan $praktikan)
+    public function edit($praktikan_nim, $new_pass)
     {
-        //
+        if(!Praktikan::where("nim", $praktikan_nim)->exists()) {
+
+            return response()->json([
+                'message' => 'Praktikan ini tidak ada dalam database',
+            ], 200);
+        }
+
+        $currentPraktikan = Praktikan::where("nim", $praktikan_nim)->first();
+        $currentPraktikan->password = Hash::make($new_pass);
+        $currentPraktikan->save();
+
+        return response()->json([
+            'message' => 'success',
+        ], 200);
     }
 
     /**

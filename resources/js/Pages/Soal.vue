@@ -83,6 +83,19 @@
           </span>
         </div>
 
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSetPraktikan },
+                    { 'bg-yellow-500 text-white': changePage && menuSetPraktikan }]"
+            v-on:click='travel("setpraktikan")'>
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-users">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Set Praktikan
+          </span>
+        </div>
+
         <!-- Role Based Menu -->
         <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
@@ -279,13 +292,24 @@
           </div>
         </div>
 
+        <div class="relative w-full h-12 flex">
+          <div class="w-full h-full flex-row px-5">
+            <select v-model="chosenModulID"
+                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
+              <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
+                {{ modul.judul }}
+              </option>
+            </select>
+          </div>
+        </div>
+
         <!-- Active List Soal Layout -->
-        <div class="w-full h-full pb-16">
+        <div class="w-full h-full pb-30">
           <div class="w-full h-full" v-bar>
             <div class="px-8 pt-4">
               <div v-if="!isTA && !isTK && !isJurnal && !isMandiri && !isFITB" class="w-full h-full flex-row">
                 <transition-group name="soal-list" tag="div">
-                  <div v-for="soal in listAllTP" v-bind:key="soal.id"
+                  <div v-for="soal in listAllTP.filter( function(item){return (item.modul_id===chosenModulID);} )" v-bind:key="soal.id"
                       class="animation-enable w-full h-48 mb-4">
                     <div class="w-full h-full flex rounded-lg bg-yellow-200">
                       <div class="w-2/5 h-full flex-row">
@@ -311,7 +335,8 @@
                             <span>{{ soal.soal }}</span>  
                           </div>
                         </div>
-                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row"
+                            v-if="editPriviledge.includes(currentUser.role_id)">
 
                           <!-- Open this only when needed -->
                           <!-- <div class="w-full h-1/2 flex">
@@ -342,7 +367,7 @@
               <div v-if="isTA || isTK" class="w-full h-full">
                 <div v-if="isTA" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
-                    <div v-for="soal in listAllTA" v-bind:key="soal.id"
+                    <div v-for="soal in listAllTA.filter( function(item){return (item.modul_id===chosenModulID);} )" v-bind:key="soal.id"
                         class="animation-enable w-full h-64 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
@@ -373,7 +398,8 @@
                             </div>
                           </div>
                         </div>
-                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row">
+                        <div class="w-16 bg-gray-400 rounded-r-lg h-full flex-row"
+                            v-if="editPriviledge.includes(currentUser.role_id)">
 
                           <!-- Open this only when needed -->
                           <!-- <div class="w-full h-1/2 flex">
@@ -402,7 +428,7 @@
                 </div>
                 <div v-if="isTK" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
-                    <div v-for="soal in listAllTK" v-bind:key="soal.id"
+                    <div v-for="soal in listAllTK.filter( function(item){return (item.modul_id===chosenModulID);} )" v-bind:key="soal.id"
                         class="animation-enable w-full h-64 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/2 h-full flex-row">
@@ -465,7 +491,7 @@
               <div v-if="isJurnal || isMandiri || isFITB" class="w-full h-full">
                 <div v-if="isJurnal" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
-                    <div v-for="soal in listAllJurnal" v-bind:key="soal.id"
+                    <div v-for="soal in listAllJurnal.filter( function(item){return (item.modul_id===chosenModulID);} )" v-bind:key="soal.id"
                         class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/3 h-full flex-row">
@@ -512,7 +538,7 @@
                 </div>
                 <div v-if="isMandiri" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
-                    <div v-for="soal in listAllMandiri" v-bind:key="soal.id"
+                    <div v-for="soal in listAllMandiri.filter( function(item){return (item.modul_id===chosenModulID);} )" v-bind:key="soal.id"
                         class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/3 h-full flex-row">
@@ -559,7 +585,7 @@
                 </div>
                 <div v-if="isFITB" class="w-full h-full flex-row">
                   <transition-group name="soal-list" tag="div">
-                    <div v-for="soal in listAllFITB" v-bind:key="soal.id"
+                    <div v-for="soal in listAllFITB.filter( function(item){return (item.modul_id===chosenModulID);} )" v-bind:key="soal.id"
                         class="animation-enable w-full h-120 mb-4">
                       <div class="w-full h-full flex rounded-lg bg-yellow-200">
                         <div class="w-1/3 h-full flex-row">
@@ -950,6 +976,8 @@ export default {
       isMenuShown: false,
       changePage: false,
       currentPage: false,
+      
+      chosenModulID: '',
 
       openedMenu: true,
       soalMenuShown: true,
@@ -980,6 +1008,7 @@ export default {
       menuKonfigurasi: false,
       menuTp: false,
       menuNilai: false,
+      menuSetPraktikan: false,
 
       // Form for TA and TK
       formTATK: {
@@ -1035,7 +1064,8 @@ export default {
         this.comingFrom === 'tp' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'nilai'||
-        this.comingFrom === 'history'){
+        this.comingFrom === 'history'||
+        this.comingFrom === 'setpraktikan'){
 
       setTimeout(
         function() {
@@ -1069,6 +1099,8 @@ export default {
         this.menuTp = $bool;
       if($whereTo === "nilai")
         this.menuNilai = $bool;
+      if($whereTo === "setpraktikan")
+        this.menuSetPraktikan = $bool;
     },
 
     deleteSoal: function($id){

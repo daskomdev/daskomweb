@@ -237,6 +237,78 @@
         </div>
       </div>
     </div>
+
+    <div class="absolute h-full w-120full animation-enable"
+        :class="[{ 'left-minFull': !currentPage },
+                { 'left-0': currentPage }]">
+      <div class="w-full h-full py-4 flex">
+        <div class="w-72 h-72 m-auto">
+          <div class="w-full h-full flex-row">
+            <div class="w-full py-2 px-5 h-1/4 flex-row">
+              <span class="font-merri w-full text-left text-yellow-400 text-lg h-1/4">
+                NIM
+              </span>
+              <div class="w-full h-3/4">
+                <input v-model="praktikanNim"
+                      class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                      id="Kelas" type="text" placeholder="1102174055">
+              </div>
+            </div>
+            <div class="w-full h-1/4 flex-row py-2 px-5">
+              <span class="font-merri w-full text-left text-yellow-400 text-lg h-1/4">
+                Pilihan modul
+              </span>
+              <select v-model="chosenModulID"
+                    class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
+                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
+                  {{ modul.judul }}
+                </option>
+              </select>
+            </div>
+            <div class="w-full h-1/4 mt-8 p-2 hover:p-3 cursor-pointer animation-enable-short flex"
+                v-on:click="setThisPraktikan()">
+              <div class="w-full h-full bg-green-600 rounded-lg flex">
+                <div class="w-auto h-auto m-auto font-monda-bold text-white text-2xl">
+                  <span>SET</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-140 h-72 m-auto">
+          <div class="w-full h-full flex-row">
+            <div class="w-full py-2 px-5 h-1/4 flex-row">
+              <span class="font-merri w-full text-left text-yellow-400 text-lg h-1/4">
+                NIM
+              </span>
+              <div class="w-full h-3/4">
+                <input v-model="praktikanNimPass"
+                      class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                      id="Kelas" type="text" placeholder="1102174055">
+              </div>
+            </div>
+            <div class="w-full h-1/4 flex-row pt-2 px-5">
+              <span class="font-merri w-full text-left text-yellow-400 text-lg h-1/4">
+                Pass Baru
+              </span>
+              <div class="w-full h-3/4">
+                <input v-model="newPass"
+                      class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                      id="Kelas" type="text" placeholder="Jangan sampe lupa lagi !!!!">
+              </div>
+            </div>
+            <div class="w-full h-1/4 mt-8 p-2 hover:p-3 cursor-pointer animation-enable-short flex"
+                v-on:click="changePass()">
+              <div class="w-full h-full bg-green-600 rounded-lg flex">
+                <div class="w-auto h-auto m-auto font-monda-bold text-white text-2xl">
+                  <span>GANTI PASS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -248,6 +320,7 @@ export default {
     'currentUser',
     'position',
     'userRole',
+    'allModul',
   ],
 
   data() {
@@ -276,6 +349,12 @@ export default {
       menuTp: false,
       menuKonfigurasi: false,
       menuNilai: false,
+
+      praktikanNim: '',
+      chosenModulID: '',
+
+      praktikanNimPass: '',
+      newPass: '',
     }
   },
 
@@ -334,6 +413,72 @@ export default {
         this.menuNilai = $bool;
       if($whereTo === "history")
         this.menuHistory = $bool;
+    },
+
+    changePass: function(){
+
+      const globe = this;
+
+      if(this.praktikanNimPass === '') {
+        globe.$toasted.global.showError({
+          message: "Isikan nim nya terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.newPass === ''){
+        globe.$toasted.global.showError({
+          message: "Isikan password yang barunya"
+        });
+        return;
+      }
+
+      globe.$axios.post('/changePraktikanPass/'+this.praktikanNimPass+'/'+this.newPass).then(response => {
+
+        if(response.data.message === "success") {
+          globe.$toasted.global.showSuccess({
+            message: "Password praktikan "+this.praktikanNim+" berhasil diubah"
+          });
+
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    },
+
+    setThisPraktikan: function(){
+
+      const globe = this;
+
+      if(this.praktikanNim === '') {
+        globe.$toasted.global.showError({
+          message: "Isikan nim nya terlebih dahulu"
+        });
+        return;
+      }
+
+      if(this.chosenModulID === ''){
+        globe.$toasted.global.showError({
+          message: "Pilih modul nya terlebih dahulu"
+        });
+        return;
+      }
+
+      globe.$axios.post('/setThisPraktikan/'+this.praktikanNim+'/'+this.currentUser.id+'/'+this.chosenModulID).then(response => {
+
+        if(response.data.message === "success") {
+          globe.$toasted.global.showSuccess({
+            message: "Praktikan "+this.praktikanNim+" berhasil di set manual"
+          });
+
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
     },
 
     travel: function($whereTo){

@@ -82,6 +82,19 @@
           </span>
         </div>
 
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSetPraktikan },
+                    { 'bg-yellow-500 text-white': changePage && menuSetPraktikan }]"
+            v-on:click='travel("setpraktikan")'>
+          <div class="w-7/12 my-2 flex">
+            <div class="w-4/6"/>
+            <img class="select-none m-auto w-2/6 h-auto fas fa-users">
+          </div>
+          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+            Set Praktikan
+          </span>
+        </div>
+
         <!-- Role Based Menu -->
         <div v-if="kelasPriviledge.includes(currentUser.role_id) || kelasPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
@@ -312,6 +325,11 @@
         :class="[{ 'bottom-minFull': !nilaiShown },
                 { 'bottom-0': nilaiShown }]">
       <div class="w-full h-full bg-white rounded-t-lg flex-row p-2">
+        <div class="w-full h-4 flex">
+          <div class="w-auto h-auto m-auto text-black font-overpass-bold">
+            <span>{{ chosenPraktikanNIM }} - {{ chosenPraktikanNAMA }}</span>
+          </div>
+        </div>
         <div class="w-full h-20 flex">
           <div class="w-1/7 h-full flex-row p-2"
               v-on:click="showJawaban('Tp')">
@@ -475,7 +493,7 @@
             </div>
           </div>
         </div>
-        <div class="w-full h-16 p-2 flex">
+        <div class="w-full h-12 flex">
           <div class="w-1/4 h-full p-0 hover:p-1 cursor-pointer animation-enable-short flex"
               v-on:click="nilaiShown = false">
             <div class="w-full h-full bg-green-600 rounded-lg flex">
@@ -536,6 +554,7 @@ export default {
       menuTp: false,
       menuNilai: false,
       menuKonfigurasi: false,
+      menuSetPraktikan: false,
 
       listAllLaporan: this.allLaporan,
       showingJawaban: '',
@@ -547,6 +566,9 @@ export default {
       chosenKelasID: '',
       chosenPraktikanID: '',
       chosenIndex: '',
+
+      chosenPraktikanNIM: '',
+      chosenPraktikanNAMA: '',
 
       formNilai: {
         tp: '',
@@ -636,7 +658,8 @@ export default {
         this.comingFrom === 'tp' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'history'||
-        this.comingFrom === 'konfigurasi'){
+        this.comingFrom === 'konfigurasi'||
+        this.comingFrom === 'setpraktikan'){
 
       setTimeout(
         function() {
@@ -671,6 +694,8 @@ export default {
         this.menuTp = $bool;
       if($whereTo === "konfigurasi")
         this.menuKonfigurasi = $bool;
+      if($whereTo === "setpraktikan")
+        this.menuSetPraktikan = $bool;
     },
 
     travel: function($whereTo){
@@ -707,6 +732,9 @@ export default {
     showNilaiPage: function($praktikan_id, $modul_id, $kelas_id, $index){
       
       const globe = this;
+
+      this.chosenPraktikanNIM = this.listAllLaporan[$index].nim;
+      this.chosenPraktikanNAMA = this.listAllLaporan[$index].nama;
 
       this.chosenModulID = $modul_id;
       this.chosenKelasID = $kelas_id;

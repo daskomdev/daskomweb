@@ -325,12 +325,14 @@ Route::get('/setpraktikan', function () {
     $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
+    $allModul = Modul::all();
 
     return Inertia::render('SetPraktikan', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
         'position' => $position,
         'userRole' => $userRole->role,
+        'allModul' => $allModul,
     ]);
 })->name('setpraktikan')->middleware('loggedIn:asisten');
 
@@ -442,3 +444,6 @@ Route::post('/inputNilai', 'NilaiController@store')->name('inputNilai')->middlew
 Route::post('/getCurrentNilai/{praktikan_id}/{modul_id}', 'NilaiController@show')->name('getCurrentNilai')->middleware('loggedIn:asisten');
 
 Route::post('/getAllNilai/{praktikan_id}', 'NilaiController@showAll')->name('getAllNilai')->middleware('loggedIn:praktikan');
+
+Route::post('/setThisPraktikan/{praktikan_nim}/{asisten_id}/{modul_id}', 'NilaiController@edit')->name('setThisPraktikan')->middleware('loggedIn:asisten');
+Route::post('/changePraktikanPass/{praktikan_nim}/{new_pass}', 'PraktikanController@edit')->name('changePraktikanPass')->middleware('loggedIn:asisten');
