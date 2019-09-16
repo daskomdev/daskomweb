@@ -18,5 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // PUBLIC WEB ROUTE (for android app development purpose)
-Route::post('/getTp/{praktikan_nim}', 'JawabanTpController@show')->name('getTp');
+Route::post('/getTp/{praktikan_nim}/{modul_id}', 'JawabanTpController@show')->name('getTp');
 Route::post('/getAllLaporan/{modul_id}', 'LaporanPjController@index')->name('getAllLaporan');
+Route::post('/getAllModul', 'ModulController@show')->name('getAllModul');
