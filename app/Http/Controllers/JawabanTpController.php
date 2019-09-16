@@ -60,10 +60,9 @@ class JawabanTpController extends Controller
 
             return response()->json([
                 'message' => 'success',
-                'all_tp' => Jawaban_Tp::where('praktikan_id', Praktikan::where('nim', $praktikan_nim)->first()->id)
-                    ->where('modul_id', $modul_id)
+                'all_tp' => Jawaban_Tp::where('jawaban__tps.praktikan_id', Praktikan::where('nim', $praktikan_nim)->first()->id)
+                    ->where('jawaban__tps.modul_id', $modul_id)
                     ->leftJoin('soal__tps', 'jawaban__tps.soal_id', '=', 'soal__tps.id')
-                    ->orderBy('jawaban__tps.modul_id', 'asc')
                     ->get()
             ], 200);
 

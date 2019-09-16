@@ -78,6 +78,12 @@ class SoalTpController extends Controller
                     $all_soalProgram = Soal_Tp::where('modul_id', $value->modul_id)
                                 ->where('isProgram', true)
                                 ->inRandomOrder()->take(3)->get();
+
+                    return response()->json([
+                        'message'=> 'success',
+                        'all_soalEssay' => $all_soalEssay,
+                        'all_soalProgram' => $all_soalProgram,
+                    ], 200);
                 }
             }
 
@@ -92,15 +98,15 @@ class SoalTpController extends Controller
                     $all_soalProgram = Soal_Tp::where('modul_id', $value->modul_id)
                                 ->where('isProgram', true)
                                 ->inRandomOrder()->take(3)->get();
+
+                    return response()->json([
+                        'message'=> 'success',
+                        'all_soalEssay' => $all_soalEssay,
+                        'all_soalProgram' => $all_soalProgram,
+                    ], 200);
                 }
             }
         }
-
-        return response()->json([
-            'message'=> 'success',
-            'all_soalEssay' => $all_soalEssay,
-            'all_soalProgram' => $all_soalProgram,
-        ], 200);
     }
 
     /**

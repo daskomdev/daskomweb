@@ -24,6 +24,11 @@ class TugaspendahuluanController extends Controller
                     if(Modul::where('id', $value->modul_id)->first()->isEnglish){
                         $tp = Tugaspendahuluan::where('modul_id', $value->modul_id)->first();
                         $tp->pembahasan = Modul::where('id', $value->modul_id)->first()->isi;
+
+                        return response()->json([
+                            'message'=> 'success',
+                            'tp' => $tp,
+                        ], 200);
                     }
                 }
             
@@ -34,15 +39,15 @@ class TugaspendahuluanController extends Controller
                     if(!Modul::where('id', $value->modul_id)->first()->isEnglish){
                         $tp = Tugaspendahuluan::where('modul_id', $value->modul_id)->first();
                         $tp->pembahasan = Modul::where('id', $value->modul_id)->first()->isi;
+                    
+                        return response()->json([
+                            'message'=> 'success',
+                            'tp' => $tp,
+                        ], 200);
                     }
                 }
             }
         }
-
-        return response()->json([
-            'message'=> 'success',
-            'tp' => $tp,
-        ], 200);
     }
 
     /**
