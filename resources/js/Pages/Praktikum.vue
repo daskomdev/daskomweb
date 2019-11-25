@@ -245,7 +245,10 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer bg-yellow-400 hover:bg-yellow-600 hover:text-white animation-enable">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPolling },
+                      { 'bg-yellow-500 text-white': changePage && menuPolling }]"
+              v-on:click='travel("polling")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-chart-area">
@@ -1081,6 +1084,7 @@ export default {
         this.comingFrom === 'modul' ||
         this.comingFrom === 'konfigurasi'||
         this.comingFrom === 'tp' ||
+        this.comingFrom === 'polling' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'history'||
         this.comingFrom === 'nilai'||

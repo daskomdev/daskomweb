@@ -11,6 +11,8 @@ use App\Configuration;
 use App\Tugaspendahuluan;
 use App\Laporan_Praktikan;
 use App\Nilai;
+use App\Polling;
+use App\Jenis_Polling;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -78,11 +80,15 @@ Route::get('/praktikan', function () {
     $allAsisten = Asisten::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $isRunmod = Configuration::find(1)->runmod_activation;
+    $pollingComplete = Polling::where('praktikan_id', $user->id)->exists();
+    $allPolling = Jenis_Polling::all();
     return Inertia::render('Praktikan', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
         'allAsisten' => $allAsisten,
         'isRunmod' => $isRunmod,
+        'pollingComplete' => $pollingComplete,
+        'allPolling' => $allPolling,
     ]);
 })->name('praktikan')->middleware('loggedIn:praktikan');
 
@@ -212,6 +218,19 @@ Route::get('/konfigurasi', function () {
         'currentConfig' => $currentConfig === null ? 'nope' : $currentConfig,
     ]);
 })->name('konfigurasi')->middleware('loggedIn:asisten');
+
+Route::get('/polling', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    return Inertia::render('Polling', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+    ]);
+})->name('polling')->middleware('loggedIn:asisten');
 
 Route::get('/tp', function () {
     $user = Auth::guard('asisten')->user();
@@ -447,3 +466,4 @@ Route::post('/getAllNilai/{praktikan_id}', 'NilaiController@showAll')->name('get
 
 Route::post('/setThisPraktikan/{praktikan_nim}/{asisten_id}/{modul_id}', 'NilaiController@edit')->name('setThisPraktikan')->middleware('loggedIn:asisten');
 Route::post('/changePraktikanPass/{praktikan_nim}/{new_pass}', 'PraktikanController@edit')->name('changePraktikanPass')->middleware('loggedIn:asisten');
+Route::post('/savePolling', 'PollingController@store')->name('savePolling')->middleware('loggedIn:praktikan');

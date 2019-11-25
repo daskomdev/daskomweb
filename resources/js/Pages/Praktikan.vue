@@ -220,17 +220,91 @@
           <!-- Praktikum Layout -->
           <div v-if="isPraktikum" class="w-full h-full flex">
 
+            <div v-if="pollingComplete_mutable" class="font-monda-bold h-auto w-auto m-auto text-center text-5xl"> 
+              <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2019/2020 🎉🎉</span>
+            </div>
+            <div v-if="!pollingComplete_mutable" class="w-full h-full py-4 relative">
+
+              <div class="absolute top-0 m-4 right-0 animation-enable-short rounded-lg bg-green-400 p-3 hover:p-4 hover:bg-green-500 cursor-pointer pointer-events-auto w-auto h-auto flex"
+                  v-on:click="savePolling()">
+                <div class="font-overpass-mono-bold text-white text-center text-xl h-auto w-auto pointer-events-none m-auto">
+                  <span>SAVE</span>
+                </div>
+              </div>
+
+              <div class="w-full h-3/4 flex-row">
+                <div class="w-full h-8 flex">
+                  <div class="w-auto mx-auto h-full flex">
+                    <div class="font-monda-bold h-auto w-auto m-auto text-center text-2xl">
+                      <span>{{ allAsisten[chosenAsisten].nama }} ({{ allAsisten[chosenAsisten].kode }})</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full h-full flex">
+                  <div class="w-120full mx-auto h-full flex">
+                    <div class="w-16 h-full flex">
+                      <div class="w-12 h-12 p-0 hover:p-1 mr-auto my-auto animation-enable-short pointer-events-auto">
+                        <span class="w-full h-full cursor-pointer text-black"
+                            :class="[{ 'opacity-100': chosenAsisten > 0 },
+                              { 'opacity-25': chosenAsisten == 0 }]"
+                          v-on:click="chosenAsisten -= chosenAsisten > 0 ? 1 : 0">
+                          <img class="w-full h-full fas fa-caret-left"/>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="w-full h-12full rounded-large flex bg-green-600 my-auto shadow-xl">
+                      <div class="w-1/3 h-full rounded-l-large flex bg-green-400">
+                        <img class="select-none w-full h-full bg-center bg-cover rounded-l-large" 
+                          :style="'background-image: url(/assets/' + allAsisten[chosenAsisten].kode + '.jpg);'">
+                      </div>
+                      <div class="w-2/3 h-full flex">
+                        <div class="font-merri-bold h-auto w-auto m-auto text-center text-xl text-white p-4">
+                          <span>{{ allAsisten[chosenAsisten].deskripsi }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-16 h-full flex">
+                      <div class="w-12 h-12 p-0 hover:p-1 mr-auto my-auto animation-enable-short pointer-events-auto">
+                        <span class="w-full h-full cursor-pointer text-black"
+                            :class="[{ 'opacity-100': chosenAsisten < (allAsisten.length-1) },
+                              { 'opacity-25': chosenAsisten == (allAsisten.length-1) }]"
+                          v-on:click="chosenAsisten += chosenAsisten < (allAsisten.length-1) ? 1 : 0">
+                          <img class="w-full h-full fas fa-caret-right"/>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-1/4 flex overflow-y-hidden overflow-x-scroll">
+                <div class="animation-enable-short w-auto h-full flex m-auto">
+                  <div v-for="(polling, index) in allPolling" v-bind:key="polling.id"
+                      class="animation-enable-short relative w-auto h-auto my-auto flex mx-2">
+                    <div class="animation-enable-short w-auto h-auto rounded-lg flex bg-teal-200 hover:bg-teal-300 p-3 hover:p-4 pointer-events-auto cursor-pointer"
+                        v-on:click="setPilihanPolling(index, allAsisten[chosenAsisten].id)">
+                      <div class="font-overpass-bold h-auto w-auto m-auto text-center text-lg text-black pointer-events-none">
+                        <span>{{ polling.judul }} [{{ polling.asisten_id == undefined ? '' : allAsisten[polling.asisten_id].kode }}]</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TODO: Change this to praktikum config again after polling week complete  -->
             <!-- Praktikum not EXIST -->
-            <div v-if="current_praktikum.status === '' || 
+            <!-- <div v-if="current_praktikum.status === '' || 
                       current_praktikum.status === 777" 
                 class="w-full h-full flex">
               <div class="font-monda-bold h-auto w-auto m-auto text-center text-5xl">
                 Tidak ada <br> Praktikum saat ini
-              </div>
-            </div>
+              </div> 
+            </div> -->
 
             <!-- On Praktikum Initialization -->
-            <div v-if="current_praktikum.status === 0"
+            <!-- <div v-if="current_praktikum.status === 0"
                 class="w-full h-full flex-row">
               <div class="w-full h-24full flex">
                 <div class="font-overpass text-3xl m-auto px-16">
@@ -242,10 +316,10 @@
                   <div class="w-3/4 h-full flex m-auto text-center">" {{ programmingQuote }} " [by {{ quoteAuthor }}]</div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Soal TA already started by Praktikum PJ -->
-            <div v-if="current_praktikum.status === 1"
+            <!-- <div v-if="current_praktikum.status === 1"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -289,10 +363,10 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Soal Jurnal already started by Praktikum PJ -->
-            <div v-if="current_praktikum.status === 2"
+            <!-- <div v-if="current_praktikum.status === 2"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -381,10 +455,10 @@
                   <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Soal Mandiri already started by Praktikum PJ -->
-            <div v-if="current_praktikum.status === 3"
+            <!-- <div v-if="current_praktikum.status === 3"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -454,11 +528,11 @@
                   <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Soal RUNMOD already started by Praktikum PJ -->
             <!-- JUST FOR SPECIAL CASE (RUNMOD) -->
-            <div v-if="current_praktikum.status === 123"
+            <!-- <div v-if="current_praktikum.status === 123"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -528,10 +602,10 @@
                   <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Soal TK already started by Praktikum PJ -->
-            <div v-if="current_praktikum.status === 4"
+            <!-- <div v-if="current_praktikum.status === 4"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -575,11 +649,11 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- All Praktikum Proses have done -->
             <!-- Show laporan praktikan's layout -->
-            <div v-if="current_praktikum.status !== 777 &&
+            <!-- <div v-if="current_praktikum.status !== 777 &&
                         current_praktikum.status !== 0 &&
                         current_praktikum.status !== '' &&
                         current_praktikum.status !== 1 &&
@@ -640,7 +714,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -882,6 +956,8 @@ export default {
     'currentUser',
     'allAsisten',
     'isRunmod',
+    'pollingComplete',
+    'allPolling',
   ],
 
   data() {
@@ -896,7 +972,12 @@ export default {
       openWide: false,
       modulShown: false,
 
+      pollingComplete_mutable: this.pollingComplete,
       praktikumExist: false,
+
+      pilihanPolling: this.allPolling,
+
+      chosenAsisten: 0,
 
       current_praktikum: {
         kelas_id: '',
@@ -1772,6 +1853,33 @@ export default {
       $('.jawaban-'+$soalIndex+$jawabanIndex).removeClass('bg-green-200 hover:bg-green-300');
       $('.jawaban-'+$soalIndex+$jawabanIndex).addClass('bg-green-500 text-white');
     },  
+
+    setPilihanPolling: function($poll_index, $asisten_id){
+      
+      let global = this;
+      
+      this.$set(this.pilihanPolling[$poll_index], 'praktikan_id', this.currentUser.id);
+      this.$set(this.pilihanPolling[$poll_index], 'asisten_id', $asisten_id);
+    },
+
+    savePolling: function(){
+      
+      let globe = this;
+
+      globe.$axios.post('/savePolling', this.pilihanPolling).then(response => {
+
+        if(response.data.message === "success") {
+
+          globe.pollingComplete_mutable = true;
+
+        } else {
+
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    },
 
     showPraktikum: function(){
 

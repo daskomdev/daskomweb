@@ -35,7 +35,23 @@ class PollingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        for ($i=0; $i < count($request->all()); $i++) { 
+            if($request->input($i.'.praktikan_id') == null || 
+                $request->input($i.'.asisten_id') == null) {
+                return '{"message": "Polling '. $request->input($i.'.judul') .' belum dipilih"}';
+            }   
+        } 
+
+        for ($i=0; $i < count($request->all()); $i++) { 
+          
+            Polling::create([
+                'praktikan_id'  => $request->input($i.'.praktikan_id'),
+                'asisten_id'    => $request->input($i.'.asisten_id'),
+                'polling_id'    => $request->input($i.'.id'),
+            ]);    
+        } 
+
+        return '{"message": "success"}';
     }
 
     /**

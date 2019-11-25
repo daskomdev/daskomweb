@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// PUBLIC WEB ROUTE (for android app development purpose)
+// PUBLIC WEB ROUTE (for android app development purpose) & that is why its called api :v
 Route::post('/getTp/{praktikan_nim}/{modul_id}', 'JawabanTpController@show')->name('getTp');
 Route::post('/getAllLaporan/{modul_id}', 'LaporanPjController@index')->name('getAllLaporan');
 Route::post('/getAllModul', 'ModulController@show')->name('getAllModul');
