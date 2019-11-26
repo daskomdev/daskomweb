@@ -285,7 +285,7 @@
                     <div class="animation-enable-short w-auto h-auto rounded-lg flex bg-teal-200 hover:bg-teal-300 p-3 hover:p-4 pointer-events-auto cursor-pointer"
                         v-on:click="setPilihanPolling(index, allAsisten[chosenAsisten].id)">
                       <div class="font-overpass-bold h-auto w-auto m-auto text-center text-lg text-black pointer-events-none">
-                        <span>{{ polling.judul }} [{{ polling.asisten_id == undefined ? '' : allAsisten[polling.asisten_id].kode }}]</span>
+                        <span>{{ polling.judul }} [{{ polling.asisten_id == undefined ? '' : allAsisten[polling.asisten_id-1].kode }}]</span>
                       </div>
                     </div>
                   </div>
