@@ -220,7 +220,8 @@
           <!-- Praktikum Layout -->
           <div v-if="isPraktikum" class="w-full h-full flex">
 
-            <div v-if="pollingComplete_mutable" class="font-monda-bold h-auto w-auto m-auto text-center text-5xl"> 
+            <!-- Comment this out for praktikum (TODO: add polling status configuration) -->
+            <!-- <div v-if="pollingComplete_mutable" class="font-monda-bold h-auto w-auto m-auto text-center text-5xl"> 
               <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2019/2020 🎉🎉</span>
             </div>
             <div v-if="!pollingComplete_mutable" class="w-full h-full py-4 relative">
@@ -278,6 +279,7 @@
                   </div>
                 </div>
               </div>
+              
               <div class="w-full h-1/4 flex overflow-y-hidden overflow-x-scroll">
                 <div class="animation-enable-short w-auto h-full flex m-auto">
                   <div v-for="(polling, index) in allPolling" v-bind:key="polling.id"
@@ -291,20 +293,21 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
-            <!-- TODO: Change this to praktikum config again after polling week complete  -->
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- Praktikum not EXIST -->
-            <!-- <div v-if="current_praktikum.status === '' || 
+            <div v-if="current_praktikum.status === '' || 
                       current_praktikum.status === 777" 
                 class="w-full h-full flex">
               <div class="font-monda-bold h-auto w-auto m-auto text-center text-5xl">
                 Tidak ada <br> Praktikum saat ini
               </div> 
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- On Praktikum Initialization -->
-            <!-- <div v-if="current_praktikum.status === 0"
+            <div v-if="current_praktikum.status === 0"
                 class="w-full h-full flex-row">
               <div class="w-full h-24full flex">
                 <div class="font-overpass text-3xl m-auto px-16">
@@ -316,10 +319,11 @@
                   <div class="w-3/4 h-full flex m-auto text-center">" {{ programmingQuote }} " [by {{ quoteAuthor }}]</div>
                 </div>
               </div>
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- Soal TA already started by Praktikum PJ -->
-            <!-- <div v-if="current_praktikum.status === 1"
+            <div v-if="current_praktikum.status === 1"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -363,10 +367,11 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- Soal Jurnal already started by Praktikum PJ -->
-            <!-- <div v-if="current_praktikum.status === 2"
+            <div v-if="current_praktikum.status === 2"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -455,10 +460,11 @@
                   <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- Soal Mandiri already started by Praktikum PJ -->
-            <!-- <div v-if="current_praktikum.status === 3"
+            <div v-if="current_praktikum.status === 3"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -528,11 +534,12 @@
                   <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- Soal RUNMOD already started by Praktikum PJ -->
             <!-- JUST FOR SPECIAL CASE (RUNMOD) -->
-            <!-- <div v-if="current_praktikum.status === 123"
+            <div v-if="current_praktikum.status === 123"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -602,10 +609,11 @@
                   <span>{{ current_modul.isi }}</span>
                 </div>
               </div>
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- Soal TK already started by Praktikum PJ -->
-            <!-- <div v-if="current_praktikum.status === 4"
+            <div v-if="current_praktikum.status === 4"
                 class="w-full h-full flex">
               <div class="w-1/4 h-full flex-row overflow-y-hidden">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
@@ -649,11 +657,12 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
 
+            <!-- Comment this out for polling (TODO: add polling status configuration) -->
             <!-- All Praktikum Proses have done -->
             <!-- Show laporan praktikan's layout -->
-            <!-- <div v-if="current_praktikum.status !== 777 &&
+            <div v-if="current_praktikum.status !== 777 &&
                         current_praktikum.status !== 0 &&
                         current_praktikum.status !== '' &&
                         current_praktikum.status !== 1 &&
@@ -714,7 +723,7 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>

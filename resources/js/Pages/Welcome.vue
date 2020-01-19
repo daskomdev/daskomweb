@@ -5,7 +5,7 @@
     <div class="h-full w-full fixed top-0 bg-gray-400"/>
 
     <!-- Animation Part -->
-    <!-- TODO: Do more here <14 June 02:09 PM> -->
+    <!-- TODO: Do more here <14 June 2019 02:09 PM> -->
     <div class="fixed flex h-full w-full" ref="mainBg">
       <div class="font-merri m-auto text-white text-4xl" ref="welcomeText">
         Welcome To
