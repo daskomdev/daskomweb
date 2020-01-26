@@ -426,12 +426,12 @@ Route::post('/createPraktikum', 'PraktikumController@store')->name('createPrakti
 
 // TODO: Secure this "getSoal" route from others by adding some private key algorithm to the request
 Route::get('/getSoalTP/{isEnglish}', 'SoalTpController@show')->name('getSoalTP');
-Route::get('/getSoalTA/{modul_id}', 'SoalTaController@show')->name('getSoalTA');
-Route::get('/getSoalTK/{modul_id}', 'SoalTkController@show')->name('getSoalTK');
+Route::get('/getSoalTA/{modul_id}/{kelas_id}', 'SoalTaController@show')->name('getSoalTA');
+Route::get('/getSoalTK/{modul_id}/{kelas_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
 Route::get('/getSoalJURNAL', 'SoalJurnalController@show')->name('getSoalJURNAL');
 Route::get('/getSoalRUNMOD', 'SoalJurnalController@showRunmod')->name('getSoalRUNMOD');
-Route::get('/getSoalMANDIRI/{modul_id}', 'SoalMandiriController@show')->name('getSoalMANDIRI');
+Route::get('/getSoalMANDIRI/{modul_id}/{kelas_id}', 'SoalMandiriController@show')->name('getSoalMANDIRI');
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::post('/sendLaporan', 'LaporanPraktikanController@store')->name('sendLaporan')->middleware('loggedIn:praktikan');

@@ -1503,7 +1503,7 @@ export default {
             
             // Start Opening TA and grab all SOAL from it
             // (get RANDOMIZED soal from soal__tas)
-            globe.$axios.get('/getSoalTA/'+globe.current_praktikum.modul_id).then(response => {
+            globe.$axios.get('/getSoalTA/'+globe.current_praktikum.modul_id+'/'+globe.current_praktikum.kelas_id).then(response => {
 
               if(response.data.message === "success") {
 
@@ -1643,7 +1643,7 @@ export default {
 
             // Start opening Mandiri Section and get all SOAL from
             // get soal from soal__mandiris
-            globe.$axios.get('/getSoalMANDIRI/'+globe.current_praktikum.modul_id).then(response => {
+            globe.$axios.get('/getSoalMANDIRI/'+globe.current_praktikum.modul_id+'/'+globe.current_praktikum.kelas_id).then(response => {
 
               if(response.data.message === "success") {
 
@@ -1690,7 +1690,7 @@ export default {
 
             // Start Opening TK and grab all SOAL from it
             // (get RANDOMIZED soal from soal__tks)
-            globe.$axios.get('/getSoalTK/'+globe.current_praktikum.modul_id).then(response => {
+            globe.$axios.get('/getSoalTK/'+globe.current_praktikum.modul_id+'/'+globe.current_praktikum.kelas_id).then(response => {
 
               if(response.data.message === "success") {
 

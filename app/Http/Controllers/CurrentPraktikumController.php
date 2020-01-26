@@ -7,6 +7,7 @@ use App\Current_Praktikum;
 use App\Soal_Jurnal;
 use App\Soal_Fitb;
 use App\Temp_Soaljurnal;
+use App\Kelas;
 use App\Events\praktikumStatusUpdated;
 use Illuminate\Http\Request;
 
@@ -76,25 +77,47 @@ class CurrentPraktikumController extends Controller
             'status'     => 0,
         ]);
 
-        $soalJurnal_sedang = Soal_Jurnal::where('modul_id', $request->modul_id)
+        if(substr(Kelas::where('id', $request->kelas_id)->first()->kelas, 0, 3) === 'TOT') {
+            
+            $soalJurnal_sedang = Soal_Jurnal::where('modul_id', $request->modul_id)
+            ->where('isSulit', false)->get();
+
+            $soalJurnal_sulit = Soal_Jurnal::where('modul_id', $request->modul_id)
+                ->where('isSulit', true)->get();
+
+            $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->get();
+            
+        } else {
+
+            $soalJurnal_sedang = Soal_Jurnal::where('modul_id', $request->modul_id)
             ->where('isSulit', false)->inRandomOrder()->take(1)->get();
 
-        $soalJurnal_sulit = Soal_Jurnal::where('modul_id', $request->modul_id)
-            ->where('isSulit', true)->inRandomOrder()->take(1)->get();
-        
+            $soalJurnal_sulit = Soal_Jurnal::where('modul_id', $request->modul_id)
+                ->where('isSulit', true)->inRandomOrder()->take(1)->get();
+
+            $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(3)->get();
+        }
+    
         $all_soalJurnalID = '';
-        $all_soalJurnalID .= $soalJurnal_sedang[0]->id;
+        for ($i=0; $i < count($soalJurnal_sedang); $i++) { 
+            $all_soalJurnalID .= $soalJurnal_sedang[$i]->id;
+            if($i !== count($soalJurnal_sedang)-1)
+                $all_soalJurnalID .= '-';
+        }
         $all_soalJurnalID .= '-';
-        $all_soalJurnalID .= $soalJurnal_sulit[0]->id;
-
-        $all_soalFitb = Soal_Fitb::where('modul_id', $request->modul_id)->inRandomOrder()->take(3)->get();
-
+        for ($i=0; $i < count($soalJurnal_sulit); $i++) { 
+            $all_soalJurnalID .= $soalJurnal_sulit[$i]->id;
+            if($i !== count($soalJurnal_sulit)-1)
+                $all_soalJurnalID .= '-';
+        }
+    
         $all_soalFitbID = '';
         for ($i=0; $i < count($all_soalFitb); $i++) { 
             $all_soalFitbID .= $all_soalFitb[$i]->id;
             if($i !== count($all_soalFitb)-1)
                 $all_soalFitbID .= '-';
         }
+
         Temp_Soaljurnal::create([
             'allJurnal_id' => $all_soalJurnalID,
             'allFitb_id' => $all_soalFitbID,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Soal_Tk;
+use App\Kelas;
 use Illuminate\Http\Request;
 
 class SoalTkController extends Controller
@@ -73,9 +74,17 @@ class SoalTkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($modul_id)
+    public function show($modul_id, $kelas_id)
     {
-        $all_soal = Soal_Tk::where('modul_id', $modul_id)->inRandomOrder()->take(10)->get();
+        if(substr(Kelas::where('id', $kelas_id)->first()->kelas, 0, 3) === 'TOT') {
+            
+            $all_soal = Soal_Tk::where('modul_id', $modul_id)->get();
+
+        } else {
+
+            $all_soal = Soal_Tk::where('modul_id', $modul_id)->inRandomOrder()->take(10)->get();
+        }
+        
         return response()->json([
             'message'=> 'success',
             'all_soal' => $all_soal,

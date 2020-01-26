@@ -352,7 +352,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.ta"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="15" placeholder="15" disabled>
+                    type="number" step="0.01" min="0" max="15" placeholder="15">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2">
@@ -362,7 +362,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.tk"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="20" placeholder="20" disabled>
+                    type="number" step="0.01" min="0" max="20" placeholder="20">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2"
