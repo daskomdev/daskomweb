@@ -1,3 +1,5 @@
+[![codebeat badge](https://codebeat.co/badges/da08ee89-8548-4e7b-9f36-fe175517c9b5)](https://codebeat.co/projects/github-com-daskomdev-daskomweb-master)
+
 # Selamat datang di Daskomlab
 
 Bagi kalian para manusia terpilih yang menjadi Software Developer Daskom 😄 disinilah awal **perjuangan** dan **petualangan** kalian dalam mengembangkan Website Daskom dimulai
