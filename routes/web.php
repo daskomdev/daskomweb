@@ -285,8 +285,9 @@ Route::get('/nilai', function () {
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
     $allLaporan = Laporan_Praktikan::where('laporan__praktikans.asisten_id', $user->id)
-        ->leftJoin('praktikans', 'laporan__praktikans.praktikan_id', '=', 'praktikans.id')
-        ->leftJoin('moduls', 'laporan__praktikans.modul_id', '=', 'moduls.id')
+        ->join('praktikans', 'laporan__praktikans.praktikan_id', '=', 'praktikans.id')
+        ->select('laporan__praktikans.*', 'praktikans.nama', 'praktikans.nim', 'praktikans.kelas_id')
+        ->latest()
         ->get();
 
     foreach ($allLaporan as $laporan => $value)
