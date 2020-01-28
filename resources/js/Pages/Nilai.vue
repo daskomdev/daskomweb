@@ -342,7 +342,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.tp"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="15" placeholder="15">
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2">
@@ -352,7 +352,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.ta"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="15" placeholder="15">
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2">
@@ -362,7 +362,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.tk"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="20" placeholder="20">
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2"
@@ -373,7 +373,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.jurnal"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="40" placeholder="40">
+                    type="number" step="0.01" min="0" max="400" placeholder="400">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2"
@@ -384,7 +384,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.skill"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="10" placeholder="10">
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2">
@@ -394,7 +394,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.diskon"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="100" placeholder="100">
+                    type="number" step="0.01" min="0" max="800" placeholder="800">
             </div>
           </div>
           <div class="w-1/7 h-full flex-row p-2">
@@ -404,7 +404,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.total"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="100" placeholder="100">
+                    type="number" step="0.01" min="0" max="800" placeholder="800">
             </div>
           </div>
         </div>
@@ -771,8 +771,8 @@ export default {
 
         if($modul_id === 1) {
 
-          this.formNilai.tp = 15;
-          this.formNilai.skill = 10;
+          this.formNilai.tp = 100;
+          this.formNilai.skill = 100;
         }
 
         globe.$axios.post('/createFormNilai/'+$praktikan_id+"/"+$modul_id).then(response => {

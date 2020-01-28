@@ -27,8 +27,8 @@ class NilaiController extends Controller
     {
         if($modul_id == 1){
 
-            $nilaiTa = 15;
-            $nilaiTk = 20;
+            $nilaiTa = 100;
+            $nilaiTk = 100;
 
         } else {
 
@@ -43,7 +43,7 @@ class NilaiController extends Controller
                     $nilaiTaCorrect++;
             }
 
-            $nilaiTa = $nilaiTaCorrect * /*Max Nilai*/15 / /*Max Soal*/10;
+            $nilaiTa = $nilaiTaCorrect * /*Max Nilai*/100 / /*Max Soal*/10;
 
             $allJawabanTk = Jawaban_Tk::where('praktikan_id', $praktikan_id)
                 ->where('modul_id', $modul_id)
@@ -56,7 +56,7 @@ class NilaiController extends Controller
                     $nilaiTkCorrect++;
             }
 
-            $nilaiTk = $nilaiTkCorrect * /*Max Nilai*/20 / /*Max Soal*/10;
+            $nilaiTk = $nilaiTkCorrect * /*Max Nilai*/100 / /*Max Soal*/10;
         }
 
         return response()->json([
