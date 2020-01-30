@@ -62,7 +62,7 @@
 
           <!-- TP Layout -->
           <div v-if="isTP" class="w-full h-full flex">
-            <div class="w-full h-full z-50 bg-gray-200 flex" v-if="qrcodeShown">
+            <!-- <div class="w-full h-full z-50 bg-gray-200 flex" v-if="qrcodeShown">
               <div class="w-full px-8 h-auto flex m-auto">
                 <qrcode :value="ecnryptedData" 
                     :options="{ 
@@ -83,7 +83,7 @@
                   <span class="text-xl">Silahkan refresh web nya jika ingin membuat ulang TP</span>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="w-full h-full flex" v-if="!qrcodeShown">
               <div v-if="soalTPEssay.length === 0 && soalTPProgram.length === 0" 
                   class="w-full h-full flex">
@@ -173,7 +173,7 @@
 
                           <div class="w-1/2 h-20 mx-auto">
                             <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
-                                v-on:click="generateQRCODE()">
+                                v-on:click="saveJawabanTP()">
                               <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-green-600">
                                 <div class="m-auto">
                                   Selesai
@@ -1247,7 +1247,7 @@ export default {
 
     if(globe.currentUser.kelas.substring(6, 10) == 'INT'){
 
-      globe.$axios.get('/getSoalTP/true').then(response => {
+      globe.$axios.get('/getSoalTP/true/' + globe.currentUser.id).then(response => {
 
         if(response.data.message === "success") {
 
@@ -1257,10 +1257,10 @@ export default {
             for (let index = 0; index < globe.soalTPEssay.length; index++) {
               const soal = globe.soalTPEssay[index];
               globe.jawabanTP.push({
-                soal_id: soal.id,
+                soal_id: soal.soal_id == null ? soal.id : soal.soal_id,
                 modul_id: soal.modul_id,
                 praktikan_id: globe.currentUser.id,
-                jawaban: '',
+                jawaban: soal.jawaban === null ? '' : soal.jawaban,
               });
             }
           }
@@ -1271,10 +1271,10 @@ export default {
             for (let index = 0; index < globe.soalTPProgram.length; index++) {
               const soal = globe.soalTPProgram[index];
               globe.jawabanTP.push({
-                soal_id: soal.id,
+                soal_id: soal.soal_id == null ? soal.id : soal.soal_id,
                 modul_id: soal.modul_id,
                 praktikan_id: globe.currentUser.id,
-                jawaban: '',
+                jawaban: soal.jawaban === null ? '' : soal.jawaban,
               });
             }
           }
@@ -1296,7 +1296,7 @@ export default {
 
     } else {
 
-      globe.$axios.get('/getSoalTP/false').then(response => {
+      globe.$axios.get('/getSoalTP/false/' + globe.currentUser.id).then(response => {
 
         if(response.data.message === "success") {
 
@@ -1306,10 +1306,10 @@ export default {
             for (let index = 0; index < globe.soalTPEssay.length; index++) {
               const soal = globe.soalTPEssay[index];
               globe.jawabanTP.push({
-                soal_id: soal.id,
+                soal_id: soal.soal_id == null ? soal.id : soal.soal_id,
                 modul_id: soal.modul_id,
                 praktikan_id: globe.currentUser.id,
-                jawaban: '',
+                jawaban: soal.jawaban === null ? '' : soal.jawaban,
               });
             }
           }
@@ -1320,10 +1320,10 @@ export default {
             for (let index = 0; index < globe.soalTPProgram.length; index++) {
               const soal = globe.soalTPProgram[index];
               globe.jawabanTP.push({
-                soal_id: soal.id,
+                soal_id: soal.soal_id == null ? soal.id : soal.soal_id,
                 modul_id: soal.modul_id,
                 praktikan_id: globe.currentUser.id,
-                jawaban: '',
+                jawaban: soal.jawaban === null ? '' : soal.jawaban,
               });
             }
           }
@@ -1368,33 +1368,47 @@ export default {
       return $arr;
     },
 
-    generateQRCODE: function(){
+    saveJawabanTP: function() {
 
       const globe = this;
-      globe.$axios.post('/sendTempJawabanTP', globe.jawabanTP).then(response => {
+      globe.$axios.post('/saveJawabanTP', globe.jawabanTP).then(response => {
 
         if(response.data.message === "success") {
-
-          if(response.data.allJawaban_id !== null) {
-
-            globe.qrcodeShown = true;
-            globe.qrcodeData.allJawaban_id = response.data.allJawaban_id;
-            globe.qrcodeData.praktikan_id = globe.currentUser.id;
-            globe.qrcodeData.kelas_id = globe.currentUser.kelas_id;
-            
-            // Encryption of the data
-            var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(globe.qrcodeData), 'daskom_aja');
-            globe.ecnryptedData = ciphertext.toString();
-
-            //////////////////////////////////////////////////////////////////////////
-            // This is how to decrypt the data
-            // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'daskom_aja');
-            // var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-            //////////////////////////////////////////////////////////////////////////
-          }
+          
+          globe.$toasted.global.showSuccess({
+            message: "TP anda telah tersimpan"
+          });
         }
       }); 
     },
+
+    // generateQRCODE: function(){
+
+    //   const globe = this;
+    //   globe.$axios.post('/sendTempJawabanTP', globe.jawabanTP).then(response => {
+
+    //     if(response.data.message === "success") {
+
+    //       if(response.data.allJawaban_id !== null) {
+
+    //         globe.qrcodeShown = true;
+    //         globe.qrcodeData.allJawaban_id = response.data.allJawaban_id;
+    //         globe.qrcodeData.praktikan_id = globe.currentUser.id;
+    //         globe.qrcodeData.kelas_id = globe.currentUser.kelas_id;
+            
+    //         // Encryption of the data
+    //         var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(globe.qrcodeData), 'daskom_aja');
+    //         globe.ecnryptedData = ciphertext.toString();
+
+    //         //////////////////////////////////////////////////////////////////////////
+    //         // This is how to decrypt the data
+    //         // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'daskom_aja');
+    //         // var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    //         //////////////////////////////////////////////////////////////////////////
+    //       }
+    //     }
+    //   }); 
+    // },
     
     finishPraktikum: function(){
 

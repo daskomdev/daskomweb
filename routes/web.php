@@ -426,7 +426,7 @@ Route::post('/makeHistory/izin', 'HistoryIzinController@store')->name('createIzi
 Route::post('/createPraktikum', 'PraktikumController@store')->name('createPraktikum')->middleware('loggedIn:asisten');
 
 // TODO: Secure this "getSoal" route from others by adding some private key algorithm to the request
-Route::get('/getSoalTP/{isEnglish}', 'SoalTpController@show')->name('getSoalTP');
+Route::get('/getSoalTP/{isEnglish}/{praktikan_id}', 'SoalTpController@show')->name('getSoalTP');
 Route::get('/getSoalTA/{modul_id}/{kelas_id}', 'SoalTaController@show')->name('getSoalTA');
 Route::get('/getSoalTK/{modul_id}/{kelas_id}', 'SoalTkController@show')->name('getSoalTK');
 Route::get('/getSoalFITB', 'SoalFitbController@show')->name('getSoalFITB');
@@ -455,6 +455,7 @@ Route::post('/activateTP/{modul_id}', 'TugaspendahuluanController@show')->name('
 Route::post('/deactivateTP/{modul_id}', 'TugaspendahuluanController@destroy')->name('activateTP')->middleware('loggedIn:asisten');
 
 Route::post('/sendTempJawabanTP', 'TempJawabantpController@store')->name('sendTempJawabanTP')->middleware('loggedIn:praktikan');
+Route::post('/saveJawabanTP', 'KumpulTpController@save')->name('saveTp')->middleware('loggedIn:praktikan');
 Route::post('/kumpulTp', 'KumpulTpController@store')->name('kumpulTp')->middleware('loggedIn:asisten');
 Route::post('/getKumpulTp/{kelas_id}/{modul_id}', 'KumpulTpController@show')->name('getKumpulTp')->middleware('loggedIn:asisten');
 
