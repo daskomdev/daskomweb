@@ -6,6 +6,7 @@ use App\Soal_Tp;
 use App\Modul;
 use App\Configuration;
 use App\Tugaspendahuluan;
+use App\Jawaban_Tp;
 use Illuminate\Http\Request;
 
 class SoalTpController extends Controller
@@ -63,15 +64,48 @@ class SoalTpController extends Controller
      * @param  \App\Soal_Tp  $soal_Tp
      * @return \Illuminate\Http\Response
      */
-    public function show($isEnglish)
+    public function show($isEnglish, $praktikan_id)
     {
         if(!Configuration::find(1)->tp_activation)
             return '{"message": "nope"}';
 
+        $allTP = Tugaspendahuluan::where('isActive', true)->get();
+        foreach ($allTP as $tp => $value) {
+        
+            if(Jawaban_Tp::where('praktikan_id', $praktikan_id)
+                ->where('modul_id', $value->modul_id)
+                ->exists()){
+
+                $allJawabanTP = Jawaban_Tp::where('praktikan_id', $praktikan_id)
+                ->where('jawaban__tps.modul_id', $value->modul_id)
+                ->join('soal__tps', 'jawaban__tps.soal_id', '=', 'soal__tps.id')
+                ->select('jawaban__tps.*', 'soal__tps.soal', 'soal__tps.isEssay', 'soal__tps.isProgram')
+                ->get();
+
+                $all_soalEssay=[];
+                $all_soalProgram=[];
+
+                foreach($allJawabanTP as $jawabanTp) {
+
+                    if($jawabanTp->isEssay)
+                        array_push($all_soalEssay, $jawabanTp); 
+                    else
+                        array_push($all_soalProgram, $jawabanTp);
+                }
+
+                return response()->json([
+                    'message'=> 'success',
+                    'all_soalEssay' => $all_soalEssay,
+                    'all_soalProgram' => $all_soalProgram,
+                ], 200);
+            }
+        }
+
         if($isEnglish === 'true') {
-            $allTP = Tugaspendahuluan::where('isActive', true)->get();
+
             foreach ($allTP as $tp => $value) {
                 if(Modul::where('id', $value->modul_id)->first()->isEnglish){
+
                     $all_soalEssay = Soal_Tp::where('modul_id', $value->modul_id)
                                 ->where('isEssay', true)
                                 ->inRandomOrder()->take(5)->get();
@@ -89,8 +123,7 @@ class SoalTpController extends Controller
 
         } else {
 
-            $allTP = Tugaspendahuluan::where('isActive', true)->get();
-            foreach ($allTP as $tp => $value) { 
+            foreach ($allTP as $tp => $value) {
                 if(!Modul::where('id', $value->modul_id)->first()->isEnglish){
                     $all_soalEssay = Soal_Tp::where('modul_id', $value->modul_id)
                                 ->where('isEssay', true)

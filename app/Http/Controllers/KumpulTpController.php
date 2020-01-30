@@ -37,6 +37,49 @@ class KumpulTpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function save(Request $request) 
+    {
+        if(Jawaban_Tp::where('praktikan_id', $request->input('0.praktikan_id'))
+            ->where('modul_id', $request->input('0.modul_id'))
+            ->exists()){
+            
+            for ($i=0; $i < count($request->all()); $i++) { 
+
+                $jawaban_tp = Jawaban_Tp::where('praktikan_id', $request->input($i.'.praktikan_id'))
+                ->where('modul_id', $request->input($i.'.modul_id'))
+                ->where('soal_id', $request->input($i.'.soal_id'))->first();
+
+                $jawaban_tp->jawaban = $request->input($i.'.jawaban') == null ? 'empty' : $request->input($i.'.jawaban');
+
+                $jawaban_tp->save();
+            } 
+
+            return response()->json([
+                'message'=> 'success'
+            ], 200);
+        }
+
+        for ($i=0; $i < count($request->all()); $i++) { 
+          
+            Jawaban_Tp::create([
+                'praktikan_id'  => $request->input($i.'.praktikan_id'),
+                'modul_id'      => $request->input($i.'.modul_id'),
+                'soal_id'       => $request->input($i.'.soal_id'),
+                'jawaban'       => $request->input($i.'.jawaban') == null ? 'empty' : $request->input($i.'.jawaban'),
+            ]);
+        } 
+
+        return response()->json([
+            'message'=> 'success'
+        ], 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         if(Jawaban_Tp::where('praktikan_id', $request->praktikan_id)
