@@ -404,7 +404,7 @@
             <div class="w-full h-3/4">
               <input v-model="formNilai.total"
                     class="font-overpass-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    type="number" step="0.01" min="0" max="800" placeholder="800">
+                    type="number" step="0.01" min="0" max="100" placeholder="100">
             </div>
           </div>
         </div>
@@ -595,12 +595,38 @@ export default {
       if (val) {
       
         this.formNilai.total = 
-          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
-          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
-          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
-          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
-          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
-          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal) / 10) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk) * parseFloat(20/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill) * parseFloat(10/100)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon) * parseFloat(10/100))
+      }
+    },
+
+    'formNilai.ta': function(val) {
+      if (val) {
+      
+        this.formNilai.total = 
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal) / 10) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk) * parseFloat(20/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill) * parseFloat(10/100)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon) * parseFloat(10/100))
+      }
+    },
+
+    'formNilai.tk': function(val) {
+      if (val) {
+      
+        this.formNilai.total = 
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal) / 10) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk) * parseFloat(20/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill) * parseFloat(10/100)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon) * parseFloat(10/100))
       }
     },
 
@@ -608,12 +634,12 @@ export default {
       if (val) {
       
         this.formNilai.total = 
-          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
-          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
-          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
-          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
-          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
-          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal) / 10) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk) * parseFloat(20/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill) * parseFloat(10/100)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon) * parseFloat(10/100))
       }
     },
 
@@ -621,12 +647,12 @@ export default {
       if (val) {
       
         this.formNilai.total = 
-          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
-          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
-          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
-          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
-          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
-          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal) / 10) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk) * parseFloat(20/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill) * parseFloat(10/100)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon) * parseFloat(10/100))
       }
     },
 
@@ -634,12 +660,12 @@ export default {
       if (val) {
       
         this.formNilai.total = 
-          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp)) +
-          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta)) +
-          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk)) +
-          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal)) +
-          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill)) -
-          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon))
+          (Number.isNaN(parseFloat(this.formNilai.tp)) ? 0 : parseFloat(this.formNilai.tp) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.ta)) ? 0 : parseFloat(this.formNilai.ta) * parseFloat(15/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.jurnal)) ? 0 : parseFloat(this.formNilai.jurnal) / 10) +
+          (Number.isNaN(parseFloat(this.formNilai.tk)) ? 0 : parseFloat(this.formNilai.tk) * parseFloat(20/100)) +
+          (Number.isNaN(parseFloat(this.formNilai.skill)) ? 0 : parseFloat(this.formNilai.skill) * parseFloat(10/100)) -
+          (Number.isNaN(parseFloat(this.formNilai.diskon)) ? 0 : parseFloat(this.formNilai.diskon) * parseFloat(10/100))
       }
     },
   },

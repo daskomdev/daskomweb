@@ -2,7 +2,13 @@
   <div class="main_container w-full h-full overflow-hidden"> 
 
     <!-- Main Background -->
-    <div class="h-full w-full fixed top-0 bg-gray-400"/>
+    <div class="h-full w-full fixed top-0 bg-gray-400">
+      <div class="w-full h-full p-16">
+        <div class="w-full h-full pb-16 px-48">
+          <img class="h-full w-full shadow-2xl select-none" src="/assets/comingsoon.png" alt="daskom logo">
+        </div>
+      </div>
+    </div>
 
     <!-- Animation Part -->
     <!-- TODO: Do more here <14 June 2019 02:09 PM> -->
