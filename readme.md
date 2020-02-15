@@ -25,3 +25,7 @@ Untuk itu saya ***fai*** berinisiatif untuk membuatkan dokumentasi sebagai saran
 
 Berikut link nya :
 [Daskom Gitbook](https://daskom.gitbook.io/daskom-lab/)
+
+## Contributors
+
+- [Muhammad Fakhri Putra Supriyadi](https://fakhrip.github.io)

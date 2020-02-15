@@ -356,6 +356,16 @@ Route::get('/setpraktikan', function () {
     ]);
 })->name('setpraktikan')->middleware('loggedIn:asisten');
 
+Route::get('/lihat_tp', function () {
+    $user = Auth::guard('asisten')->user();
+    $allModul = Modul::all();
+
+    return Inertia::render('Lihat_Tp', [
+        'currentUser' => $user,
+        'allModul' => $allModul,
+    ]);
+})->name('lihat_tp');
+
 Route::get('/logoutAsisten', 'Auth\AsistenLoginController@logout')->name('logoutAsisten');
 Route::get('/logoutPraktikan', 'Auth\PraktikanLoginController@logout')->name('logoutAsisten');
 
