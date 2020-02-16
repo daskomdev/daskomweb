@@ -855,8 +855,10 @@
     <!-- <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
         :class="[{ 'hidden': !bigviewShown },
                 { 'visible': bigviewShown }]">
-      <div class="">
+      <div class="w-full h-full flex-row">
+        <div v-for="(plot, index) in plots" v-bind:key="index">
 
+        </div>
       </div>
     </div> -->
 
@@ -968,8 +970,30 @@ export default {
 
       bigviewShown: false,
 
+      /***************************/
+      /* PLOTTING POSITION
+      /***************************/
+      // 0   -> empty space
+      // 1,2 -> practicant space (different number for grouping)
+      // 3   -> asisstant space
+      // 4   -> projector space
+      plots:[
+        [1,2,2,0,0,0,0,0,0,0,2,2,1],
+        [3,0,3,0,0,4,4,4,0,0,3,0,3],
+        [1,1,2,0,0,0,0,0,0,0,2,1,1],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [2,1,1,0,2,2,1,2,2,0,2,2,1],
+        [3,0,3,0,0,3,3,3,0,0,3,0,3],
+        [2,2,1,0,0,1,1,2,0,0,2,1,1],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [2,2,2,0,0,1,1,1,0,0,2,2,2],
+        [0,3,0,0,0,0,3,0,0,0,0,3,0],
+      ],
+
       oldKelasID: '',
-      chosenKelasID: '',
+      chosenKelasID: '', 
       chosenModulID: '',
       praktikanLeft: '',
       praktikanComplete: '',
