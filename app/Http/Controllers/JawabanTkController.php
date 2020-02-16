@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jawaban_Tk;
+use App\Soal_Tk;
 use Illuminate\Http\Request;
 
 class JawabanTkController extends Controller
@@ -49,7 +50,23 @@ class JawabanTkController extends Controller
             ]);    
         } 
 
-        return '{"message": "success"}';
+        $allJawabanTk = Jawaban_Tk::where('praktikan_id', $request->input('0.praktikan_id'))
+            ->where('modul_id', $request->input('0.modul_id'))
+            ->get();
+
+        $nilaiTkCorrect = 0;
+        foreach ($allJawabanTk as $jawaban => $j) {
+            $currentSoal = Soal_Tk::find($j->soal_id);
+            if($j->jawaban == $currentSoal->jawaban_benar)
+                $nilaiTkCorrect++;
+        }
+
+        $nilaiTk = $nilaiTkCorrect * /*Max Nilai*/100 / /*Max Soal*/10;
+
+        return response()->json([
+            'message' => 'success',
+            'nilaiTk' => $nilaiTk,
+        ], 200);
     }
 
     /**

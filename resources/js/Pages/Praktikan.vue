@@ -373,7 +373,40 @@
             <!-- Soal Jurnal already started by Praktikum PJ -->
             <div v-if="current_praktikum.status === 2"
                 class="w-full h-full flex">
-              <div class="w-1/4 h-full flex-row overflow-y-hidden">
+              <div class="w-full h-full flex overflow-hidden"
+                    :class="[{ 'hidden' : !showNilaiTA },
+                              { 'visible' : showNilaiTA }]">
+                <div class="w-24full h-16full m-auto flex-row">
+                  <div class="w-full h-1/3 flex">
+                    <span class="w-auto h-auto mt-auto font-overpass text-3xl text-black">
+                      Nilai TA Kamu 
+                        <span :class="[{ 'text-red-500' : nilaiTA <= 50 },
+                                      { 'text-green-500' : nilaiTA > 50 }]">
+                          {{ nilaiTA != '' ? nilaiTA : "ERROR" }}
+                        </span>
+                    </span>
+                  </div>
+                  <div class="w-full h-2/3 flex-row">
+                    <span class="w-auto h-auto mb-auto font-monda-bold text-4xl text-black">
+                      {{ generateScoreText(nilaiTA) }}
+                    </span>
+
+                    <div class="w-64 h-24 flex">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="showNilaiTA = false">
+                        <div class="h-full w-full flex font-merri text-xl bg-gray-800 rounded-lg text-center m-auto">
+                          <div class="m-auto text-white">
+                            Lanjut Ke Jurnal
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/4 h-full flex-row overflow-y-hidden"
+                    :class="[{ 'visible' : !showNilaiTA },
+                              { 'hidden' : showNilaiTA }]">
                 <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
                   <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
                     Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
@@ -410,7 +443,9 @@
                 </div>
               </div>
               <div class="w-3/4 h-full flex" 
-                  v-if="!modulShown">
+                    :class="[{ 'visible' : !showNilaiTA },
+                              { 'hidden' : showNilaiTA }]"
+                    v-if="!modulShown">
                 <div class="w-full h-full overflow-y-auto">
                   <div class="w-full h-auto flex-row">
                     <div v-for="(soal, index) in soalFitb" v-bind:key="index" 
@@ -671,7 +706,40 @@
                         current_praktikum.status !== 4 && 
                         current_praktikum.status !== 123"
                 class="w-full h-full flex">
-              <div class="w-full h-full flex-row overflow-y-auto overflow-x-hidden">
+              <div class="w-full h-full flex overflow-hidden"
+                    :class="[{ 'hidden' : !showNilaiTK },
+                              { 'visible' : showNilaiTK }]">
+                <div class="w-24full h-16full m-auto flex-row">
+                  <div class="w-full h-1/3 flex">
+                    <span class="w-auto h-auto mt-auto font-overpass text-3xl text-black">
+                      Nilai TK Kamu 
+                        <span :class="[{ 'text-red-500' : nilaiTK <= 50 },
+                                      { 'text-green-500' : nilaiTK > 50 }]">
+                          {{ nilaiTK != '' ? nilaiTK : "ERROR" }}
+                        </span>
+                    </span>
+                  </div>
+                  <div class="w-full h-2/3 flex-row">
+                    <span class="w-auto h-auto mb-auto font-monda-bold text-4xl text-black">
+                      {{ generateScoreText(nilaiTK) }}
+                    </span>
+
+                    <div class="w-64 h-24 flex">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="showNilaiTK = false">
+                        <div class="h-full w-full flex font-merri text-xl bg-gray-800 rounded-lg text-center m-auto">
+                          <div class="m-auto text-white">
+                            Lanjut Ke Feedback
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-full flex-row overflow-y-auto overflow-x-hidden"
+                    :class="[{ 'visible' : !showNilaiTK },
+                              { 'hidden' : showNilaiTK }]">
                 <div class="w-full h-24 flex mt-4">
                   <div class="w-1/2 h-full flex">
                     <select v-model="laporanPraktikan.asisten_id" 
@@ -1072,6 +1140,22 @@ export default {
       allNilaiTK: [],
       allNilaiSKILL: [],
       allNilaiDISKON: [],
+
+      showNilaiTA: false,
+      showNilaiTK: false,
+
+      nilaiTA: '',
+      nilaiTK: '',
+
+      goodScoreText: [
+        "Mantap gini nih kalau sebelum praktikum belajar",
+        "Wah beruntung apa gimana nih ?"
+      ],
+
+      badScoreText: [
+        "Makanya sebelum praktikum belajar dulu ya",
+        "Waduh jangan mau kalah sama temen yang lain"
+      ]
     }
   },
 
@@ -1358,6 +1442,15 @@ export default {
 
   methods: {
 
+    generateScoreText: function($nilai) {
+
+      const globe = this;
+      if($nilai > 50)
+        return globe.goodScoreText[Math.floor(Math.random() * globe.goodScoreText.length)];
+      else 
+        return globe.badScoreText[Math.floor(Math.random() * globe.badScoreText.length)];
+    },
+
     shuffleArr: function($arr){
 
       for (let i = $arr.length - 1; i > 0; i--) {
@@ -1382,33 +1475,34 @@ export default {
       }); 
     },
 
-    // generateQRCODE: function(){
+    /* Generating QR code function for TP
+    generateQRCODE: function(){
 
-    //   const globe = this;
-    //   globe.$axios.post('/sendTempJawabanTP', globe.jawabanTP).then(response => {
+      const globe = this;
+      globe.$axios.post('/sendTempJawabanTP', globe.jawabanTP).then(response => {
 
-    //     if(response.data.message === "success") {
+        if(response.data.message === "success") {
 
-    //       if(response.data.allJawaban_id !== null) {
+          if(response.data.allJawaban_id !== null) {
 
-    //         globe.qrcodeShown = true;
-    //         globe.qrcodeData.allJawaban_id = response.data.allJawaban_id;
-    //         globe.qrcodeData.praktikan_id = globe.currentUser.id;
-    //         globe.qrcodeData.kelas_id = globe.currentUser.kelas_id;
+            globe.qrcodeShown = true;
+            globe.qrcodeData.allJawaban_id = response.data.allJawaban_id;
+            globe.qrcodeData.praktikan_id = globe.currentUser.id;
+            globe.qrcodeData.kelas_id = globe.currentUser.kelas_id;
             
-    //         // Encryption of the data
-    //         var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(globe.qrcodeData), 'daskom_aja');
-    //         globe.ecnryptedData = ciphertext.toString();
+            // Encryption of the data
+            var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(globe.qrcodeData), 'daskom_aja');
+            globe.ecnryptedData = ciphertext.toString();
 
-    //         //////////////////////////////////////////////////////////////////////////
-    //         // This is how to decrypt the data
-    //         // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'daskom_aja');
-    //         // var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    //         //////////////////////////////////////////////////////////////////////////
-    //       }
-    //     }
-    //   }); 
-    // },
+            //////////////////////////////////////////////////////////////////////////
+            // This is how to decrypt the data
+            // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'daskom_aja');
+            // var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+            //////////////////////////////////////////////////////////////////////////
+          }
+        }
+      }); 
+    },     */
     
     finishPraktikum: function(){
 
@@ -1562,7 +1656,9 @@ export default {
               globe.$axios.post('/sendJawabanTA', globe.chosenJawaban).then(response => {
 
                 if(response.data.message === "success") {
-                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                  globe.nilaiTA = response.data.nilaiTa;
+                  globe.showNilaiTA = true;
                   
                 } else {
                   globe.$toasted.global.showError({
@@ -1580,7 +1676,7 @@ export default {
 
                 if(response.data.all_soal !== null){
 
-                  globe.soalJurnal = response.data.all_soal;
+                  globe.soalJurnal = response.data.all_soal.filter(function (el) {return el != null;});
                   for (let index = 0; index < globe.soalJurnal.length; index++) {
                     const soal = globe.soalJurnal[index];
                     globe.jawabanJurnal.push({
@@ -1591,7 +1687,7 @@ export default {
                     });
                   }
                 }
-
+ 
               } else {
                 globe.$toasted.global.showError({
                   message: response.data.message
@@ -1604,7 +1700,7 @@ export default {
 
                 if(response.data.all_soal !== null){
 
-                  globe.soalFitb = response.data.all_soal;
+                  globe.soalFitb = response.data.all_soal.filter(function (el) {return el != null;});
                   for (let index = 0; index < globe.soalFitb.length; index++) {
                     const soal = globe.soalFitb[index];
                     globe.jawabanFitb.push({
@@ -1770,7 +1866,9 @@ export default {
                 globe.$axios.post('/sendJawabanTK', globe.chosenJawaban).then(response => {
 
                   if(response.data.message === "success") {
-                    // Do nothing as all of jawaban successfully saved to the DB
+                  
+                    globe.nilaiTK = response.data.nilaiTk;
+                    globe.showNilaiTK = true;
                     
                   } else {
                     globe.$toasted.global.showError({

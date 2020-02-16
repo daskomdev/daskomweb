@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jawaban_Ta;
+use App\Soal_Ta;
 use Illuminate\Http\Request;
 
 class JawabanTaController extends Controller
@@ -49,7 +50,23 @@ class JawabanTaController extends Controller
             ]);    
         } 
 
-        return '{"message": "success"}';
+        $allJawabanTa = Jawaban_Ta::where('praktikan_id', $request->input('0.praktikan_id'))
+            ->where('modul_id', $request->input('0.modul_id'))
+            ->get();
+
+        $nilaiTaCorrect = 0;
+        foreach ($allJawabanTa as $jawaban => $j) {
+            $currentSoal = Soal_Ta::find($j->soal_id);
+            if($j->jawaban == $currentSoal->jawaban_benar)
+                $nilaiTaCorrect++;
+        }
+
+        $nilaiTa = $nilaiTaCorrect * /*Max Nilai*/100 / /*Max Soal*/10;
+
+        return response()->json([
+            'message' => 'success',
+            'nilaiTa' => $nilaiTa,
+        ], 200);
     }
 
     /**
