@@ -28,4 +28,4 @@ Berikut link nya :
 
 ## Contributors
 
-- [Muhammad Fakhri Putra Supriyadi](https://fakhrip.github.io)
+- [Muhammad Fakhri Putra Supriyadi [FAI]](https://fakhrip.github.io)

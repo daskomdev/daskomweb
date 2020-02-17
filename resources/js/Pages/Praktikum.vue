@@ -704,14 +704,14 @@
                                   { 'bg-gray-600 text-white': index % 2 != 0 },
                                   { 'rounded-tl-lg': index === 0 },
                                   { 'rounded-bl-lg': index+1 === listAllAsisten.length }]">
-                        <div class="w-full h-1/2 flex">
-                          <div class="mx-auto mt-auto font-overpass-bold pt-8 text-4xl">
+                        <div class="w-full h-2/3 flex">
+                          <div class="mx-auto mt-auto font-overpass-bold text-4xl">
                             {{ asisten.kode }}
                           </div>
                         </div>
-                        <div class="w-full flex">
+                        <div class="w-full -mt-4 flex">
                           <div class="mx-auto mb-auto font-merri text-2xl">
-                            {{ index }}
+                            {{ index + 1 }}
                           </div>
                         </div>
                       </div>
@@ -752,6 +752,8 @@
 
               <div class="w-full h-24 mt-4 mb-8 flex">
                 <div class="w-1/3 h-full flex py-4 px-8 hover:px-10 hover:py-5 animation-enable-short cursor-pointer"
+                    :class="[{ 'hidden' : spaceToggled },
+                            { 'visible' : !spaceToggled }]"
                     v-on:click="shuffleEmAll()">
                   <div class="w-full h-full flex font-monda-bold text-4xl bg-yellow-400 rounded-full">
                     <div class="w-auto select-none h-auto m-auto">
@@ -852,15 +854,106 @@
       </div>
     </div>
 
-    <!-- <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
+    <div class="w-full h-full flex absolute bg-black opacity-97 z-30 top-0"
         :class="[{ 'hidden': !bigviewShown },
                 { 'visible': bigviewShown }]">
-      <div class="w-full h-full flex-row">
-        <div v-for="(plot, index) in plots" v-bind:key="index">
-
+      <div class="w-24 h-4full flex-row"
+          :class="[{ 'visible' : praktikanBanned.length > 0 || asistenBanned.length > 0 },
+                  { 'hidden' : praktikanBanned.length == 0 && asistenBanned.length == 0 }]">
+        <div v-for="praktikan in praktikanBanned" v-bind:key="praktikan.nim"
+            class="w-full h-8 py-1 px-2 flex">
+          <div class="w-full h-full flex rounded-sm bg-gray-400 text-black text-xl font-overpass-mono-bold">
+            <span class="m-auto">{{ praktikan.nim }}</span>
+          </div>
+        </div>
+        <div v-for="asisten in asistenBanned" v-bind:key="asisten.kode"
+            class="w-full h-8 py-1 px-2 flex">
+          <div class="w-full h-full flex rounded-sm bg-yellow-400 text-black text-xl font-overpass-mono-bold">
+            <span class="m-auto">{{ asisten.kode }}</span>
+          </div>
         </div>
       </div>
-    </div> -->
+      <div class="h-4full flex-row"
+          :class="[{ 'w-24full' : praktikanBanned.length > 0 || asistenBanned.length > 0 },
+                  { 'w-4full' : praktikanBanned.length == 0 && asistenBanned.length == 0 }]">
+        <div class="w-full h-16 flex">
+          <div class="w-full h-full flex">
+            <div class="w-1/3 h-full flex py-2 px-8 hover:px-10 hover:py-3 animation-enable-short cursor-pointer"
+                v-on:click="bigviewShown = false">
+              <div class="w-full h-full flex font-monda-bold text-lg bg-yellow-400 rounded-lg">
+                <div class="w-auto select-none h-auto m-auto">
+                  CLOSE
+                </div>
+              </div>
+            </div>
+            <div class="w-1/3 h-full flex py-2 px-8 hover:px-10 hover:py-3 animation-enable-short cursor-pointer"
+                :class="[{ 'hidden' : spaceToggled },
+                        { 'visible' : !spaceToggled }]"
+                v-on:click="shuffleEmAll()">
+              <div class="w-full h-full flex font-monda-bold text-lg bg-yellow-400 rounded-lg">
+                <div class="w-auto select-none h-auto m-auto">
+                  SHUFFLE
+                </div>
+              </div>
+            </div>
+            <div class="w-1/3 h-full flex py-2 px-8 hover:px-10 hover:py-3 animation-enable-short cursor-pointer"
+                v-on:click="console.log('nop')">
+              <div class="w-full h-full flex font-monda-bold text-lg bg-yellow-400 rounded-lg">
+                <div class="w-auto select-none h-auto m-auto">
+                  SAVE
+                </div>
+              </div>
+            </div>
+          </div> 
+        </div>
+        <div class="w-full h-16full flex-row pt-4 px-4">
+          <div v-for="(plotrow, row) in plots" v-bind:key="row"
+                class="w-full flex"
+                :style="'height: ' + (100/plots.length) + '%; '">
+            <div v-for="(space, col) in plotrow" v-bind:key="col"
+                  class="h-full flex p-1 hover:p-2 animation-enable-short"
+                  :class="'space-' + row + '-' + col"
+                  :style="'width: ' + (100/plots[row].length) + '%; '"
+                  v-on:click="toggleSpace(space)">
+
+              <!--------------------------->
+              <!-- PLOTTING POSITION     -->
+              <!--------------------------->
+              <!-- 0   -> empty space                                        -->
+              <!-- 1,2 -> practicant space (different number for grouping)   -->
+              <!-- 3   -> asisstant space                                    -->
+              <!-- 4   -> info pj space                                      -->
+              <!-- 5   -> backup space                                       -->
+              <!-- 6   -> info practicum space                               -->
+              <!-- 7   -> projector space                                    -->
+              <div class="w-full h-full flex rounded-sm text-black text-xl font-overpass-mono-bold"
+                  :class="[{ 'opacity-0' : space.substring(0,1) == 0 },
+                            { 'bg-red-600 cursor-pointer' : space.substring(0,1) == 1 },
+                            { 'bg-blue-600 cursor-pointer' : space.substring(0,1) == 2 },
+                            { 'bg-yellow-600 cursor-pointer' : space.substring(0,1) == 3 },
+                            { 'bg-yellow-700' : space.substring(0,1) == 4 },
+                            { 'bg-green-700' : space.substring(0,1) == 5 },
+                            { 'bg-yellow-900' : space.substring(0,1) == 6 },
+                            { 'bg-orange-700' : space.substring(0,1) == 7 },]">
+
+                <div class="w-auto h-auto m-auto"
+                    :class="[{ 'visible': space.substring(0,1) == 3 },
+                              { 'hidden': space.substring(0,1) != 3 },]">
+                  <span :id="'asisten-' + space">{{ listAllAsisten[parseInt(space.substring(1,3))] == undefined ? "" : listAllAsisten[parseInt(space.substring(1,3))].kode }}</span>              
+                </div>
+
+                <div class="w-auto h-auto m-auto"
+                    :class="[{ 'visible': space.substring(0,1) == 1 || space.substring(0,1) == 2 },
+                              { 'hidden': space.substring(0,1) != 1 && space.substring(0,1) != 2 },]">
+                  <span :id="'praktikan-' + space">{{ listAllPraktikan[((parseInt(space.substring(1,3)) * 3) + parseInt(space.substring(3,4))) - 1] == undefined ? "" : listAllPraktikan[((parseInt(space.substring(1,3)) * 3) + parseInt(space.substring(3,4))) - 1].nim.substring(6,10) }}</span>
+                </div>
+
+              </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="w-full h-full flex absolute bg-black opacity-90 z-30 top-0"
         :class="[{ 'hidden': !bigRatingQuestionShown },
@@ -976,21 +1069,39 @@ export default {
       // 0   -> empty space
       // 1,2 -> practicant space (different number for grouping)
       // 3   -> asisstant space
-      // 4   -> projector space
+      // 4   -> info pj space
+      // 5   -> backup space
+      // 6   -> info practicum space
+      // 7   -> projector space
+
+      /* plots[*].substring(0,1) == "Space for State"                       */
+      /* plots[*].substring(1,3) == "Space for Grouping"                    */
+      /* plots[*].substring(3,4) == "Space for practicant person per group" */
       plots:[
-        [1,2,2,0,0,0,0,0,0,0,2,2,1],
-        [3,0,3,0,0,4,4,4,0,0,3,0,3],
-        [1,1,2,0,0,0,0,0,0,0,2,1,1],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [2,1,1,0,2,2,1,2,2,0,2,2,1],
-        [3,0,3,0,0,3,3,3,0,0,3,0,3],
-        [2,2,1,0,0,1,1,2,0,0,2,1,1],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [2,2,2,0,0,1,1,1,0,0,2,2,2],
-        [0,3,0,0,0,0,3,0,0,0,0,3,0],
+        ['0000','0000','0000','0000','0000','7000','7000','7000','0000','0000','0000','0000','0000'],
+        ['1001','2012','2011','5000','0000','0000','0000','0000','0000','5000','2021','2022','1031'],
+
+        // TODO: uncomment this to add Practicum and PJ info
+        // ['3000','0000','3020','0000','0000','0000','0000','0000','0000','0000','3020','0000','3030'],
+        // ['1002','1003','2013','0000','0000','0000','0000','0000','0000','0000','2023','1033','1032'],
+        
+        ['3000','0000','3010','0000','0000','0000','0000','0000','0000','0000','3020','0000','3030'],
+        ['1002','1003','2013','0000','0000','0000','0000','0000','0000','0000','2023','1033','1032'],
+        ['0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000'],
+        ['0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000'],
+        ['2041','1051','1052','0000','2131','2132','1061','2072','2071','0000','2081','2082','1093'],
+        ['3040','0000','3050','0000','0000','3130','3060','3070','0000','0000','3080','0000','3090'],
+        ['2042','2043','1053','0000','0000','1063','1062','2073','0000','0000','2083','1091','1092'],
+        ['0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000'],
+        ['0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000','0000'],
+        ['2101','2102','2103','0000','0000','1111','1112','1113','0000','0000','2121','2122','2123'],
+        ['0000','3100','0000','0000','0000','0000','3110','0000','0000','0000','0000','3120','0000'],
       ],
+
+      asistenBanned: [],
+      praktikanBanned: [],
+      praktikanGroups: [],
+      spaceToggled: false,
 
       oldKelasID: '',
       chosenKelasID: '', 
@@ -1895,6 +2006,67 @@ export default {
       return $arr;
     },
 
+    toggleSpace: function($spaceString){
+
+      const globe = this;
+      globe.spaceToggled = true;
+
+      if(parseInt($spaceString.substring(0,1)) == 3) {
+
+        /********************/
+        /* Toggling Asisten */
+        /********************/
+
+        let kodeAsisten = document.getElementById('asisten-' + $spaceString).innerHTML
+
+        // Banning the current clicked asisten space (if exist)
+        if(kodeAsisten != ''){
+
+          globe.asistenBanned.push({
+            kode: kodeAsisten
+          })
+
+          document.getElementById('asisten-' + $spaceString).innerHTML = "";
+        } else if(globe.asistenBanned.length > 0) {
+          
+          // Un Banning random asisten to current clicked space (if there any)
+
+          let randomedId = Math.floor(Math.random() * globe.asistenBanned.length)
+
+          document.getElementById('asisten-' + $spaceString).innerHTML = globe.asistenBanned[randomedId].kode;
+
+          globe.asistenBanned.splice(randomedId, 1);
+        }
+
+      } else if(parseInt($spaceString.substring(0,1)) == 1 || parseInt($spaceString.substring(0,1)) == 2) {
+
+        /**********************/
+        /* Toggling Praktikan */
+        /**********************/
+
+        let nimPraktikan = document.getElementById('praktikan-' + $spaceString).innerHTML
+
+        // Banning the current clicked praktikan space (if exist)
+        if(nimPraktikan != ''){
+          
+          globe.praktikanBanned.push({
+            nim: nimPraktikan
+          })
+
+          document.getElementById('praktikan-' + $spaceString).innerHTML="";
+        } else if(globe.praktikanBanned.length > 0) {
+          
+          // Un Banning random praktikan to current clicked space (if there any)
+
+          let randomedId = Math.floor(Math.random() * globe.praktikanBanned.length)
+
+          document.getElementById('praktikan-' + $spaceString).innerHTML = globe.praktikanBanned[randomedId].nim;
+
+          globe.praktikanBanned.splice(randomedId, 1);
+        }
+      }
+    },
+
     getAllAsistenPraktikan: function(){
 
       const globe = this;
@@ -1911,6 +2083,21 @@ export default {
           globe.listAllPraktikan = response.data.all_praktikan;
           globe.praktikanLeft = response.data.all_praktikan.length % response.data.all_asisten.length;
           globe.praktikanComplete = parseInt(response.data.all_praktikan.length / response.data.all_asisten.length);
+          
+          // Set praktikanGroups array size to match with listAllAsisten.length
+          for( var i=0; i<globe.listAllAsisten.length; i++ ) {
+            globe.praktikanGroups.push([]);
+          }
+
+          // Group every praktikan inside praktikanGroups
+          for( var i=0; i<globe.listAllAsisten.length; i++ )
+            for ( var j=0; j<globe.listAllPraktikan.length; j++ )
+              if(globe.praktikanGroups[i].length < 3)
+                globe.praktikanGroups[i].push({
+                  nim: globe.listAllPraktikan[(3*i) + j].nim
+                })
+              else
+                continue;
           
         } else {
           globe.$toasted.global.showError({
