@@ -46,6 +46,7 @@ class ConfigurationController extends Controller
             'tp_activation' => $request->tp_activation,
             'tubes_activation' => $request->tubes_activation,
             'runmod_activation' => $request->runmod_activation,
+            'polling_activation' => $request->polling_activation,
         ]);
         
         return '{"message": "success"}';
