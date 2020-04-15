@@ -13,9 +13,12 @@ class ConfigurationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function isPollingEnabled()
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'isPollingEnabled' => Configuration::all()->first()->polling_activation,
+        ], 200);
     }
 
     /**
