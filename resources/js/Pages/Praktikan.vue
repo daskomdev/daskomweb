@@ -62,28 +62,6 @@
 
           <!-- TP Layout -->
           <div v-if="isTP" class="w-full h-full flex">
-            <!-- <div class="w-full h-full z-50 bg-gray-200 flex" v-if="qrcodeShown">
-              <div class="w-full px-8 h-auto flex m-auto">
-                <qrcode :value="ecnryptedData" 
-                    :options="{ 
-                      width: 300,
-                      color: { 
-                        dark: '#22543d',
-                        light: '#edf2f7' 
-                      }
-                    }"
-                    class="w-auto h-auto border-black border"/>
-                <div class="w-auto h-auto my-auto pl-4 font-monda-bold text-3xl">
-                  <span>Ambil gambar QRCODE disamping ini</span>
-                  <br>
-                  <span class="text-xl">(border berwarna hitam harus ada pada gambar agar proses scanning nya lancar)</span>
-                  <br>
-                  <span>Lalu scan gambar QRCODE nya di lab daskom (N109)</span>
-                  <br>
-                  <span class="text-xl">Silahkan refresh web nya jika ingin membuat ulang TP</span>
-                </div>
-              </div>
-            </div> -->
             <div class="w-full h-full flex" v-if="!qrcodeShown">
               <div v-if="soalTPEssay.length === 0 && soalTPProgram.length === 0" 
                   class="w-full h-full flex">
