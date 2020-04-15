@@ -118,7 +118,7 @@ if (typeof io !== 'undefined') {
 Vue.toasted.register('showError',
     (payload) => {
         if(! payload.message) {
-    	    return "Maaf, telah terjadi sesuatu<br>(Panggil FAI untuk dilihat lebih lanjut)"
+    	    return "Maaf, telah terjadi sesuatu<br>(Panggil FAI / AND untuk dilihat lebih lanjut)"
         }
         return payload.message;
     },
