@@ -944,8 +944,15 @@
             </span>
           </span>
           <div class="w-full h-3/4">
+            <textarea v-model="secretMessage" cols="30" rows="10" 
+                  class="font-overpass-mono-bold text-2xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
+                  :class="[{ 'hidden': formMessage.kode.toUpperCase() != 'FAI' },
+                          { 'visible': formMessage.kode.toUpperCase() == 'FAI' }]" 
+                  id="Kode" type="text" placeholder="just for a test"/>
             <textarea v-model="formMessage.pesan" cols="30" rows="10" 
                   class="font-overpass-mono-bold text-2xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                  :class="[{ 'hidden': formMessage.kode.toUpperCase() == 'FAI' },
+                          { 'visible': formMessage.kode.toUpperCase() != 'FAI' }]"
                   id="Kode" type="text" placeholder="just for a test"/>
           </div>
         </div>
@@ -1131,7 +1138,9 @@ export default {
       badScoreText: [
         "Makanya sebelum praktikum belajar dulu ya",
         "Waduh jangan mau kalah sama temen yang lain"
-      ]
+      ],
+
+      secretMessage: '.-- .... --.. .-.. -.. -. --- --. --.- .---- .- --. . .... .. --. .-- ...- --.. -... ..- .. -... --.. -... -- ...- ..- .- -- ..... ... -..- ..--- -.. .-.. -.. -. .--. -.-- .. .... ..-. -.-- -.-- -..- .-. ..- -.-- ... -... .--- -.-. -- --.. ..- -.-- ... .- -.... .. .... -. ..... -... -. .-. --... -.-. -- ..... -- --.. ...-- .--- .-.. -..- ...-- .--- ----- -.. ..-. ---.. -..- -..- ...-- ..-. ..--- --.. ...-- .--- -.... .- .... .... ..- -.-- -..- ----- -...-',
     }
   },
 
