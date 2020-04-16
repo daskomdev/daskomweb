@@ -478,4 +478,6 @@ Route::post('/getAllNilai/{praktikan_id}', 'NilaiController@showAll')->name('get
 
 Route::post('/setThisPraktikan/{praktikan_nim}/{asisten_id}/{modul_id}', 'NilaiController@edit')->name('setThisPraktikan')->middleware('loggedIn:asisten');
 Route::post('/changePraktikanPass/{praktikan_nim}/{new_pass}', 'PraktikanController@edit')->name('changePraktikanPass')->middleware('loggedIn:asisten');
+
+Route::post('/checkPolling', 'ConfigurationController@isPollingEnabled')->name('checkPolling')->middleware('loggedIn:praktikan');
 Route::post('/savePolling', 'PollingController@store')->name('savePolling')->middleware('loggedIn:praktikan');

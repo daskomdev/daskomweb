@@ -13,9 +13,12 @@ class ConfigurationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function isPollingEnabled()
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'isPollingEnabled' => Configuration::all()->first()->polling_activation,
+        ], 200);
     }
 
     /**
@@ -43,6 +46,7 @@ class ConfigurationController extends Controller
             'tp_activation' => $request->tp_activation,
             'tubes_activation' => $request->tubes_activation,
             'runmod_activation' => $request->runmod_activation,
+            'polling_activation' => $request->polling_activation,
         ]);
         
         return '{"message": "success"}';

@@ -219,7 +219,7 @@
           <div class="flex w-24 h-24 m-auto rounded-full"
               :class="[{ 'bg-green-400': !isMenuShown },
                       { 'bg-green-600': isMenuShown }]">
-            <img class="select-none w-20 h-20 m-auto rounded-full bg-white" src="/assets/daskom.svg" alt="daskom logo">
+            <img class="select-none w-20 h-20 m-auto rounded-full bg-white object-cover" :src="'/assets/'+currentUser.kode+'.jpg'" alt="daskom logo">
           </div>
         </div>
         <div class="w-auto h-full flex-row ml-4 cursor-default">
@@ -346,6 +346,26 @@
               </div>
             </div>
           </div>
+          <div class="w-full h-1/5 flex my-5">
+            <div class="w-1/2 h-full flex">
+              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                :class="[{ 'text-yellow-200': !formConfig.polling_activation },
+                        { 'text-yellow-500': formConfig.polling_activation }]">
+                <span>Polling Semesteran</span>
+              </div>
+            </div>
+            <div class="w-1/2 h-full flex ml-10 mt-2">
+              <div class="w-auto h-auto my-auto">
+                <toggle-button v-model="formConfig.polling_activation"
+                  :value="formConfig.polling_activation"
+                  :sync="true"
+                  :labels="true"
+                  :width="125"
+                  :height="50"
+                  :font-size="20"/>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -410,6 +430,7 @@ export default {
         registrationAsisten_activation: this.currentConfig === 'nope' ? false : this.currentConfig.registrationAsisten_activation,
         tp_activation: this.currentConfig === 'nope' ? false : this.currentConfig.tp_activation,
         tubes_activation: this.currentConfig === 'nope' ? false : this.currentConfig.tubes_activation,
+        polling_activation: this.currentConfig === 'nope' ? false : this.currentConfig.polling_activation,
       },
 
       menuPraktikum: false,
@@ -516,6 +537,7 @@ export default {
       this.formConfig.registrationPraktikan_activation = this.currentConfig === 'nope' ? false : this.currentConfig.registrationPraktikan_activation;
       this.formConfig.tp_activation = this.currentConfig === 'nope' ? false : this.currentConfig.tp_activation;
       this.formConfig.tubes_activation = this.currentConfig === 'nope' ? false : this.currentConfig.tubes_activation;
+      this.formConfig.polling_activation = this.currentConfig === 'nope' ? false : this.currentConfig.polling_activation;
     },
 
     saveConfig: function(){
@@ -530,6 +552,7 @@ export default {
           this.currentConfig.registrationAsisten_activation = this.formConfig.registrationAsisten_activation;
           this.currentConfig.tp_activation = this.formConfig.tp_activation;
           this.currentConfig.tubes_activation = this.formConfig.tubes_activation;
+          this.currentConfig.polling_activation = this.formConfig.polling_activation;
 
           globe.$toasted.global.showSuccess({
             message: "New configuration saved"

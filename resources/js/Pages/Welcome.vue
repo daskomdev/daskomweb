@@ -5,7 +5,7 @@
     <div class="h-full w-full fixed top-0 bg-gray-400">
       <div class="w-full h-full p-16">
         <div class="w-full h-full pb-16 px-48">
-          <img class="h-full w-full shadow-2xl select-none" src="/assets/comingsoon.png" alt="daskom logo">
+          <img class="h-full w-full shadow-2xl select-none rounded-lg" src="/assets/wallpaper.png" alt="daskom logo">
         </div>
       </div>
     </div>
