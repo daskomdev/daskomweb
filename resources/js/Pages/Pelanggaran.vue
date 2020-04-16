@@ -256,29 +256,26 @@
       </div>
     </div>
 
-    <div class="absolute h-36full w-120full animation-enable"
+    <div class="absolute h-full w-120full animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
-      <div class="w-full h-full flex-row" v-bar>
+      <div class="w-full h-full pt-1 flex-row" v-bar>
         <div>
-          
-        </div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-0 h-36 w-120full p-3 animation-enable"
-        :class="[{ 'left-minFull': !currentPage },
-                { 'left-0': currentPage }]">
-      <div class="w-full h-full flex">
-        <div class="w-1/2 h-full p-4">
-          <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
-              v-on:click="resetConfig()">
-            <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-red-600">
-              <div class="m-auto">
-                Kembalikan Konfigurasi
+          <transition-group name="laporan-list" tag="div">
+            <div v-for="(asisten, index) in allAsisten" v-bind:key="asisten.id" 
+                class="animation-enable w-full h-auto flex">
+              <div class="w-auto h-auto m-auto">
+                <span class="w-1/2 h-full font-overpass text-yellow-400">
+                  {{ index+1 }}. {{ asisten.nama }}({{ asisten.kode }})
+                </span>
+                <span class="w-1/2 h-full"
+                    :class="[{ 'font-monda-bold text-red-400' : asisten.nilaiUnexists > 0 },     
+                            { 'font-monda text-green-400' : asisten.nilaiUnexists <= 0 }]">
+                  , Total belum input nilai: {{ asisten.nilaiUnexists }}
+                </span>
               </div>
             </div>
-          </div>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -292,7 +289,7 @@ export default {
     'currentUser',
     'position',
     'userRole',
-    'currentConfig',
+    'allAsisten',
   ],
 
   data() {
