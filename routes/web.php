@@ -219,6 +219,19 @@ Route::get('/konfigurasi', function () {
     ]);
 })->name('konfigurasi')->middleware('loggedIn:asisten');
 
+Route::get('/pelanggaran', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    return Inertia::render('Pelanggaran', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+    ]);
+})->name('konfigurasi')->middleware('loggedIn:asisten');
+
 Route::get('/polling', function () {
     $user = Auth::guard('asisten')->user();
     $userRole = Role::where('id', $user->role_id)->first();
