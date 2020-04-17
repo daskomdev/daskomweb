@@ -1,0 +1,53 @@
+name: CI/CD for daskomlab.com
+
+on:
+  pull_request:
+    branches: [ master ]
+    types: [ closed ]
+
+jobs:
+  connect_and_build:
+    if: github.ref == 'refs/heads/master' && github.event.pull_request.merged == true
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Connecting and Deploying to VPS 
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+            pm2 delete all
+            mv laravel-echo-server.json ~
+            mv runEcho.sh ~
+            mv .env ~
+            php artisan down
+            cd ~
+            rm -rf ${{ secrets.PROJECT_PATH }}
+            git clone https://github.com/daskomdev/daskomweb.git
+            cd ${{ secrets.PROJECT_PATH }}
+            composer install
+            php artisan down
+            npm install
+            npm install @inertiajs/inertia @inertiajs/inertia-vue
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo chmod +777 -R storage
+            mv ~/laravel-echo-server.json .
+            mv ~/runEcho.sh .
+            mv ~/.env .
+            sed -i 's/:6001//g' resources/js/app.js
+            pm2 start runEcho.sh
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod
+            
+      - name: Opening site if npm run prod succeeded
+        if: success()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            php artisan up
