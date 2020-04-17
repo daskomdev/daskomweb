@@ -26,7 +26,7 @@ jobs:
             mv .env ~
             php artisan down
             cd ~
-            rm -rf ${{ secrets.PROJECT_PATH }}
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S rm -rf ${{ secrets.PROJECT_PATH }}
             git clone https://github.com/daskomdev/daskomweb.git
             cd ${{ secrets.PROJECT_PATH }}
             composer install
