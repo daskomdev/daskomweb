@@ -74,4 +74,5 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            cd ${{ secrets.PROJECT_PATH }}
             php artisan up
