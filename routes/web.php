@@ -219,6 +219,47 @@ Route::get('/konfigurasi', function () {
     ]);
 })->name('konfigurasi')->middleware('loggedIn:asisten');
 
+Route::get('/pelanggaran', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+
+    $allAsisten = Asisten::all();
+    foreach ($allAsisten as $asisten => $asisten_val) {
+
+        $allLaporan = Laporan_Praktikan::where('laporan__praktikans.asisten_id',    $asisten_val->id)
+            ->join('praktikans', 'laporan__praktikans.praktikan_id', '=', 'praktikans.id')
+            ->select('laporan__praktikans.*', 'praktikans.nama', 'praktikans.nim', 'praktikans.kelas_id')
+            ->latest()
+            ->get();
+
+        $nilaiUnexists = 0;
+        foreach ($allLaporan as $laporan => $value)
+            if(Nilai::where('praktikan_id', $value->praktikan_id)
+                ->where('modul_id', $value->modul_id)
+                ->where('asisten_id', $value->asisten_id)
+                ->exists()) {
+
+                $value->nilaiExists = true;
+            } else {
+
+                $nilaiUnexists++; 
+                $value->nilaiExists = false;
+            }
+
+        $asisten_val->nilaiUnexists = $nilaiUnexists;
+    }
+            
+    return Inertia::render('Pelanggaran', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allAsisten' => $allAsisten,
+    ]);
+})->name('pelanggaran')->middleware('loggedIn:asisten');
+
 Route::get('/polling', function () {
     $user = Auth::guard('asisten')->user();
     $userRole = Role::where('id', $user->role_id)->first();

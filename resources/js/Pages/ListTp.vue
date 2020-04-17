@@ -188,6 +188,21 @@
             </span>
           </div>
         </div> 
+
+        <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPelanggaran },
+                      { 'bg-yellow-500 text-white': changePage && menuPelanggaran }]"
+              v-on:click='travel("pelanggaran")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-radiation-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Pelanggaran
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -426,6 +441,7 @@ export default {
       modulPriviledge: [1,2,4,15,7],
       konfigurasiPriviledge: [1,2,4,18,7],
       tpPriviledge: [1,2,15,11,7],
+      pelanggaranPriviledge: [1,2,4,5,6,18],
       soalPriviledge: "all",
 
       pageActive: true,
@@ -446,6 +462,7 @@ export default {
       menuTp: false,
       menuNilai: false,
       menuSetPraktikan: false,
+      menuPelanggaran: false,
 
       chosenKelasID: '',
       chosenModulID: '',
@@ -481,6 +498,7 @@ export default {
         this.comingFrom === 'konfigurasi' ||
         this.comingFrom === 'history' ||
         this.comingFrom === 'nilai'||
+        this.comingFrom === 'pelanggaran'||
         this.comingFrom === 'setpraktikan'){
 
       setTimeout(
@@ -518,6 +536,8 @@ export default {
         this.menuNilai = $bool;
       if($whereTo === "setpraktikan")
         this.menuSetPraktikan = $bool;
+      if($whereTo === "pelanggaran")
+        this.menuPelanggaran = $bool;
     },
 
     travel: function($whereTo){
