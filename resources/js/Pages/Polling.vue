@@ -256,12 +256,58 @@
       </div>
     </div>
 
-    <div class="absolute h-36full w-120full animation-enable"
+    <div class="absolute h-full w-120full animation-enable flex flex-row"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
+      <div class="h-full w-36">
+        <div v-if="listJenisPollings.length > 0" 
+            class="w-full h-full" v-bar>
+          <div>
+            <div v-for="(polling) in listJenisPollings" v-bind:key="polling.id" 
+                class="animation-enable w-auto h-10 flex m-4"
+                v-on:click="openPollingList(polling.judul)">
+              <div class="w-full h-full rounded-sm p-2 flex cursor-pointer hover:font-bold hover:bg-green-500"
+                  :class="[{ 'font-bold bg-green-600 text-white' : currentActivePolling == polling.id },
+                  { 'font-normal bg-green-400 text-black' : currentActivePolling != polling.id }]">
+                <div class="w-auto h-auto m-auto font-overpass">
+                  <span>{{ polling.judul }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-full w-36full">
+        <div v-if="currentPollingList.length > 0" 
+            class="w-full h-full" v-bar>
+          <div>
+            <transition-group name="polling-list" tag="div">
+              <div v-for="(polling, index) in currentPollingList" v-bind:key="polling.id" 
+                  class="animation-enable w-auto h-full flex m-4">
+                <span class="text-white"
+                  :class="[{ 'font-monda-bold text-xl' : index == 0 },
+                          { 'font-monda text-lg' : index != 0 }]">
+                  {{ index+1 }}. {{ polling.kode }} dengan total vote ({{ polling.jumlah_poll }})
+                </span>
+              </div>
+            </transition-group>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<style>
+.polling-list-enter, .polling-list-leave-to{
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.polling-list-leave-active {
+  position: absolute;
+}
+</style>
 
 <script>
 export default {
@@ -270,6 +316,8 @@ export default {
     'currentUser',
     'position',
     'userRole',
+    'allJenisPollings',
+    'allPollingResults',
   ],
 
   data() {
@@ -286,6 +334,12 @@ export default {
       isMenuShown: false,
       changePage: false,
       currentPage: false,
+
+      listJenisPollings: this.allJenisPollings,
+      listPollingResults: this.allPollingResults,
+
+      currentActivePolling: '',
+      currentPollingList: [],
 
       menuPraktikum: false,
       menuSoal: false,
@@ -309,6 +363,9 @@ export default {
     this.$refs.menu.scrollTop = this.position;
 
     const globe = this;
+
+    this.currentActivePolling = globe.listJenisPollings[0].id; 
+    this.openPollingList(globe.listJenisPollings[0].judul);
 
     if(this.comingFrom === 'asisten' ||
         this.comingFrom === 'none' ||
@@ -362,6 +419,42 @@ export default {
         this.menuSetPraktikan = $bool;
       if($whereTo === "pelanggaran")
         this.menuPelanggaran = $bool;
+    },
+
+    openPollingList: function($judul){
+
+      const globe = this;
+      globe.currentPollingList = [];
+
+      this.listJenisPollings.forEach(element => {
+        if(element.judul == $judul)
+          globe.currentActivePolling = element.id
+      });
+
+      this.listPollingResults.forEach(element => {
+
+        var $jumlah_poll = 0;
+        element.polling.forEach(poll => {
+          if($judul == poll.jenis)
+            $jumlah_poll = poll.jumlah_poll;
+        });
+
+        globe.currentPollingList.push({
+          id: element.id,
+          nama: element.nama,
+          kode: element.kode,
+          judul: $judul,
+          jumlah_poll: $jumlah_poll, 
+        })
+      });
+
+      this.currentPollingList.sort(function(a, b) {
+        if (a.jumlah_poll < b.jumlah_poll) 
+          return 1; 
+        if (a.jumlah_poll > b.jumlah_poll) 
+          return -1; 
+        return 0; 
+      })
     },
 
     travel: function($whereTo){
