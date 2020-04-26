@@ -265,11 +265,39 @@ Route::get('/polling', function () {
     $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
+    $jenisPollings = Jenis_Polling::all();
+
+    $allAsisten = Asisten::all();
+
+    $pollingResults = array();
+    foreach ($allAsisten as $each_asisten => $asisten) {
+
+        $allPolling = array();
+        foreach ($jenisPollings as $each_jenis => $jenis) {
+            
+            $jumlahPoll = Polling::where('polling_id', $jenis->id)
+                ->where('asisten_id', $asisten->id)
+                ->count();
+             
+            $allPolling[] = (object)
+                ['jenis' => $jenis->judul,
+                 'jumlah_poll' => $jumlahPoll];
+        }
+
+        $pollingResults[] = (object) 
+            ['id' => $asisten->id,
+             'kode' => $asisten->kode,
+             'nama' => $asisten->nama,
+             'polling' => $allPolling];
+    }
+
     return Inertia::render('Polling', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
         'position' => $position,
         'userRole' => $userRole->role,
+        'allJenisPollings' => $jenisPollings, 
+        'allPollingResults' => $pollingResults,
     ]);
 })->name('polling')->middleware('loggedIn:asisten');
 

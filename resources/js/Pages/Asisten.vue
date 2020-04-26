@@ -376,6 +376,28 @@
         </div>
       </div>
     </div>
+
+    <div class="absolute bottom-0 w-full h-full z-50"
+        :class="[{ 'visible' : vidEnabled },
+                { 'hidden' : !vidEnabled }]">
+      <div class="bg-black w-full h-full">
+        <div class="absolute w-full h-full text-white px-12 pt-2 text-justify font-monda-bold text-lg animation-enable flex"
+            :class="[{ 'opacity-100' : textOn },
+                    { 'opacity-0' : !textOn }]">
+          <span class="w-auto h-auto m-auto">
+            Terima kasih ya sudah menjadi salah satu bagian untuk berproses selama di telyu, terlebih di dunia seperlab-an. Gak kerasa ya akhirnya bisa sampe garis finish tanpa berkurangnya satu personil pun dari kita (walaupun ada jenuh dan bosennya hehe). Setelah perjalanan di daskom ini, semoga kalian, kita, bisa sukses di perjalanan selanjutnya. Jangan lupain perjalanan disini ya! Luv 17 ❤️ - by KUR
+          </span>
+        </div>
+
+        <video id="secretVid" class="absolute w-full h-full" controls
+            :class="[{ 'opacity-100' : !textOn },
+                    { 'opacity-0' : textOn }]">
+          <source src="/assets/daskomend.mp4" type="video/mp4">
+          <source src="/assets/daskomend.ogg" type="video/ogg">
+          Your browser does not support the video tag.
+        </video> 
+      </div>
+    </div>
   </div>
 </template>
 <style>
@@ -407,12 +429,40 @@ export default {
       pelanggaranPriviledge: [1,2,4,5,6,18],
       soalPriviledge: "all",
 
+      asisten17: [
+        'FAI',
+        'SAT',
+        'RIF',
+        'DIV',
+        'BDT',
+        'CHN',
+        'CYN',
+        'SRG',
+        'PAN',
+        'KUR',
+        'LUD',
+        'PRO',
+        'HRD',
+        'EZA',
+        'REY',
+        'HOL',
+        'CAD',
+        'RKI',
+        'SAS',
+        'FIA',
+        'CHA',
+        'CDY',
+      ],
+
       pageActive: false,
       isMenuShown: false,
       isMessageShown: false,
       animate: true,
       userMessages: this.messages,
       changePage: false,
+
+      textOn: false,
+      vidEnabled: false,
 
       gajiAsisten: 0,
       ratingAsisten: 0,
@@ -502,6 +552,24 @@ export default {
         });
       }
     });
+
+    if(globe.asisten17.includes(globe.currentUser.kode) && 
+        (globe.getCookie("video") != "done")) {
+      globe.vidEnabled = true;
+      globe.textOn = true;
+
+      var vid = document.getElementById("secretVid");
+      vid.onended = function() {
+        globe.vidEnabled = false;
+        globe.setCookie("video", "done", 365);
+      };
+
+      setTimeout(
+          function() {
+            globe.textOn = false;
+            vid.play(); 
+          }, 8000);
+    }
   },
 
   methods: {
@@ -544,6 +612,29 @@ export default {
         function() {
           globe.$inertia.replace('/'+ $whereTo +'?comingFrom=asisten&position='+globe.$refs.menu.scrollTop);
         }, 501); 
+    },
+
+    setCookie: function(name, value, days){
+      
+      var expires = "";
+      if (days) {
+          var date = new Date();
+          date.setTime(date.getTime() + (days*24*60*60*1000));
+          expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    },
+
+    getCookie: function(name){
+      
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
     },
 
     openMessage: function(){
