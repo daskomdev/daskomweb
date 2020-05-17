@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 for ($modul_id=1; $modul_id <25; $modul_id++)
 {
-    $sql = "SELECT moduls.judul,moduls.id FROM moduls WHERE moduls.id = ".$modul_id;
+    $sql = "SELECT moduls.judul FROM moduls WHERE moduls.id = ".$modul_id;
     $result = $conn->query($sql);
     echo "\n".$result."\n";
  //for ($dbsoal=1; $dbsoal<7; $dbsoal++){ 
