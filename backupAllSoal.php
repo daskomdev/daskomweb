@@ -19,18 +19,20 @@ for ($modul_id=1; $modul_id <25; $modul_id++)
  //for ($dbsoal=1; $dbsoal<7; $dbsoal++){ 
     echo "\n FITB \n";
     $sql = "SELECT soal__fitbs.soal,soal__fitbs.id FROM soal__fitbs WHERE soal__fitbs.modul_id = ".$modul_id;
-    if ($hasil = $mysqli->query($sql))
+    if ($hasil = $conn->query($sql))
     {
+        $number=1;
         while ($row = $hasil->fetch_assoc())
         {
+            echo "\nNomor ".$number."\n";
             $soal=$row['soal'];
-            echo $soal."\n";
+            echo $soal."\n--------------------------";
         }
         $hasil->free();
     }
     echo "\njurnal\n";
     $sql = "SELECT soal__jurnals.soal,soal__jurnals.id FROM soal__jurnals WHERE soal__jurnals.modul_id = ".$modul_id;
-	if ($hasil = $mysqli->query($sql))
+	if ($hasil = $conn->query($sql))
     {
         while ($row = $hasil->fetch_assoc())
         {
@@ -41,7 +43,7 @@ for ($modul_id=1; $modul_id <25; $modul_id++)
     }
     echo "\n Mandiri \n";
     $sql = "SELECT soal__mandiris.soal,soal__mandiris.id FROM soal__mandiris WHERE soal__mandiris.modul_id = ".$modul_id;
-    if ($hasil = $mysqli->query($sql))
+    if ($hasil = $conn->query($sql))
     {
         while ($row = $hasil->fetch_assoc())
         {
@@ -50,38 +52,19 @@ for ($modul_id=1; $modul_id <25; $modul_id++)
         }
         $hasil->free();
     }
-    echo "\n Test awal: \n";
-    $sql = "SELECT soal__tas.pertanyaan, soal__tas.jawaban_benar,soal__tas.id FROM soal__tas WHERE soal__tas.modul_id = ".$modul_id;
-    if ($hasil = $mysqli->query($sql))
+    //echo "\n Test awal: \n";
+    /*$sql = "SELECT soal__tas.pertanyaan, soal__tas.jawaban_benar,soal__tas.id FROM soal__tas WHERE soal__tas.modul_id = ".$modul_id;
+    if ($hasil = $conn->query($sql))
     {
-        while ($row = $hasil->fetch_assoc())
+        while ($row = $hasil->fetch_array())
         {
             $soal=$row['pertanyaan'];
             $jawaban=$row['jawaban_benar'];
-            echo "Pertanyaan: ".$soal."\n Jawaban Benar: ".$jawaban;
+            echo "\nPertanyaan: ".$soal."\n Jawaban Benar: ".$jawaban;
         }
         $hasil->free();
-    }	
+    }	*/
 
-	
-	/*if ($result->num_rows > 0) {
-		$rating = 0;
-		$nama;
-	    while($row = $result->fetch_assoc()) {
-	        $nama = $row["nama"];
-	        $rating += $row["rating_asisten"];
-	    }
-	    $rating /= $result->num_rows;
-            echo "(".$asisten_id.") ".$nama." = ".$rating."\n";
-	    if($bestRating < $rating){
-		$bestRating = $rating;
-	    	$bestAsisten = $nama." ".$rating;
-	    }
-	}*/
 }
-//}
-
-//echo "\nBest Asisten = ".$bestAsisten;
-
 $conn->close();
 ?> 
