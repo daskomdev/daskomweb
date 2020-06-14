@@ -29,4 +29,4 @@ Berikut link nya :
 ## Contributors
 
 - [Muhammad Fakhri Putra Supriyadi [FAI]](https://fakhrip.github.io)
-- [Iga Narendra Pramawijaya [AND]](https://github.com/IritaSee)
+- [Iga Narendra Pramawijaya [AND]](https://iritasee.github.io)
