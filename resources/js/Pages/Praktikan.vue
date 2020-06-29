@@ -1646,7 +1646,7 @@ export default {
             break;
 
           case 2:
-
+            // now it should be trantition between TA->Presentasi
             // Realtime connection make changes to status 2
             // Meaning we should send jawaban in status 1 (Soal TA)
             if(isRealtime){
@@ -1667,7 +1667,7 @@ export default {
             }
             
             // Start opening Jurnal Section and get all SOAL from
-            // get soal from soal__jurnals and soal__fitbs
+            // get soal from soal__jurnals and soal__fitbs //new: get jawaban from jawaban__tp where soal__tp.isProgram=1
             globe.$axios.get('/getSoalJURNAL').then(response => {
 
               if(response.data.message === "success") {
