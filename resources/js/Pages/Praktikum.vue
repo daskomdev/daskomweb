@@ -537,11 +537,12 @@
                 class="w-1/4 pb-10 px-5 h-24full m-auto flex-row">
               <span class="font-merri w-full text-left text-white text-lg h-1/4">
                 Laporan
+               <p>(Waktu selesai praktikum tertulis otomatis)</p>
               </span>
               <div class="w-full h-full">
                 <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
                       class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                      id="Laporan" type="text" placeholder="Asisten FAI jaga 2 kelompok"/>
+                      id="Laporan" type="text" placeholder="Ex: Asisten FAI jaga 2 kelompok, ingat cantumkan tanggal"/>
               </div>
             </div>
           </div>
@@ -1209,7 +1210,8 @@ export default {
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
       MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
-      countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
+      countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming\
+      today: moment().format(),
     }
   },
 
@@ -1269,7 +1271,7 @@ export default {
           globe.chosenModulID = response.data.current_praktikum.modul_id;
           globe.formPraktikum.kelas_id = this.chosenKelasID;
           globe.formPraktikum.modul_id = this.chosenModulID;
-          globe.formLaporanPj.laporan = "empty";
+          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: ..... Selesai: "+ moment().format('LT');
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
           globe.menuDisabled = true;
@@ -1948,7 +1950,7 @@ export default {
               globe.formLaporanPj.shift = kelas.shift;
             }
           });
-          globe.formLaporanPj.laporan = "empty";
+          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: ..... Selesai: "+ moment().format('LT');
           globe.formLaporanPj.allasisten_id = "";
           for (let index = 0; index < globe.listAllAsisten.length; index++) {
             const element = globe.listAllAsisten[index];
@@ -2145,4 +2147,13 @@ export default {
     },
   }
 }
+function printTanggal(){
+n =  new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+d = n.getDate();
+return document.getElementById("tanggal").innerHTML = d + "/" + m + "/" + y;
+}
+
+
 </script>
