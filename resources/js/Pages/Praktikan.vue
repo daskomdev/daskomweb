@@ -347,7 +347,7 @@
                 </div>
               </div>
               
-              <!-- Soal JURNAL already started by Praktikum PJ -->
+              <!-- Soal Mandiri already started by Praktikum PJ -->
               <div v-if="current_praktikum.status === 2"
                   class="w-full h-full flex">
                 <div class="w-full h-full flex overflow-hidden"
@@ -381,6 +381,166 @@
                     </div>
                   </div>
                 </div>
+                <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
+                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
+                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
+                    </div>
+                  </div>
+                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
+                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
+                      <div class="m-auto">
+                        PRESENTASI
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = false">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Soal
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="!modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = true">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Modul
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="!modulShown">
+                  <div class="w-full h-full overflow-y-auto">
+                    <div class="w-full h-auto flex-row">
+                      <div class="w-full h-auto flex px-5">
+                       <div class="w-full h-auto flex px-5">
+                          <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-xl">
+                             Presentasikan <br> script ini! 
+                          </div>
+                            <textarea cols="30" rows="10"
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                type="text" placeholder="Ketik jawabanmu disini ...">#include<iostream>
+using namespace std;
+
+main()
+{
+	int data[10]={4,1,0,-9,8,5,-1,2,3,-7};
+	int elm,ktm,x;
+	cout<<"Data yang dicari: ";cin>>x;
+	ktm=1;
+	for(elm=1;elm<=9;elm++)
+	{
+		if(data[elm]==x)
+		{
+			ktm=!ktm;
+			break;
+		}
+	}
+	if(ktm==1)
+	cout<<"data tidak ditemukan";
+	else cout<<"Data ada di elemen: "<<elm;
+}
+© 2020 GitHub, Inc.
+                            </textarea>     
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="modulShown">
+                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
+                    <span>{{ current_modul.isi }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Soal RUNMOD already started by Praktikum PJ -->
+              <!-- JUST FOR SPECIAL CASE (RUNMOD) -->
+              <div v-if="current_praktikum.status === 123"
+                  class="w-full h-full flex">  
+                <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
+                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
+                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
+                    </div>
+                  </div>
+                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
+                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
+                      <div class="m-auto">
+                        JURNAL
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = false">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Soal
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="!modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = true">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Modul
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="!modulShown">
+                  <div class="w-full h-full overflow-y-auto">
+                    <div class="w-full h-auto flex-row">
+                      <div v-for="(soal, index) in soalRunmod" v-bind:key="soal.id" 
+                          class="w-full flex-row h-auto">
+                        <div class="w-full h-auto flex my-10">
+                          <div class="h-full w-12 flex font-merri-bold text-xl">
+                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                          </div>
+                          <div class="h-12 px-1 w-4">
+                            <div class="h-full w-full bg-gray-900"/>
+                          </div>
+                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                            <span>{{ soal.soal }}</span>
+                          </div>
+                        </div>
+                        <div class="w-full h-auto flex px-5">
+                          <textarea v-model="jawabanRunmod[index].jawaban" cols="30" rows="10"
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                type="text" placeholder="Ketik jawabanmu disini ..."/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="modulShown">
+                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
+                    <span>{{ current_modul.isi }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Soal JURNAL already started by Praktikum PJ -->
+              <div v-if="current_praktikum.status === 3"
+                  class="w-full h-full flex">
                 <div class="w-1/4 h-full flex-row overflow-y-hidden"
                       :class="[{ 'visible' : !showNilaiTA },
                                 { 'hidden' : showNilaiTA }]">
@@ -474,153 +634,6 @@
                 </div>
               </div>
 
-              <!-- Soal Mandiri already started by Praktikum PJ -->
-              <div v-if="current_praktikum.status === 3"
-                  class="w-full h-full flex">
-                <div class="w-1/4 h-full flex-row overflow-y-hidden">
-                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
-                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
-                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
-                    </div>
-                  </div>
-                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
-                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
-                      <div class="m-auto">
-                        MANDIRI
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = false">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Soal
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="!modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = true">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Modul
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="!modulShown">
-                  <div class="w-full h-full overflow-y-auto">
-                    <div class="w-full h-auto flex-row">
-                      <div v-for="(soal, index) in soalMandiri" v-bind:key="soal.id" 
-                          class="w-full flex-row h-auto">
-                        <div class="w-full h-auto flex my-10">
-                          <div class="h-full w-12 flex font-merri-bold text-xl">
-                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
-                          </div>
-                          <div class="h-12 px-1 w-4">
-                            <div class="h-full w-full bg-gray-900"/>
-                          </div>
-                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
-                            <span>{{ soal.soal }}</span>
-                          </div>
-                        </div>
-                        <div class="w-full h-auto flex px-5">
-                          <textarea v-model="jawabanMandiri[index].jawaban" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" placeholder="Ketik jawabanmu disini ..."/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="modulShown">
-                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
-                    <span>{{ current_modul.isi }}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Soal RUNMOD already started by Praktikum PJ -->
-              <!-- JUST FOR SPECIAL CASE (RUNMOD) -->
-              <div v-if="current_praktikum.status === 123"
-                  class="w-full h-full flex">
-                <div class="w-1/4 h-full flex-row overflow-y-hidden">
-                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
-                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
-                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
-                    </div>
-                  </div>
-                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
-                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
-                      <div class="m-auto">
-                        JURNAL
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = false">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Soal
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="!modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = true">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Modul
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="!modulShown">
-                  <div class="w-full h-full overflow-y-auto">
-                    <div class="w-full h-auto flex-row">
-                      <div v-for="(soal, index) in soalRunmod" v-bind:key="soal.id" 
-                          class="w-full flex-row h-auto">
-                        <div class="w-full h-auto flex my-10">
-                          <div class="h-full w-12 flex font-merri-bold text-xl">
-                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
-                          </div>
-                          <div class="h-12 px-1 w-4">
-                            <div class="h-full w-full bg-gray-900"/>
-                          </div>
-                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
-                            <span>{{ soal.soal }}</span>
-                          </div>
-                        </div>
-                        <div class="w-full h-auto flex px-5">
-                          <textarea v-model="jawabanRunmod[index].jawaban" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" placeholder="Ketik jawabanmu disini ..."/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="modulShown">
-                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
-                    <span>{{ current_modul.isi }}</span>
-                  </div>
-                </div>
-              </div>
-              
               <!-- Soal TK already started by Praktikum PJ -->
               <div v-if="current_praktikum.status === 4"
                   class="w-full h-full flex">
