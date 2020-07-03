@@ -457,7 +457,7 @@ main()
                             </textarea>
                     </div>
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^^ 
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^^ <br> <br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
                           </div>
                   </div>
                 </div>
