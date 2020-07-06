@@ -1,5 +1,5 @@
 {
-	"authHost": "http://192.168.18.11",
+	"authHost": "http://localhost",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
@@ -13,8 +13,8 @@
 		"sqlite": {
 			"databasePath": "/database/laravel-echo-server.sqlite"
 		},
-		"port": "80",
-		"host": "192.168.18.11"
+		"port": "6379",
+		"host": "127.0.0.1"
 	},
 	"devMode": true,
 	"host": null,
