@@ -373,7 +373,7 @@
                             v-on:click="showNilaiTA = false">
                           <div class="h-full w-full flex font-merri text-xl bg-gray-800 rounded-lg text-center m-auto">
                             <div class="m-auto text-white">
-                              Lanjut Ke Jurnal
+                              Lanjut Ke Presentasi
                             </div>
                           </div>
                         </div>
@@ -1739,7 +1739,7 @@ export default {
             
             // new: start opening jurnal section, 
             // get all soal from: get soal from soal__jurnal, soal__fitb
-            globe.$axios.post('/getSoalJURNAL/'+globe.current_praktikum.modul_id+'/'+globe.current_praktikum.kelas_id).then(response => {
+            globe.$axios.post('/getSoalJURNAL/').then(response => {
 
               if(response.data.message === "success") {
 
