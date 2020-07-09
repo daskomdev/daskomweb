@@ -20,7 +20,7 @@ class UploadController extends Controller
  
       	        // nama file
 		echo 'File Name: '.$file->getClientOriginalName();
-		echo '<br> Uploaded! You can close this now..... <br> <br> ';
+		echo '<br> Uploaded! You can close this now..... just click outside the popup ';
  
       	//         // ekstensi file
 		// echo 'File Extension: '.$file->getClientOriginalExtension();
