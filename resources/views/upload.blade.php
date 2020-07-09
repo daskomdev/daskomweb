@@ -9,8 +9,7 @@
 	<div class="row">
 		<div class="container">
 			<h2 class="text-center my-5">Upload your Profile Photo here!</h2>
-            </br>
-			<h2 class="text-center my-5">Make sure its a jpg and named same as your Assistant code! (Ex: AND.jpg)</h2>
+			<h4 class="text-center my-5">Make sure its a jpg and named same as your Assistant code!<br>(Ex: AND.jpg)</h4>
             </br>
             <h4 class="text-center my-5">Sorry i made this in quick, going to repair it soon!</h4>
 			<div class="col-lg-8 mx-auto my-5">	

@@ -12,7 +12,7 @@ class UploadController extends Controller
     }
     public function proses_upload(Request $request){
 		$this->validate($request, [
-			'file' => 'required',
+			'file' => 'required|image',
 		]);
  
 		// menyimpan data file yang diupload ke variabel $file
@@ -42,5 +42,6 @@ class UploadController extends Controller
  
                 // upload file
 		$file->move($tujuan_upload,$file->getClientOriginalName());
+		
 	}
 }
