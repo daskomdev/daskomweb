@@ -2,16 +2,20 @@
 <html>
 <head>
 	<title>Daskom Photo Upload</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
- 
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <script src="{{ mix('/js/app.js') }}" defer></script>
 </head>
 <body>
-	<div class="row">
-		<div class="container">
-			<h2 class="text-center my-5">Upload your Profile Photo here!</h2>
-			<h4 class="text-center my-5">Make sure its a jpg and named same as your Assistant code!<br>(Ex: AND.jpg)</h4>
-            </br>
-            <h4 class="text-center my-5">Sorry i made this in quick, going to repair it soon!</h4>
+	<div class="flex flex-col bg-green-800">
+		<div class="container mx-auto px-4 bg-green-200">
+		<span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-5xl">Update your profile photo</span>
+		</br>
+		<span class="ml-6 font-merri font-medium w-full text-start self-center text-2xl">Make sure the photo is in jpg and has your assistant code as filename</span>
+        </br>
+		<span class="ml-6 font-merri font-medium w-full text-start self-center text-xl">For example: AND.jpg</span>
+            <h4 class="text-center my-5">Sorry i made this in quick, going to repair it soon! Click anywhere outside to go back</h4>
 			<div class="col-lg-8 mx-auto my-5">	
  
 				@if(count($errors) > 0)
@@ -21,16 +25,16 @@
 					@endforeach
 				</div>
 				@endif
- 
-				<form action="/upload/proses" method="POST" enctype="multipart/form-data">
+				
+				<form action="/upload/proses" method="POST" enctype="multipart/form-data" class="bg-green-400 shadow-md rounded px-8 pt-6 pb-8 mb-4">
 					{{ csrf_field() }}
  
-					<div class="form-group">
-						<b>Your Profile Pic here</b><br/>
+					<div class="mb-4 self-center">
+						</br>
 						<input type="file" name="file">
 					</div>
- 
-					<input type="submit" value="Upload" class="btn btn-primary">
+					</br>
+					<input type="submit" value="Upload" >
 				</form>
 			</div>
 		</div>
