@@ -432,7 +432,7 @@
                       </div>
                         <textarea cols="30" rows="10"
                                 class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" placeholder="Ketik jawabanmu disini ...">#include<iostream>
+                                type="text" >#include<iostream>
 using namespace std;
 
 main()
