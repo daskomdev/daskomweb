@@ -1687,8 +1687,84 @@ export default {
             // Start opening Jurnal Section and get all SOAL from
             // get soal from soal__jurnals and soal__fitbs 
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
-            globe.$axios.post('api/getTp/'+currentUser.nim+'/'+modul_id).then(response => {
+            globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
+             console.log(JSON.stringify(response.data.all_tp[4]))
+             console.log(globe.currentUser.nim)
+             console.log(globe.current_praktikum.modul_id)
+              // if(response.data.message === "success") {
 
+              //   if(response.data.all_soal !== null){
+
+              //     globe.soalJurnal = response.data.all_soal.filter(function (el) {return el != null;});
+              //     for (let index = 0; index < globe.soalJurnal.length; index++) {
+              //       const soal = globe.soalJurnal[index];
+              //       globe.jawabanJurnal.push({
+              //         soal_id: soal.id,
+              //         modul_id: soal.modul_id,
+              //         praktikan_id: globe.currentUser.id,
+              //         jawaban: '',
+              //       });
+              //     }
+              //   }
+ 
+              // } else {
+              //   globe.$toasted.global.showError({
+              //     message: response.data.message
+              //   });
+              // }
+            }); 
+            
+            break;
+
+          case 3:
+            
+            // Realtime connection make changes to status 3
+            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
+            // new : no need to send jawaban because it's presentasi (new status 2)
+            if(isRealtime){
+              
+              // globe.$axios.post('/sendJawabanMandiri', globe.jawabanJurnal).then(response => {
+
+              //   if(response.data.message === "success") {
+              //     // Do nothing as all of jawaban successfully saved to the DB
+                  
+              //   } else {
+              //     globe.$toasted.global.showError({
+              //       message: response.data.message
+              //     });
+              //   }
+              // }); 
+            }
+
+            // Start opening Mandiri Section and get all SOAL from
+            // get soal from soal__mandiris
+            
+            // new: start opening jurnal section, 
+            // get all soal from: get soal from soal__jurnal, soal__fitb
+            globe.$axios.get('/getSoalJURNAL').then(response => {
+
+              // if(response.data.message === "success") {
+
+              //   if(response.data.all_soal !== null){
+
+              //     globe.soalMandiri = response.data.all_soal;
+              //     for (let index = 0; index < globe.soalMandiri.length; index++) {
+              //       const soal = globe.soalMandiri[index];
+              //       globe.jawabanMandiri.push({
+              //         soal_id: soal.id,
+              //         modul_id: soal.modul_id,
+              //         praktikan_id: globe.currentUser.id,
+              //         jawaban: '',
+              //       });
+              //     }
+              //   }
+
+              // } else {
+              //   globe.$toasted.global.showError({
+              //     message: response.data.message
+              //   });
+              // }
+              ///////  New Codes Below:
               if(response.data.message === "success") {
 
                 if(response.data.all_soal !== null){
@@ -1711,59 +1787,7 @@ export default {
                 });
               }
             }); 
-            
-            break;
-
-          case 3:
-            
-            // Realtime connection make changes to status 3
-            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
-            // new : send jawaban mandiri a.k.a. presentasi (new status 2)
-            if(isRealtime){
-              
-              globe.$axios.post('/sendJawabanMandiri', globe.jawabanJurnal).then(response => {
-
-                if(response.data.message === "success") {
-                  // Do nothing as all of jawaban successfully saved to the DB
-                  
-                } else {
-                  globe.$toasted.global.showError({
-                    message: response.data.message
-                  });
-                }
-              }); 
-
-
-            // Start opening Mandiri Section and get all SOAL from
-            // get soal from soal__mandiris
-            
-            // new: start opening jurnal section, 
-            // get all soal from: get soal from soal__jurnal, soal__fitb
-            globe.$axios.post('/getSoalJURNAL/').then(response => {
-
-              if(response.data.message === "success") {
-
-                if(response.data.all_soal !== null){
-
-                  globe.soalMandiri = response.data.all_soal;
-                  for (let index = 0; index < globe.soalMandiri.length; index++) {
-                    const soal = globe.soalMandiri[index];
-                    globe.jawabanMandiri.push({
-                      soal_id: soal.id,
-                      modul_id: soal.modul_id,
-                      praktikan_id: globe.currentUser.id,
-                      jawaban: '',
-                    });
-                  }
-                }
-
-              } else {
-                globe.$toasted.global.showError({
-                  message: response.data.message
-                });
-              }
-            }); 
-          }
+          
              globe.$axios.get('/getSoalFITB').then(response => {
 
               if(response.data.message === "success") {
@@ -1806,21 +1830,22 @@ export default {
                     message: response.data.message
                   });
                 }
-              }); 
-            }
-          //add send jawaban fitb below
-          
-          //  globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
-          //       if(response.data.message === "success") {
-          //         // Do nothing as all of jawaban successfully saved to the DB
+              });
+           globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
                   
-          //       } else {
-          //         globe.$toasted.global.showError({
-          //           message: response.data.message
-          //         });
-          //       }
-          //     }); 
-          //   }
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              }); 
+              
+              
+            }
+          
+            
 
             // Start Opening TK and grab all SOAL from it
             // (get RANDOMIZED soal from soal__tks)

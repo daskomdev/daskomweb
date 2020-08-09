@@ -15,7 +15,6 @@ class UploadController extends Controller
 			'file' => 'required|image',
 		]);
  
-		// menyimpan data file yang diupload ke variabel $file
 		$file = $request->file('file');
  
       	        // nama file
