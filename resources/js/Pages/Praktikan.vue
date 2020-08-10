@@ -1820,7 +1820,7 @@ export default {
             // Meaning we should send jawaban in status 3 (Soal Jurnal)
             if(isRealtime){
               
-              globe.$axios.post('/sendJawabanJurnal', globe.jawabanMandiri).then(response => { 
+              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(response => { 
 
                 if(response.data.message === "success") {
                   // Do nothing as all of jawaban successfully saved to the DB
