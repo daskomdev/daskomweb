@@ -426,13 +426,12 @@
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-5xl">
                              Presentasikan script ini! 
                           </div>
-                            
-                                  
+        
                         </div>
                       </div>
                         <textarea cols="30" rows="10"
                                 class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" >#include<iostream>
+                                type="text" v-model="message" >#include<iostream>
 using namespace std;
 
 main()
@@ -1082,6 +1081,8 @@ export default {
       programmingQuote: 'nothing',
       quoteAuthor: '',
 
+      randomNumber:'',
+
       soalTA: [],
       soalTK: [],
       soalTPEssay: [],
@@ -1467,6 +1468,12 @@ export default {
         return globe.badScoreText[Math.floor(Math.random() * globe.badScoreText.length)];
     },
 
+    tpPickRandomProgram: function()
+    {
+        const globe = this;
+        return globe.randomNumber = Math.floor(Math.random()*3)+5;
+    },
+
     shuffleArr: function($arr){
 
       for (let i = $arr.length - 1; i > 0; i--) {
@@ -1687,8 +1694,9 @@ export default {
             // Start opening Jurnal Section and get all SOAL from
             // get soal from soal__jurnals and soal__fitbs 
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
+            globe.tpPickRandomProgram();
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
-             console.log(JSON.stringify(response.data.all_tp[4]))
+             console.log(JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban))
              console.log(globe.currentUser.nim)
              console.log(globe.current_praktikum.modul_id)
               // if(response.data.message === "success") {

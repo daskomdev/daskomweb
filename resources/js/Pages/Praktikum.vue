@@ -585,13 +585,13 @@
                 TA
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 2 || statusPraktikum === 123 },
-                          { 'hidden': statusPraktikum != 2 && statusPraktikum != 123 }]">
+                  :class="[{ 'visible': statusPraktikum === 2 },
+                          { 'hidden': statusPraktikum != 2 }]">
                 PRESENTASI
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 3 },
-                          { 'hidden': statusPraktikum != 3 }]">
+                  :class="[{ 'visible': statusPraktikum === 3 || statusPraktikum === 123  },
+                          { 'hidden': statusPraktikum != 3 && statusPraktikum != 123 }]">
                 JURNAL
               </span> 
               <span class="font-overpass-bold text-9xl " 
@@ -1271,7 +1271,7 @@ export default {
           globe.chosenModulID = response.data.current_praktikum.modul_id;
           globe.formPraktikum.kelas_id = this.chosenKelasID;
           globe.formPraktikum.modul_id = this.chosenModulID;
-          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: "+ moment().format('LT') + "Selesai: .....";
+          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: "+ moment().format('LT') + "      Selesai: .....";
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
           globe.menuDisabled = true;
