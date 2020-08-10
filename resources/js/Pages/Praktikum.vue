@@ -1271,7 +1271,7 @@ export default {
           globe.chosenModulID = response.data.current_praktikum.modul_id;
           globe.formPraktikum.kelas_id = this.chosenKelasID;
           globe.formPraktikum.modul_id = this.chosenModulID;
-          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: ..... Selesai: "+ moment().format('LT');
+          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: "+ moment().format('LT') + "Selesai: .....";
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
           globe.menuDisabled = true;
