@@ -429,34 +429,14 @@
         
                         </div>
                       </div>
-                        <textarea cols="30" rows="10"
+                        <textarea v-model="soalPresentasi" cols="30" rows="10"
                                 class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" v-model="message" >#include<iostream>
-using namespace std;
+                                type="text" >
 
-main()
-{
-	int data[10]={4,1,0,-9,8,5,-1,2,3,-7};
-	int elm,ktm,x;
-	cout<<"Data yang dicari: ";cin>>x;
-	ktm=1;
-	for(elm=1;elm<=9;elm++)
-	{
-		if(data[elm]==x)
-		{
-			ktm=!ktm;
-			break;
-		}
-	}
-	if(ktm==1)
-	cout<<"data tidak ditemukan";
-	else cout<<"Data ada di elemen: "<<elm;
-}
-© 2020 GitHub, Inc.
                             </textarea>
                     </div>
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^^ <br> <br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^_^ <br> <br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
                           </div>
                   </div>
                 </div>
@@ -1082,7 +1062,7 @@ export default {
       quoteAuthor: '',
 
       randomNumber:'',
-
+      soalPresentasi: [],
       soalTA: [],
       soalTK: [],
       soalTPEssay: [],
@@ -1696,9 +1676,11 @@ export default {
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
             globe.tpPickRandomProgram();
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
+            globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
              console.log(JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban))
              console.log(globe.currentUser.nim)
              console.log(globe.current_praktikum.modul_id)
+             console.log(globe.soalPresentasi)
               // if(response.data.message === "success") {
 
               //   if(response.data.all_soal !== null){
