@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/getTp/{praktikan_nim}/{modul_id}', 'JawabanTpController@show')->name('getTp');
 Route::post('/getAllLaporan/{modul_id}', 'LaporanPjController@index')->name('getAllLaporan');
 Route::post('/getAllModul', 'ModulController@show')->name('getAllModul');
+// PUBLIC WEB ROUTE FOR NILAI (for laboran purposes) 
+Route::post('/getNilai/{praktikan_nim}/{modul_id}','NilaiController@showApi')->name('getNilai');

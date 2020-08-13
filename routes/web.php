@@ -523,5 +523,5 @@ Route::post('/changePraktikanPass/{praktikan_nim}/{new_pass}', 'PraktikanControl
 Route::post('/checkPolling', 'ConfigurationController@isPollingEnabled')->name('checkPolling')->middleware('loggedIn:praktikan');
 Route::post('/savePolling', 'PollingController@store')->name('savePolling')->middleware('loggedIn:praktikan');
 /////////////////////////////////////////////FILE UPLOAD////////////////////////////////////////////
-Route::get('/upload','UploadController@upload');
-Route::post('/upload/proses','UploadController@proses_upload');
+Route::get('/upload','UploadController@upload')->middleware('loggedIn:asisten');
+Route::post('/upload/proses','UploadController@proses_upload')->middleware('loggedIn:asisten');
