@@ -1060,7 +1060,7 @@ export default {
 
       programmingQuote: 'nothing',
       quoteAuthor: '',
-
+      randomNumber:'',
       soalPresentasi: [],
       soalTA: [],
       soalTK: [],
@@ -1672,10 +1672,9 @@ export default {
             // Start opening Jurnal Section and get all SOAL from
             // get soal from soal__jurnals and soal__fitbs 
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
-            randomNumber = globe.tpPickRandomProgram();
+            globe.randomNumber = globe.tpPickRandomProgram();
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
-            globe.soalPresentasi = JSON.stringify(response.data.all_tp[randomNumber].jawaban)
-            
+            globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
               
             }); 
             
