@@ -2147,13 +2147,4 @@ export default {
     },
   }
 }
-function printTanggal(){
-n =  new Date();
-y = n.getFullYear();
-m = n.getMonth() + 1;
-d = n.getDate();
-return document.getElementById("tanggal").innerHTML = d + "/" + m + "/" + y;
-}
-
-
 </script>

@@ -1061,7 +1061,6 @@ export default {
       programmingQuote: 'nothing',
       quoteAuthor: '',
 
-      randomNumber:'',
       soalPresentasi: [],
       soalTA: [],
       soalTK: [],
@@ -1450,8 +1449,7 @@ export default {
 
     tpPickRandomProgram: function()
     {
-        const globe = this;
-        return globe.randomNumber = Math.floor(Math.random()*3)+5;
+         return Math.floor(Math.random()*3)+5;
     },
 
     shuffleArr: function($arr){
@@ -1674,13 +1672,10 @@ export default {
             // Start opening Jurnal Section and get all SOAL from
             // get soal from soal__jurnals and soal__fitbs 
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
-            globe.tpPickRandomProgram();
+            randomNumber = globe.tpPickRandomProgram();
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
-            globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
-             console.log(JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban))
-             console.log(globe.currentUser.nim)
-             console.log(globe.current_praktikum.modul_id)
-             console.log(globe.soalPresentasi)
+            globe.soalPresentasi = JSON.stringify(response.data.all_tp[randomNumber].jawaban)
+            
               // if(response.data.message === "success") {
 
               //   if(response.data.all_soal !== null){

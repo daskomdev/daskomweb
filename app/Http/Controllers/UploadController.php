@@ -21,22 +21,7 @@ class UploadController extends Controller
 		echo 'File Name: '.$file->getClientOriginalName();
 		echo '<br> Uploaded! You can close this now..... just click outside the popup ';
  
-      	//         // ekstensi file
-		// echo 'File Extension: '.$file->getClientOriginalExtension();
-		// echo '<br>';
- 
-      	//         // real path
-		// echo 'File Real Path: '.$file->getRealPath();
-		// echo '<br>';
- 
-      	//         // ukuran file
-		// echo 'File Size: '.$file->getSize();
-		// echo '<br>';
- 
-      	//         // tipe mime
-		// echo 'File Mime Type: '.$file->getMimeType();
- 
-      	        // isi dengan nama folder tempat kemana file diupload
+      	        // upload destinaton:
 		$tujuan_upload = 'assets';
  
                 // upload file
