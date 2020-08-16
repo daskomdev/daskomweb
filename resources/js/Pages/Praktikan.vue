@@ -1676,27 +1676,7 @@ export default {
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
             globe.soalPresentasi = JSON.stringify(response.data.all_tp[randomNumber].jawaban)
             
-              // if(response.data.message === "success") {
-
-              //   if(response.data.all_soal !== null){
-
-              //     globe.soalJurnal = response.data.all_soal.filter(function (el) {return el != null;});
-              //     for (let index = 0; index < globe.soalJurnal.length; index++) {
-              //       const soal = globe.soalJurnal[index];
-              //       globe.jawabanJurnal.push({
-              //         soal_id: soal.id,
-              //         modul_id: soal.modul_id,
-              //         praktikan_id: globe.currentUser.id,
-              //         jawaban: '',
-              //       });
-              //     }
-              //   }
- 
-              // } else {
-              //   globe.$toasted.global.showError({
-              //     message: response.data.message
-              //   });
-              // }
+              
             }); 
             
             break;
@@ -1708,17 +1688,7 @@ export default {
             // new : no need to send jawaban because it's presentasi (new status 2)
             if(isRealtime){
               
-              // globe.$axios.post('/sendJawabanMandiri', globe.jawabanJurnal).then(response => {
-
-              //   if(response.data.message === "success") {
-              //     // Do nothing as all of jawaban successfully saved to the DB
-                  
-              //   } else {
-              //     globe.$toasted.global.showError({
-              //       message: response.data.message
-              //     });
-              //   }
-              // }); 
+             
             }
 
             // Start opening Mandiri Section and get all SOAL from
@@ -1727,28 +1697,6 @@ export default {
             // new: start opening jurnal section, 
             // get all soal from: get soal from soal__jurnal, soal__fitb
             globe.$axios.get('/getSoalJURNAL').then(response => {
-
-              // if(response.data.message === "success") {
-
-              //   if(response.data.all_soal !== null){
-
-              //     globe.soalMandiri = response.data.all_soal;
-              //     for (let index = 0; index < globe.soalMandiri.length; index++) {
-              //       const soal = globe.soalMandiri[index];
-              //       globe.jawabanMandiri.push({
-              //         soal_id: soal.id,
-              //         modul_id: soal.modul_id,
-              //         praktikan_id: globe.currentUser.id,
-              //         jawaban: '',
-              //       });
-              //     }
-              //   }
-
-              // } else {
-              //   globe.$toasted.global.showError({
-              //     message: response.data.message
-              //   });
-              // }
               ///////  New Codes Below:
               if(response.data.message === "success") {
 
