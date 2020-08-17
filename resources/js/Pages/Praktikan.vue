@@ -430,13 +430,13 @@
                         </div>
                       </div>
                         <textarea v-model="soalPresentasi" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" >
-
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 break-words whitespace-pre-wrap flex" 
+                                type="text" placeholder="Oops, ada TP program yang dikosongkan! Refresh siapatau dapat yang kamu sudah buat hehe" >
+                                
                             </textarea>
                     </div>
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^_^ <br> <br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
                           </div>
                   </div>
                 </div>
@@ -1675,7 +1675,7 @@ export default {
             globe.randomNumber = globe.tpPickRandomProgram();
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
             globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
-              
+            globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')  
             }); 
             
             break;

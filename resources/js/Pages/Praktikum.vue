@@ -537,7 +537,7 @@
                 class="w-1/4 pb-10 px-5 h-24full m-auto flex-row">
               <span class="font-merri w-full text-left text-white text-lg h-1/4">
                 Laporan
-               <p>(Waktu mulai praktikum tertulis otomatis)</p>
+               <p>(Edit Waktu mulai bila dirasa kurang tepat)</p>
               </span>
               <div class="w-full h-full">
                 <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
@@ -1950,8 +1950,7 @@ export default {
               globe.formLaporanPj.shift = kelas.shift;
             }
           });
-          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"        Selesai: ..... Mulai: "+ moment().format('LT');
-          globe.formLaporanPj.allasisten_id = "";
+         globe.formLaporanPj.allasisten_id = "";
           for (let index = 0; index < globe.listAllAsisten.length; index++) {
             const element = globe.listAllAsisten[index];
             globe.formLaporanPj.allasisten_id += element.id;
