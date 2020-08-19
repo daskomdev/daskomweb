@@ -49,7 +49,7 @@
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Muhammad Elang Iqbal Yuhana [ PRO ]
+              Muhammad Dimas [ DIM ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -57,12 +57,12 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                081222243668
+                081384385843
               </div>
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Reynald Coundro [ REY ]
+              Iffat Ahmad Baihaki [ DOI ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -70,7 +70,7 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                081914308345
+                081243473761
               </div>
             </div>
 

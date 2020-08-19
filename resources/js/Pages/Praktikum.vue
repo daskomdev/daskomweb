@@ -537,11 +537,12 @@
                 class="w-1/4 pb-10 px-5 h-24full m-auto flex-row">
               <span class="font-merri w-full text-left text-white text-lg h-1/4">
                 Laporan
+               <p>(Edit Waktu mulai bila dirasa kurang tepat)</p>
               </span>
               <div class="w-full h-full">
                 <textarea v-model="formLaporanPj.laporan" cols="30" rows="10"
                       class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                      id="Laporan" type="text" placeholder="Asisten FAI jaga 2 kelompok"/>
+                      id="Laporan" type="text" placeholder="Ex: Asisten FAI jaga 2 kelompok, ingat cantumkan tanggal"/>
               </div>
             </div>
           </div>
@@ -584,14 +585,14 @@
                 TA
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 2 || statusPraktikum === 123 },
-                          { 'hidden': statusPraktikum != 2 && statusPraktikum != 123 }]">
-                JURNAL
+                  :class="[{ 'visible': statusPraktikum === 2 },
+                          { 'hidden': statusPraktikum != 2 }]">
+                PRESENTASI
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 3 },
-                          { 'hidden': statusPraktikum != 3 }]">
-                MANDIRI
+                  :class="[{ 'visible': statusPraktikum === 3 || statusPraktikum === 123  },
+                          { 'hidden': statusPraktikum != 3 && statusPraktikum != 123 }]">
+                JURNAL
               </span> 
               <span class="font-overpass-bold text-9xl " 
                   :class="[{ 'visible': statusPraktikum === 4 },
@@ -1131,8 +1132,8 @@ export default {
       /****************************/
       // 0: Just started (First default initialization)
       // 1: Begin TA countdown
-      // 2: Go To Jurnal Section
-      // 3: Go To Mandiri Section
+      // 2: Go To Mandiri (presentasi) Section  //changed since 2018 in charge (developAND)
+      // 3: Go To Jurnal Section
       // 4: Go To TK section
       // 5: Open The Laporan Praktikan 
       //    (Tell them to rate the assistant and the prakikum)
@@ -1209,7 +1210,8 @@ export default {
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
       MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
-      countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming
+      countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming\
+      today: moment().format(),
     }
   },
 
@@ -1269,7 +1271,7 @@ export default {
           globe.chosenModulID = response.data.current_praktikum.modul_id;
           globe.formPraktikum.kelas_id = this.chosenKelasID;
           globe.formPraktikum.modul_id = this.chosenModulID;
-          globe.formLaporanPj.laporan = "empty";
+          globe.formLaporanPj.laporan ="Tanggal: "+moment().format('ll') +"          Mulai: "+ moment().format('LT') + "      Selesai: .....";
           globe.getAllAsistenPraktikan();
           globe.praktikumStart = true;
           globe.menuDisabled = true;
@@ -1277,10 +1279,10 @@ export default {
           //(If status Praktikum === 1, means all the layout condition still on its default state)
           switch (globe.statusPraktikum) {
             case 2:
-              globe.countDown = globe.JURNALtiming;
+              globe.countDown = globe.MANDIRItiming;
               break;
             case 3:
-              globe.countDown = globe.MANDIRItiming;
+              globe.countDown = globe.JURNALtiming;
               break;
             case 4:
               globe.countDown = globe.TKtiming;
@@ -1712,10 +1714,10 @@ export default {
       //(If status Praktikum === 1, means all the layout condition still on its default state)
       switch (globe.statusPraktikum) {
         case 2:
-          globe.countDown = globe.JURNALtiming;
+          globe.countDown = globe.MANDIRItiming;
           break;
         case 3:
-          globe.countDown = globe.MANDIRItiming;
+          globe.countDown = globe.JURNALtiming;
           break;
         case 4:
           globe.countDown = globe.TKtiming;
@@ -1948,8 +1950,7 @@ export default {
               globe.formLaporanPj.shift = kelas.shift;
             }
           });
-          globe.formLaporanPj.laporan = "empty";
-          globe.formLaporanPj.allasisten_id = "";
+         globe.formLaporanPj.allasisten_id = "";
           for (let index = 0; index < globe.listAllAsisten.length; index++) {
             const element = globe.listAllAsisten[index];
             globe.formLaporanPj.allasisten_id += element.id;

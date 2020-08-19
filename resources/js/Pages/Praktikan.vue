@@ -347,7 +347,7 @@
                 </div>
               </div>
               
-              <!-- Soal JURNAL already started by Praktikum PJ -->
+              <!-- Soal Mandiri already started by Praktikum PJ -->
               <div v-if="current_praktikum.status === 2"
                   class="w-full h-full flex">
                 <div class="w-full h-full flex overflow-hidden"
@@ -373,7 +373,7 @@
                             v-on:click="showNilaiTA = false">
                           <div class="h-full w-full flex font-merri text-xl bg-gray-800 rounded-lg text-center m-auto">
                             <div class="m-auto text-white">
-                              Lanjut Ke Jurnal
+                              Lanjut Ke Presentasi
                             </div>
                           </div>
                         </div>
@@ -381,6 +381,150 @@
                     </div>
                   </div>
                 </div>
+                <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
+                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
+                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
+                    </div>
+                  </div>
+                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
+                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
+                      <div class="m-auto">
+                        PRESENTASI
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = false">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Soal
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="!modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = true">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Modul
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="!modulShown">
+                  <div class="w-full h-full overflow-y-auto">
+                    <div class="w-full h-auto flex-row">
+                      <div class="w-full h-auto flex px-5">
+                       <div class="w-full h-auto flex px-5">
+                          <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-5xl">
+                             Presentasikan script ini! 
+                          </div>
+        
+                        </div>
+                      </div>
+                        <textarea v-model="soalPresentasi" cols="30" rows="10"
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 break-words whitespace-pre-wrap flex" 
+                                type="text" placeholder="Oops, ada TP program yang dikosongkan! Refresh siapatau dapat yang kamu sudah buat hehe" >
+                                
+                            </textarea>
+                    </div>
+                          <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                          </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="modulShown">
+                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
+                    <span>{{ current_modul.isi }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Soal RUNMOD already started by Praktikum PJ -->
+              <!-- JUST FOR SPECIAL CASE (RUNMOD) -->
+              <div v-if="current_praktikum.status === 123"
+                  class="w-full h-full flex">  
+                <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
+                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
+                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
+                    </div>
+                  </div>
+                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
+                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
+                      <div class="m-auto">
+                        JURNAL
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = false">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Soal
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="h-1/2 w-full flex"
+                        v-if="!modulShown">
+                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
+                          v-on:click="modulShown = true">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
+                          <div class="m-auto">
+                            Lihat Modul
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="!modulShown">
+                  <div class="w-full h-full overflow-y-auto">
+                    <div class="w-full h-auto flex-row">
+                      <div v-for="(soal, index) in soalRunmod" v-bind:key="soal.id" 
+                          class="w-full flex-row h-auto">
+                        <div class="w-full h-auto flex my-10">
+                          <div class="h-full w-12 flex font-merri-bold text-xl">
+                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                          </div>
+                          <div class="h-12 px-1 w-4">
+                            <div class="h-full w-full bg-gray-900"/>
+                          </div>
+                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                            <span>{{ soal.soal }}</span>
+                          </div>
+                        </div>
+                        <div class="w-full h-auto flex px-5">
+                          <textarea v-model="jawabanRunmod[index].jawaban" cols="30" rows="10"
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                type="text" placeholder="Ketik jawabanmu disini ..."/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-3/4 h-full flex" 
+                    v-if="modulShown">
+                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
+                    <span>{{ current_modul.isi }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Soal JURNAL already started by Praktikum PJ -->
+              <div v-if="current_praktikum.status === 3"
+                  class="w-full h-full flex">
                 <div class="w-1/4 h-full flex-row overflow-y-hidden"
                       :class="[{ 'visible' : !showNilaiTA },
                                 { 'hidden' : showNilaiTA }]">
@@ -474,153 +618,6 @@
                 </div>
               </div>
 
-              <!-- Soal Mandiri already started by Praktikum PJ -->
-              <div v-if="current_praktikum.status === 3"
-                  class="w-full h-full flex">
-                <div class="w-1/4 h-full flex-row overflow-y-hidden">
-                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
-                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
-                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
-                    </div>
-                  </div>
-                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
-                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
-                      <div class="m-auto">
-                        MANDIRI
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = false">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Soal
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="!modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = true">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Modul
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="!modulShown">
-                  <div class="w-full h-full overflow-y-auto">
-                    <div class="w-full h-auto flex-row">
-                      <div v-for="(soal, index) in soalMandiri" v-bind:key="soal.id" 
-                          class="w-full flex-row h-auto">
-                        <div class="w-full h-auto flex my-10">
-                          <div class="h-full w-12 flex font-merri-bold text-xl">
-                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
-                          </div>
-                          <div class="h-12 px-1 w-4">
-                            <div class="h-full w-full bg-gray-900"/>
-                          </div>
-                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
-                            <span>{{ soal.soal }}</span>
-                          </div>
-                        </div>
-                        <div class="w-full h-auto flex px-5">
-                          <textarea v-model="jawabanMandiri[index].jawaban" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" placeholder="Ketik jawabanmu disini ..."/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="modulShown">
-                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
-                    <span>{{ current_modul.isi }}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Soal RUNMOD already started by Praktikum PJ -->
-              <!-- JUST FOR SPECIAL CASE (RUNMOD) -->
-              <div v-if="current_praktikum.status === 123"
-                  class="w-full h-full flex">
-                <div class="w-1/4 h-full flex-row overflow-y-hidden">
-                  <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
-                    <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
-                      Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
-                    </div>
-                  </div>
-                  <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
-                    <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
-                      <div class="m-auto">
-                        JURNAL
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = false">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Soal
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="h-1/2 w-full flex"
-                        v-if="!modulShown">
-                      <div class="h-full w-full flex p-4 hover:p-5 cursor-pointer animation-enable-short"
-                          v-on:click="modulShown = true">
-                        <div class="h-full w-full flex font-overpass-mono-bold text-xl bg-gray-300 rounded-large text-center m-auto">
-                          <div class="m-auto">
-                            Lihat Modul
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="!modulShown">
-                  <div class="w-full h-full overflow-y-auto">
-                    <div class="w-full h-auto flex-row">
-                      <div v-for="(soal, index) in soalRunmod" v-bind:key="soal.id" 
-                          class="w-full flex-row h-auto">
-                        <div class="w-full h-auto flex my-10">
-                          <div class="h-full w-12 flex font-merri-bold text-xl">
-                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
-                          </div>
-                          <div class="h-12 px-1 w-4">
-                            <div class="h-full w-full bg-gray-900"/>
-                          </div>
-                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
-                            <span>{{ soal.soal }}</span>
-                          </div>
-                        </div>
-                        <div class="w-full h-auto flex px-5">
-                          <textarea v-model="jawabanRunmod[index].jawaban" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" placeholder="Ketik jawabanmu disini ..."/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-3/4 h-full flex" 
-                    v-if="modulShown">
-                  <div class="w-full h-full font-overpass text-xl whitespace-pre-wrap p-4 text-justify break-words overflow-y-auto">
-                    <span>{{ current_modul.isi }}</span>
-                  </div>
-                </div>
-              </div>
-              
               <!-- Soal TK already started by Praktikum PJ -->
               <div v-if="current_praktikum.status === 4"
                   class="w-full h-full flex">
@@ -1063,7 +1060,8 @@ export default {
 
       programmingQuote: 'nothing',
       quoteAuthor: '',
-
+      randomNumber:'',
+      soalPresentasi: [],
       soalTA: [],
       soalTK: [],
       soalTPEssay: [],
@@ -1449,6 +1447,11 @@ export default {
         return globe.badScoreText[Math.floor(Math.random() * globe.badScoreText.length)];
     },
 
+    tpPickRandomProgram: function()
+    {
+         return Math.floor(Math.random()*3)+5;
+    },
+
     shuffleArr: function($arr){
 
       for (let i = $arr.length - 1; i > 0; i--) {
@@ -1646,7 +1649,7 @@ export default {
             break;
 
           case 2:
-
+            // now it should be transition between TA->Presentasi
             // Realtime connection make changes to status 2
             // Meaning we should send jawaban in status 1 (Soal TA)
             if(isRealtime){
@@ -1667,9 +1670,33 @@ export default {
             }
             
             // Start opening Jurnal Section and get all SOAL from
-            // get soal from soal__jurnals and soal__fitbs
-            globe.$axios.get('/getSoalJURNAL').then(response => {
+            // get soal from soal__jurnals and soal__fitbs 
+            // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
+            globe.randomNumber = globe.tpPickRandomProgram();
+            globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
+            globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
+            globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')  
+            }); 
+            
+            break;
 
+          case 3:
+            
+            // Realtime connection make changes to status 3
+            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
+            // new : no need to send jawaban because it's presentasi (new status 2)
+            if(isRealtime){
+              
+             
+            }
+
+            // Start opening Mandiri Section and get all SOAL from
+            // get soal from soal__mandiris
+            
+            // new: start opening jurnal section, 
+            // get all soal from: get soal from soal__jurnal, soal__fitb
+            globe.$axios.get('/getSoalJURNAL').then(response => {
+              ///////  New Codes Below:
               if(response.data.message === "success") {
 
                 if(response.data.all_soal !== null){
@@ -1692,7 +1719,8 @@ export default {
                 });
               }
             }); 
-            globe.$axios.get('/getSoalFITB').then(response => {
+          
+             globe.$axios.get('/getSoalFITB').then(response => {
 
               if(response.data.message === "success") {
 
@@ -1717,73 +1745,14 @@ export default {
               }
             });
             break;
-
-          case 3:
             
-            // Realtime connection make changes to status 3
-            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
-            if(isRealtime){
-              
-              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(response => {
-
-                if(response.data.message === "success") {
-                  // Do nothing as all of jawaban successfully saved to the DB
-                  
-                } else {
-                  globe.$toasted.global.showError({
-                    message: response.data.message
-                  });
-                }
-              }); 
-
-              globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
-
-                if(response.data.message === "success") {
-                  // Do nothing as all of jawaban successfully saved to the DB
-                  
-                } else {
-                  globe.$toasted.global.showError({
-                    message: response.data.message
-                  });
-                }
-              }); 
-            }
-
-            // Start opening Mandiri Section and get all SOAL from
-            // get soal from soal__mandiris
-            globe.$axios.get('/getSoalMANDIRI/'+globe.current_praktikum.modul_id+'/'+globe.current_praktikum.kelas_id).then(response => {
-
-              if(response.data.message === "success") {
-
-                if(response.data.all_soal !== null){
-
-                  globe.soalMandiri = response.data.all_soal;
-                  for (let index = 0; index < globe.soalMandiri.length; index++) {
-                    const soal = globe.soalMandiri[index];
-                    globe.jawabanMandiri.push({
-                      soal_id: soal.id,
-                      modul_id: soal.modul_id,
-                      praktikan_id: globe.currentUser.id,
-                      jawaban: '',
-                    });
-                  }
-                }
-
-              } else {
-                globe.$toasted.global.showError({
-                  message: response.data.message
-                });
-              }
-            }); 
-            break;
-
           case 4:
-            
+
             // Realtime connection make changes to status 4
-            // Meaning we should send jawaban in status 3 (Soal Mandiri)
+            // Meaning we should send jawaban in status 3 (Soal Jurnal)
             if(isRealtime){
               
-              globe.$axios.post('/sendJawabanMandiri', globe.jawabanMandiri).then(response => {
+              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(response => { 
 
                 if(response.data.message === "success") {
                   // Do nothing as all of jawaban successfully saved to the DB
@@ -1793,8 +1762,22 @@ export default {
                     message: response.data.message
                   });
                 }
+              });
+           globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
               }); 
+              
+              
             }
+          
+            
 
             // Start Opening TK and grab all SOAL from it
             // (get RANDOMIZED soal from soal__tks)
@@ -1833,8 +1816,8 @@ export default {
                 });
               }
             }); 
-            break;
-
+          
+          break;
           case 5: 
 
             if(globe.isRunmod) {

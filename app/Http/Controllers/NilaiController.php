@@ -268,6 +268,18 @@ class NilaiController extends Controller
             'message' => 'success',
         ], 200);
     }
+    public function showApi($praktikan_nim, $modul_id)
+    {
+        $id= Praktikan::where("nim",$praktikan_nim)->first()->id;
+        $currentNilai = Nilai::where('praktikan_id', $id)
+            ->where('modul_id', $modul_id)
+            ->first();
+
+        return response()->json([
+            'message' => 'success',
+            'nilai' => $currentNilai,
+        ], 200);
+    }
 
     /**
      * Update the specified resource in storage.
