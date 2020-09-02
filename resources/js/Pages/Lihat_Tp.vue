@@ -8,7 +8,7 @@
         <span class="m-auto">{{ praktikanNim != '' ? praktikanNim : "none" }}</span>
       </div>
       <div class="sm:w-1/2 w-auto sm:h-auto h-1/2 m-auto text-lg text-yellow-500 font-overpass-bold flex">
-        <span class="m-auto truncate">{{ chosenModulID != '' ? allModul[chosenModulID].judul : "none" }}</span>
+        <span class="m-auto truncate">{{ chosenModulID != '' ? allModul[chosenModulID-1].judul : "none" }}</span>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
                 class="w-full flex-row h-auto">
               <div class="w-full h-auto flex my-10">
                 <div class="h-full w-12 flex font-merri-bold text-sm sm:text-xl">
-                  <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                  <div class="m-auto w-auto h-auto">{{ index +1 }}</div>
                 </div>
                 <div class="h-12 px-1 w-4">
                   <div class="h-full w-full bg-gray-900"/>
