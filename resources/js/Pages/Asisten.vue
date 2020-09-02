@@ -415,7 +415,7 @@ export default {
 
   data() {
     return {
-      kelasPriviledge: [],
+      kelasPriviledge: [1,2,4,5],
       plottingPriviledge: [1,2,4,5],
       modulPriviledge: [1,2,4,15,7],
       konfigurasiPriviledge: [1,2,4,18,7],
