@@ -431,7 +431,7 @@
                       </div>
                         <textarea v-model="soalPresentasi" cols="30" rows="10"
                                 class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 break-words whitespace-pre-wrap flex" 
-                                type="text" placeholder="Oops, ada TP program yang dikosongkan! Refresh siapatau dapat yang kamu sudah buat hehe" >
+                                type="text" placeholder="Oops, ada TP program yang dikosongkan!" >
                                 
                             </textarea>
                     </div>
@@ -1672,7 +1672,7 @@ export default {
             // Start opening Jurnal Section and get all SOAL from
             // get soal from soal__jurnals and soal__fitbs 
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
-            globe.randomNumber = globe.tpPickRandomProgram();
+            globe.randomNumber=globe.tpPickRandomProgram()
             globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
             globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
             globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')  

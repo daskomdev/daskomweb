@@ -39,6 +39,7 @@ class LaporanPjController extends Controller
      */
     public function store(Request $request)
     {
+        
         Laporan_Pj::create([
             'allasisten_id' => $request->allasisten_id,
             'laporan'       => $request->laporan,
@@ -46,7 +47,7 @@ class LaporanPjController extends Controller
             'shift'         => $request->shift,
             'modul_id'      => $request->modul_id,
         ]);
-
+        
         $id = Laporan_Pj::where('hari', $request->hari)
             ->where('shift', $request->shift)
             ->where('modul_id', $request->modul_id)
