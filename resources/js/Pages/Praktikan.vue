@@ -1061,6 +1061,7 @@ export default {
       programmingQuote: 'nothing',
       quoteAuthor: '',
       randomNumber:'',
+      ATCnim:'',
       soalPresentasi: [],
       soalTA: [],
       soalTK: [],
@@ -1451,6 +1452,14 @@ export default {
     {
          return Math.floor(Math.random()*3)+5;
     },
+    
+    pickATCnim: function()
+    {
+      const globe=this;
+        if(globe.currentUser.kelas.substring(6, 10) == 'INT'){
+          return '1101170002';
+        } else return '1101170001';
+    },
 
     shuffleArr: function($arr){
 
@@ -1673,9 +1682,11 @@ export default {
             // get soal from soal__jurnals and soal__fitbs 
             // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
             globe.randomNumber=globe.tpPickRandomProgram()
-            globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
+            globe.ATCnim=globe.pickATCnim()
+            globe.$axios.post('api/getTp/'+globe.ATCnim+'/'+globe.current_praktikum.modul_id).then(response => {
             globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
-            globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')  
+            globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')
+            globe.soalPresentasi = globe.soalPresentasi.replace(/\\t/g,'    ')  
             }); 
             
             break;
