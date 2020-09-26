@@ -436,7 +436,7 @@
                             </textarea>
                     </div>
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang kalian gunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang digunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
                           </div>
                   </div>
                 </div>
@@ -1686,7 +1686,8 @@ export default {
             globe.$axios.post('api/getTp/'+globe.ATCnim+'/'+globe.current_praktikum.modul_id).then(response => {
             globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
             globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')
-            globe.soalPresentasi = globe.soalPresentasi.replace(/\\t/g,'    ')  
+            globe.soalPresentasi = globe.soalPresentasi.replace(/\\t/g,'    ') 
+            globe.soalPresentasi = globe.soalPresentasi.replace(/\\"/g,'"') 
             }); 
             
             break;
