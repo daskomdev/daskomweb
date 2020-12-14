@@ -102,7 +102,7 @@
                         :class="[{ 'text-yellow-100 cursor-pointer': !soalOpened },
                                 { 'text-black': soalOpened }]"
                         v-on:click="soalOpened = true">
-                      <span class="m-auto">SOAL <span class="font-overpass text-lg pt-0">(klik tombol selesai dipaling bawah jika sudah selesai)</span></span>
+                      <span class="m-auto">SOAL <span class="font-overpass text-lg pt-0">(klik tombol simpan di paling bawah untuk menyimpan)</span></span>
                     </div>
                     <div class="absolute bottom-0 w-full h-12full flex">
                       <div class="w-full h-full" v-bar>
@@ -154,7 +154,7 @@
                                 v-on:click="saveJawabanTP()">
                               <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-green-600">
                                 <div class="m-auto">
-                                  Selesai
+                                  Simpan
                                 </div>
                               </div>
                             </div>
@@ -201,7 +201,7 @@
             <!-- When polling enabled -->
             <div v-if="isPollingEnabled" class="w-full h-full flex">
               <div v-if="pollingComplete_mutable" class="font-monda-bold h-auto w-auto m-auto text-center text-5xl"> 
-                <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2019/2020 🎉🎉</span>
+                <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2020/2021 🎉🎉</span>
               </div>
               <div v-if="!pollingComplete_mutable" class="w-full h-full py-4 relative">
 
@@ -265,8 +265,8 @@
                         class="animation-enable-short relative w-auto h-auto my-auto flex mx-2">
                       <div class="animation-enable-short w-auto h-auto rounded-lg flex bg-teal-200 hover:bg-teal-300 p-3 hover:p-4 pointer-events-auto cursor-pointer"
                           v-on:click="setPilihanPolling(index, allAsisten[chosenAsisten].id)">
-                        <div class="font-overpass-bold h-auto w-auto m-auto text-center text-lg text-black pointer-events-none">
-                          <span>{{ polling.judul }} [{{ polling.asisten_id == undefined ? '' : allAsisten[polling.asisten_id-1].kode }}]</span>
+                        <div class="font-overpass-bold h-auto w-auto m-auto text-center text-lg text-black pointer-events-none"> 
+                          <span>{{ polling.judul }} [{{ polling.asisten_id == undefined ? '' : allAsisten.find(x=> x.id === polling.asisten_id).kode }}]</span>
                         </div>
                       </div>
                     </div>
@@ -431,7 +431,7 @@
                       </div>
                         <textarea v-model="soalPresentasi" cols="30" rows="10"
                                 class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 break-words whitespace-pre-wrap flex" 
-                                type="text" placeholder="Oops, ada TP program yang dikosongkan!" >
+                                type="text" placeholder="Oops, ada program yang dikosongkan! Coba refresh halaman ini" >
                                 
                             </textarea>
                     </div>
