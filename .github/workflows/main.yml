@@ -11,14 +11,11 @@ jobs:
     runs-on: [ubuntu-latest]
       
     steps:
-    - uses: actions/checkout@v2
-    
-    steps:
     - name: Determine Composer cache directory
+    - uses: actions/checkout@v2
       shell: bash
       run: "echo \"COMPOSER_CACHE_DIR=$(composer config cache-dir)\" >> $GITHUB_ENV"
 
-    steps:
     - name: Cache dependencies installed with Composer
       uses: actions/cache@v2
       with:
@@ -27,7 +24,6 @@ jobs:
         restore-keys: |
           os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
 
-    steps:
     - name: Install composer dependencies
       uses: php-actions/composer@v4
       with:
@@ -44,7 +40,6 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '14'
-
     - run: npm install
 
   deploy:
@@ -52,9 +47,9 @@ jobs:
     runs-on: [ubuntu-latest]
 
     steps:
-    - uses: actions/checkout@v2
     - name: Connecting and Deploying to VPS 
-      uses: appleboy/ssh-action@master
+    - uses: actions/checkout@v2
+    - uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_IP }}
         username: ${{ secrets.SERVER_USERNAME }}
@@ -80,8 +75,7 @@ jobs:
           #
           echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod > status.txt
           if grep -q -i 'compiled successfully' status.txt; then echo 'Compiled Successfull'; else echo 'Compilation Failed'; fi
-          
-    steps:
+        
     - name: Rerunning npm run prod when failed
       uses: appleboy/ssh-action@master
       with:
@@ -94,7 +88,6 @@ jobs:
           echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod > status.txt
           if grep -q -i 'compiled successfully' status.txt; then echo 'Compiled Successfull'; else echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod > status.txt; fi
           
-    steps:
     - name: Opening site if npm run prod succeeded
       uses: appleboy/ssh-action@master
       with:
