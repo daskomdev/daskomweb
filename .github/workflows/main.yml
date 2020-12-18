@@ -67,8 +67,6 @@ jobs:
       - name: Commit changes and zip the folder
         shell: bash
         run: |
-          rm .gitignore
-          git add -A && git commit -m "add all build result"
           zip -r daskomweb_build.zip .
           
       - name: Upload all build result to server
