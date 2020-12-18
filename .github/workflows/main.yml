@@ -30,17 +30,56 @@ jobs:
           php_version: 7.2
           composer_version: 1
 
+      - name: Zip composer install result
+        shell: bash
+        run: |
+          zip -r build_composer.zip vendor composer.lock
+
+      - name: Upload composer install result
+        uses: actions/upload-artifact@v2
+        with:
+          name: build_composer_result
+          path: build_composer.zip
+
   build_nodejs:
     needs: build_composer
     runs-on: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
+      - name: Download composer install result
+        uses: actions/download-artifact@v2
+        with:
+          name: build_composer_result
+
+      - name: Unzip composer install result
+        shell: bash
+        run: |
+          unzip -o build_composer.zip
+          rm build_composer.zip
+
       - name: Install nodejs dependencies
         uses: actions/setup-node@v2
         with:
           node-version: '14'
       - run: npm install
+
+      - name: Commit changes and zip the folder
+        shell: bash
+        run: |
+          rm .gitignore
+          git add -A && git commit -m "add all build result"
+          zip -r daskomweb_build.zip .
+          
+      - name: Upload all build result to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "daskomweb_build.zip"
+          target: "~/"
 
   deploy:
     needs: [build_composer, build_nodejs]
@@ -56,13 +95,15 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            git clone https://github.com/daskomdev/daskomweb.git daskomweb_build
+            rm -rf ${{ secrets.PROJECT_PATH_TEMP }}
+            mkdir ${{ secrets.PROJECT_PATH_TEMP }}
+            cd ${{ secrets.PROJECT_PATH_TEMP }} 
+            mv daskomweb_build.zip ./ && unzip daskomweb_build.zip && rm daskomweb_build.zip
             #
             ##
             ### Setting up build folder for the project
             ##
             #
-            cd ${{ secrets.PROJECT_PATH_TEMP }}
             echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo chmod +777 -R storage
             mv ~/entrypoint-scripts/laravel-echo-server.json .
             mv ~/entrypoint-scripts/runEcho.sh .
