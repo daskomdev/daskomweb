@@ -58,11 +58,16 @@ jobs:
           unzip -o build_composer.zip
           rm build_composer.zip
 
+      - name: Download production env
+        shell: bash
+        run: wget ${{ secrets.ENV_GIST }} -O .env
+
       - name: Install nodejs dependencies
         uses: actions/setup-node@v2
         with:
           node-version: '14'
       - run: npm install
+      - run: npm run prod
 
       - name: Commit changes and zip the folder
         shell: bash
@@ -105,7 +110,6 @@ jobs:
             echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo chmod +777 -R storage
             cp ~/entrypoint-scripts/laravel-echo-server.json .
             cp ~/entrypoint-scripts/runEcho.sh .
-            cp ~/entrypoint-scripts/.env .
             sed -i 's/:6001//g' resources/js/app.js
             #
             ##
