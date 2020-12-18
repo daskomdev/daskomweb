@@ -96,16 +96,16 @@ jobs:
             rm -rf ${{ secrets.PROJECT_PATH_TEMP }}
             mkdir ${{ secrets.PROJECT_PATH_TEMP }}
             cd ${{ secrets.PROJECT_PATH_TEMP }} 
-            mv daskomweb_build.zip ./ && unzip daskomweb_build.zip && rm daskomweb_build.zip
+            mv ~/daskomweb_build.zip ./ && unzip daskomweb_build.zip && rm daskomweb_build.zip
             #
             ##
             ### Setting up build folder for the project
             ##
             #
             echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo chmod +777 -R storage
-            mv ~/entrypoint-scripts/laravel-echo-server.json .
-            mv ~/entrypoint-scripts/runEcho.sh .
-            mv ~/entrypoint-scripts/.env .
+            cp ~/entrypoint-scripts/laravel-echo-server.json .
+            cp ~/entrypoint-scripts/runEcho.sh .
+            cp ~/entrypoint-scripts/.env .
             sed -i 's/:6001//g' resources/js/app.js
             #
             ##
