@@ -6,89 +6,9 @@ on:
     types: [ closed ]
 
 jobs:
-  build_composer:
+  connect_and_build:
     if: github.event.pull_request.merged == true
     runs-on: [ubuntu-latest]
-      
-    steps:
-      - uses: actions/checkout@v2
-      - name: Determine Composer cache directory
-        shell: bash
-        run: "echo \"COMPOSER_CACHE_DIR=$(composer config cache-dir)\" >> $GITHUB_ENV"
-
-      - name: Cache dependencies installed with Composer
-        uses: actions/cache@v2
-        with:
-          path: "${{ env.COMPOSER_CACHE_DIR }}"
-          key: os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys: |
-            os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - name: Install composer dependencies
-        uses: php-actions/composer@v4
-        with:
-          php_version: 7.2
-          composer_version: 1
-
-      - name: Zip composer install result
-        shell: bash
-        run: |
-          zip -r build_composer.zip vendor composer.lock
-      - name: Upload composer install result
-        uses: actions/upload-artifact@v2
-        with:
-          name: build_composer_result
-          path: build_composer.zip
-
-  build_nodejs:
-    needs: build_composer
-    runs-on: [ubuntu-latest]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download composer install result
-        uses: actions/download-artifact@v2
-        with:
-          name: build_composer_result
-
-      - name: Unzip composer install result
-        shell: bash
-        run: |
-          unzip -o build_composer.zip
-          rm build_composer.zip
-      - name: Download production env
-        shell: bash
-        run: wget ${{ secrets.ENV_GIST }} -O .env
-
-      - name: Change socket.io port
-        shell: bash
-        run: sed -i 's/:6001//g' ./resources/js/app.js
-
-      - name: Install nodejs dependencies
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - run: npm install
-      - run: npm run prod
-
-      - name: Commit changes and zip the folder
-        shell: bash
-        run: |
-          zip -r daskomweb_build.zip .
-          
-      - name: Upload all build result to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.PORT }}
-          source: "daskomweb_build.zip"
-          target: "~/"
-
-  deploy:
-    needs: [build_composer, build_nodejs]
-    runs-on: [ubuntu-latest]
-
     steps:
       - uses: actions/checkout@v2
       - name: Connecting and Deploying to VPS 
@@ -99,27 +19,49 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            rm -rf ${{ secrets.PROJECT_PATH_TEMP }}
-            mkdir ${{ secrets.PROJECT_PATH_TEMP }}
-            cd ${{ secrets.PROJECT_PATH_TEMP }} 
-            mv ~/daskomweb_build.zip ./ && unzip daskomweb_build.zip && rm daskomweb_build.zip
-            #
-            ##
-            ### Setting up build folder for the project
-            ##
-            #
-            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo chmod +777 -R storage
-            cp ~/entrypoint-scripts/laravel-echo-server.json .
-            cp ~/entrypoint-scripts/runEcho.sh .
-            #
-            ##
-            ### Deploy them allllll
-            ##
-            #
-            cd ~/
-            rm -rf ${{ secrets.PROJECT_PATH }}
-            mv ${{ secrets.PROJECT_PATH_TEMP }} ${{ secrets.PROJECT_PATH }}
             cd ${{ secrets.PROJECT_PATH }}
             pm2 delete all
+            mv laravel-echo-server.json ~
+            mv runEcho.sh ~
+            mv .env ~
+            php artisan down
+            cd ~
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S rm -rf ${{ secrets.PROJECT_PATH }}
+            git clone https://github.com/daskomdev/daskomweb.git
+            cd ${{ secrets.PROJECT_PATH }}
+            php -d memory_limit=-1 composer.phar
+            composer install
+            php artisan down
+            npm install
+            npm install --save @inertiajs/inertia-vue
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo chmod +777 -R storage
+            mv ~/laravel-echo-server.json .
+            mv ~/runEcho.sh .
+            mv ~/.env .
+            sed -i 's/:6001//g' resources/js/app.js
             pm2 start runEcho.sh
-            php artisan up
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod > status.txt
+            if grep -q -i 'compiled successfully' status.txt; then echo 'Compiled Successfull'; else echo 'Compilation Failed'; fi
+            
+      - name: Rerunning npm run prod when failed
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod > status.txt
+            if grep -q -i 'compiled successfully' status.txt; then echo 'Compiled Successfull'; else echo ${{ secrets.ROOT_PASSWORD }} | sudo -S npm run prod > status.txt; fi
+            
+      - name: Opening site if npm run prod succeeded
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+            if grep -q -i 'compiled successfully' status.txt; then php artisan up; else echo 'Compilation Failed'; fi
