@@ -31,7 +31,7 @@
               </div>
               <div class="w-1 h-3/4 my-auto bg-yellow-500"/>
               <div class="flex w-1/2min mr-auto h-full pt-1 items-center font-overpass-bold text-2xl text-white ml-4">
-                <span class="whitespace-pre-wrap">Rp. {{ gajiAsisten }}</span> 
+                <span class="whitespace-pre-wrap">Rp. {{ gajiAsisten }} | Pajak kas: {{ taxRate }} * gaji</span> 
               </div>
             </div>
           </div>
@@ -515,6 +515,7 @@ export default {
       if(response.data.message === "success") {
         globe.ratingAsisten = response.data.ratingAsisten;
         globe.gajiAsisten = response.data.gajiAsisten;
+        globe.taxRate = response.data.taxRate;
 
       } else {
         globe.$toasted.global.showError({
