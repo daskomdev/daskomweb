@@ -77,7 +77,7 @@ class AsistenController extends Controller
         foreach ($allAsistenData as $key => $value) {
             $ratingAsisten += $value->rating_asisten;    
         }
-
+        $taxRate=0.05;
         $intHistoryCount = 0;
         $regHistoryCount = 0;
         foreach ($allAsistenHistory as $history => $value)
@@ -91,13 +91,14 @@ class AsistenController extends Controller
             $ratingAsisten /= count($allAsistenData);
             $gajiAsisten = $regHistoryCount * 25000;
             $gajiAsisten += $intHistoryCount * 62500;
-            $gajiAsisten -= ($gajiAsisten * 0.1);
+            $gajiAsisten -= ($gajiAsisten * $taxRate);
         }
 
         return response()->json([
             'message'=> 'success',
             'ratingAsisten' => $ratingAsisten,
             'gajiAsisten' => $gajiAsisten,
+            'taxRate' => $taxRate,
         ], 200);
     }
 
