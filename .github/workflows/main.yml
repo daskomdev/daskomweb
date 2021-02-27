@@ -21,13 +21,13 @@ jobs:
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys: |
-            os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          #restore-keys: |
+            #os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Install composer dependencies
         uses: php-actions/composer@v5
         with:
           php_version: 7.2
-          composer_version: 1
+          version: 1
 
       - name: Zip composer install result
         shell: bash
