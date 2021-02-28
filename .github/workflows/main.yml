@@ -21,13 +21,13 @@ jobs:
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-          #restore-keys: |
-            #os-${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          
       - name: Install composer dependencies
         uses: php-actions/composer@v5
         with:
           php_version: 7.2
           version: 1
+          command: COMPOSER_MEMORY_LIMIT=-1 composer install
 
       - name: Zip composer install result
         shell: bash
@@ -99,7 +99,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            rm -rf ${{ secrets.PROJECT_PATH_TEMP }}
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo rm -rf ${{ secrets.PROJECT_PATH_TEMP }}
             mkdir ${{ secrets.PROJECT_PATH_TEMP }}
             cd ${{ secrets.PROJECT_PATH_TEMP }} 
             mv ~/daskomweb_build.zip ./ && unzip daskomweb_build.zip && rm daskomweb_build.zip
@@ -117,7 +117,7 @@ jobs:
             ##
             #
             cd ~/
-            rm -rf ${{ secrets.PROJECT_PATH }}
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S sudo rm -rf ${{ secrets.PROJECT_PATH }}
             mv ${{ secrets.PROJECT_PATH_TEMP }} ${{ secrets.PROJECT_PATH }}
             cd ${{ secrets.PROJECT_PATH }}
             pm2 delete all
