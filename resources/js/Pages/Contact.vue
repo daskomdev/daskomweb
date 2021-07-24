@@ -35,7 +35,7 @@
                 <img class="fab fa-line w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                OA LINE
+                @875lgds
               </div>
             </div>
 
@@ -48,21 +48,17 @@
               </div>
             </div>
 
-            <div class="font-monda-bold text-2xl mt-8">
-              Muhammad Dimas [ DIM ]
-            </div>
-
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
               <span class="w-8 h-full">
-                <img class="fas fa-phone w-full h-full">
+                <img class="fab fa-youtube w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                081384385843
+                Daskom Tel-U
               </div>
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Iffat Ahmad Baihaki [ DOI ]
+              Zidan Surya Gilbran [ ZEN ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -70,7 +66,36 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                081243473761
+                081220020093  
+              </div>
+            </div>
+            <div class="pl-4 font-overpass-mono text-xl flex h-8 mt-4">
+              <span class="w-8 h-full">
+                <img class="fab fa-line w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                zidansurya
+              </div>
+            </div>
+
+            <div class="font-monda-bold text-2xl mt-8">
+              Muhammad Altaharik Hudzaifa [ RIK ]
+            </div>
+
+            <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
+              <span class="w-8 h-full">
+                <img class="fas fa-phone w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                085158522710
+              </div>
+            </div>
+            <div class="pl-4 font-overpass-mono text-xl flex h-8 mt-4">
+              <span class="w-8 h-full">
+                <img class="fab fa-line w-full h-full">
+              </span>
+              <div class="my-auto pl-4">
+                altaharik.hudzaifa
               </div>
             </div>
 
