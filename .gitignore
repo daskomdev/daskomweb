@@ -13,3 +13,6 @@ laravel-echo-server.lock
 *.lock
 .env
 *-lock.json
+vhost.conf
+init_db.sql
+*.sh
