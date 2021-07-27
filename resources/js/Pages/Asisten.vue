@@ -31,7 +31,7 @@
               </div>
               <div class="w-1 h-3/4 my-auto bg-yellow-500"/>
               <div class="flex w-1/2min mr-auto h-full pt-1 items-center font-overpass-bold text-2xl text-white ml-4">
-                <span class="whitespace-pre-wrap">Rp. {{ gajiAsisten }} | Pajak kas: {{ taxRate }} * gaji</span> 
+                <span class="whitespace-pre-wrap">Rp. {{ gajiAsisten }} | Pajak kas: {{ taxRate*100 }}% x gaji</span> 
               </div>
             </div>
           </div>
@@ -60,14 +60,14 @@
         </div>
         <!--Route Incomplete , edit profil will only show if inside profil (asisten.vue)-->
         <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-green-400 hover:bg-green-600': !changePage || !menuPraktikum },
-                    { 'bg-green-500 text-white': changePage && menuPraktikum }]"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPraktikum },
+                    { 'bg-yellow-500 text-white': changePage && menuPraktikum }]"
             v-on:click='travel("upload") ;'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-address-card">
           </div>
-          <span class="ml-6 font-merri font-medium w-full text-start self-center text-l">
+          <span class="ml-6 font-merri font-bold w-full text-start self-center text-xl">
             Edit Foto
           </span>
         </div>
