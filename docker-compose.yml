@@ -1,0 +1,76 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: daskom
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: daskomlab
+    container_name: daskomlab-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    ports:
+      - 9000:9000
+      - 6001:6001
+    volumes:
+      - ./:/var/www
+    networks:
+      - laravel
+
+  db:
+    image: mysql:5.7.22
+    container_name: daskomlab-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+    - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - laravel
+
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: daskomlab-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    environment: 
+      PMA_HOST: ${DB_HOST}
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+    ports: 
+      - 8081:80
+    networks: 
+      - laravel
+  
+  redis:
+    image: redis:6.0.1-alpine
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge

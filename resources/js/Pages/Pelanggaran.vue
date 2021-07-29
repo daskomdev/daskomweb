@@ -260,18 +260,18 @@
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
       <div class="w-full h-full pt-1 flex-row" v-bar>
-        <div>
+        <div class="mt-5">
           <transition-group name="laporan-list" tag="div">
             <div v-for="(asisten, index) in allAsisten" v-bind:key="asisten.id" 
                 class="animation-enable w-full h-auto flex">
               <div class="w-auto h-auto m-auto">
-                <span class="w-1/2 h-full font-overpass text-yellow-400">
-                  {{ index+1 }}. {{ asisten.nama }}({{ asisten.kode }})
+                <span class="w-1/2 h-full font-overpass text-xl text-yellow-300">
+                  {{ index+1 }}. {{ asisten.nama }} ({{ asisten.kode }})
                 </span>
                 <span class="w-1/2 h-full"
                     :class="[{ 'font-monda-bold text-red-400' : asisten.nilaiUnexists > 0 },     
-                            { 'font-monda text-green-400' : asisten.nilaiUnexists <= 0 }]">
-                  , Total belum input nilai: {{ asisten.nilaiUnexists }}
+                            { 'font-monda text-green-300' : asisten.nilaiUnexists <= 0 }]">
+                  , Total belum input nilai: <span class="font-bold">{{ asisten.nilaiUnexists }}</span>
                 </span>
               </div>
             </div>

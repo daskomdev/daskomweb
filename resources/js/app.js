@@ -41,7 +41,8 @@ import { faExclamationCircle,
         faRadiationAlt,
         faUsers} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
-        faInstagram } from '@fortawesome/free-brands-svg-icons';
+        faInstagram, 
+        faYoutube} from '@fortawesome/free-brands-svg-icons';
 import Vuebar from 'vuebar';
 import StarRating from 'vue-star-rating';
 import ToggleButton from 'vue-js-toggle-button'
@@ -88,6 +89,7 @@ library.add(faQrcode);
 library.add(faBookOpen);
 library.add(faClipboardCheck);
 library.add(faRadiationAlt);
+library.add(faYoutube);
 dom.watch(); 
 
 Vue.use(VueAnime)
