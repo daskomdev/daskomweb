@@ -159,7 +159,7 @@
           </div>
         </div>
 
-        <div v-if="modulPriviledge.includes(currentUser.role_id) || modulPriviledge == 'all'">
+        <div v-if="konfigurasiPriviledge.includes(currentUser.role_id) || konfigurasiPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuKonfigurasi },
                       { 'bg-yellow-500 text-white': changePage && menuKonfigurasi }]"
