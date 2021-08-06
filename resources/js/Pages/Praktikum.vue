@@ -38,7 +38,8 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none animation-enable"
+          <!-- This feature has disabled -->
+          <!-- <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
                       { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
@@ -48,7 +49,7 @@
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               List TP
             </span>
-          </div>
+          </div> -->
 
           <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
@@ -206,7 +207,8 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+          <!-- This feature has disabled -->
+          <!-- <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
                       { 'bg-yellow-500 text-white': changePage && menuListTp }]"
               v-on:click='travel("listTp")'>
@@ -217,7 +219,7 @@
             <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
               List TP
             </span>
-          </div>
+          </div> -->
 
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
