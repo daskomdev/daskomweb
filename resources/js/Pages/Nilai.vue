@@ -265,7 +265,7 @@
           <transition-group name="laporan-list" tag="div">
             <div v-for="(laporan, index) in listAllLaporan" v-bind:key="laporan.id" 
                 class="animation-enable w-full h-120 flex">
-              <div class="w-full h-full px-6 flex-row mt-2">
+              <div class="w-full h-full px-6 flex-row mt-2 pb-4">
                 <div class="w-full h-12 flex">
                   <div class="w-auto h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
                     <span>{{ laporan.nim }} [{{ laporan.nama }}]</span>
@@ -300,7 +300,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="w-3/4 h-full p-4 bg-gray-400 rounded-r-lg overflow-y-auto flex">
+                  <div class="w-3/4 h-full p-4 bg-gray-200 rounded-r-lg overflow-y-auto flex">
                     <div class="w-full h-full whitespace-pre-wrap break-words font-overpass text-2xl text-black">
                       <span class="font-monda-bold text-3xl">Pesan :</span>
                       <br>
@@ -310,18 +310,20 @@
                   </div>
                   <div class="absolute bottom-0 p-0 hover:p-1 animation-enable-short cursor-pointer flex font-monda-bold text-xl right-0 m-4 w-auto h-12"
                       v-on:click="showNilaiPage(laporan.praktikan_id, laporan.modul_id, laporan.kelas_id, index)">
-                    <div class="w-full h-full p-2 bg-yellow-600 text-white rounded-lg">
-                      <span>Lihat Nilai</span>
+                    <div :class="[{'w-full h-full p-2 bg-green-300 text-green-800 rounded-lg': laporan.nilaiExists },
+                                  {'w-full h-full p-2 bg-red-500 text-white rounded-lg': !laporan.nilaiExists }]">
+                      <span v-if="laporan.nilaiExists">Lihat Nilai</span>
+                      <span v-if="!laporan.nilaiExists">Nilai Sekarang</span>
                     </div>
                   </div>
                 </div>
                 <div class="w-full h-12 flex px-8">
                   <div class="w-full h-full flex rounded-b-lg"
-                    :class="[{ 'bg-gray-200': laporan.nilaiExists },
-                            { 'bg-green-300': !laporan.nilaiExists }]">
+                    :class="[{ 'bg-green-300': laporan.nilaiExists },
+                            { 'bg-red-500': !laporan.nilaiExists }]">
                     <div class="w-auto h-auto m-auto font-overpass-bold whitespace-pre-wrap break-words text-2xl"
-                      :class="[{ 'text-black': laporan.nilaiExists },
-                              { 'text-green-700': !laporan.nilaiExists }]">
+                      :class="[{ 'text-green-700': laporan.nilaiExists },
+                              { 'text-white': !laporan.nilaiExists }]">
                       <span v-if="laporan.nilaiExists">Nilai sudah dimasukkan</span>
                       <span v-if="!laporan.nilaiExists">Nilai belum dimasukkan !!!</span>
                     </div>
