@@ -330,23 +330,24 @@ Route::get('/tp', function () {
     ]);
 })->name('tp')->middleware('loggedIn:asisten');
 
-Route::get('/listTp', function () {
-    $user = Auth::guard('asisten')->user();
-    $userRole = Role::where('id', $user->role_id)->first();
-    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
-    $position = request('position') === null ? 0:request('position');
-    $allKelas = Kelas::all();
-    $allModul = Modul::all();
+# DISABLE THIS ROUTE
+// Route::get('/listTp', function () {
+//     $user = Auth::guard('asisten')->user();
+//     $userRole = Role::where('id', $user->role_id)->first();
+//     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+//     $position = request('position') === null ? 0:request('position');
+//     $allKelas = Kelas::all();
+//     $allModul = Modul::all();
 
-    return Inertia::render('ListTp', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'allKelas' => $allKelas,
-        'allModul' => $allModul,
-    ]);
-})->name('listTp')->middleware('loggedIn:asisten');
+//     return Inertia::render('ListTp', [
+//         'comingFrom' => $comingFrom,
+//         'currentUser' => $user,
+//         'position' => $position,
+//         'userRole' => $userRole->role,
+//         'allKelas' => $allKelas,
+//         'allModul' => $allModul,
+//     ]);
+// })->name('listTp')->middleware('loggedIn:asisten');
 
 Route::get('/nilai', function () {
     $user = Auth::guard('asisten')->user();
