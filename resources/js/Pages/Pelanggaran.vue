@@ -272,7 +272,9 @@
                 <span class="w-1/2 h-full"
                     :class="[{ 'font-monda-bold text-red-400' : asisten.nilaiUnexists > 0 },     
                             { 'font-monda text-green-300' : asisten.nilaiUnexists <= 0 }]">
-                  , Total belum input nilai: <span class="font-bold">{{ asisten.nilaiUnexists }}</span>
+                  , Total belum input nilai: <span class="font-bold">{{ asisten.nilaiUnexists }}
+                    <span v-if="asisten.nilaiUnexists > 0" class="text-red-500">(ALERT)</span>
+                  </span>
                 </span>
               </div>
             </div>
