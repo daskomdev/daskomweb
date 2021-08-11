@@ -139,13 +139,16 @@ Route::get('/kelas', function () {
     $allKelas = Kelas::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
-    return Inertia::render('Kelas', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'allKelas' => $allKelas,
-    ]);
+    $kelasPrivilege = array(1,2,4,5);
+    if(in_array($userRole->id,$kelasPrivilege,true)){
+        return Inertia::render('Kelas', [
+            'comingFrom' => $comingFrom,
+            'currentUser' => $user,
+            'position' => $position,
+            'userRole' => $userRole->role,
+            'allKelas' => $allKelas,
+        ]);
+    }else return redirect('/');
 })->name('kelas')->middleware('loggedIn:asisten');
 
 Route::get('/modul', function () {
@@ -154,13 +157,16 @@ Route::get('/modul', function () {
     $allModul = Modul::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
-    return Inertia::render('Modul', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'allModul' => $allModul,
-    ]);
+    $modulPrivilege = array(1,2,4,15,7);
+    if(in_array($userRole->id,$modulPrivilege,true)){
+        return Inertia::render('Modul', [
+            'comingFrom' => $comingFrom,
+            'currentUser' => $user,
+            'position' => $position,
+            'userRole' => $userRole->role,
+            'allModul' => $allModul,
+        ]);
+    }else return redirect('/');
 })->name('modul')->middleware('loggedIn:asisten');
 
 Route::get('/plotting', function () {
@@ -174,15 +180,18 @@ Route::get('/plotting', function () {
     $allAsisten = Asisten::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
-    return Inertia::render('Plotting', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'allJaga' => $allJaga,
-        'allKelas' => $allKelas,
-        'allAsisten' => $allAsisten,
-    ]);
+    $plottingPrivilege = array(1,2,4,5);
+    if(in_array($userRole->id,$plottingPrivilege,true)){
+        return Inertia::render('Plotting', [
+            'comingFrom' => $comingFrom,
+            'currentUser' => $user,
+            'position' => $position,
+            'userRole' => $userRole->role,
+            'allJaga' => $allJaga,
+            'allKelas' => $allKelas,
+            'allAsisten' => $allAsisten,
+        ]);
+    }else return redirect('/');
 })->name('plotting')->middleware('loggedIn:asisten');
 
 Route::get('/praktikum', function () {
@@ -210,13 +219,16 @@ Route::get('/konfigurasi', function () {
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
     $currentConfig = Configuration::find(1); // Always get the first configuration
-    return Inertia::render('Konfigurasi', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'currentConfig' => $currentConfig === null ? 'nope' : $currentConfig,
-    ]);
+    $konfigurasiPrivilege = array(1,2,4,18,7);
+    if(in_array($userRole->id,$konfigurasiPrivilege,true)){
+        return Inertia::render('Konfigurasi', [
+            'comingFrom' => $comingFrom,
+            'currentUser' => $user,
+            'position' => $position,
+            'userRole' => $userRole->role,
+            'currentConfig' => $currentConfig === null ? 'nope' : $currentConfig,
+        ]);
+    }else return redirect('/');
 })->name('konfigurasi')->middleware('loggedIn:asisten');
 
 Route::get('/pelanggaran', function () {
@@ -250,14 +262,16 @@ Route::get('/pelanggaran', function () {
 
         $asisten_val->nilaiUnexists = $nilaiUnexists;
     }
-            
-    return Inertia::render('Pelanggaran', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'allAsisten' => $allAsisten,
-    ]);
+    $pelanggaranPrivilege = array(1,2,4,5,6,18);
+    if(in_array($userRole->id,$pelanggaranPrivilege,true)){
+        return Inertia::render('Pelanggaran', [
+            'comingFrom' => $comingFrom,
+            'currentUser' => $user,
+            'position' => $position,
+            'userRole' => $userRole->role,
+            'allAsisten' => $allAsisten,
+        ]);
+    }else return redirect('/');
 })->name('pelanggaran')->middleware('loggedIn:asisten');
 
 Route::get('/polling', function () {
@@ -319,15 +333,17 @@ Route::get('/tp', function () {
                 $value->isActive = false;
         }
     }
-
-    return Inertia::render('TugasPendahuluan', [
-        'comingFrom' => $comingFrom,
-        'currentUser' => $user,
-        'position' => $position,
-        'userRole' => $userRole->role,
-        'allTP' => $allTP === null ? 'nope' : $allTP,
-        'allModul' => $allModul,
-    ]);
+    $tpPrivilege = array(1,2,15,11,7);
+    if(in_array($userRole->id,$tpPrivilege,true)){
+        return Inertia::render('TugasPendahuluan', [
+            'comingFrom' => $comingFrom,
+            'currentUser' => $user,
+            'position' => $position,
+            'userRole' => $userRole->role,
+            'allTP' => $allTP === null ? 'nope' : $allTP,
+            'allModul' => $allModul,
+        ]);
+    }else return redirect('/');
 })->name('tp')->middleware('loggedIn:asisten');
 
 # DISABLE THIS ROUTE
@@ -368,7 +384,7 @@ Route::get('/nilai', function () {
             $value->nilaiExists = true;
         else 
             $value->nilaiExists = false;
-
+    
     return Inertia::render('Nilai', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
