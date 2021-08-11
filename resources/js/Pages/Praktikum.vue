@@ -1214,9 +1214,9 @@ export default {
       // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
       // ***************************************************** //
       TAtiming: moment().startOf('day').add(10, 'minutes'),
-      JURNALtiming: moment().startOf('day').add(80, 'minutes'),
+      JURNALtiming: moment().startOf('day').add(60, 'minutes'),
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
-      MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
+      MANDIRItiming: moment().startOf('day').add(10, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
       countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming\
       today: moment().format(),
