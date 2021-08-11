@@ -315,9 +315,12 @@
           <div class="w-full h-full flex-row px-5">
             <select v-model="chosenModulID"
                   class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
-              <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
-                {{ modul.judul }}
-              </option>
+            <option class="hidden" value="" disabled selected>
+              Pilih modul
+            </option>
+            <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+              {{ modul.judul }}
+            </option>  
             </select>
           </div>
         </div>
@@ -676,7 +679,12 @@
                       <div class="w-full h-2/3 tatkOption">
                         <select v-model="formTATK.modul_id" 
                               class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">{{ modul.judul }}</option>
+                          <option class="hidden" value="" disabled selected>
+                            Pilih modul
+                          </option>
+                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                            {{ modul.judul }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -773,7 +781,12 @@
                       <div class="w-full h-2/3 tpOption">
                         <select v-model="formTP.modul_id" 
                               class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">{{ modul.judul }}</option>
+                          <option class="hidden" value="" disabled selected>
+                            Pilih modul
+                          </option>
+                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                            {{ modul.judul }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -788,6 +801,9 @@
                       <div class="w-full h-2/3 jenisSoalOption">
                         <select v-model="formTP.jenisSoal" 
                               class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                          <option class="hidden" value="" disabled selected>
+                            Pilih jenis soal
+                          </option>
                           <option value="essay">Essay</option>
                           <option value="program">Program</option>
                         </select>
@@ -828,7 +844,12 @@
                       <div class="w-full h-2/3 jmfitbOption">
                         <select v-model="formJMFITB.modul_id" 
                               class="block font-monda-bold text-3xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">{{ modul.judul }}</option>
+                          <option class="hidden" value="" disabled selected>
+                            Pilih modul
+                          </option>
+                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                            {{ modul.judul }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -886,7 +907,12 @@
                       <div class="w-full h-2/3 jmfitbOption">
                         <select v-model="formJMFITB.modul_id" 
                               class="block font-monda-bold text-3xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">{{ modul.judul }}</option>
+                          <option class="hidden" value="" disabled selected>
+                            Pilih modul
+                          </option>
+                          <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                            {{ modul.judul }}
+                          </option>
                         </select>
                       </div>
                     </div>

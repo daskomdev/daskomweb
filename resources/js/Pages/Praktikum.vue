@@ -678,7 +678,10 @@
                     class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
                     :class="[{ 'pointer-events-none': praktikumStart },
                             { 'pointer-events-auto': !praktikumStart }]">
-                <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
+                <option class="hidden" value="" disabled selected>
+                  Pilih kelas
+                </option>
+                <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id" :disabled="!kelas.id">
                   {{ kelas.kelas }} [ {{ kelas.hari.toUpperCase() }} - Shift {{ kelas.shift }} ]
                 </option>
               </select>
@@ -696,9 +699,12 @@
                     class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
                     :class="[{ 'pointer-events-none': praktikumStart },
                             { 'pointer-events-auto': !praktikumStart }]">
-                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
-                  {{ modul.judul }}
+                <option class="hidden" value="" disabled selected>
+                  Pilih modul
                 </option>
+                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                  {{ modul.judul }}
+                </option>       
               </select>
             </div>
           </div>

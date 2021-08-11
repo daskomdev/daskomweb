@@ -311,8 +311,11 @@
               <div class="w-full h-4full">
                 <select v-model="formTP.modul_id"
                       class="block font-monda-bold text-xl whitespace-pre-wrap break-words appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                  <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
-                    <span>{{ modul.judul }}</span>
+                  <option class="hidden" value="" disabled selected>
+                    Pilih modul
+                  </option>
+                  <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                    {{ modul.judul }}
                   </option>
                 </select>
               </div>
