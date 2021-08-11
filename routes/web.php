@@ -77,7 +77,7 @@ Route::get('/asisten', function () {
 Route::get('/praktikan', function () {
     $user = Auth::guard('praktikan')->user();
     $user->kelas = Kelas::where('id', $user->kelas_id)->first()->kelas;
-    $allAsisten = Asisten::all();
+    $allAsisten = Asisten::orderBy('kode','asc')->get();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $isRunmod = Configuration::find(1)->runmod_activation;
     $pollingComplete = Polling::where('praktikan_id', $user->id)->exists();
@@ -237,7 +237,7 @@ Route::get('/pelanggaran', function () {
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
 
-    $allAsisten = Asisten::all();
+    $allAsisten = Asisten::orderBy('kode','asc')->get();
     foreach ($allAsisten as $asisten => $asisten_val) {
 
         $allLaporan = Laporan_Praktikan::where('laporan__praktikans.asisten_id',    $asisten_val->id)
