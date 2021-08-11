@@ -322,23 +322,25 @@
               </div>
             </div>
           </div>
-          <div class="w-full h-1/5 flex my-5">
-            <div class="w-1/2 h-full flex">
-              <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
-                :class="[{ 'text-yellow-200': !formConfig.registrationAsisten_activation },
-                        { 'text-yellow-500': formConfig.registrationAsisten_activation }]">
-                <span>Registrasi Asisten</span>
+          <div v-if="softwarePriviledge.includes(currentUser.role_id) || softwarePriviledge == 'all'">
+            <div class="w-full h-1/5 flex my-5">
+              <div class="w-1/2 h-full flex">
+                <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
+                  :class="[{ 'text-yellow-200': !formConfig.registrationAsisten_activation },
+                          { 'text-yellow-500': formConfig.registrationAsisten_activation }]">
+                  <span>Registrasi Asisten</span>
+                </div>
               </div>
-            </div>
-            <div class="w-1/2 h-full flex ml-10 mt-2">
-              <div class="w-auto h-auto my-auto">
-                <toggle-button v-model="formConfig.registrationAsisten_activation"
-                  :value="formConfig.registrationAsisten_activation"
-                  :sync="true"
-                  :labels="true"
-                  :width="125"
-                  :height="50"
-                  :font-size="20"/>
+              <div class="w-1/2 h-full flex ml-10 mt-2">
+                <div class="w-auto h-auto my-auto">
+                  <toggle-button v-model="formConfig.registrationAsisten_activation"
+                    :value="formConfig.registrationAsisten_activation"
+                    :sync="true"
+                    :labels="true"
+                    :width="125"
+                    :height="50"
+                    :font-size="20"/>
+                </div>
               </div>
             </div>
           </div>
@@ -362,6 +364,7 @@
               </div>
             </div>
           </div>
+        <div v-if="softwarePriviledge.includes(currentUser.role_id) || softwarePriviledge == 'all'">
           <div class="w-full h-1/5 flex my-5">
             <div class="w-1/2 h-full flex">
               <div class="w-auto h-auto pt-5 my-auto ml-auto font-overpass-mono-bold text-3xl animation-enable-short"
@@ -385,12 +388,13 @@
         </div>
       </div>
     </div>
+      </div>
 
     <div class="absolute bottom-0 h-36 w-120full p-3 animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
       <div class="w-full h-full flex">
-        <div class="w-1/2 h-full p-4">
+        <div  v-if="softwarePriviledge.includes(currentUser.role_id) || softwarePriviledge == 'all'" class="w-1/2 h-full p-4">
           <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
               v-on:click="resetConfig()">
             <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-red-600">
@@ -400,6 +404,15 @@
             </div>
           </div>
         </div>
+          <div  v-else-if="konfigurasiPriviledge.includes(currentUser.role_id) || konfigurasiPriviledge == 'all'" class="w-1/2 h-full p-4">
+            <div class="w-full h-full p-4">
+              <div class="w-full h-full font-overpass-bold text-xl text-white flex pt-1 rounded-full bg-red-600">
+                <div class="m-auto">
+                  Kontak Software untuk Reset
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="w-1/2 h-full p-4">
           <div class="w-full h-full p-4 cursor-pointer hover:p-5 animation-enable-short"
               v-on:click="saveConfig()">
@@ -433,6 +446,7 @@ export default {
       konfigurasiPriviledge: [1,2,4,18,7],
       tpPriviledge: [1,2,15,11,7],
       pelanggaranPriviledge: [1,2,4,5,6,18],
+      softwarePriviledge: [1,2],
       soalPriviledge: "all",
 
       pageActive: true,
