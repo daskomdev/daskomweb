@@ -372,10 +372,10 @@ Route::get('/nilai', function () {
     $position = request('position') === null ? 0:request('position');
     $allLaporan = Laporan_Praktikan::where('laporan__praktikans.asisten_id', $user->id)
         ->join('praktikans', 'laporan__praktikans.praktikan_id', '=', 'praktikans.id')
-        ->select('laporan__praktikans.*', 'praktikans.nama', 'praktikans.nim', 'praktikans.kelas_id')
+        ->join('kelas', 'praktikans.kelas_id', '=', 'kelas.id')
+        ->select('laporan__praktikans.*', 'praktikans.nama', 'praktikans.nim', 'praktikans.kelas_id', 'kelas', 'kelas.shift', 'kelas.hari')
         ->latest()
         ->get();
-
     foreach ($allLaporan as $laporan => $value)
         if(Nilai::where('praktikan_id', $value->praktikan_id)
             ->where('modul_id', $value->modul_id)
