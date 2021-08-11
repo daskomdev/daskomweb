@@ -67,7 +67,7 @@
                   class="w-full h-full flex">
                 <div class="font-monda-bold h-auto w-auto m-auto text-center text-5xl">
                   Tidak ada <br> Tugas Pendahuluan saat ini <br>
-                  <span class="text-xl">Silahkan cek kembali setelah ada pengumuman di OA</span>
+                  <span class="text-xl">Silahkan cek kembali setelah ada pengumuman di OA line: @875lgds</span>
                 </div>
               </div>
 
@@ -436,7 +436,7 @@
                             </textarea>
                     </div>
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang digunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>20 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang digunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>10 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
                           </div>
                   </div>
                 </div>
