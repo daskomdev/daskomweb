@@ -34,18 +34,6 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
-                    { 'bg-yellow-500 text-white': changePage && menuListTp }]"
-            v-on:click='travel("listTp")'>
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            List TP
-          </span>
-        </div>
 
         <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
             :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
@@ -278,7 +266,10 @@
               </span>
               <select v-model="chosenModulID"
                     class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
-                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
+                <option class="hidden" value="" disabled selected>
+                  Pilih modul
+                </option>
+                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
                   {{ modul.judul }}
                 </option>
               </select>

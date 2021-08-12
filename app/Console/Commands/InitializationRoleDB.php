@@ -121,6 +121,18 @@ class InitializationRoleDB extends Command
                 Role::create([
                     'role'  => "R.D.C"
                 ]);
+                Role::create([
+                    'role'  => "Detain"
+                ]);
+                Role::create([
+                    'role'  => "PJ SC CMD"
+                ]);
+                Role::create([
+                    'role'  => "SC CMD"
+                ]);
+                Role::create([
+                    'role'  => "C.M.D"
+                ]);
                 $bar->advance();
                 Configuration::create([
                     'registrationPraktikan_activation' => 1,

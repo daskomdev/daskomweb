@@ -38,17 +38,6 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none animation-enable"
-              :class="[{ 'bg-yellow-500 text-white': !changePage },
-                      { 'bg-yellow-400 text-black': changePage }]">
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              List TP
-            </span>
-          </div>
 
           <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
@@ -206,18 +195,6 @@
             </span>
           </div>
 
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
-                      { 'bg-yellow-500 text-white': changePage && menuListTp }]"
-              v-on:click='travel("listTp")'>
-            <div class="w-7/12 my-2 flex">
-              <div class="w-4/6"/>
-              <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-            </div>
-            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-              List TP
-            </span>
-          </div>
 
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
@@ -676,7 +653,10 @@
                     class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
                     :class="[{ 'pointer-events-none': praktikumStart },
                             { 'pointer-events-auto': !praktikumStart }]">
-                <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">
+                <option class="hidden" value="" disabled selected>
+                  Pilih kelas
+                </option>
+                <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id" :disabled="!kelas.id">
                   {{ kelas.kelas }} [ {{ kelas.hari.toUpperCase() }} - Shift {{ kelas.shift }} ]
                 </option>
               </select>
@@ -694,9 +674,12 @@
                     class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state"
                     :class="[{ 'pointer-events-none': praktikumStart },
                             { 'pointer-events-auto': !praktikumStart }]">
-                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id">
-                  {{ modul.judul }}
+                <option class="hidden" value="" disabled selected>
+                  Pilih modul
                 </option>
+                <option v-for="modul in allModul" v-bind:key="modul.id" :value="modul.id" :disabled="!modul.id">
+                  {{ modul.judul }}
+                </option>       
               </select>
             </div>
           </div>
@@ -1206,9 +1189,9 @@ export default {
       // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
       // ***************************************************** //
       TAtiming: moment().startOf('day').add(10, 'minutes'),
-      JURNALtiming: moment().startOf('day').add(80, 'minutes'),
+      JURNALtiming: moment().startOf('day').add(60, 'minutes'),
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
-      MANDIRItiming: moment().startOf('day').add(20, 'minutes'),
+      MANDIRItiming: moment().startOf('day').add(10, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
       countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming\
       today: moment().format(),

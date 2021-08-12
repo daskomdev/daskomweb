@@ -34,18 +34,6 @@
           </span>
         </div>
 
-        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuListTp },
-                    { 'bg-yellow-500 text-white': changePage && menuListTp }]"
-            v-on:click='travel("listTp")'>
-          <div class="w-7/12 my-2 flex">
-            <div class="w-4/6"/>
-            <img class="select-none m-auto w-2/6 h-auto fas fa-list-alt">
-          </div>
-          <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-            List TP
-          </span>
-        </div>
 
         <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
             :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
@@ -265,10 +253,17 @@
           <transition-group name="laporan-list" tag="div">
             <div v-for="(laporan, index) in listAllLaporan" v-bind:key="laporan.id" 
                 class="animation-enable w-full h-120 flex">
-              <div class="w-full h-full px-6 flex-row mt-2">
+              <div class="w-full h-full px-6 flex-row mt-2 pb-4">
                 <div class="w-full h-12 flex">
-                  <div class="w-auto h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ laporan.nim }} [{{ laporan.nama }}]</span>
+                  <div class="align-middle w-auto h-auto my-auto break-words font-monda-bold text-2xl text-yellow-400 flex flex-wrap content-center">
+                    <div>{{ laporan.nim }} [{{ laporan.nama }}]</div>
+                    <div :class="[{ 'mx-1 my-auto px-2 pt-1 pb-0 bg-purple-500 text-white text-sm font-semibold rounded-full shadow-md hover:bg-purple-700 hover:text-white ring-4' : laporan.shift==1 },
+                    { 'mx-1 my-auto px-2 pt-1 pb-0 bg-blue-500 text-blue-200 text-sm font-semibold rounded-full shadow-md hover:bg-blue-700 hover:text-blue-200 ring-4' : laporan.shift==2},
+                    { 'mx-1 my-auto px-2 pt-1 pb-0 bg-pink-500 text-pink-200 text-sm font-semibold rounded-full shadow-md hover:bg-pink-700 hover:text-pink-200 ring-4' : laporan.shift==3},
+                    { 'mx-1 my-auto px-2 pt-1 pb-0 bg-yellow-500 text-yellow-900 text-sm font-semibold rounded-full shadow-md hover:bg-yellow-700 hover:text-yellow-200 ring-4' : laporan.shift==4},
+                    { 'mx-1 my-auto px-2 pt-1 pb-0 bg-gray-500 text-gray-900 text-sm font-semibold rounded-full shadow-md hover:bg-gray-700 hover:text-gray-200 ring-4' : laporan.shift==5}]">
+                      <span>{{ laporan.kelas }} {{ laporan.hari }} {{ laporan.shift }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="w-full h-24full flex relative bg-gray-500 rounded-lg">
@@ -300,7 +295,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="w-3/4 h-full p-4 bg-gray-400 rounded-r-lg overflow-y-auto flex">
+                  <div class="w-3/4 h-full p-4 bg-gray-200 rounded-r-lg overflow-y-auto flex">
                     <div class="w-full h-full whitespace-pre-wrap break-words font-overpass text-2xl text-black">
                       <span class="font-monda-bold text-3xl">Pesan :</span>
                       <br>
@@ -310,18 +305,20 @@
                   </div>
                   <div class="absolute bottom-0 p-0 hover:p-1 animation-enable-short cursor-pointer flex font-monda-bold text-xl right-0 m-4 w-auto h-12"
                       v-on:click="showNilaiPage(laporan.praktikan_id, laporan.modul_id, laporan.kelas_id, index)">
-                    <div class="w-full h-full p-2 bg-yellow-600 text-white rounded-lg">
-                      <span>Lihat Nilai</span>
+                    <div :class="[{'w-full h-full p-2 bg-green-300 text-green-800 rounded-lg': laporan.nilaiExists },
+                                  {'w-full h-full p-2 bg-red-500 text-white rounded-lg': !laporan.nilaiExists }]">
+                      <span v-if="laporan.nilaiExists">Lihat Nilai</span>
+                      <span v-if="!laporan.nilaiExists">Nilai Sekarang</span>
                     </div>
                   </div>
                 </div>
                 <div class="w-full h-12 flex px-8">
                   <div class="w-full h-full flex rounded-b-lg"
-                    :class="[{ 'bg-gray-200': laporan.nilaiExists },
-                            { 'bg-green-300': !laporan.nilaiExists }]">
+                    :class="[{ 'bg-green-300': laporan.nilaiExists },
+                            { 'bg-red-500': !laporan.nilaiExists }]">
                     <div class="w-auto h-auto m-auto font-overpass-bold whitespace-pre-wrap break-words text-2xl"
-                      :class="[{ 'text-black': laporan.nilaiExists },
-                              { 'text-green-700': !laporan.nilaiExists }]">
+                      :class="[{ 'text-green-700': laporan.nilaiExists },
+                              { 'text-white': !laporan.nilaiExists }]">
                       <span v-if="laporan.nilaiExists">Nilai sudah dimasukkan</span>
                       <span v-if="!laporan.nilaiExists">Nilai belum dimasukkan !!!</span>
                     </div>
