@@ -261,8 +261,9 @@
                     { 'mx-1 my-auto px-2 pt-1 pb-0 bg-blue-500 text-blue-200 text-sm font-semibold rounded-full shadow-md hover:bg-blue-700 hover:text-blue-200 ring-4' : laporan.shift==2},
                     { 'mx-1 my-auto px-2 pt-1 pb-0 bg-pink-500 text-pink-200 text-sm font-semibold rounded-full shadow-md hover:bg-pink-700 hover:text-pink-200 ring-4' : laporan.shift==3},
                     { 'mx-1 my-auto px-2 pt-1 pb-0 bg-yellow-500 text-yellow-900 text-sm font-semibold rounded-full shadow-md hover:bg-yellow-700 hover:text-yellow-200 ring-4' : laporan.shift==4},
-                    { 'mx-1 my-auto px-2 pt-1 pb-0 bg-gray-500 text-gray-900 text-sm font-semibold rounded-full shadow-md hover:bg-gray-700 hover:text-gray-200 ring-4' : laporan.shift==5}]">{{ laporan.kelas }} {{ laporan.hari }} {{ laporan.shift }}</div>
-                    
+                    { 'mx-1 my-auto px-2 pt-1 pb-0 bg-gray-500 text-gray-900 text-sm font-semibold rounded-full shadow-md hover:bg-gray-700 hover:text-gray-200 ring-4' : laporan.shift==5}]">
+                      <span>{{ laporan.kelas }} {{ laporan.hari }} {{ laporan.shift }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="w-full h-24full flex relative bg-gray-500 rounded-lg">
