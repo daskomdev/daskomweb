@@ -571,3 +571,108 @@ Route::post('/savePolling', 'PollingController@store')->name('savePolling')->mid
 /////////////////////////////////////////////FILE UPLOAD////////////////////////////////////////////
 Route::get('/upload','UploadController@upload')->middleware('loggedIn:asisten');
 Route::post('/upload/proses','UploadController@proses_upload')->middleware('loggedIn:asisten');
+
+Route::get('/rating', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    $allPraktikan = Praktikan::join('kelas','praktikans.kelas_id','=','kelas.id')
+                    ->select('praktikans.id','praktikans.nama','praktikans.nim','kelas.kelas','praktikans.kelas_id')
+                    ->where('kelas.id','!=',12)
+                    ->get();
+    $allKelas = Kelas::where('kelas.id','!=',12)->orderBy('kelas','asc')->get();
+    foreach ($allPraktikan as $praktikan => $prak_value) {
+        $allLaporan = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('rating');
+                        $allTP = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('tp');
+        $allTA = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('ta');
+        $allJurnal = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('jurnal');
+        $allTK = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('tk');
+        $allSkill = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('skill');
+        $allDiskon = Nilai::where('nilais.praktikan_id',$prak_value->id)
+                        ->join('praktikans','nilais.praktikan_id','=','praktikans.id')
+                        ->join('kelas','praktikans.kelas_id','=','kelas.id')
+                        ->select('nilais.rating')
+                        ->sum('diskon');
+        $prak_value->tp = $allTP;
+        $prak_value->ta = $allTA;
+        $prak_value->jurnal = $allJurnal;
+        $prak_value->tk = $allTK;
+        $prak_value->diskon = $allDiskon;
+        $prak_value->total = ($allTP*0.15)+($allTA*0.15)+($allJurnal*0.1)+($allTK*0.2)-($allDiskon*0.01);
+        $prak_value->rating = $allLaporan;  
+    }
+
+    $allRating = array();
+
+    foreach ($allKelas as $key => $kelas) {
+        $allPraktikanArr = array();
+        foreach ($allPraktikan as $key2 => $praktikan) {
+            if($praktikan->kelas_id==$kelas->id){
+                array_push($allPraktikanArr, $praktikan);
+            }
+        }
+        $allPraktikanArr = collect($allPraktikanArr);
+        $allPraktikanArr = $allPraktikanArr->sortByDesc('rating');
+        $tempPraktikan = array();
+        foreach ($allPraktikanArr as $key => $value) {
+            array_push($tempPraktikan, $value);
+        }
+        array_push($allRating, $tempPraktikan);
+    }
+
+    $allNilai = array();
+
+    foreach ($allKelas as $key => $kelas) {
+        $allPraktikanArr = array();
+        foreach ($allPraktikan as $key2 => $praktikan) {
+            if($praktikan->kelas_id==$kelas->id){
+                array_push($allPraktikanArr, $praktikan);
+            }
+        }
+        $allPraktikanArr = collect($allPraktikanArr);
+        $allPraktikanArr = $allPraktikanArr->sortByDesc('total');
+        $tempPraktikan = array();
+        foreach ($allPraktikanArr as $key => $value) {
+            array_push($tempPraktikan, $value);
+        }
+        array_push($allNilai, $tempPraktikan);
+    }
+    $RatingPrivilege = array(1,2,4,5,8,16);
+    if(in_array($userRole->id,$RatingPrivilege,true)){
+    return Inertia::render('Rating', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allRating' => $allRating,
+        'allNilai' => $allNilai,
+        'allKelas' => $allKelas,
+    ]);
+    }else return redirect('/');
+    
+})->name('rating')->middleware('loggedIn:asisten');
