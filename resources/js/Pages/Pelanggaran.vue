@@ -262,11 +262,11 @@
     <div class="absolute h-full w-120full animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
-      <div class="w-full h-full pt-1 flex-row" v-bar>
+      <div class="w-full h-full pt-1 pb-5 flex-row" v-bar>
         <div class="mt-5">
           <transition-group name="laporan-list" tag="div">
             <div v-for="(asisten, index) in allAsisten" v-bind:key="asisten.id" 
-                class="animation-enable w-full h-auto flex">
+                class="animation-enable w-full h-auto flex py-1">
               <div class="w-auto h-auto m-auto">
                 <span class="w-1/2 h-full font-overpass text-xl text-yellow-300">
                   {{ index+1 }}. {{ asisten.nama }} ({{ asisten.kode }})
