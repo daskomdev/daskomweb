@@ -39,7 +39,9 @@ import { faExclamationCircle,
         faQrcode,
         faClipboardCheck,
         faRadiationAlt,
-        faUsers} from '@fortawesome/free-solid-svg-icons';
+        faUsers,
+        faHome,
+        faStar} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram, 
         faYoutube} from '@fortawesome/free-brands-svg-icons';
@@ -90,6 +92,8 @@ library.add(faBookOpen);
 library.add(faClipboardCheck);
 library.add(faRadiationAlt);
 library.add(faYoutube);
+library.add(faHome);
+library.add(faStar);
 dom.watch(); 
 
 Vue.use(VueAnime)

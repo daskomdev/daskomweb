@@ -35,9 +35,10 @@
         </div>
 
 
-        <div class="w-full p-4 h-24 flex select-none animation-enable"
-            :class="[{ 'bg-yellow-500 text-white': !changePage },
-                    { 'bg-yellow-400 text-black': changePage }]">
+        <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+            :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuHistory },
+                    { 'bg-yellow-500 text-white': changePage && menuHistory }]"
+            v-on:click='travel("history")'>
           <div class="w-7/12 my-2 flex">
             <div class="w-4/6"/>
             <img class="select-none m-auto w-2/6 h-auto fas fa-history">
@@ -160,7 +161,7 @@
               Konfigurasi
             </span>
           </div>
-        </div>
+        </div> 
 
         <div v-if="tpPriviledge.includes(currentUser.role_id) || tpPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
@@ -175,7 +176,7 @@
               Tugas Pendahuluan
             </span>
           </div>
-        </div> 
+        </div>
 
         <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
@@ -190,13 +191,12 @@
               Pelanggaran
             </span>
           </div>
-        </div>
+        </div> 
 
         <div v-if="RankingPriviledge.includes(currentUser.role_id) || RankingPriviledge == 'all'">
-          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuRanking },
-                      { 'bg-yellow-500 text-white': changePage && menuRanking }]"
-              v-on:click='travel("rating")'>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-star">
@@ -205,7 +205,7 @@
               Ranking Praktikan
             </span>
           </div>
-        </div>  
+        </div>
       </div>
     </div>
 
@@ -259,62 +259,98 @@
       </div>
     </div>
 
-    <div class="absolute w-120full h-full flex animation-enable"
+    <div class="absolute h-full w-120full animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
-      <div v-if="listAllHistory.length > 0" 
-          class="w-full h-full" v-bar>
-        <div>
-          <transition-group name="history-list" tag="div">
-            <div v-for="(history) in listAllHistory" v-bind:key="history.id" 
-                class="animation-enable w-full h-72 flex mb-8">
-              <div class="w-full h-full px-6 flex-row mt-2">
-                <div class="w-full h-12 flex">
-                  <div class="w-1/2 h-auto my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ history.hari.toUpperCase() }} - {{ history.shift }}  (Rp.25000)</span>
-                  </div>
-                  <div class="w-1/2 h-auto text-right my-auto whitespace-pre-wrap break-words font-monda-bold text-2xl text-yellow-400">
-                    <span>{{ history.created_at | moment }}</span>
-                  </div>
-                </div>
-                <div class="w-full h-12full flex bg-gray-300 rounded-lg">
-                  <div class="w-1/3 h-full p-4 overflow-y-auto flex">
-                    <div class="w-auto h-auto m-auto whitespace-pre-wrap break-words font-merri-bold text-2xl text-black">
-                      <span>Modul<br>{{ history.judul }}</span>
-                    </div>
-                  </div>
-                  <div class="w-2/3 h-full p-4 bg-gray-200 rounded-r-lg overflow-y-auto flex">
-                    <div class="w-full h-full whitespace-pre-wrap break-words font-overpass text-2xl text-black">
-                      <span class="font-monda-bold text-3xl">Laporan :</span>
-                      <br>
-                      <span>{{ history.laporan }}</span>
-                    </div>
-                  </div>
-                </div>
+      <div class="w-full h-full pt-1 flex-row pb-10" v-bar>
+        <div class="mt-5">
+          <div class="w-auto h-auto m-auto sticky top-0 bg-green-900">
+            <div class="w-full h-full flex-row px-5">
+              
+              <select v-model="choosenKelasID"
+                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500 object-none object-center">
+                <option class="hidden" value="" disabled selected>
+                  Pilih Kelas
+                </option>
+                <option v-for="(kelas,index) in allKelas" v-bind:key="index" :value="index">
+                  {{ kelas.kelas }}
+                </option>  
+              </select>
+            </div>
+            <div class="w-full h-full flex-row px-5 pt-2">
+              
+              <select v-model="choosenJenisID"
+                  class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
+                <option class="hidden" value="" disabled selected>
+                  pilih jenis ranking
+                </option>
+                <option :value="1">
+                  rating
+                </option>
+                <option :value="2">
+                  nilai
+                </option>
+              </select>
+            </div>
+            
+          </div>
+
+          <!-- Rating and Score List -->
+          <transition-group name="rating-list" tag="div" v-if="choosenJenisID==1">
+            
+            <div v-for="(praktikan,index) in allRating[choosenKelasID]" v-bind:key="praktikan.id" 
+                class="animation-enable w-full h-auto flex py-2">
+              <div class="w-auto h-auto m-auto">
+                <span class="w-1/2 h-full font-overpass text-xl text-yellow-300">
+                  {{ ++index }}. {{ praktikan.nama }} ({{ praktikan.nim }}) - 
+                  <span class="text-yellow-200 bg-yellow-700 p-1 rounded-lg"> {{ praktikan.rating }}</span>
+                </span>
               </div>
             </div>
+            
           </transition-group>
-        </div>
-      </div>
-      <div v-if="listAllHistory.length === 0"
-          class="w-full h-full flex">
-        <div class="w-auto h-auto m-auto font-monda-bold text-5xl text-white">
-          <span>Anda belum pernah menjaga praktikum :(</span>
+
+          <transition-group name="nilai-list" tag="div" v-if="choosenJenisID==2">
+          
+            <div v-for="(praktikan,index) in allNilai[choosenKelasID]" v-bind:key="praktikan.id" 
+                class="animation-enable w-full h-auto flex py-2">
+              <div class="w-auto h-auto m-auto">
+                <span class="w-1/2 h-full font-overpass text-xl text-yellow-300">
+                  {{ ++index }}. {{ praktikan.nama }} ({{ praktikan.nim }}) - 
+                  <span class="text-yellow-200 bg-yellow-700 p-1 rounded-lg"> {{ praktikan.total }}</span>
+                </span>
+              </div>
+            </div>
+            
+          </transition-group>
         </div>
       </div>
     </div>
   </div>
-</template>
 
+</template>
+<style>
+select {
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
+option {
+    text-align: right;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
+</style>
 <script>
-import moment from 'moment';
 export default {
   props: [
     'comingFrom',
     'currentUser',
     'position',
     'userRole',
-    'allHistory',
+    'allRating',
+    'allNilai',
+    'allKelas',
   ],
 
   data() {
@@ -327,12 +363,16 @@ export default {
       pelanggaranPriviledge: [1,2,4,5,6,18],
       RankingPriviledge: [1,2,4,5,8,16],
       soalPriviledge: "all",
-      
+
+      choosenKelasID: '',
+      choosenJenisID: '',
+
       pageActive: true,
       isMenuShown: false,
       changePage: false,
       currentPage: false,
 
+      menuKonfigurasi: false,
       menuPraktikum: false,
       menuSoal: false,
       menuListTp: false,
@@ -343,13 +383,9 @@ export default {
       menuModul: false,
       menuProfil: false,
       menuTp: false,
-      menuKonfigurasi: false,
       menuNilai: false,
       menuSetPraktikan: false,
       menuPelanggaran: false,
-      menuRanking: false,
-
-      listAllHistory: this.allHistory,
     }
   },
 
@@ -367,26 +403,19 @@ export default {
         this.comingFrom === 'praktikum' ||
         this.comingFrom === 'plotting' ||
         this.comingFrom === 'kelas' ||
-        this.comingFrom === 'tp' ||
         this.comingFrom === 'polling' ||
+        this.comingFrom === 'tp' ||
         this.comingFrom === 'listTp' ||
-        this.comingFrom === 'konfigurasi'||
+        this.comingFrom === 'history'||
         this.comingFrom === 'nilai'||
-        this.comingFrom === 'pelanggaran'||
-        this.comingFrom === 'setpraktikan'||
-        this.comingFrom === 'rating'
-        ){
+        this.comingFrom === 'konfigurasi'||
+        this.comingFrom === 'setpraktikan' ||
+        this.comingFrom === 'pelanggaran'){
 
       setTimeout(
         function() {
           globe.currentPage = true;
         }, 10); 
-    }
-  },
-  
-  filters: {
-    moment: function (date) {
-      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
     }
   },
 
@@ -400,8 +429,8 @@ export default {
         this.menuSoal = $bool;
       if($whereTo === "listTp")
         this.menuListTp = $bool;
-      if($whereTo === "konfigurasi")
-        this.menuKonfigurasi = $bool;
+      if($whereTo === "history")
+        this.menuHistory = $bool;
       if($whereTo === "polling")
         this.menuPolling = $bool;
       if($whereTo === "kelas")
@@ -418,10 +447,10 @@ export default {
         this.menuNilai = $bool;
       if($whereTo === "setpraktikan")
         this.menuSetPraktikan = $bool;
+      if($whereTo === "konfigurasi")
+        this.menuKonfigurasi = $bool;
       if($whereTo === "pelanggaran")
         this.menuPelanggaran = $bool;
-      if($whereTo === "rating")
-        this.menuRanking = $bool;
     },
 
     travel: function($whereTo){
@@ -433,7 +462,7 @@ export default {
       this.currentPage = false;
       setTimeout(
         function() {
-          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=history&position='+globe.$refs.menu.scrollTop);
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=rating&position='+globe.$refs.menu.scrollTop);
         }, 501); 
     },
 

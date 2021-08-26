@@ -191,6 +191,21 @@
             </span>
           </div>
         </div>
+
+        <div v-if="RankingPriviledge.includes(currentUser.role_id) || RankingPriviledge == 'all'">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuRanking },
+                      { 'bg-yellow-500 text-white': changePage && menuRanking }]"
+              v-on:click='travel("rating")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-star">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Ranking Praktikan
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -247,11 +262,11 @@
     <div class="absolute h-full w-120full animation-enable"
         :class="[{ 'left-minFull': !currentPage },
                 { 'left-0': currentPage }]">
-      <div class="w-full h-full pt-1 flex-row" v-bar>
+      <div class="w-full h-full pt-1 pb-5 flex-row" v-bar>
         <div class="mt-5">
           <transition-group name="laporan-list" tag="div">
             <div v-for="(asisten, index) in allAsisten" v-bind:key="asisten.id" 
-                class="animation-enable w-full h-auto flex">
+                class="animation-enable w-full h-auto flex py-1">
               <div class="w-auto h-auto m-auto">
                 <span class="w-1/2 h-full font-overpass text-xl text-yellow-300">
                   {{ index+1 }}. {{ asisten.nama }} ({{ asisten.kode }})
@@ -290,6 +305,7 @@ export default {
       konfigurasiPriviledge: [1,2,4,18,7],
       tpPriviledge: [1,2,15,11,7],
       pelanggaranPriviledge: [1,2,4,5,6,18],
+      RankingPriviledge: [1,2,4,5,8,16],
       soalPriviledge: "all",
 
       pageActive: true,
@@ -310,6 +326,7 @@ export default {
       menuTp: false,
       menuNilai: false,
       menuSetPraktikan: false,
+      menuRanking: false,
     }
   },
 
@@ -333,7 +350,8 @@ export default {
         this.comingFrom === 'history'||
         this.comingFrom === 'nilai'||
         this.comingFrom === 'konfigurasi'||
-        this.comingFrom === 'setpraktikan'){
+        this.comingFrom === 'setpraktikan'||
+        this.comingFrom === 'rating'){
 
       setTimeout(
         function() {
@@ -372,6 +390,8 @@ export default {
         this.menuSetPraktikan = $bool;
       if($whereTo === "konfigurasi")
         this.menuKonfigurasi = $bool;
+      if($whereTo === "rating")
+        this.menuRanking = $bool;
     },
 
     travel: function($whereTo){
