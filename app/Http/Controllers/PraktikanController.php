@@ -54,7 +54,7 @@ class PraktikanController extends Controller
         ]);
 
         if(!Configuration::find(1)->registrationPraktikan_activation)
-            return '{"message": "Registrasi untuk asisten telah ditutup"}';
+            return '{"message": "Registrasi untuk praktikan telah ditutup"}';
 
         Praktikan::create([
             'nama'          => $request->nama,
