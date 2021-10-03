@@ -676,3 +676,28 @@ Route::get('/rating', function () {
     }else return redirect('/');
     
 })->name('rating')->middleware('loggedIn:asisten');
+
+//All Laporan for Assistant feature
+Route::get('/allLaporan', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    $allModul = Modul::orderBy('isEnglish','asc')->get();
+    $allHistory = DB::table('laporan__pjs')
+                    ->join('moduls', 'laporan__pjs.modul_id', '=', 'moduls.id')
+                    ->select('laporan__pjs.*', 'moduls.judul')->orderBy('created_at','desc')->get();
+
+    $allLaporanPrivilege = array(1,2,4,5,6);
+    if(in_array($userRole->id,$allLaporanPrivilege,true)){
+    return Inertia::render('Laporan', [
+        'comingFrom' => $comingFrom,
+        'currentUser' => $user,
+        'position' => $position,
+        'userRole' => $userRole->role,
+        'allModul' => $allModul,
+        'allHistory' => $allHistory,
+    ]);
+    }else return redirect('/'); 
+
+})->name('allLaporan')->middleware('loggedIn:asisten');

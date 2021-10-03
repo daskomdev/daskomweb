@@ -41,7 +41,8 @@ import { faExclamationCircle,
         faRadiationAlt,
         faUsers,
         faHome,
-        faStar} from '@fortawesome/free-solid-svg-icons';
+        faStar,
+        faFileMedicalAlt} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram, 
         faYoutube} from '@fortawesome/free-brands-svg-icons';
@@ -94,6 +95,7 @@ library.add(faRadiationAlt);
 library.add(faYoutube);
 library.add(faHome);
 library.add(faStar);
+library.add(faFileMedicalAlt);
 dom.watch(); 
 
 Vue.use(VueAnime)

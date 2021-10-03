@@ -102,6 +102,21 @@
           </div>
         </div>
 
+        <div v-if="allLaporanPriviledge.includes(currentUser.role_id) || allLaporanPriviledge == 'all'">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuAllLaporan },
+                      { 'bg-yellow-500 text-white': changePage && menuAllLaporan }]"
+              v-on:click='travel("allLaporan")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-file-medical-alt">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              All Laporan
+            </span>
+          </div>
+        </div>
+
         <div v-if="soalPriviledge.includes(currentUser.role_id) || soalPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuSoal },
@@ -425,6 +440,7 @@ export default {
       tpPriviledge: [1,2,15,11,7],
       pelanggaranPriviledge: [1,2,4,5,6,18],
       RankingPriviledge: [1,2,4,5,8,16],
+      allLaporanPriviledge: [1,2,4,5,6],      
       soalPriviledge: "all",
 
       pageActive: true,
@@ -448,6 +464,7 @@ export default {
       menuSetPraktikan: false,
       menuPelanggaran: false,
       menuRanking: false,
+      menuAllLaporan: false,
 
       listAllKelas: this.allKelas === null ? [] : this.allKelas,
 
@@ -489,7 +506,8 @@ export default {
         this.comingFrom === 'nilai'||
         this.comingFrom === 'pelanggaran'||
         this.comingFrom === 'setpraktikan'||
-        this.comingFrom === 'rating'){
+        this.comingFrom === 'rating' ||
+        this.comingFrom === 'allLaporan'){
 
       setTimeout(
         function() {
@@ -530,6 +548,8 @@ export default {
         this.menuPelanggaran = $bool;
       if($whereTo === "rating")
         this.menuRanking = $bool;
+      if($whereTo === "allLaporan")
+        this.menuAllLaporan = $bool;
     },
 
     resetForm: function($kelas){
