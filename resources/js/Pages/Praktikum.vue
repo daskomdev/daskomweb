@@ -1223,7 +1223,7 @@ export default {
       // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
       // ***************************************************** //
       TAtiming: moment().startOf('day').add(10, 'minutes'),
-      JURNALtiming: moment().startOf('day').add(60, 'minutes'),
+      JURNALtiming: moment().startOf('day').add(75, 'minutes'),
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
       MANDIRItiming: moment().startOf('day').add(10, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),

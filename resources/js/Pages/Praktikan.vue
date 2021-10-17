@@ -436,7 +436,7 @@
                             </textarea>
                     </div>
                           <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang digunakan ^_^ <br>(script boleh di edit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>10 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang digunakan ^_^ <br>(script boleh diedit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>10 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
                           </div>
                   </div>
                 </div>
@@ -1479,7 +1479,7 @@ export default {
         if(response.data.message === "success") {
           
           globe.$toasted.global.showSuccess({
-            message: "TP anda telah tersimpan"
+            message: "TP ANDA BERHASIL DISIMPAN"
           });
         }
       }); 
