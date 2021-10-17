@@ -77,7 +77,7 @@ class AsistenController extends Controller
         foreach ($allAsistenData as $key => $value) {
             $ratingAsisten += $value->rating_asisten;    
         }
-        $taxRate=0.05;
+        $taxRate=0.1;
         $intHistoryCount = 0;
         $regHistoryCount = 0;
         foreach ($allAsistenHistory as $history => $value)
