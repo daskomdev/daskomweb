@@ -405,7 +405,7 @@ Route::get('/history', function () {
     $allAsistenHistory = [];
     $allHistory = DB::table('laporan__pjs')
         ->join('moduls', 'laporan__pjs.modul_id', '=', 'moduls.id')
-        ->select('laporan__pjs.*', 'moduls.judul')->get();
+        ->select('laporan__pjs.*', 'moduls.judul')->orderBy('created_at','desc')->get();
     foreach ($allHistory as $history => $h) {
 
         $asistenExist = false;
