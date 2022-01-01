@@ -79,6 +79,7 @@ Route::get('/praktikan', function () {
     $user = Auth::guard('praktikan')->user();
     $user->kelas = Kelas::where('id', $user->kelas_id)->first()->kelas;
     $allAsisten = Asisten::orderBy('kode','asc')->get();
+    $allAsistenPolling = Asisten::where('kode','!=','BOT')->orderBy('kode','asc')->get();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $isRunmod = Configuration::find(1)->runmod_activation;
     $pollingComplete = Polling::where('praktikan_id', $user->id)->exists();
@@ -87,6 +88,7 @@ Route::get('/praktikan', function () {
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
         'allAsisten' => $allAsisten,
+        'allAsistenPolling' => $allAsistenPolling,
         'isRunmod' => $isRunmod,
         'pollingComplete' => $pollingComplete,
         'allPolling' => $allPolling,
