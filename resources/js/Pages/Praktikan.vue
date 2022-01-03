@@ -201,7 +201,7 @@
             <!-- When polling enabled -->
             <div v-if="isPollingEnabled" class="w-full h-full flex">
               <div v-if="pollingComplete_mutable" class="font-monda-bold h-auto w-auto m-auto text-center text-5xl"> 
-                <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2020/2021 🎉🎉</span>
+                <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2021/2022 🎉🎉</span>
               </div>
               <div v-if="!pollingComplete_mutable" class="w-full h-full py-4 relative">
 
@@ -216,7 +216,7 @@
                   <div class="w-full h-8 flex">
                     <div class="w-auto mx-auto h-full flex">
                       <div class="font-monda-bold h-auto w-auto m-auto text-center text-2xl">
-                        <span>{{ allAsisten[chosenAsisten].nama }} ({{ allAsisten[chosenAsisten].kode }})</span>
+                        <span>{{ allAsistenPolling[chosenAsisten].nama }} ({{ allAsistenPolling[chosenAsisten].kode }})</span>
                       </div>
                     </div>
                   </div>
@@ -236,11 +236,11 @@
                       <div class="w-full h-12full rounded-large flex bg-green-600 my-auto shadow-xl">
                         <div class="w-1/3 h-full rounded-l-large flex bg-green-400">
                           <img class="select-none w-full h-full bg-center bg-cover rounded-l-large" 
-                            :style="'background-image: url(/assets/' + allAsisten[chosenAsisten].kode + '.jpg);'">
+                            :style="'background-image: url(/assets/' + allAsistenPolling[chosenAsisten].kode + '.jpg);'">
                         </div>
                         <div class="w-2/3 h-full flex">
                           <div class="font-merri-bold h-auto w-auto m-auto text-center text-xl text-white p-4">
-                            <span>{{ allAsisten[chosenAsisten].deskripsi }}</span>
+                            <span>{{ allAsistenPolling[chosenAsisten].deskripsi }}</span>
                           </div>
                         </div>
                       </div>
@@ -264,7 +264,7 @@
                     <div v-for="(polling, index) in allPolling" v-bind:key="polling.id"
                         class="animation-enable-short relative w-auto h-auto my-auto flex mx-2">
                       <div class="animation-enable-short w-auto h-auto rounded-lg flex bg-teal-200 hover:bg-teal-300 p-3 hover:p-4 pointer-events-auto cursor-pointer"
-                          v-on:click="setPilihanPolling(index, allAsisten[chosenAsisten].id)">
+                          v-on:click="setPilihanPolling(index, allAsistenPolling[chosenAsisten].id)">
                         <div class="font-overpass-bold h-auto w-auto m-auto text-center text-lg text-black pointer-events-none"> 
                           <span>{{ polling.judul }} [{{ polling.asisten_id == undefined ? '' : allAsisten.find(x=> x.id === polling.asisten_id).kode }}]</span>
                         </div>
@@ -1010,6 +1010,7 @@ export default {
     'comingFrom',
     'currentUser',
     'allAsisten',
+    'allAsistenPolling',
     'isRunmod',
     'pollingComplete',
     'allPolling',
