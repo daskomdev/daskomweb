@@ -608,7 +608,7 @@ export default {
     },
 
     editDescription: function($bool){
-      if ($bool==true) {
+      if ($bool) {
         $(".descEdit").removeClass("hidden");
         $(".descEdit").addClass("visible");
         $(".editDescBtn").removeClass("visible");
