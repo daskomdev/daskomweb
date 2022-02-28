@@ -14,17 +14,14 @@
             <div class="bg-yellow-800 rounded-t-lg w-full h-full flex-col overflow-y-auto">
               <!-- EDIT desc assistant -->
               <div class="pt-16 px-8 w-full h-auto text-center">
-                <span class="p-3 bg-green-800 font-merri-bold text-xl cursor-pointer text-yellow-200 rounded-lg hover:bg-green-900 animation-enable"
-                      :class="'editDescBtn'"
+                <span class="p-3 bg-green-800 font-merri-bold text-xl cursor-pointer text-yellow-200 rounded-lg hover:bg-green-900 animation-enable editDescBtn"
                       v-on:click="editDescription(true)">Edit Description <img class="p-1 fas fa-pen fa-lg">
                 </span>
-                <span class="hidden p-3 px-4 bg-red-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-red-700 animation-enable"
-                      :class="'editDescClose'"
+                <span class="hidden p-3 px-4 bg-red-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-red-700 animation-enable editDescClose"
                       v-on:click="editDescription(false)">
                       <img class="p-1 fas fa-times fa-lg">
                 </span>
-                <span class="hidden p-3 bg-green-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-green-700 animation-enable"
-                      :class="'updateDescBtn'"
+                <span class="hidden p-3 bg-green-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-green-700 animation-enable updateDescBtn"
                       v-on:click="updateDeskripsi">
                       <img class="p-1 fas fa-check fa-lg">
                 </span>
@@ -611,7 +608,6 @@ export default {
     },
 
     editDescription: function($bool){
-      const globe = this;
       if ($bool==true) {
         $(".descEdit").removeClass("hidden");
         $(".descEdit").addClass("visible");
@@ -638,7 +634,6 @@ export default {
       const globe = this;
       this.$axios.post('/updateDesc', this.formDesc).then(response => {
         
-        console.log(response.data)
         if(response.data.message === "success") {
 
           globe.$toasted.global.showSuccess({
