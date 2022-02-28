@@ -80,7 +80,6 @@ class AsistenController extends Controller
             'deskripsi' => $request->deskripsi,
         ], 200);
 
-        return route('/');
     }
 
     /**
