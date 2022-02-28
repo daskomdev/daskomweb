@@ -11,13 +11,43 @@
         </div>
         <div class="relative w-full h-full">
           <div class="absolute w-full h-full px-8 pt-8">
-            <div class="bg-yellow-800 rounded-t-lg w-full h-full flex">
-              <div class="w-full h-auto break-words pt-16 text-center text-yellow-200 font-merri text-2xl p-8">
-                <span class="whitespace-pre-wrap">{{ currentUser.deskripsi }}</span>
+            <div class="bg-yellow-800 rounded-t-lg w-full h-full flex-col overflow-y-auto">
+              <!-- EDIT desc assistant -->
+              <div class="pt-16 px-8 w-full h-auto text-center">
+                <span class="p-3 bg-green-800 font-merri-bold text-xl cursor-pointer text-yellow-200 rounded-lg hover:bg-green-900 animation-enable"
+                      :class="'editDescBtn'"
+                      v-on:click="editDescription(true)">Edit Description <img class="p-1 fas fa-pen fa-lg">
+                </span>
+                <span class="hidden p-3 px-4 bg-red-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-red-700 animation-enable"
+                      :class="'editDescClose'"
+                      v-on:click="editDescription(false)">
+                      <img class="p-1 fas fa-times fa-lg">
+                </span>
+                <span class="hidden p-3 bg-green-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-green-700 animation-enable"
+                      :class="'updateDescBtn'"
+                      v-on:click="updateDeskripsi">
+                      <img class="p-1 fas fa-check fa-lg">
+                </span>
+              </div>
+              <!-- desc form -->
+              <form id="descForm" class="hidden animation-enable"
+                    :class="'descEdit'">
+                    <div class="text-center pt-5">
+                      <textarea v-model="formDesc.deskripsi" cols="30" rows="10" class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 text-center border-gray-200 rounded w-1/2 h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"/>
+                    </div>
+              </form>
+
+              <div class="w-full h-auto break-words pt-3 text-center text-yellow-200 font-merri text-2xl p-8 flex flex-col">
+                <div class="p-2 mb-1">
+                  <span class="font-merri-bold p-2 bg-yellow-900 text-yellow-200 rounded-lg">Your Bio:</span>
+                </div>
+                <div class="pb-16">
+                  <span class="whitespace-pre-wrap">{{ currentUser.deskripsi }}</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="absolute w-full h-16 px-16 pt-2">
+          <div class="absolute w-full h-16 px-16 pt-2 z-20">
             <div class="bg-yellow-700 rounded-lg w-full h-full flex">
               <div class="flex w-1/2min">
                 <star-rating class="ml-auto mr-4"
@@ -441,8 +471,6 @@ export default {
       userMessages: this.messages,
       changePage: false,
 
-      
-
       gajiAsisten: 0,
       ratingAsisten: 0,
 
@@ -461,6 +489,12 @@ export default {
       menuPelanggaran: false,
       menuRanking: false,
       menuAllLaporan: false,
+
+      formDesc: {
+        id: '',
+        deskripsi: '',
+      },
+
     }
   },
 
@@ -574,6 +608,63 @@ export default {
         this.menuRanking = $bool;
       if($whereTo === "allLaporan")
         this.menuAllLaporan = $bool;  
+    },
+
+    editDescription: function($bool){
+      const globe = this;
+      if ($bool==true) {
+        $(".descEdit").removeClass("hidden");
+        $(".descEdit").addClass("visible");
+        $(".editDescBtn").removeClass("visible");
+        $(".editDescBtn").addClass("hidden");
+        $(".editDescClose").removeClass("hidden");
+        $(".editDescClose").addClass("visible");
+        $(".updateDescBtn").removeClass("hidden");
+        $(".updateDescBtn").addClass("visible");
+        this.formDesc.deskripsi = this.currentUser.deskripsi;
+      }else{
+        $(".descEdit").removeClass("visible");
+        $(".descEdit").addClass("hidden");
+        $(".editDescBtn").removeClass("hidden");
+        $(".editDescBtn").addClass("visible");
+        $(".editDescClose").removeClass("visible");
+        $(".editDescClose").addClass("hidden");
+        $(".updateDescBtn").removeClass("visible");
+        $(".updateDescBtn").addClass("hidden");
+      }
+    },
+
+    updateDeskripsi: function(){
+      const globe = this;
+      this.$axios.post('/updateDesc', this.formDesc).then(response => {
+        
+        console.log(response.data)
+        if(response.data.message === "success") {
+
+          globe.$toasted.global.showSuccess({
+            message: "Deskripsi berhasil diperbaharui"   
+          });
+
+          globe.$inertia.replace('/asisten');
+          globe.editDescription(false);
+
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.deskripsi != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.deskripsi[0]
+              });
+          }
+        }
+      });
     },
 
     travel: function($whereTo){
