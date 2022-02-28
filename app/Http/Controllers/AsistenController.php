@@ -9,6 +9,7 @@ use App\History_Jaga;
 use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AsistenController extends Controller
 {
@@ -60,6 +61,26 @@ class AsistenController extends Controller
         ]);
 
         return '{"message": "success"}';
+    }
+
+    public function updateDesc(Request $request){
+        $user = Auth::guard('asisten')->user();
+        $request->validate([
+            'deskripsi' => 'required|min:6|max:150',
+        ]);
+
+        $asisten = Asisten::where('id',$user->id)->update([
+            'deskripsi'=>"$request->deskripsi",
+        ]);
+
+        // echo $asisten;
+        return response()->json([
+            'message'=> 'success',
+            'asisten' => $asisten,
+            'deskripsi' => $request->deskripsi,
+        ], 200);
+
+        return route('/');
     }
 
     /**
