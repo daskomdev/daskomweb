@@ -703,3 +703,5 @@ Route::get('/allLaporan', function () {
     }else return redirect('/'); 
 
 })->name('allLaporan')->middleware('loggedIn:asisten');
+
+Route::post('/updateDesc', 'AsistenController@updateDesc')->name('updateDesc')->middleware('loggedIn:asisten');
