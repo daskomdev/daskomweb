@@ -49,7 +49,7 @@ Route::get('/contact', function () {
 })->middleware('guest:all');
 
 Route::get('/login', function () {
-    $all_kelas = Kelas::all();
+    $all_kelas = Kelas::where('id','!=',12)->orderBy('kelas','asc')->get();
     $roles = Role::all();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     return Inertia::render('Login', [
@@ -703,3 +703,5 @@ Route::get('/allLaporan', function () {
     }else return redirect('/'); 
 
 })->name('allLaporan')->middleware('loggedIn:asisten');
+
+Route::post('/updateDesc', 'AsistenController@updateDesc')->name('updateDesc')->middleware('loggedIn:asisten');
