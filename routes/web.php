@@ -387,7 +387,7 @@ Route::get('/nilai', function () {
             $value->nilaiExists = true;
         else 
             $value->nilaiExists = false;
-    
+
     return Inertia::render('Nilai', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -705,3 +705,14 @@ Route::get('/allLaporan', function () {
 })->name('allLaporan')->middleware('loggedIn:asisten');
 
 Route::post('/updateDesc', 'AsistenController@updateDesc')->name('updateDesc')->middleware('loggedIn:asisten');
+
+Route::post('/resetPass', 'PraktikanController@resetPass')->name('resetPassword')->middleware('loggedIn:praktikan');
+
+Route::get('/contact_asisten', function () {
+    $user = Auth::guard('praktikan')->user();
+    $allAsisten = Asisten::orderBy('kode','asc')->get();
+    return Inertia::render('ContactAsisten',[
+        'allAsisten' => $allAsisten,
+        'user'=> $user,
+    ]);
+})->name('contact_asisten')->middleware('loggedIn:praktikan');
