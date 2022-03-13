@@ -323,7 +323,7 @@
           <div class="flex w-24 h-24 m-auto rounded-full"
               :class="[{ 'bg-green-400': !isMenuShown },
                       { 'bg-green-600': isMenuShown }]">
-            <img class="select-none w-20 h-20 m-auto rounded-full bg-white object-cover" :src="'/assets/'+currentUser.kode+'.jpg'" alt="daskom logo">
+            <img class="select-none w-20 h-20 m-auto rounded-full bg-white object-cover" :src="'/assets/'+currentUser.kode+'.jpg'" @error="$event.target.src='assets/logo.png'" alt="Avatar Asisten">
           </div>
         </div>
         <div class="w-auto h-full flex-row ml-4 cursor-default">
