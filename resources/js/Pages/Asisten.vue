@@ -29,14 +29,76 @@
               <!-- desc form -->
               <form id="descForm" class="hidden animation-enable"
                     :class="'descEdit'">
-                    <div class="text-center pt-5">
-                      <textarea v-model="formDesc.deskripsi" cols="30" rows="10" class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 text-center border-gray-200 rounded w-1/2 h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"/>
+                    <div class="pt-5">
+                      <label class="block text-yellow-400 font-bold text-center" for="deskripsi">
+                        Nomor HP:
+                      </label>
+                    </div>
+                    <div class="text-center">
+                      <input v-model="formDesc.nomor_telepon" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/4 py-2 px-4 text-gray-700 font-overpass-mono-bold text-xl focus:outline-none focus:bg-white focus:border-teal-500 text-center" id="nomor_telepon" type="text" placeholder="08xxxxxxxx">
+                    </div>
+
+                    <div class="pt-2">
+                      <label class="block text-yellow-400 font-bold text-center" for="id_line">
+                        ID Line:
+                      </label>
+                    </div>
+                    <div class="text-center">
+                      <input v-model="formDesc.id_line" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/4 py-2 px-4 text-gray-700 font-overpass-mono-bold text-xl focus:outline-none focus:bg-white focus:border-teal-500 text-center" id="id_line" type="text" placeholder="ID Line kamu">
+                    </div>
+
+                    <div class="pt-2">
+                      <label class="block text-yellow-400 font-bold text-center" for="instagram">
+                        Username Instagram:
+                      </label>
+                    </div>
+                    <div class="text-center">
+                      <input v-model="formDesc.instagram" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/4 py-2 px-4 text-gray-700 font-overpass-mono-bold text-xl focus:outline-none focus:bg-white focus:border-teal-500 text-center" id="instagram" type="text" placeholder="Username IG kamu">
+                    </div>
+
+                    <div class="pt-2">
+                      <label class="block text-yellow-400 font-bold text-center" for="deskripsi">
+                        Deskripsi:
+                      </label>
+                    </div>
+                    <div class="text-center pt-1">
+                      <textarea v-model="formDesc.deskripsi" cols="30" rows="5" class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 text-center border-gray-200 rounded w-1/2 h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"/>
                     </div>
               </form>
 
-              <div class="w-full h-auto break-words pt-3 text-center text-yellow-200 font-merri text-2xl p-8 flex flex-col">
+              <div class="w-full h-auto break-words pt-5 text-center text-yellow-200 font-merri text-2xl p-8 flex flex-col self-center mt-3">
+                <div class="flex pt-1 self-center align-middle">
+                    <div class="mr-2">
+                      <img class="fas fa-phone w-8 h-8">
+                    </div>
+                    <div class="text-xl">
+                      <span v-if="currentUser.nomor_telepon==NULL || currentUser.nomor_telepon=='' ||currentUser.nomor_telepon=='-'">Not Available</span>
+                      <span v-if="currentUser.nomor_telepon!='-'">{{currentUser.nomor_telepon}}</span>
+                    </div>
+                </div>
+
+                <div class="flex pt-1 self-center align-middle">
+                    <div class="mr-2">
+                      <img class="fab fa-line w-8 h-8">
+                    </div>
+                    <div class="text-xl">
+                      <span v-if="currentUser.id_line==NULL || currentUser.id_line=='' ||currentUser.id_line=='-'">Not Available</span>
+                      <span v-if="currentUser.id_line!='-'">{{currentUser.id_line}}</span>
+                    </div>
+                </div>
+
+                <div class="flex pt-1 self-center align-middle">
+                    <div class="mr-2">
+                      <img class="fab fa-instagram w-8 h-8">
+                    </div>
+                    <div class="text-xl">
+                      <span v-if="currentUser.instagram==NULL || currentUser.instagram=='' ||currentUser.instagram=='-'">Not Available</span>
+                      <span v-if="currentUser.instagram!='-'">{{currentUser.instagram}}</span>
+                    </div>
+                </div>
+
                 <div class="p-2 mb-1">
-                  <span class="font-merri-bold p-2 bg-yellow-900 text-yellow-200 rounded-lg">Your Bio:</span>
+                  <span class="font-merri-bold text-lg p-2 px-4 bg-yellow-900 text-yellow-200 rounded-lg">Description:</span>
                 </div>
                 <div class="pb-16">
                   <span class="whitespace-pre-wrap">{{ currentUser.deskripsi }}</span>
@@ -490,6 +552,9 @@ export default {
       formDesc: {
         id: '',
         deskripsi: '',
+        nomor_telepon: '',
+        id_line: '',
+        instagram: '',
       },
 
     }
@@ -618,6 +683,9 @@ export default {
         $(".updateDescBtn").removeClass("hidden");
         $(".updateDescBtn").addClass("visible");
         this.formDesc.deskripsi = this.currentUser.deskripsi;
+        this.formDesc.nomor_telepon = this.currentUser.nomor_telepon;
+        this.formDesc.id_line = this.currentUser.id_line;
+        this.formDesc.instagram = this.currentUser.instagram;
       }else{
         $(".descEdit").removeClass("visible");
         $(".descEdit").addClass("hidden");
@@ -656,6 +724,18 @@ export default {
             if(error.response.data.errors.deskripsi != null)
               globe.$toasted.global.showError({
                 message: error.response.data.errors.deskripsi[0]
+              });
+            if(error.response.data.errors.nomor_telepon != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nomor_telepon[0]
+              });
+            if(error.response.data.errors.id_line != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.id_line[0]
+              });
+            if(error.response.data.errors.instagram != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.instagram[0]
               });
           }
         }
