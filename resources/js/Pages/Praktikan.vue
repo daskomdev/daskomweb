@@ -2162,9 +2162,9 @@ export default {
     },
 
     formPassword: function($bool){
-      if($bool){
+      if($bool)
         this.viewPassForm = true;
-      }else{
+      if(!$bool){
         this.viewPassForm = false;
         this.resetPass.password = '';
         this.resetPass.repeatpass = '';
@@ -2197,9 +2197,9 @@ export default {
               globe.$toasted.global.showError({
                 message: error.response.data.errors.password[0]
               });
-            if(error.response.data.errors.resetPass != null)
+            if(error.response.data.errors.repeatpass != null)
               globe.$toasted.global.showError({
-                message: error.response.data.errors.password[0]
+                message: error.response.data.errors.repeatpass[0]
               });
           } 
         }
