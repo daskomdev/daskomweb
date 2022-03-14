@@ -117,7 +117,7 @@ class PraktikanController extends Controller
             'password' => 'required|min:6',
             'repeatpass' => 'required|min:6',
         ]);
-        if(strcmp($request->password, $request->repeatpass)==0){
+        if(!strcmp($request->password, $request->repeatpass)){
             $praktikan = Praktikan::where('id',$user->id)->update([
                 'password'=>Hash::make($request->password),
             ]);
