@@ -2162,10 +2162,8 @@ export default {
     },
 
     formPassword: function($bool){
-      if($bool)
-        this.viewPassForm = true;
+        this.viewPassForm = $bool;
       if(!$bool){
-        this.viewPassForm = false;
         this.resetPass.password = '';
         this.resetPass.repeatpass = '';
       }
