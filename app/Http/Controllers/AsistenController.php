@@ -67,17 +67,21 @@ class AsistenController extends Controller
         $user = Auth::guard('asisten')->user();
         $request->validate([
             'deskripsi' => 'required|min:6|max:150',
+            'nomor_telepon' => 'required|min:1|max:14',
+            'id_line' => 'required|min:4|max:30',
+            'instagram' => 'required|min:1|max:30',
         ]);
 
         $asisten = Asisten::where('id',$user->id)->update([
-            'deskripsi'=>"$request->deskripsi",
+            'deskripsi'=>$request->deskripsi,
+            'nomor_telepon'=>$request->nomor_telepon,
+            'id_line'=>$request->id_line,
+            'instagram'=>$request->instagram,
         ]);
 
-        // echo $asisten;
         return response()->json([
             'message'=> 'success',
             'asisten' => $asisten,
-            'deskripsi' => $request->deskripsi,
         ], 200);
 
     }

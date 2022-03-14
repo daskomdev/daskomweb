@@ -38,7 +38,9 @@
                 <span class="font-merri-italic text-4xl mt-2"> ({{ currentUser.email }})</span>
               </div>
             </div>
-            <div class="h-auto w-full flex-row pb-4">
+            <div class="h-auto w-full flex-row pb-2"
+                  :class="[{'hidden':viewPassForm},
+                          {'visible':!viewPassForm}]">
               <div class="h-1/3 w-full flex"> 
                 <div class="w-auto h-auto ml-16 mt-8">
                   <span class="font-overpass text-3xl">Kelas : </span>
@@ -57,6 +59,42 @@
                   <span class="whitespace-pre-wrap font-overpass-bold text-3xl"> {{ currentUser.alamat }}</span>
                 </div>
               </div>
+            </div>
+            <div class="h-1/3 w-full flex pb-4">
+                <div class="w-auto h-auto ml-16 mt-4"
+                  :class="[{'hidden':viewPassForm},
+                          {'visible':!viewPassForm}]">
+                  <span class="font-overpass text-2xl bg-red-500 text-white p-3 pb-2 rounded-lg hover:bg-red-600 cursor-pointer duration-300 hover:duration-300"
+                  v-on:click="formPassword(true)">Ganti Password<img class="ml-1 p-1 fas fa-pen fa-lg"></span>
+                </div>
+                 <div class="w-auto h-auto ml-4 mt-4"
+                  :class="[{'hidden':viewPassForm},
+                          {'visible':!viewPassForm}]">
+                  <span class="font-overpass text-2xl bg-green-800 text-yellow-300 p-3 pb-2 rounded-lg hover:bg-green-600 cursor-pointer duration-300 hover:duration-300" v-on:click='travel("contact_asisten")'
+                  >Kontak Asisten<img class="ml-1 p-1 fas fa-users fa-lg"></span>
+                </div>
+            </div>
+            <div class="h-1/3 w-full flex-col pb-4"
+                  :class="[{'hidden':!viewPassForm},
+                          {'visible':viewPassForm}]">
+                <div class="w-2/3 h-auto ml-16 mt-2 flex-col">
+                  <div class="font-overpass-bold"> Input Password baru:</div>
+                  <input v-model="resetPass.password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/4 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="password" type="password" placeholder="******************">
+                </div>
+                <div class="w-2/3 h-auto ml-16 mt-2 flex-col">
+                  <div class="font-overpass-bold"> Ulangi Password baru:</div>
+                  <input v-model="resetPass.repeatpass" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/4 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="repeatpass" type="password" placeholder="******************">
+                </div>
+                <div class="w-2/3 h-auto ml-16 mt-2 flex">
+                  <span class="p-2 px-3 bg-red-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-red-700 animation-enable"
+                      v-on:click="formPassword(false)">
+                      <img class="p-1 fas fa-times fa-lg">
+                  </span>
+                  <span class="p-2 bg-green-600 font-merri-bold text-xl cursor-pointer text-white rounded-lg hover:bg-green-700 animation-enable mx-2"
+                      v-on:click="resetPassword">
+                      <img class="p-1 fas fa-check fa-lg">
+                  </span>
+                </div>
             </div>
           </div>
 
@@ -1141,6 +1179,14 @@ export default {
       ],
 
       secretMessage: 'VnRjdHggQU4gdnAgV1RZUCBxbGNsaGxqX2VjdHhwIG9weXJseSBhcGRseSA6IHF3bHJ7cGxkZXBjX3Bycl8xX290ZXB4ZnZseX0=',
+      
+      resetPass:{
+        password:'',
+        repeatpass: '',
+      },
+
+      viewPassForm: false,
+
     }
   },
 
@@ -2060,6 +2106,14 @@ export default {
       $('.profilIcon').addClass('w-3/12');
     },
 
+    travel: function($whereTo){
+      const globe = this;
+      setTimeout(
+        function() {
+          globe.$inertia.replace('/' + $whereTo);
+        }, 501); 
+    },
+
     signOut: function() {
 
       const globe = this;
@@ -2101,6 +2155,49 @@ export default {
             if(error.response.data.errors.pesan != null)
               globe.$toasted.global.showError({
                 message: error.response.data.errors.pesan[0]
+              });
+          } 
+        }
+      });
+    },
+
+    formPassword: function($bool){
+        this.viewPassForm = $bool;
+      if(!$bool){
+        this.resetPass.password = '';
+        this.resetPass.repeatpass = '';
+      }
+    },
+
+    resetPassword: function(){
+      const globe = this;
+        this.$axios.post('/resetPass', this.resetPass).then(response => {
+
+        if(response.data.message === "success") {
+          this.$toasted.global.showSuccess({
+            message: "Password berhasil diperbaharui"   
+          });
+      
+
+          this.signOut();
+
+        } else {
+          this.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      }).catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          if(error.response.data.errors != null){
+            if(error.response.data.errors.password != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.password[0]
+              });
+            if(error.response.data.errors.repeatpass != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.repeatpass[0]
               });
           } 
         }

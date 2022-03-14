@@ -15,7 +15,7 @@ class Asisten extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama', 'kode', 'password', 'role_id', 'deskripsi',
+        'nama', 'kode', 'password', 'role_id', 'deskripsi','nomor_telepon','id_line','instagram',
     ];
 
     /**

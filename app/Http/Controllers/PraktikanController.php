@@ -12,6 +12,7 @@ use App\Configuration;
 use App\Laporan_Praktikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class PraktikanController extends Controller
 {
@@ -108,6 +109,27 @@ class PraktikanController extends Controller
     public function update(Request $request, Praktikan $praktikan)
     {
         //
+    }
+
+    public function resetPass(Request $request){
+        $user = Auth::guard('praktikan')->user();
+        $request->validate([
+            'password' => 'required|min:6',
+            'repeatpass' => 'required|min:6',
+        ]);
+        if(!strcmp($request->password, $request->repeatpass)){
+            $praktikan = Praktikan::where('id',$user->id)->update([
+                'password'=>Hash::make($request->password),
+            ]);
+            return response()->json([
+                'message'=> 'success',
+                'password' => 'Password berhasil diperbarui',
+            ], 200);
+        }else{
+            return response()->json([
+                'message'=> 'repeat password tidak sesuai',
+            ], 200);
+        }
     }
 
     /**
