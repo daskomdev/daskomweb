@@ -58,7 +58,7 @@
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Zidan Surya Gilbran [ ZEN ]
+              Muhammad Naufal Ihsanul Hakim [ NIH ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -66,7 +66,7 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                081220020093  
+                08111348173  
               </div>
             </div>
             <div class="pl-4 font-overpass-mono text-xl flex h-8 mt-4">
@@ -74,12 +74,12 @@
                 <img class="fab fa-line w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                zidansurya
+                ihsanul_6
               </div>
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Muhammad Altaharik Hudzaifa [ RIK ]
+              Muhammad Rizqi Syah Ramadhan [ SYA ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -87,7 +87,7 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                085158522710
+                081316336682
               </div>
             </div>
             <div class="pl-4 font-overpass-mono text-xl flex h-8 mt-4">
@@ -95,7 +95,7 @@
                 <img class="fab fa-line w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                altaharik.hudzaifa
+                rizqisyah_
               </div>
             </div>
 
