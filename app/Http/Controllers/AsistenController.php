@@ -42,22 +42,28 @@ class AsistenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'      => 'required|unique:asistens|unique:praktikans|string',
-            'kode'      => 'required|unique:asistens|size:3|string',
-            'password'  => 'required|min:6|string',
-            'role_id'   => 'required|integer',
-            'deskripsi' => 'required|min:10|string',
+            'nama'          => 'required|unique:asistens|unique:praktikans|string',
+            'kode'          => 'required|unique:asistens|size:3|string',
+            'password'      => 'required|min:6|string',
+            'role_id'       => 'required|integer',
+            'deskripsi'     => 'required|min:10|string',
+            'nomor_telepon' => 'required|min:1|max:14',
+            'id_line'       => 'required|min:4|max:30',
+            'instagram'     => 'required|min:1|max:30',
         ]);
 
         if(!Configuration::find(1)->registrationAsisten_activation)
             return '{"message": "Registrasi untuk asisten telah ditutup"}';
 
         Asisten::create([
-            'nama'      => $request->nama,
-            'kode'      => strtoupper($request->kode),
-            'password'  => Hash::make($request->password),
-            'role_id'   => $request->role_id,
-            'deskripsi' => $request->deskripsi,
+            'nama'          => $request->nama,
+            'kode'          => strtoupper($request->kode),
+            'password'      => Hash::make($request->password),
+            'role_id'       => $request->role_id,
+            'deskripsi'     => $request->deskripsi,
+            'nomor_telepon' => $request->nomor_telepon,
+            'id_line'       => $request->id_line,
+            'instagram'     => $request->instagram,
         ]);
 
         return '{"message": "success"}';
@@ -66,22 +72,22 @@ class AsistenController extends Controller
     public function updateDesc(Request $request){
         $user = Auth::guard('asisten')->user();
         $request->validate([
-            'deskripsi' => 'required|min:6|max:150',
+            'deskripsi'     => 'required|min:6|max:150',
             'nomor_telepon' => 'required|min:1|max:14',
-            'id_line' => 'required|min:4|max:30',
-            'instagram' => 'required|min:1|max:30',
+            'id_line'       => 'required|min:4|max:30',
+            'instagram'     => 'required|min:1|max:30',
         ]);
 
         $asisten = Asisten::where('id',$user->id)->update([
-            'deskripsi'=>$request->deskripsi,
-            'nomor_telepon'=>$request->nomor_telepon,
-            'id_line'=>$request->id_line,
-            'instagram'=>$request->instagram,
+            'deskripsi'     => $request->deskripsi,
+            'nomor_telepon' => $request->nomor_telepon,
+            'id_line'       => $request->id_line,
+            'instagram'     => $request->instagram,
         ]);
 
         return response()->json([
-            'message'=> 'success',
-            'asisten' => $asisten,
+            'message'   => 'success',
+            'asisten'   => $asisten,
         ], 200);
 
     }
@@ -119,10 +125,10 @@ class AsistenController extends Controller
         }
 
         return response()->json([
-            'message'=> 'success',
+            'message'       => 'success',
             'ratingAsisten' => $ratingAsisten,
-            'gajiAsisten' => $gajiAsisten,
-            'taxRate' => $taxRate,
+            'gajiAsisten'   => $gajiAsisten,
+            'taxRate'       => $taxRate,
         ], 200);
     }
 
