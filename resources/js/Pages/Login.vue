@@ -104,7 +104,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="formPraktikan.nomor_telepon" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="NomorTelepon" type="text" placeholder="62**********">
+              <input v-model="formPraktikan.nomor_telepon" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="NomorTelepon" type="text" placeholder="08**********">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -253,6 +253,36 @@
             </div>
             <div class="w-2/3">
               <input v-model="formAsisten.deskripsi" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Deskripsi" type="text" placeholder="Gitu aja">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Nomor_telepon">
+                Nomor Telepon
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formAsisten.nomor_telepon" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="nomorTelepon" type="text" placeholder="08**********">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="LineID">
+                Line ID
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formAsisten.id_line" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="idLine" type="text" placeholder="ini_idLine">
+            </div>
+          </div>
+          <div class="flex items-center mb-6">
+            <div class="w-1/3">
+              <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4" for="Instagram">
+                Instagram
+              </label>
+            </div>
+            <div class="w-2/3">
+              <input v-model="formAsisten.instagram" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Instagram" type="text" placeholder="@telu.daskom">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -438,6 +468,9 @@ export default {
         password: '',
         role_id: '',
         deskripsi: '',
+        nomor_telepon: '',
+        id_line: '',
+        instagram: '',
       },
 
       formLoginAsisten: {
@@ -661,6 +694,18 @@ export default {
               globe.$toasted.global.showError({
                 message: error.response.data.errors.deskripsi[0]
               });
+            if(error.response.data.errors.nomor_telepon != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.nomor_telepon[0]
+              });
+            if(error.response.data.errors.id_line != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.id_line[0]
+              });
+            if(error.response.data.errors.instagram != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.instagram[0]
+              });  
           }
         }
       });
