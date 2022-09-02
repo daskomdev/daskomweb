@@ -24,12 +24,12 @@
               { 'animation-enable': animationEnable}]">
       <div class="flex">
         <div ref="aboutText" class="leading-relaxed w-full h-full m-10 font-overpass text-left text-2xl text-teal-100">
-          <span class="font-merri-bold text-3xl">Lab Dasar Komputer</span><br>
-          merupakan laboratorium di bawah naungan <a class="constant" href="https://see.telkomuniversity.ac.id/">Fakultas Teknik Elektro</a><br>
+          <span class="font-merri-bold text-3xl">Laboratorium Dasar Komputer</span><br>
+          Merupakan laboratorium di bawah naungan <a class="constant" href="https://see.telkomuniversity.ac.id/">Fakultas Teknik Elektro</a><br>
           yang memfasilitasi semua mahasiswa tingkat satu<br>
-          <a class="constant" href="http://bpe.telkomuniversity.ac.id/">S1 Teknik Fisika</a>, <a class="constant" href="https://bte.telkomuniversity.ac.id/">S1 Teknik Telekomunikasi</a>, dan <a class="constant" href="http://bee.telkomuniversity.ac.id/">S1 Teknik Elektro</a><br>
+          <a class="constant" href="http://bpe.telkomuniversity.ac.id/">S1 Teknik Fisika</a>, <a class="constant" href="https://bte.telkomuniversity.ac.id/">S1 Teknik Telekomunikasi</a>, <a class="constant" href="http://bee.telkomuniversity.ac.id/">S1 Teknik Elektro</a>, dan <a class="constant" href="http://bbe.telkomuniversity.ac.id/">S1 Teknik Biomedis</a><br>
           untuk lebih memahami dan dapat mengaplikasikan secara langsung<br>
-          dasar dasar algoritma dan pemrograman menggunakan bahasa C
+          dasar-dasar algoritma dan pemrograman menggunakan bahasa C.
         </div>
       </div>
     </div>
