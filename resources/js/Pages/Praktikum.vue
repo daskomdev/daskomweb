@@ -592,14 +592,14 @@
                 TA
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 2 },
-                          { 'hidden': statusPraktikum != 2 }]">
-                PRESENTASI
+                  :class="[{ 'visible': statusPraktikum === 2 || statusPraktikum === 123 },
+                          { 'hidden': statusPraktikum != 2 && statusPraktikum != 123 }]">
+                JURNAL
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 3 || statusPraktikum === 123  },
-                          { 'hidden': statusPraktikum != 3 && statusPraktikum != 123 }]">
-                JURNAL
+                  :class="[{ 'visible': statusPraktikum === 3},
+                          { 'hidden': statusPraktikum != 3}]">
+                MANDIRI
               </span> 
               <span class="font-overpass-bold text-9xl " 
                   :class="[{ 'visible': statusPraktikum === 4 },
@@ -1149,8 +1149,8 @@ export default {
       /****************************/
       // 0: Just started (First default initialization)
       // 1: Begin TA countdown
-      // 2: Go To Mandiri (presentasi) Section  //changed since 2018 in charge (developAND)
-      // 3: Go To Jurnal Section
+      // 2: Go To Jurnal Section
+      // 3: Go To Mandiri || presentasi Section  //presentasi made in 2018 in charge (developAND)
       // 4: Go To TK section
       // 5: Open The Laporan Praktikan 
       //    (Tell them to rate the assistant and the prakikum)
@@ -1298,10 +1298,10 @@ export default {
           //(If status Praktikum === 1, means all the layout condition still on its default state)
           switch (globe.statusPraktikum) {
             case 2:
-              globe.countDown = globe.MANDIRItiming;
+              globe.countDown = globe.JURNALtiming;
               break;
             case 3:
-              globe.countDown = globe.JURNALtiming;
+              globe.countDown = globe.MANDIRItiming;
               break;
             case 4:
               globe.countDown = globe.TKtiming;
@@ -1737,10 +1737,10 @@ export default {
       //(If status Praktikum === 1, means all the layout condition still on its default state)
       switch (globe.statusPraktikum) {
         case 2:
-          globe.countDown = globe.MANDIRItiming;
+          globe.countDown = globe.JURNALtiming;
           break;
         case 3:
-          globe.countDown = globe.JURNALtiming;
+          globe.countDown = globe.MANDIRItiming;
           break;
         case 4:
           globe.countDown = globe.TKtiming;
