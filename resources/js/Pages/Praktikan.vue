@@ -239,7 +239,7 @@
             <!-- When polling enabled -->
             <div v-if="isPollingEnabled" class="w-full h-full flex">
               <div v-if="pollingComplete_mutable" class="font-monda-bold h-auto w-auto m-auto text-center text-5xl"> 
-                <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2021/2022 🎉🎉</span>
+                <span>Polling telah selesai<br>Selamat anda telah menyelesaikan praktikum<br>Dasar Komputer 2022/2023 🎉🎉</span>
               </div>
               <div v-if="!pollingComplete_mutable" class="w-full h-full py-4 relative">
 
@@ -385,7 +385,7 @@
                 </div>
               </div>
               
-              <!-- Soal Mandiri already started by Praktikum PJ -->
+              <!-- Soal Jurnal already started by Praktikum PJ -->
               <div v-if="current_praktikum.status === 2"
                   class="w-full h-full flex">
                 <div class="w-full h-full flex overflow-hidden"
@@ -411,7 +411,7 @@
                             v-on:click="showNilaiTA = false">
                           <div class="h-full w-full flex font-merri text-xl bg-gray-800 rounded-lg text-center m-auto">
                             <div class="m-auto text-white">
-                              Lanjut Ke Presentasi
+                              Lanjut Ke Jurnal
                             </div>
                           </div>
                         </div>
@@ -419,7 +419,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-1/4 h-full flex-row overflow-y-hidden">
+                <div class="w-1/4 h-full flex-row overflow-y-hidden"
+                      :class="[{ 'visible' : !showNilaiTA },
+                                { 'hidden' : showNilaiTA }]">
                   <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
                     <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
                       Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
@@ -428,7 +430,7 @@
                   <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
                     <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
                       <div class="m-auto">
-                        PRESENTASI
+                        JURNAL
                       </div>
                     </div>
                     <div class="h-1/2 w-full flex"
@@ -456,26 +458,50 @@
                   </div>
                 </div>
                 <div class="w-3/4 h-full flex" 
-                    v-if="!modulShown">
+                      :class="[{ 'visible' : !showNilaiTA },
+                                { 'hidden' : showNilaiTA }]"
+                      v-if="!modulShown">
                   <div class="w-full h-full overflow-y-auto">
                     <div class="w-full h-auto flex-row">
-                      <div class="w-full h-auto flex px-5">
-                       <div class="w-full h-auto flex px-5">
-                          <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-5xl">
-                             Presentasikan script ini! 
+                      <div v-for="(soal, index) in soalFitb" v-bind:key="index" 
+                          class="w-full flex-row h-auto">
+                        <div class="w-full h-auto flex my-10">
+                          <div class="h-full w-12 flex font-merri-bold text-xl">
+                            <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
                           </div>
-        
+                          <div class="h-12 px-1 w-4">
+                            <div class="h-full w-full bg-gray-900"/>
+                          </div>
+                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                            <span>{{ soal.soal }}</span>
+                          </div>
+                        </div>
+                        <div class="w-full h-auto flex px-5">
+                          <textarea v-model="jawabanFitb[index].jawaban" cols="30" rows="10"
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                type="text" placeholder="Ketik jawabanmu disini ..."/>
                         </div>
                       </div>
-                        <textarea v-model="soalPresentasi" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 break-words whitespace-pre-wrap flex" 
-                                type="text" placeholder="Oops, apa kamu mengosongkan soal TP nomor 8? Coba refresh halaman ini" >
-                                
-                            </textarea>
-                    </div>
-                          <div class="h-auto text-black w-auto m-auto text-center font-monda-bold text-2xl">
-                             Presentasikanlah dengan padat dan jelas,<br> serta tidak melupakan algoritma yang digunakan ^_^ <br>(script boleh diedit untuk membantu presentasi)<br><br> Waktu total sesi presentasi adalah <u>10 menit</u>, alokasikan waktu <br>untuk mempelajari script dan presentasi dengan baik! 
+                      <div v-for="(soal, index) in soalJurnal" v-bind:key="index+1" 
+                          class="w-full flex-row h-auto">
+                        <div class="w-full h-auto flex my-10">
+                          <div class="h-full w-12 flex font-merri-bold text-xl">
+                            <div class="m-auto w-auto h-auto">{{ soalFitb.length+(index+1) }}</div>
                           </div>
+                          <div class="h-12 px-1 w-4">
+                            <div class="h-full w-full bg-gray-900"/>
+                          </div>
+                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                            <span>{{ soal.soal }}</span>
+                          </div>
+                        </div>
+                        <div class="w-full h-auto flex px-5">
+                          <textarea v-model="jawabanJurnal[index].jawaban" cols="30" rows="10"
+                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                type="text" placeholder="Ketik jawabanmu disini ..."/>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="w-3/4 h-full flex" 
@@ -563,9 +589,7 @@
               <!-- Soal JURNAL already started by Praktikum PJ -->
               <div v-if="current_praktikum.status === 3"
                   class="w-full h-full flex">
-                <div class="w-1/4 h-full flex-row overflow-y-hidden"
-                      :class="[{ 'visible' : !showNilaiTA },
-                                { 'hidden' : showNilaiTA }]">
+                <div class="w-1/4 h-full flex-row overflow-y-hidden">
                   <div class="w-full h-2/3 flex bg-yellow-700 px-2 overflow-x-hidden rounded-tl-large overflow-y-auto">
                     <div class="h-auto text-white w-auto m-auto text-center font-monda-bold text-3xl">
                       Modul <br> <span class="font-merri">{{ current_modul.judul }}</span>
@@ -574,7 +598,7 @@
                   <div class="w-full h-1/3 flex-row bg-yellow-600 rounded-bl-large">
                     <div class="h-1/2 text-white flex text-center w-auto m-auto font-monda-bold text-2xl">
                       <div class="m-auto">
-                        JURNAL
+                        MANDIRI
                       </div>
                     </div>
                     <div class="h-1/2 w-full flex"
@@ -602,12 +626,10 @@
                   </div>
                 </div>
                 <div class="w-3/4 h-full flex" 
-                      :class="[{ 'visible' : !showNilaiTA },
-                                { 'hidden' : showNilaiTA }]"
-                      v-if="!modulShown">
+                    v-if="!modulShown">
                   <div class="w-full h-full overflow-y-auto">
                     <div class="w-full h-auto flex-row">
-                      <div v-for="(soal, index) in soalFitb" v-bind:key="index" 
+                      <div v-for="(soal, index) in soalMandiri" v-bind:key="soal.id" 
                           class="w-full flex-row h-auto">
                         <div class="w-full h-auto flex my-10">
                           <div class="h-full w-12 flex font-merri-bold text-xl">
@@ -621,26 +643,7 @@
                           </div>
                         </div>
                         <div class="w-full h-auto flex px-5">
-                          <textarea v-model="jawabanFitb[index].jawaban" cols="30" rows="10"
-                                class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                                type="text" placeholder="Ketik jawabanmu disini ..."/>
-                        </div>
-                      </div>
-                      <div v-for="(soal, index) in soalJurnal" v-bind:key="index+1" 
-                          class="w-full flex-row h-auto">
-                        <div class="w-full h-auto flex my-10">
-                          <div class="h-full w-12 flex font-merri-bold text-xl">
-                            <div class="m-auto w-auto h-auto">{{ soalFitb.length+(index+1) }}</div>
-                          </div>
-                          <div class="h-12 px-1 w-4">
-                            <div class="h-full w-full bg-gray-900"/>
-                          </div>
-                          <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
-                            <span>{{ soal.soal }}</span>
-                          </div>
-                        </div>
-                        <div class="w-full h-auto flex px-5">
-                          <textarea v-model="jawabanJurnal[index].jawaban" cols="30" rows="10"
+                          <textarea v-model="jawabanMandiri[index].jawaban" cols="30" rows="10"
                                 class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                                 type="text" placeholder="Ketik jawabanmu disini ..."/>
                         </div>
@@ -1174,7 +1177,7 @@ export default {
       ],
 
       badScoreText: [
-        "Makanya sebelum praktikum belajar dulu ya",
+        "Ayo lebih semangat lagi belajarnya!!!",
         "Waduh jangan mau kalah sama temen yang lain"
       ],
 
@@ -1705,7 +1708,6 @@ export default {
             break;
 
           case 2:
-            // now it should be transition between TA->Presentasi
             // Realtime connection make changes to status 2
             // Meaning we should send jawaban in status 1 (Soal TA)
             if(isRealtime){
@@ -1725,36 +1727,10 @@ export default {
               }); 
             }
             
-            // Start opening Jurnal Section and get all SOAL from
-            // get soal from soal__jurnals and soal__fitbs 
-            // new: get jawaban from jawaban__tp where soal__tp.isProgram=1
-            globe.randomNumber=7 //select number 8 of the unrandomized soal 
-            globe.$axios.post('api/getTp/'+globe.currentUser.nim+'/'+globe.current_praktikum.modul_id).then(response => {
-            globe.soalPresentasi = JSON.stringify(response.data.all_tp[globe.randomNumber].jawaban)
-            globe.soalPresentasi = globe.soalPresentasi.replace(/\\n/g,'\n')
-            globe.soalPresentasi = globe.soalPresentasi.replace(/\\t/g,'    ') 
-            globe.soalPresentasi = globe.soalPresentasi.replace(/\\"/g,'"') 
-            }); 
-            
-            break;
-
-          case 3:
-            
-            // Realtime connection make changes to status 3
-            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
-            // new : no need to send jawaban because it's presentasi (new status 2)
-            if(isRealtime){
-              
-             
-            }
-
-            // Start opening Mandiri Section and get all SOAL from
-            // get soal from soal__mandiris
-            
-            // new: start opening jurnal section, 
+            // Start opening jurnal section, 
             // get all soal from: get soal from soal__jurnal, soal__fitb
             globe.$axios.get('/getSoalJURNAL').then(response => {
-              ///////  New Codes Below:
+
               if(response.data.message === "success") {
 
                 if(response.data.all_soal !== null){
@@ -1777,8 +1753,7 @@ export default {
                 });
               }
             }); 
-          
-             globe.$axios.get('/getSoalFITB').then(response => {
+            globe.$axios.get('/getSoalFITB').then(response => {
 
               if(response.data.message === "success") {
 
@@ -1803,25 +1778,15 @@ export default {
               }
             });
             break;
-            
-          case 4:
 
-            // Realtime connection make changes to status 4
-            // Meaning we should send jawaban in status 3 (Soal Jurnal)
+          case 3:
+            
+            // Realtime connection make changes to status 3
+            // Meaning we should send jawaban in status 2 (Soal Jurnal and Soal FITB)
             if(isRealtime){
               
-              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(response => { 
+              globe.$axios.post('/sendJawabanJurnal', globe.jawabanJurnal).then(response => {
 
-                if(response.data.message === "success") {
-                  // Do nothing as all of jawaban successfully saved to the DB
-                  
-                } else {
-                  globe.$toasted.global.showError({
-                    message: response.data.message
-                  });
-                }
-              });
-           globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
                 if(response.data.message === "success") {
                   // Do nothing as all of jawaban successfully saved to the DB
                   
@@ -1831,11 +1796,66 @@ export default {
                   });
                 }
               }); 
-              
-              
+
+              globe.$axios.post('/sendJawabanFitb', globe.jawabanFitb).then(response => {
+
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              }); 
             }
-          
+
+            // Start opening Mandiri Section and get all SOAL from
+            // get soal from soal__mandiris
+            globe.$axios.get('/getSoalMANDIRI/'+globe.current_praktikum.modul_id+'/'+globe.current_praktikum.kelas_id).then(response => {
+
+              if(response.data.message === "success") {
+
+                if(response.data.all_soal !== null){
+
+                  globe.soalMandiri = response.data.all_soal;
+                  for (let index = 0; index < globe.soalMandiri.length; index++) {
+                    const soal = globe.soalMandiri[index];
+                    globe.jawabanMandiri.push({
+                      soal_id: soal.id,
+                      modul_id: soal.modul_id,
+                      praktikan_id: globe.currentUser.id,
+                      jawaban: '',
+                    });
+                  }
+                }
+
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            }); 
+            break;
+
+          case 4:
             
+            // Realtime connection make changes to status 4
+            // Meaning we should send jawaban in status 3 (Soal Mandiri)
+            if(isRealtime){
+              
+              globe.$axios.post('/sendJawabanMandiri', globe.jawabanMandiri).then(response => {
+
+                if(response.data.message === "success") {
+                  // Do nothing as all of jawaban successfully saved to the DB
+                  
+                } else {
+                  globe.$toasted.global.showError({
+                    message: response.data.message
+                  });
+                }
+              }); 
+            }
 
             // Start Opening TK and grab all SOAL from it
             // (get RANDOMIZED soal from soal__tks)
@@ -1874,8 +1894,8 @@ export default {
                 });
               }
             }); 
-          
-          break;
+            break;
+
           case 5: 
 
             if(globe.isRunmod) {

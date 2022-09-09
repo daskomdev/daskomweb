@@ -119,8 +119,8 @@ class AsistenController extends Controller
         if(count($allAsistenData) !== 0){
 
             $ratingAsisten /= count($allAsistenData);
-            $gajiAsisten = $regHistoryCount * 25000;
-            $gajiAsisten += $intHistoryCount * 62500;
+            $gajiAsisten = $regHistoryCount * 31250;
+            $gajiAsisten += $intHistoryCount * 75000;
             $gajiAsisten -= ($gajiAsisten * $taxRate);
         }
 
