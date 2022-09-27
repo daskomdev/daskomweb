@@ -280,8 +280,8 @@
 
       <!-- List All Kelas -->
       <div class="absolute w-full h-full animation-enable"
-          :class="[{ 'left-minFull': !currentPage },
-                  { 'left-0': currentPage }]" v-bar>
+          :class="[{ 'left-minFull': !currentPage},
+                  { 'left-0': currentPage}]" v-bar>
         <div>
           <div class="w-full h-8"/>
           <transition-group name="kelas-list" tag="div">
@@ -289,14 +289,17 @@
                 class="animation-enable-short pr-8 hover:pr-4 opacity-75 cursor-pointer z-50 w-full h-16 flex text-center my-4 font-merri-bold text-3xl text-yellow-400"
                 :class="'kelas-'+kelas.id"
                 v-on:click="kelas != chosenKelas ? changeForm(kelas): resetForm(kelas)">
-              <div class="w-3/6 h-full uppercase py-2 bg-green-700">
+              <div class="w-4/12 h-full uppercase py-2 bg-green-700">
                 {{ kelas.kelas }}
               </div>
-              <div class="w-1/6 h-full uppercase py-2 bg-green-600">
+              <div class="w-3/12 h-full uppercase py-2 bg-green-600">
                 {{ kelas.hari }}
               </div>
-              <div class="w-1/6 h-full py-1 bg-green-500 rounded-r-full text-yellow-300">
+              <div class="w-2/12 h-full py-1 bg-green-500 text-yellow-300">
                 {{ kelas.shift }}
+              </div>
+              <div class="w-1/12 h-full py-1 bg-white rounded-r-full text-black">
+                {{ kelas.totalGroup }}
               </div>
             </div>
           </transition-group>
@@ -304,6 +307,36 @@
         </div>
       </div>
 
+      <!-- List all Group will continued after this PR
+      <div class="absolute w-full h-full animation-enable"
+          :class="[{ 'left-minFull': !fillTheGroup},
+                  { 'left-0': fillTheGroup}]" v-bar>
+        <div>
+          <div class="w-full h-8"/>
+          <transition-group name="kelas-list" tag="div">
+            <div v-for="kelas in listAllKelas" v-bind:key="kelas.id" 
+                class="animation-enable-short pr-8 hover:pr-4 opacity-75 cursor-pointer z-50 w-full h-16 flex text-center my-4 font-merri-bold text-3xl text-yellow-400"
+                :class="'kelas-'+kelas.id"
+                v-on:click="kelas != chosenKelas ? changeForm(kelas): resetForm(kelas)">
+              <div class="w-4/12 h-full uppercase py-2 bg-green-700">
+                {{ kelas.kelas }}
+              </div>
+              <div class="w-3/12 h-full uppercase py-2 bg-green-600">
+                {{ kelas.hari }}
+              </div>
+              <div class="w-2/12 h-full py-1 bg-green-500 text-yellow-300">
+                {{ kelas.shift }}
+              </div>
+              <div class="w-1/12 h-full py-1 bg-white rounded-r-full text-black animation-enable-short hover:bg-gray-500"
+                   v-on:click="goToFillTheGroup(false)">
+                {{ kelas.totalGroup }}
+              </div>
+            </div>
+          </transition-group>
+          <div class="w-full h-8"/>
+        </div>
+      </div> -->
+      
       <!-- Kelas Menu -->
       <div class="relative pointer-events-none w-full h-full flex animation-enable-short"
           :class="[{ 'opacity-25': !kelasMenuShown && !buttonHovered },
@@ -314,7 +347,7 @@
                     { 'bottom-0': currentPage }]">
           <div class="w-full h-full flex">
             <div class="w-3/12 h-full"/>
-            <div class="w-6/12 h-full pointer-events-auto" @mouseover="kelasMenuShown = true;" @mouseleave="kelasMenuShown = false">
+            <div class="w-7/12 h-full pointer-events-auto" @mouseover="kelasMenuShown = true;" @mouseleave="kelasMenuShown = false">
               <div class="w-full h-full flex bg-gray-600 rounded-lg">
                 <form id="kelasForm" class="w-full h-20 flex" ref="form">
                   <div class="w-3/6 py-2 px-4 h-full flex-row">
@@ -327,7 +360,7 @@
                             id="Kelas" type="text" placeholder="EL-41-05">
                     </div>
                   </div>
-                  <div class="w-2/6 py-2 px-1 h-full flex-row">
+                  <div class="w-2/6 py-2 pl-1 pr-2 h-full flex-row">
                     <span class="font-merri w-full text-left text-white text-lg h-1/4">
                       Hari
                     </span>
@@ -337,7 +370,7 @@
                             id="Hari" type="text" placeholder="Senin">
                     </div>
                   </div>
-                  <div class="w-1/6 py-2 px-4 h-full flex-row">
+                  <div class="w-1/6 py-2 px-3 h-full flex-row">
                     <span class="font-merri w-full text-left text-white text-lg h-1/4">
                       Shift
                     </span>
@@ -345,6 +378,16 @@
                       <input v-model="formKelas.shift"
                             class="font-overpass-mono-bold uppercase text-2xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                             id="Shift" type="text" placeholder="4">
+                    </div>
+                  </div>
+                  <div class="w-3/12 py-2 pl-2 pr-4 h-full flex-row">
+                    <span class="font-merri w-full text-left text-white text-lg h-1/4">
+                      Group
+                    </span>
+                    <div class="w-full h-3/4">
+                      <input v-model="formKelas.totalGroup"
+                            class="font-overpass-mono-bold uppercase text-2xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                            id="totalGroup" type="text" placeholder="4">
                     </div>
                   </div>
                 </form>
@@ -450,6 +493,8 @@ export default {
       changePage: false,
       currentPage: false,
 
+      fillTheGroup : false, //Will be used on the next PR
+
       menuProfil: false,
       menuPraktikum: false,
       menuListTp: false,
@@ -474,6 +519,7 @@ export default {
         kelas: '',
         hari: '',
         shift: '',
+        totalGroup: '',
       },
 
       chosenKelas: {
@@ -481,6 +527,7 @@ export default {
         kelas: '',
         hari: '',
         shift: '',
+        totalGroup: '',
       },
     }
   },
@@ -556,11 +603,12 @@ export default {
       $('.kelas-'+this.chosenKelas.id).removeClass('opacity-100 pr-4');
       $('.kelas-'+this.chosenKelas.id).addClass('opacity-75 pr-8 hover:pr-4');
 
-      this.formKelas.id = "";
-      this.formKelas.oldKelas = "";
-      this.formKelas.kelas = "";
-      this.formKelas.hari = "";
-      this.formKelas.shift = "";
+      this.formKelas.id         = "";
+      this.formKelas.oldKelas   = "";
+      this.formKelas.kelas      = "";
+      this.formKelas.hari       = "";
+      this.formKelas.shift      = "";
+      this.formKelas.totalGroup = "";
 
       $("#kelasForm")[0].reset();
     },
@@ -577,30 +625,35 @@ export default {
         $('.kelas-'+$kelas.id).addClass('opacity-100 pr-4');
         this.chosenKelas = $kelas;
 
-        this.formKelas.oldKelas = $kelas.kelas;
-        this.formKelas.kelas = $kelas.kelas;
-        this.formKelas.hari = $kelas.hari;
-        this.formKelas.id = $kelas.id;
-        this.formKelas.shift = $kelas.shift.toString();
+        this.formKelas.oldKelas   = $kelas.kelas;
+        this.formKelas.kelas      = $kelas.kelas;
+        this.formKelas.hari       = $kelas.hari;
+        this.formKelas.id         = $kelas.id;
+        this.formKelas.shift      = $kelas.shift.toString();
+        this.formKelas.totalGroup = $kelas.totalGroup;
 
         document.getElementById("Kelas").value = this.chosenKelas.kelas;
         document.getElementById("Hari").value = this.chosenKelas.hari;
         document.getElementById("Shift").value = this.chosenKelas.shift;
+        document.getElementById("totalGroup").value = this.chosenKelas.totalGroup;
       }
 
       if(this.chosenKelas.kelas === this.formKelas.kelas &&
           this.chosenKelas.hari === this.formKelas.hari &&
-          this.chosenKelas.shift === this.formKelas.shift){
+          this.chosenKelas.shift === this.formKelas.shift &&
+          this.chosenKelas.totalGroup === this.formKelas.totalGroup){
 
         this.formKelas.oldKelas = $kelas.kelas;
         this.formKelas.kelas = $kelas.kelas;
         this.formKelas.hari = $kelas.hari;
         this.formKelas.id = $kelas.id;
         this.formKelas.shift = $kelas.shift.toString();
+        this.formKelas.totalGroup = $kelas.totalGroup;
 
         document.getElementById("Kelas").value = this.chosenKelas.kelas;
         document.getElementById("Hari").value = this.chosenKelas.hari;
         document.getElementById("Shift").value = this.chosenKelas.shift;
+        document.getElementById("totalGroup").value = this.chosenKelas.totalGroup;
       }
     }, 
 
@@ -652,6 +705,7 @@ export default {
           globe.formKelas.kelas = "";
           globe.formKelas.hari = "";
           globe.formKelas.shift = "";
+          globe.formKelas.totalGroup = "";
 
         } else {
           globe.$toasted.global.showError({
@@ -674,6 +728,10 @@ export default {
             if(error.response.data.errors.shift != null)
               globe.$toasted.global.showError({
                 message: error.response.data.errors.shift[0]
+              });
+            if(error.response.data.errors.totalGroup != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.totalGroup[0]
               });
           }
         }
@@ -765,6 +823,7 @@ export default {
               kelas: globe.formKelas.kelas,
               hari: globe.formKelas.hari,
               shift: globe.formKelas.shift,
+              totalGroup: globe.formKelas.totalGroup,
             })
           } else {
             globe.$toasted.global.showError({
@@ -788,11 +847,25 @@ export default {
                 globe.$toasted.global.showError({
                   message: error.response.data.errors.shift[0]
                 });
+              if(error.response.data.errors.totalGroup != null)
+              globe.$toasted.global.showError({
+                message: error.response.data.errors.totalGroup[0]
+              });
             }
           }
         });
       }
-    }
+    },
+//For next PR
+    // goToFillTheGroup: function($bool){
+    //           if ($bool) {
+    //             this.fillTheGroup = true;
+    //             this.currentPage = false;
+    //           }else{
+    //             this.fillTheGroup = false;
+    //             this.currentPage = true;
+    //           }
+    //         }
   }
 }
 </script>

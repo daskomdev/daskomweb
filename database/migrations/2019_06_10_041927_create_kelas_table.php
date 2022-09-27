@@ -18,6 +18,7 @@ class CreateKelasTable extends Migration
             $table->string('kelas', 10);
             $table->string('hari');
             $table->integer('shift');
+            $table->integer('totalGroup');
             $table->timestamps();
         });
     }
