@@ -306,36 +306,6 @@
           <div class="w-full h-8"/>
         </div>
       </div>
-
-      <!-- List all Group will continued after this PR
-      <div class="absolute w-full h-full animation-enable"
-          :class="[{ 'left-minFull': !fillTheGroup},
-                  { 'left-0': fillTheGroup}]" v-bar>
-        <div>
-          <div class="w-full h-8"/>
-          <transition-group name="kelas-list" tag="div">
-            <div v-for="kelas in listAllKelas" v-bind:key="kelas.id" 
-                class="animation-enable-short pr-8 hover:pr-4 opacity-75 cursor-pointer z-50 w-full h-16 flex text-center my-4 font-merri-bold text-3xl text-yellow-400"
-                :class="'kelas-'+kelas.id"
-                v-on:click="kelas != chosenKelas ? changeForm(kelas): resetForm(kelas)">
-              <div class="w-4/12 h-full uppercase py-2 bg-green-700">
-                {{ kelas.kelas }}
-              </div>
-              <div class="w-3/12 h-full uppercase py-2 bg-green-600">
-                {{ kelas.hari }}
-              </div>
-              <div class="w-2/12 h-full py-1 bg-green-500 text-yellow-300">
-                {{ kelas.shift }}
-              </div>
-              <div class="w-1/12 h-full py-1 bg-white rounded-r-full text-black animation-enable-short hover:bg-gray-500"
-                   v-on:click="goToFillTheGroup(false)">
-                {{ kelas.totalGroup }}
-              </div>
-            </div>
-          </transition-group>
-          <div class="w-full h-8"/>
-        </div>
-      </div> -->
       
       <!-- Kelas Menu -->
       <div class="relative pointer-events-none w-full h-full flex animation-enable-short"
@@ -856,16 +826,6 @@ export default {
         });
       }
     },
-//For next PR
-    // goToFillTheGroup: function($bool){
-    //           if ($bool) {
-    //             this.fillTheGroup = true;
-    //             this.currentPage = false;
-    //           }else{
-    //             this.fillTheGroup = false;
-    //             this.currentPage = true;
-    //           }
-    //         }
   }
 }
 </script>
