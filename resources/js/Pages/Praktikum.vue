@@ -567,24 +567,15 @@
                   statusPraktikum === 1 ||
                   statusPraktikum === 2 ||
                   statusPraktikum === 3 ||
-                  statusPraktikum === 4 ||
-                  statusPraktikum === 123" 
+                  statusPraktikum === 4" 
             class="w-full h-24full flex-row absolute bottom-0 pointer-events-none">
           <div class="w-full h-1/2 flex">
             <div class="w-auto text-white h-auto mx-auto mt-auto pt-24 text-center">
               <span class="font-overpass-bold text-3xl text-center"
-                  v-if="!isRunmod"
                   :class="[{ 'visible': statusPraktikum === 0 },
                           { 'hidden': statusPraktikum != 0 }]">
                 PRAKTIKUM DASKOM<br>
                 (Klik START untuk memulai TA)
-              </span> 
-              <span class="font-overpass-bold text-3xl text-center"
-                  v-if="isRunmod"
-                  :class="[{ 'visible': statusPraktikum === 0 },
-                          { 'hidden': statusPraktikum != 0 }]">
-                PRAKTIKUM DASKOM<br>
-                (Klik START untuk memulai JURNAL)
               </span> 
               <span class="font-overpass-bold text-9xl " 
                   :class="[{ 'visible': statusPraktikum === 1 },
@@ -592,8 +583,8 @@
                 TA
               </span> 
               <span class="font-overpass-bold text-9xl " 
-                  :class="[{ 'visible': statusPraktikum === 2 || statusPraktikum === 123 },
-                          { 'hidden': statusPraktikum != 2 && statusPraktikum != 123 }]">
+                  :class="[{ 'visible': statusPraktikum === 2 },
+                          { 'hidden': statusPraktikum != 2 }]">
                 JURNAL
               </span> 
               <span class="font-overpass-bold text-9xl " 
@@ -670,9 +661,7 @@
         </div>  
 
         <div class="w-full h-24 px-8 mt-8 flex z-20">
-          <div class="h-full flex-row"
-              :class="[{ 'w-1/2': !isRunmod },
-                        { 'w-full': isRunmod }]">
+          <div class="w-1/3 h-full flex-row">
             <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
               <span class="h-auto my-auto">
                 Kelas
@@ -692,8 +681,7 @@
               </select>
             </div>
           </div>
-          <div v-if="!isRunmod" 
-              class="w-1/2 pl-8 h-full flex-row">
+          <div class="w-2/3 pl-8 h-full flex-row">
             <div class="font-merri w-full flex text-left text-yellow-400 text-2xl mb-2 h-1/3">
               <span class="h-auto my-auto">
                 Modul
@@ -727,10 +715,10 @@
                   <div class="w-1/3 h-auto flex-row">
                     <transition-group name="asisten-list" tag="div">
                       <div v-for="(asisten, index) in listAllAsisten" v-bind:key="asisten.id" 
-                          class="animation-enable w-full flex-row"
-                          :class="['h-'+ 12 * (praktikanComplete + (praktikanLeft-(index+1) >= 0 ? 1 : 0)),
+                          class="animation-enable h-24 w-full flex-row"
+                          :class="[
                                   { 'bg-gray-300 text-black': index % 2 === 0 },
-                                  { 'bg-gray-600 text-white': index % 2 != 0 },
+                                  { 'bg-gray-600 text-white': index % 2 !== 0 },
                                   { 'rounded-tl-lg': index === 0 },
                                   { 'rounded-bl-lg': index+1 === listAllAsisten.length }]">
                         <div class="w-full h-2/3 flex">
@@ -749,28 +737,25 @@
 
                   <div class="w-2/3 h-auto flex-row">
                     <transition-group name="asisten-list" tag="div">
-                      <div v-for="(praktikan, index) in listAllPraktikan" v-bind:key="praktikan.id" 
-                          class="animation-enable w-full h-12 flex-row">
+                      <div v-for="(group, index) in listAllGroup" v-bind:key="index"
+                          class="animation-enable w-full h-24 flex-row">
                         <div class="w-full h-full flex"
                           :class="[{ 'rounded-tr-lg': index === 0 },
-                                  { 'rounded-br-lg': index === listAllPraktikan.length-1 },
-                                  { 'bg-gray-600 text-white': 
-                                      parseInt((praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? index : index+(praktikanComplete - praktikanLeft)) / 
-                                        (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? praktikanComplete+1 : praktikanComplete)) 
-                                      % 2 === (praktikanLeft - (index / (praktikanComplete + 1)) > 0 ? 0 : (praktikanLeft % 2 === 1 && praktikanLeft < praktikanComplete || praktikanLeft === praktikanComplete ? 0 : 1)) }]">
-                          <div class="m-auto font-monda text-2xl whitespace-pre-wrap">{{ praktikan.nim.substring(0,6) }}   {{ praktikan.nim.substring(6,10) }}</div>
+                                   { 'rounded-br-lg': index === listAllGroup.length-1 },
+                                   { 'bg-gray-600 text-white' : index % 2 === 0}]">
+                          <div class="m-auto font-monda text-4xl whitespace-pre-wrap">Kelompok {{ group }}</div>
                         </div>
                       </div>
                     </transition-group>
                   </div>
                 </div>
                 <div class="w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
-                    v-if="listAllPraktikan < 1">
+                    v-if="listAllGroup < 1">
                   Tidak ada PRAKTIKAN di kelas ini
                 </div>
                 <div class="w-auto m-auto h-24 items-center font-merri-bold text-4xl flex"
                     v-if="listAllAsisten.length < 1 &&
-                          listAllPraktikan.length < 1">
+                          listAllGroup.length < 1">
                   &
                 </div>
                 <div class="w-auto m-auto h-24 items-center font-monda-bold text-2xl flex"
@@ -1084,6 +1069,8 @@ export default {
 
       listAllAsisten: [],
       listAllPraktikan: [],
+      listAllGroup: [],
+      totalGroup: '',
 
       shuffledListAllAsisten: [],
       shuffledListAllPraktikan: [],
@@ -1223,11 +1210,11 @@ export default {
       // CHANGE THIS PRAKTIKUM TIMING BASED ON YOUR OWN SYSTEM //
       // ***************************************************** //
       TAtiming: moment().startOf('day').add(10, 'minutes'),
-      JURNALtiming: moment().startOf('day').add(75, 'minutes'),
+      JURNALtiming: moment().startOf('day').add(85, 'minutes'),
       RUNMODtiming: moment().startOf('day').add(40, 'minutes'),
-      MANDIRItiming: moment().startOf('day').add(10, 'minutes'),
+      MANDIRItiming: moment().startOf('day').add(15, 'minutes'),
       TKtiming: moment().startOf('day').add(10, 'minutes'),
-      countDown: this.isRunmod ? moment().startOf('day').add(40, 'minutes') : moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming\
+      countDown: moment().startOf('day').add(10, 'minutes'), //(TIME IN MILLIS) // Default: Based on TAtiming\
       today: moment().format(),
     }
   },
@@ -1243,8 +1230,6 @@ export default {
     $('body').addClass('closed');
     this.$refs.menu.scrollTop = this.position;
 
-    if(this.isRunmod)
-      this.chosenModulID = 1;
     const globe = this;
 
     if(this.comingFrom === 'asisten' ||
@@ -1298,16 +1283,19 @@ export default {
           //(If status Praktikum === 1, means all the layout condition still on its default state)
           switch (globe.statusPraktikum) {
             case 2:
-              globe.countDown = globe.JURNALtiming;
+              if (!globe.isRunmod) {
+                globe.countDown = globe.JURNALtiming;
+              } 
+              else {
+                globe.countDown = globe.RUNMODtiming;
+              }
+              
               break;
             case 3:
               globe.countDown = globe.MANDIRItiming;
               break;
             case 4:
               globe.countDown = globe.TKtiming;
-              break;
-            case 123:
-              globe.countDown = globe.RUNMODtiming;
               break;
           }
 
@@ -1717,10 +1705,7 @@ export default {
       globe.soundPlayed = false;
       globe.countdownStarted = false;
 
-      if(globe.statusPraktikum !== 123)
-        globe.statusPraktikum++;
-      else 
-        globe.statusPraktikum = 5;
+      globe.statusPraktikum++;
 
       globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
 
@@ -1737,16 +1722,19 @@ export default {
       //(If status Praktikum === 1, means all the layout condition still on its default state)
       switch (globe.statusPraktikum) {
         case 2:
-          globe.countDown = globe.JURNALtiming;
+          if (!globe.isRunmod) 
+            {
+              globe.countDown = globe.JURNALtiming;
+            } 
+            else {
+              globe.countDown = globe.RUNMODtiming;
+            }
           break;
         case 3:
           globe.countDown = globe.MANDIRItiming;
           break;
         case 4:
           globe.countDown = globe.TKtiming;
-          break;
-        case 123:
-          globe.countDown = globe.RUNMODtiming;
           break;
       }
     },
@@ -1834,11 +1822,6 @@ export default {
       globe.countdownStarted = false;
       globe.bigNextQuestionShown = false;
       globe.bigRatingQuestionShown = false;
-      
-      if(!globe.isRunmod)
-        globe.countDown = globe.TAtiming;
-      else 
-        globe.countDown = globe.RUNMODtiming;
 
       globe.firstTimeCounting = true;
       globe.praktikumStart = false;
@@ -1867,10 +1850,8 @@ export default {
       
       if(this.statusPraktikum === 0){
         
-        if(!globe.isRunmod)
-          this.statusPraktikum = 1;
-        else
-          this.statusPraktikum = 123;
+        this.statusPraktikum = 1;
+
         globe.$axios.post('/continuePraktikum/'+globe.statusPraktikum).then(response => {
 
           if(response.data.message === "success") {
@@ -2128,7 +2109,13 @@ export default {
           globe.listAllPraktikan = response.data.all_praktikan;
           globe.praktikanLeft = response.data.all_praktikan.length % response.data.all_asisten.length;
           globe.praktikanComplete = parseInt(response.data.all_praktikan.length / response.data.all_asisten.length);
-          
+          globe.totalGroup = response.data.totalGroup;
+          globe.listAllGroup = [];
+
+          for (var i=0; i < globe.totalGroup[0].totalGroup ; i++) {
+            globe.listAllGroup.push(i+1);
+          }
+
           // Set praktikanGroups array size to match with listAllAsisten.length
           for( var i=0; i<globe.listAllAsisten.length; i++ ) {
             globe.praktikanGroups.push([]);
