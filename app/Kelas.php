@@ -14,6 +14,6 @@ class Kelas extends Model
      * @var array
      */
     protected $fillable = [
-        'kelas', 'hari', 'shift'
+        'kelas', 'hari', 'shift', 'totalGroup'
     ];
 }

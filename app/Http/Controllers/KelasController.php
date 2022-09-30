@@ -8,6 +8,7 @@ use App\Jadwal_Jaga;
 use App\Praktikan;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use SebastianBergmann\Environment\Console;
 
 class KelasController extends Controller
 {
@@ -43,6 +44,7 @@ class KelasController extends Controller
             'kelas'  => 'required|unique:kelas|size:8|string',
             'hari'   => 'required|string',
             'shift'  => 'required|size:1|string',
+            'totalGroup' => 'required|min:1|max:20|integer',
         ]);
 
         $allKelas = Kelas::all();
@@ -56,6 +58,7 @@ class KelasController extends Controller
             'kelas'  => strtoupper($request->kelas),
             'hari'   => strtoupper($request->hari),
             'shift'  => $request->shift,
+            'totalGroup'  => $request->totalGroup,
         ]);
 
         $id = Kelas::where('kelas', $request->kelas)->first()->id;
@@ -73,7 +76,8 @@ class KelasController extends Controller
     {
          
         $all_jadwal = Jadwal_Jaga::where('kelas_id', $kelas_id)->get();
-
+        $totalGroup = Kelas::where('id', $kelas_id)->get(['id', 'totalGroup']);
+        
         $all_asisten = [];
         foreach ($all_jadwal as $jadwal => $value) {
             $all_asisten[] = Asisten::where('id', $value->asisten_id)->first();
@@ -84,6 +88,7 @@ class KelasController extends Controller
             'message' => 'success',
             'all_asisten' => $all_asisten,
             'all_praktikan' => $all_praktikan,
+            'totalGroup' => $totalGroup,
         ], 200);
     }
 
@@ -110,6 +115,7 @@ class KelasController extends Controller
             'kelas'  => 'required|size:8|string',
             'hari'   => 'required|string',
             'shift'  => 'required|size:1|string',
+            'totalGroup' => 'required|min:1|max:20|integer',
         ]);
 
         if($request->oldKelas === null)
@@ -132,13 +138,15 @@ class KelasController extends Controller
         $kelas->kelas = strtoupper($request->kelas);
         $kelas->hari = strtoupper($request->hari);
         $kelas->shift = $request->shift;
+        $kelas->totalGroup = $request->totalGroup;
         $kelas->save();
 
         $kelas->id = $request->id;
         $kelas->kelas = strtoupper($request->kelas);
         $kelas->hari = strtoupper($request->hari);
         $kelas->shift = $request->shift;
-
+        $kelas->totalGroup = $request->totalGroup;
+        
         return response()->json([
             'message'=> 'success',
             'kelas' => $kelas,
