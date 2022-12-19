@@ -45,7 +45,8 @@ import { faExclamationCircle,
         faFileMedicalAlt,
         faLock,
         faUnlock,
-        faUnlockAlt} from '@fortawesome/free-solid-svg-icons';
+        faUnlockAlt,
+        faTasks} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram, 
         faYoutube} from '@fortawesome/free-brands-svg-icons';
@@ -102,6 +103,7 @@ library.add(faFileMedicalAlt);
 library.add(faLock);
 library.add(faUnlock);
 library.add(faUnlockAlt);
+library.add(faTasks);
 dom.watch(); 
 
 Vue.use(VueAnime)
