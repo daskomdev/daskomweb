@@ -42,7 +42,10 @@ import { faExclamationCircle,
         faUsers,
         faHome,
         faStar,
-        faFileMedicalAlt} from '@fortawesome/free-solid-svg-icons';
+        faFileMedicalAlt,
+        faLock,
+        faUnlock,
+        faUnlockAlt} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram, 
         faYoutube} from '@fortawesome/free-brands-svg-icons';
@@ -96,6 +99,9 @@ library.add(faYoutube);
 library.add(faHome);
 library.add(faStar);
 library.add(faFileMedicalAlt);
+library.add(faLock);
+library.add(faUnlock);
+library.add(faUnlockAlt);
 dom.watch(); 
 
 Vue.use(VueAnime)
