@@ -65,6 +65,7 @@ module.exports = {
         '36': '9rem',
         '72': '18rem',
         '20percent': '20%',
+        '120percent': '120%',
         '120': '20rem',
         '140': '25rem',
         '5': '1.15rem',
@@ -102,6 +103,7 @@ module.exports = {
         '3/4': '75%',
         '2/5': '40%',
         '1/2': '50%',
+        '1/10': '10%',
       },
 
       opacity: {
@@ -113,5 +115,5 @@ module.exports = {
     borderWidth: ['responsive', 'hover', 'focus'],
     padding: ['responsive', 'hover', 'focus'],
   },
-  plugins: []
+  plugins: [require('tailwind-scrollbar-hide')],
 }
