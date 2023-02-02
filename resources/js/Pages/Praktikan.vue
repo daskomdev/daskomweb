@@ -233,6 +233,83 @@
             </chart>
           </div>
 
+          <!--Jawaban Layout -->
+          <div v-if="isJawaban" class="w-full h-full flex">
+                <div class="w-1/4 h-full flex-row overflow-y-hidden bg-yellow-700 cursor-pointer" style="width: 415px">
+                    <div class="h-1/10 w-full flex justify-center items-center hover:bg-yellow-500 focus:outline-none focus:bg-yellow-500 bg-yellow-300-active animation-enable-short"
+                          :class="[{'bg-yellow-500 bg-yellow-500-Active' : modul.id === currentJawabanJurnal},
+                                   {'opacity-50 cursor-not-allowed hover:bg-yellow-700 focus:bg-yellow-700 bg-yellow-300-nonActive' : !modul.isUnlocked}]"
+                          v-on:click="showJawabanJurnal(modul.id, modul.isUnlocked)" v-for="modul in all_modul" v-bind:key="modul.id">
+                      <div class="h-full w-1/8 flex p-4 pr-0">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl rounded-large justify-end items-center">
+                          <img :class="[{'fas fa-lock' : !modul.isUnlocked},
+                                        {'fas fa-unlock-alt' : modul.isUnlocked}]">
+                        </div>
+                      </div>
+                      <div class="h-full w-2/3 flex p-4">
+                        <div class="h-full w-full flex font-overpass-mono-bold text-xl rounded-large justify-start items-center">
+                          <div class="mt-2 text-lg text-left">
+                            {{ modul.judul }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>           
+                </div>
+                <div class="w-3/4 h-full flex" v-bar>
+                    <div class="w-full h-12full m-auto overflow-y-auto animation-enable-medium scrollbar-hide"
+                          :class="[{'transform -translate-x-full' : jawabanChanged}]">
+                        <div v-if="allJawabanJurnal.length > 0" 
+                              class="w-full h-full flex-row">
+                            <div v-for="(jawaban, index) in allJawabanJurnal" v-bind:key="index"
+                                class="w-full flex-row h-auto mb-8">
+                              <div class="w-full h-auto flex mb-2">
+                                <div class="h-full w-12 flex font-merri-bold text-xl">
+                                  <div class="m-auto w-auto h-auto">{{ index+1 }}</div>
+                                </div>
+                                <div class="h-12 px-1 w-4">
+                                  <div class="h-full w-full bg-gray-900"/>
+                                </div>
+                                <div class="h-full w-16full break-words whitespace-pre-wrap flex px-2 font-monda text-2xl">
+                                  <span>{{ jawaban.soal }}</span>
+                                </div>
+                              </div>
+                              <div class="w-full h-auto flex px-5">
+                                <textarea v-model="jawaban.jawaban" cols="30" rows="15"
+                                      class="font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
+                                      type="text" disabled/>
+                              </div>
+                            </div>
+                        </div>
+                        <template v-else-if="currentUser.kelas.substring(6, 10) !== 'INT'">
+                          <div v-if="jawabanShown === true" class="w-full h-full flex flex-col justify-center items-center m-auto font-overpass-mono-bold animation-enable">
+                            <div class="text-4xl">
+                              Jawaban kamu tidak ditemukan :'(
+                            </div>
+                            <div class="mt-3 text-base text-gray-600">
+                              *Jika merasa mengerjakan namun jawaban kamu tidak ada, silahkan hubungi asisten jaga modul tersebut*
+                            </div>
+                          </div>
+                          <div v-else class="w-full h-full flex justify-center items-center m-auto font-overpass-mono-bold text-4xl animation-enable">
+                            Silahkan Pilih Modul ^_^
+                          </div>
+                        </template>
+                        <template v-else-if="currentUser.kelas.substring(6, 10) === 'INT'">
+                          <div v-if="jawabanShown === true" class="w-full h-full flex flex-col justify-center items-center m-auto font-overpass-mono-bold animation-enable">
+                            <div class="text-4xl">
+                              Your answer is not found :'(
+                            </div>
+                            <div class="mt-3 text-base text-gray-600">
+                              *If you have submitted the answer but it's not found, please contact your assisstant in this module*
+                            </div>
+                          </div>
+                          <div v-else class="w-full h-full flex justify-center items-center m-auto font-overpass-mono-bold text-4xl animation-enable">
+                            Please select a module ^_^
+                          </div>
+                        </template>
+                    </div>
+                </div>     
+          </div>
+
           <!-- Praktikum Layout -->
           <div v-if="isPraktikum" class="w-full h-full flex">
 
@@ -794,7 +871,7 @@
                   <div class="w-full h-24 flex mt-4 mb-8">
                     <div class="w-1/2 h-full mx-auto p-4 hover:p-5 cursor-pointer animation-enable-short"
                         v-on:click="finishPraktikum()">
-                      <div class="w-full h-full flex rounded-full font-overpass-bold text-xl text-white flex pt-1 bg-green-600">
+                      <div class="w-full h-full flex rounded-full font-overpass-bold text-xl text-white pt-1 bg-green-600">
                         <div class="m-auto">
                           SELESAI
                         </div>
@@ -817,17 +894,17 @@
 
         <!-- Dummy For Animation -->
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <!------------------------->
 
         <div class="h-full flex animation-enable pointer-events-none"
@@ -906,19 +983,38 @@
           </span>
         </div>
 
+        <div class="h-full flex animation-enable pointer-events-none"
+            :class="[{ 'w-1/11': !isJawaban },
+                    { 'w-9/11': isJawaban }]"
+            v-on:click="showJawaban">
+          <div class="h-full flex animation-enable pointer-events-none"
+              :class="[{ 'w-full': !isJawaban },
+                      { 'w-1/2': isJawaban }]">
+            <div class="h-full animation-enable pointer-events-none"
+              :class="[{ 'w-0': !isJawaban },
+                      { 'w-9/12': isJawaban }]"/>
+            <img class="jawabanIcon w-full iconYellowHover select-none cursor-pointer pointer-events-auto self-center h-8 fas fa-book animation-enable">
+          </div>
+          <span class="self-center text-left font-monda-bold text-lg text-white animation-enable-short"
+              :class="[{ 'w-0 opacity-0 tracking-tighter': !isJawaban },
+                      { 'w-1/2 opacity-100 tracking-widest': isJawaban }]">
+            Jawaban
+          </span>
+        </div>
+
         <!-- Dummy For Animation -->
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <div class="h-full animation-enable"
-            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil },
-                    { 'w-0': isPraktikum || isNilai || isTP || isProfil }]"/>
+            :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
+                    { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
         <!------------------------->
 
       </div>
@@ -1043,6 +1139,15 @@
 .iconYellowHover:hover{
   color: #faf089;
 }
+.bg-yellow-300-active:active{
+  background-color: #faf089 !important;
+}
+.bg-yellow-300-nonActive:active{
+  background-color: #b7791f !important;
+}
+.bg-yellow-500-Active:active{
+  background-color: #ecc94b !important;
+}
 </style>
 
 <script>
@@ -1055,6 +1160,8 @@ export default {
     'isRunmod',
     'pollingComplete',
     'allPolling',
+    'allModul',
+    'allJurnal',
   ],
 
   data() {
@@ -1063,11 +1170,16 @@ export default {
       isPraktikum: false,
       isTP: false,
       isNilai: false,
+      isJawaban: false,
       isProfil: false,
       isMenuShown: false,
       messageOpened: false,
       openWide: false,
       modulShown: false,
+
+      currentJawabanJurnal: '',
+      jawabanShown: false,
+      jawabanChanged: false,
 
       isPollingEnabled: false,
 
@@ -1099,6 +1211,10 @@ export default {
         praktikan_id: this.currentUser.id,
         kelas_id: this.currentUser.kelas_id,
       },
+
+      all_modul: [],
+      choosenModulID: '',
+      allJawabanJurnal: [],
 
       programmingQuote: 'nothing',
       quoteAuthor: '',
@@ -1377,7 +1493,10 @@ export default {
     }); 
 
     if(globe.currentUser.kelas.substring(6, 10) == 'INT'){
-
+      globe.all_modul = globe.allModul.filter(function (modul){
+        modul.isUnlocked === 1 ? modul.isUnlocked = true : modul.isUnlocked = false;
+        return modul.isEnglish === 1 && modul.id <= 20;
+      });
       globe.$axios.get('/getSoalTP/true/' + globe.currentUser.id).then(response => {
 
         if(response.data.message === "success") {
@@ -1426,7 +1545,9 @@ export default {
       });
 
     } else {
-
+      globe.all_modul = globe.allModul.filter(function (modul){
+        return modul.isEnglish === 0 && modul.id <= 20;
+      });
       globe.$axios.get('/getSoalTP/false/' + globe.currentUser.id).then(response => {
 
         if(response.data.message === "success") {
@@ -2067,10 +2188,16 @@ export default {
       this.isTP = false;
       this.isNilai = false;
       this.isProfil = false;
-      $('.tpIcon , .nilaiIcon , .profilIcon').removeClass('w-3/12');
-      $('.tpIcon , .nilaiIcon , .profilIcon').removeClass('youngYellowIcon');
-      $('.tpIcon , .nilaiIcon , .profilIcon').addClass('iconYellowHover');
-      $('.tpIcon , .nilaiIcon , .profilIcon').addClass('w-full');
+      this.isJawaban = false;
+            
+      this.allJawabanJurnal = [];
+      this.jawabanShown = false;
+      this.currentJawabanJurnal = '';
+
+      $('.tpIcon , .nilaiIcon , .profilIcon, .jawabanIcon').removeClass('w-3/12');
+      $('.tpIcon , .nilaiIcon , .profilIcon, .jawabanIcon').removeClass('youngYellowIcon');
+      $('.tpIcon , .nilaiIcon , .profilIcon, .jawabanIcon').addClass('iconYellowHover');
+      $('.tpIcon , .nilaiIcon , .profilIcon, .jawabanIcon').addClass('w-full');
       
       $('.praktikumIcon').removeClass('w-full');
       $('.praktikumIcon').removeClass('iconYellowHover');
@@ -2083,10 +2210,16 @@ export default {
       this.isTP = false;
       this.isNilai = true;
       this.isProfil = false;
-      $('.praktikumIcon , .tpIcon , .profilIcon').removeClass('w-3/12');
-      $('.praktikumIcon , .tpIcon , .profilIcon').removeClass('youngYellowIcon');
-      $('.praktikumIcon , .tpIcon , .profilIcon').addClass('iconYellowHover');
-      $('.praktikumIcon , .tpIcon , .profilIcon').addClass('w-full');
+      this.isJawaban = false;
+            
+      this.allJawabanJurnal = [];
+      this.jawabanShown = false;
+      this.currentJawabanJurnal = '';
+
+      $('.praktikumIcon , .tpIcon , .profilIcon, .jawabanIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .tpIcon , .profilIcon, .jawabanIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .tpIcon , .profilIcon, .jawabanIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .tpIcon , .profilIcon, .jawabanIcon').addClass('w-full');
       
       $('.nilaiIcon').removeClass('w-full');
       $('.nilaiIcon').removeClass('iconYellowHover');
@@ -2099,10 +2232,16 @@ export default {
       this.isTP = true;
       this.isNilai = false;
       this.isProfil = false;
-      $('.praktikumIcon , .nilaiIcon , .profilIcon').removeClass('w-3/12');
-      $('.praktikumIcon , .nilaiIcon , .profilIcon').removeClass('youngYellowIcon');
-      $('.praktikumIcon , .nilaiIcon , .profilIcon').addClass('iconYellowHover');
-      $('.praktikumIcon , .nilaiIcon , .profilIcon').addClass('w-full');
+      this.isJawaban = false;
+      
+      this.allJawabanJurnal = [];
+      this.jawabanShown = false;
+      this.currentJawabanJurnal = '';
+
+      $('.praktikumIcon , .nilaiIcon , .profilIcon, .jawabanIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .nilaiIcon , .profilIcon, .jawabanIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .nilaiIcon , .profilIcon, .jawabanIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .nilaiIcon , .profilIcon, .jawabanIcon').addClass('w-full');
       
       $('.tpIcon').removeClass('iconYellowHover');
       $('.tpIcon').removeClass('w-full');
@@ -2115,10 +2254,16 @@ export default {
       this.isTP = false;
       this.isNilai = false;
       this.isProfil = true;
-      $('.praktikumIcon , .nilaiIcon , .tpIcon').removeClass('w-3/12');
-      $('.praktikumIcon , .nilaiIcon , .tpIcon').removeClass('youngYellowIcon');
-      $('.praktikumIcon , .nilaiIcon , .tpIcon').addClass('iconYellowHover');
-      $('.praktikumIcon , .nilaiIcon , .tpIcon').addClass('w-full');
+      this.isJawaban = false;
+
+      this.allJawabanJurnal = [];
+      this.jawabanShown = false;
+      this.currentJawabanJurnal = '';
+
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .jawabanIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .jawabanIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .jawabanIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .jawabanIcon').addClass('w-full');
       
       $('.profilIcon').removeClass('iconYellowHover');
       $('.profilIcon').removeClass('w-full');
@@ -2126,12 +2271,62 @@ export default {
       $('.profilIcon').addClass('w-3/12');
     },
 
+    showJawaban: function(){
+      this.isPraktikum = false;
+      this.isTP = false;
+      this.isNilai = false;
+      this.isProfil = false;
+      this.isJawaban = true;
+
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .profilIcon').removeClass('w-3/12');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .profilIcon').removeClass('youngYellowIcon');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .profilIcon').addClass('iconYellowHover');
+      $('.praktikumIcon , .nilaiIcon , .tpIcon, .profilIcon').addClass('w-full');
+      
+      $('.jawabanIcon').removeClass('iconYellowHover');
+      $('.jawabanIcon').removeClass('w-full');
+      $('.jawabanIcon').addClass('youngYellowIcon');
+      $('.jawabanIcon').addClass('w-3/12');
+    },
+
+    showJawabanJurnal: function($modul_id, $modul_isUnlocked){
+
+      const globe = this;
+      $modul_isUnlocked ? globe.jawabanChanged = true : globe.jawabanChanged = false;
+
+      setTimeout(
+        function() {
+          if($modul_isUnlocked){
+
+            globe.jawabanShown = true;
+            globe.currentJawabanJurnal = $modul_id;
+            globe.$axios.post('/getAllJawaban/'+globe.currentUser.id+"/"+$modul_id).then(response => {
+              
+              if(response.data.message === "success"){
+      
+                globe.allJawabanJurnal = response.data.allJawabanJurnal;
+              } else {
+                globe.$toasted.global.showError({
+                  message: response.data.message
+                });
+              }
+            });  
+          };
+        }, 250);
+
+      setTimeout(
+        function() {
+          if (globe.jawabanChanged === true) 
+            globe.jawabanChanged = false;
+        }, 1000);
+    },
+
     travel: function($whereTo){
       const globe = this;
       setTimeout(
         function() {
           globe.$inertia.replace('/' + $whereTo);
-        }, 501); 
+        }, 500); 
     },
 
     signOut: function() {
