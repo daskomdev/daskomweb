@@ -133,9 +133,9 @@ class ModulController extends Controller
 
     public function updateJawabanConfiguration(Request $request){
         $request->validate([
-            'id'         => 'required',
+            'id'            => 'required',
             'idINT'         => 'required',
-            'isUnlocked'   => 'required',
+            'isUnlocked'    => 'required|bool',
         ]);  
 
         $modul = Modul::where('id', $request->id)->first();
