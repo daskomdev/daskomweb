@@ -2300,7 +2300,7 @@ export default {
 
             globe.jawabanShown = true;
             globe.currentJawabanJurnal = $modul_id;
-            globe.$axios.post('/getAllJawaban/'+globe.currentUser.id+"/"+$modul_id).then(response => {
+            globe.$axios.post('/praktikanGetJurnal/'+globe.currentUser.id+"/"+$modul_id).then(response => {
               
               if(response.data.message === "success"){
       
