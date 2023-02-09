@@ -905,7 +905,7 @@
         <div class="h-full animation-enable"
             :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
                     { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
-        <!------------------------->
+        <!-- END -->
 
         <div class="h-full flex animation-enable pointer-events-none"
             :class="[{ 'w-1/11': !isProfil },
@@ -1015,7 +1015,7 @@
         <div class="h-full animation-enable"
             :class="[{ 'w-1/11': !isPraktikum && !isNilai && !isTP && !isProfil && !isJawaban },
                     { 'w-0': isPraktikum || isNilai || isTP || isProfil || isJawaban }]"/>
-        <!------------------------->
+        <!-- END -->
 
       </div>
     </div>
