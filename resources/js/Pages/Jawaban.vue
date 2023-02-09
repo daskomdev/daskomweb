@@ -323,7 +323,7 @@
                          :font-size="15"/>
                    </div>
                  </div>
-                 <hr v-if="modul.judul !== 'FILE SEKUENSIAL'" class=" mt-5">
+                 <hr v-if="modul.id !== 15" class=" mt-5">
              </div>
           </div>
       </div>
