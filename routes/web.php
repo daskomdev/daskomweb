@@ -501,7 +501,8 @@ Route::post('/deleteFitb/{id}', 'SoalFitbController@destroy')->name('deleteFitb'
 Route::post('/updateFitb', 'SoalFitbController@update')->name('updateFitb')->middleware('loggedIn:asisten');
 
 Route::post('/createJadwalJaga', 'JadwalJagaController@store')->name('createJadwalJaga')->middleware('loggedIn:asisten');
-Route::post('/deleteJadwalJaga', 'JadwalJagaController@destroy')->name('deleteJadwalJaga')->middleware('loggedIn:asisten');
+Route::post('/deleteJadwalJaga', 'JadwalJagaController@delete')->name('deleteJadwalJaga')->middleware('loggedIn:asisten');
+Route::post('/resetJadwalJaga', 'JadwalJagaController@destroy')->name('resetJadwalJaga')->middleware('loggedIn:asisten');
 
 Route::post('/readDataKelas/{kelas_id}', 'KelasController@show')->name('updatePesan')->middleware('loggedIn:asisten');
 Route::post('/cekPraktikum', 'PraktikumController@index')->name('cekPraktikum')->middleware('loggedIn:asisten');

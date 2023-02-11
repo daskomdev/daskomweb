@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jadwal_Jaga;
 use App\Kelas;
 use App\Asisten;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class JadwalJagaController extends Controller
@@ -104,7 +105,7 @@ class JadwalJagaController extends Controller
      * @param  \App\Jadwal_Jaga  $jadwal_Jaga
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
         $plotting = Jadwal_Jaga::where('asisten_id', $request->asisten_id)
                         ->where('kelas_id', $request->kelas_id)->first();
@@ -113,6 +114,18 @@ class JadwalJagaController extends Controller
             return '{"message": "Kombinasi asisten & kelas tidak ditemukan"}';
 
         $plotting->delete();
+
+        return '{"message": "success"}';
+    }
+
+    /**
+     * Remove all jadwal from table.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy()
+    {
+        DB::table('jadwal__jagas')->delete();
 
         return '{"message": "success"}';
     }
