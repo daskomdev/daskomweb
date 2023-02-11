@@ -304,9 +304,9 @@
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto">
+          <div class="overflow-y-auto divide-y-2 divide-gray-400">
               <div v-for="modul in all_modul" v-bind:key="modul.id"
-                  class="flex flex-col font-overpass-mono-bold text-2xl mt-5 px-5"
+                  class="flex flex-col font-overpass-mono-bold text-2xl py-4 px-5"
                   :class="[{ 'text-yellow-200': !modul.isUnlocked },
                            { 'text-yellow-500': modul.isUnlocked }]">
                  <div class="flex">
@@ -323,7 +323,6 @@
                          :font-size="15"/>
                    </div>
                  </div>
-                 <hr v-if="modul.id !== 15" class=" mt-5">
              </div>
           </div>
       </div>
