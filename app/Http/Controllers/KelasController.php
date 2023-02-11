@@ -41,7 +41,7 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kelas'  => 'required|unique:kelas|size:8|string',
+            'kelas'  => 'required|unique:kelas|min:8|max:10|string',
             'hari'   => 'required|string',
             'shift'  => 'required|size:1|string',
             'totalGroup' => 'required|min:1|max:20|integer',
@@ -112,7 +112,7 @@ class KelasController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'kelas'  => 'required|size:8|string',
+            'kelas'  => 'required|min:8|max:10|string',
             'hari'   => 'required|string',
             'shift'  => 'required|size:1|string',
             'totalGroup' => 'required|min:1|max:20|integer',
