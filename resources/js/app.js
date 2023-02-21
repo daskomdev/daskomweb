@@ -42,7 +42,11 @@ import { faExclamationCircle,
         faUsers,
         faHome,
         faStar,
-        faFileMedicalAlt} from '@fortawesome/free-solid-svg-icons';
+        faFileMedicalAlt,
+        faLock,
+        faUnlock,
+        faUnlockAlt,
+        faTasks} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram, 
         faYoutube} from '@fortawesome/free-brands-svg-icons';
@@ -96,6 +100,10 @@ library.add(faYoutube);
 library.add(faHome);
 library.add(faStar);
 library.add(faFileMedicalAlt);
+library.add(faLock);
+library.add(faUnlock);
+library.add(faUnlockAlt);
+library.add(faTasks);
 dom.watch(); 
 
 Vue.use(VueAnime)
@@ -128,7 +136,7 @@ if (typeof io !== 'undefined') {
 Vue.toasted.register('showError',
     (payload) => {
         if(! payload.message) {
-    	    return "Maaf, telah terjadi sesuatu<br>(Panggil AND / AMF untuk dilihat lebih lanjut)"
+    	    return "Maaf, telah terjadi sesuatu<br>(Panggil DIP untuk dilihat lebih lanjut)"
         }
         return payload.message;
     },

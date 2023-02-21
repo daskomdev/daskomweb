@@ -132,11 +132,12 @@
             </span>
           </div>
         </div>
-        
+
         <div v-if="plottingPriviledge.includes(currentUser.role_id) || plottingPriviledge == 'all'">
-          <div class="w-full p-4 h-24 flex select-none animation-enable"
-              :class="[{ 'bg-yellow-500 text-white': !changePage },
-                      { 'bg-yellow-400 text-black': changePage }]">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPlotting },
+                      { 'bg-yellow-500 text-white': changePage && menuPlotting }]"
+              v-on:click='travel("plotting")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-calendar-alt">
@@ -176,7 +177,7 @@
             </span>
           </div>
         </div>
-
+        
         <div v-if="tpPriviledge.includes(currentUser.role_id) || tpPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
@@ -193,20 +194,19 @@
         </div> 
 
         <div v-if="jawabanPriviledge.includes(currentUser.role_id) || jawabanPriviledge == 'all'">
-            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuJawaban },
-                        { 'bg-yellow-500 text-white': changePage && menuJawaban }]"
-                v-on:click='travel("jawaban")'>
-              <div class="w-7/12 my-2 flex">
-                <div class="w-4/6"/>
-                <img class="select-none m-auto w-2/6 h-auto fas fa-tasks">
-              </div>
-              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-                Jawaban
-              </span>
+          <div class="w-full p-4 h-24 flex select-none animation-enable"
+              :class="[{ 'bg-yellow-500 text-white': !changePage },
+                      { 'bg-yellow-400 text-black': changePage }]">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-tasks">
             </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Jawaban
+            </span>
           </div>
-
+        </div>
+        
         <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPelanggaran },
@@ -235,7 +235,7 @@
               Ranking Praktikan
             </span>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
 
@@ -272,7 +272,7 @@
         </div>
         <div class="w-auto h-full flex-row ml-4 cursor-default">
           <div class="h-3/5 w-full flex">
-            <span class="select-none3 font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest"
+            <span class="select-none font-overpass-mono-bold text-5xl self-end text-left w-full -mb-2 uppercase tracking-widest"
                 :class="[{ 'text-black': isMenuShown },
                         { 'text-white ': !isMenuShown }]">
               {{ currentUser.kode }}
@@ -289,158 +289,47 @@
       </div>
     </div>
 
-    <!-- Plotting Layout -->
-    <div class="relative top-0 h-full w-120full flex animation-enable"
-        :class="[{ 'top-0': currentPage },
-                { 'top-minFull': !currentPage }]"
-        @mouseover="isMenuShown = false;">
-
-      <div class="w-full h-full px-8 py-4">
-        <div class="w-full h-full" v-bar>
-          <div>
-            <transition-group
-                class="flex-wrap flex w-full h-auto" 
-                name="plotting-list" tag="div">
-              <div v-for="plotting in listAllJaga" v-bind:key="plotting.id" 
-                  class="animation-enable relative w-1/3 h-24 flex py-2 px-4 bg"
-                  @mouseover="openMoreMenu(plotting.id)" @mouseleave="closeMoreMenu(plotting.id)">
-                <div class="w-full h-full flex">
-                  <div class="w-2/5 h-full">
-                    <div class="w-full h-full bg-gray-300 items-center flex rounded-l-large">
-                      <div class="w-auto h-auto font-overpass-bold text-5xl pt-2 text-green-600 text-center m-auto">
-                        {{ plotting.kode }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="w-3/5 h-full">
-                    <div class="w-full h-full bg-gray-400 items-center flex rounded-r-large">
-                      <div class="w-auto h-auto font-overpass-bold text-3xl text-green-600 text-center m-auto">
-                        {{ plotting.kelas }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full h-full absolute flex">
-                  <div class="w-full h-full pb-4 pr-8 flex">
-                    <div class="w-full h-full animation-enable-short cursor-pointer opacity-0 flex"
-                        :class="'moreMenu-'+plotting.id"
-                        v-on:click="formJaga = plotting">
-                      <div class="w-3/4 h-full flex rounded-l-large bg-yellow-400">
-                        <div class="w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto">
-                          {{ plotting.hari }}
-                        </div>
-                      </div>
-                      <div class="w-1/4 h-full flex rounded-r-large bg-yellow-500">
-                        <div class="w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto">
-                          {{ plotting.shift }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    <!-- Jawaban's Contents -->
+    <div class="absolute left-0 h-full w-120full flex flex-col m-auto animation-enable"
+        :class="[{ 'left-minFull': !currentPage },
+                    { 'left-0': currentPage }]">
+      <div class="w-3/5 h-5/6 m-auto flex flex-col">
+          <div class="w-full h-1/6 font-overpass-mono-bold text-2xl">
+            <div class="flex font-overpass-mono-bold text-3xl text-gray-200 mr-12">
+              <div class="w-5/6 flex justify-center mr-40">
+                MODUL
               </div>
-            </transition-group>
-          </div>
-        </div>
-      </div>
-
-      <!-- Plotting Form -->
-      <div class="absolute m-8 bottom-0 w-1/2 h-48 flex animation-enable"
-          :class="[{ 'left-0': currentPage && plottingMenuShown },
-                  { 'left-minFull': !currentPage || !plottingMenuShown },]">
-        <div class="w-16full h-full flex bg-gray-400 rounded-l-lg animation-enable-short"
-            :class="[{ 'opacity-100': formHovered || buttonHovered},
-                    { 'opacity-25': !formHovered && !buttonHovered}]">
-          <form id="jagaForm" class="w-full h-full flex-row"
-              @mouseover="formHovered = true;" @mouseleave="formHovered = false;">
-            <div class="w-full h-1/2 flex">
-              <div class="w-full px-4 pt-2 pb-2 h-full flex-row">
-                <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
-                  <span class="h-auto my-auto">
-                    Asisten
-                  </span>
-                </div>
-                <div class="w-full h-2/3">
-                  <select v-model="formJaga.asisten_id" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                    <option v-for="asisten in allAsisten" v-bind:key="asisten.id" :value="asisten.id">{{ asisten.kode }}</option>
-                  </select>
-                </div>
+              <div class="w-1/6 flex justify-center">
+                LOCK/UNLOCK
               </div>
             </div>
-            <div class="w-full h-1/2 flex">
-              <div class="w-full px-4 pb-4 h-full flex-row">
-                <div class="font-merri w-full flex text-left text-gray-700 text-lg h-1/3">
-                  <span class="h-auto my-auto">
-                    Kelas
-                  </span>
-                </div>
-                <div class="w-full h-2/3">
-                  <select v-model="formJaga.kelas_id" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
-                    <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">{{ kelas.kelas }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="w-16 h-full flex bg-gray-600 rounded-r-lg animation-enable-short"
-            :class="[{ 'opacity-100': formHovered || buttonHovered },
-                    { 'opacity-25': !formHovered && !buttonHovered }]"
-            @mouseover="buttonHovered = true;" @mouseleave="buttonHovered = false;">
-          <div class="w-full h-full flex-row">
-            <div class="w-full h-1/2 flex">
-              <span class="w-8 h-8 m-auto animation-enable-short text-gray-400 p-0 hover:p-1 cursor-pointer"
-                  v-on:click="createJadwalJaga">
-                <img class="w-full h-full fas fa-plus">
-              </span>
-            </div>
-            <div class="w-full h-1/2 flex">
-              <span class="w-8 h-8 m-auto animation-enable-short text-gray-400 p-0 hover:p-1 cursor-pointer"
-                  v-on:click="deleteJadwalJaga">
-                <img class="w-full h-full fas fa-trash">
-              </span>
-            </div>
           </div>
-        </div>
-      </div>
-
-      <div class="w-1/2 absolute right-0 bottom-0 my-8 pl-8 h-48 animation-enable flex pointer-events-none"
-          :class="[{ 'opacity-100': formHovered || buttonHovered || !plottingMenuShown },
-                  { 'opacity-25': !formHovered && !buttonHovered && plottingMenuShown },
-                  { 'w-1/2': plottingMenuShown },
-                  { 'w-full': !plottingMenuShown }]">
-        <div class="w-16 h-full flex">
-          <div class="w-12 h-12 p-0 hover:p-1 mr-auto my-auto animation-enable-short pointer-events-auto"
-              v-on:click="plottingMenuShown = !plottingMenuShown"
-              @mouseover="formHovered = true;" @mouseleave="formHovered = false;">
-            <span class="w-full h-full cursor-pointer text-white"
-                :class="[{ 'visible': plottingMenuShown },
-                        { 'hidden': !plottingMenuShown }]">
-              <img class="w-full h-full fas fa-caret-left"/>
-            </span>
-            <span class="w-full h-full cursor-pointer text-white"
-                :class="[{ 'visible': !plottingMenuShown },
-                        { 'hidden': plottingMenuShown }]">
-              <img class="w-full h-full fas fa-caret-right"/>
-            </span>
+          <div class="overflow-y-auto divide-y-2 divide-gray-400">
+              <div v-for="modul in all_modul" v-bind:key="modul.id"
+                  class="flex flex-col font-overpass-mono-bold text-2xl py-4 px-5"
+                  :class="[{ 'text-yellow-200': !modul.isUnlocked },
+                           { 'text-yellow-500': modul.isUnlocked }]">
+                 <div class="flex">
+                   <div class="w-5/6 pt-1">{{ modul.judul }}</div>
+                   <div class="w-1/6 flex justify-center mr-8">
+                     <toggle-button
+                         v-on:change="setActive(modul)" 
+                         v-model="modul.isUnlocked"
+                         :value="modul.isUnlocked"
+                         :sync="true"
+                         :labels="true"
+                         :width="100"
+                         :height="40"
+                         :font-size="15"/>
+                   </div>
+                 </div>
+             </div>
           </div>
-        </div>
       </div>
     </div>
+
   </div>
 </template>
-
-<style>
-.plotting-list-enter, .plotting-list-leave-to{
-  opacity: 0;
-  transform: translateY(100%);
-}
-.plotting-list-leave-active {
-  position: absolute;
-}
-</style>
 
 <script>
 export default {
@@ -449,9 +338,8 @@ export default {
     'currentUser',
     'position',
     'userRole',
-    'allJaga',
-    'allKelas',
-    'allAsisten',
+    'allTP',
+    'allModul',
   ],
 
   data() {
@@ -466,40 +354,32 @@ export default {
       allLaporanPriviledge: [1,2,4,5,6],
       jawabanPriviledge: [1,2,7,11,15],
       soalPriviledge: "all",
+      tryChange: false,
+
+      all_modul : [],
 
       pageActive: true,
       isMenuShown: false,
       changePage: false,
       currentPage: false,
+      
+      processing: false,
 
-      formHovered: false,
-      buttonHovered: false,
-      plottingMenuShown: true,
-
-      menuProfil: false,
       menuPraktikum: false,
+      menuSoal: false,
       menuListTp: false,
       menuHistory: false,
       menuPolling: false,
-      menuSoal: false,
       menuKelas: false,
+      menuPlotting: false,
       menuModul: false,
+      menuProfil: false,
       menuKonfigurasi: false,
-      menuTp: false,
       menuNilai: false,
       menuSetPraktikan: false,
       menuPelanggaran: false,
       menuRanking: false,
       menuAllLaporan: false,
-      menuJawaban: false,
-
-      listAllJaga: this.allJaga === null ? [] : this.allJaga,
-
-      formJaga: {
-        id: '',
-        asisten_id: '',
-        kelas_id: '',
-      },
     }
   },
 
@@ -512,27 +392,67 @@ export default {
 
     if(this.comingFrom === 'asisten' ||
         this.comingFrom === 'none' ||
-        this.comingFrom === 'kelas'||
         this.comingFrom === 'soal'||
+        this.comingFrom === 'modul'||
         this.comingFrom === 'praktikum' ||
-        this.comingFrom === 'modul' ||
+        this.comingFrom === 'plotting' ||
+        this.comingFrom === 'kelas' ||
         this.comingFrom === 'polling' ||
-        this.comingFrom === 'konfigurasi' ||
         this.comingFrom === 'tp' ||
+        this.comingFrom === 'konfigurasi' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'history'||
         this.comingFrom === 'nilai'||
         this.comingFrom === 'pelanggaran'||
         this.comingFrom === 'setpraktikan'||
         this.comingFrom === 'rating' ||
-        this.comingFrom === 'allLaporan' ||
-        this.comingFrom === 'jawaban'){
+        this.comingFrom === 'allLaporan'){
 
       setTimeout(
         function() {
           globe.currentPage = true;
         }, 10); 
     }
+
+    globe.all_modul = globe.allModul.filter(function(modul){
+      modul.isUnlocked === 1 ? modul.isUnlocked = true : modul.isUnlocked = false;
+      switch (modul.id) {
+        case 1:
+          modul.idINT = 6;
+          break;
+        case 2:
+          modul.idINT = 7;
+          break;
+        case 3:
+          modul.idINT = 8;
+          break;
+        case 4:
+          modul.idINT = 9;
+          break;
+        case 5:
+          modul.idINT = 10;
+          break;
+        case 11:
+          modul.idINT = 16;
+          break;
+        case 12:
+          modul.idINT = 17;
+          break;
+        case 13:
+          modul.idINT = 18;
+          break;
+        case 14:
+          modul.idINT = 19;
+          break;
+        case 15:
+          modul.idINT = 20;
+          break;
+        default:
+          modul.idINT = null;
+          break;
+      }
+      return modul;
+    });
   },
 
   methods: {
@@ -549,16 +469,16 @@ export default {
         this.menuHistory = $bool;
       if($whereTo === "polling")
         this.menuPolling = $bool;
-      if($whereTo === "asisten")
-        this.menuProfil = $bool;
       if($whereTo === "kelas")
         this.menuKelas = $bool;
       if($whereTo === "modul")
         this.menuModul = $bool;
+      if($whereTo === "plotting")
+        this.menuPlotting = $bool;
+      if($whereTo === "asisten")
+        this.menuProfil = $bool;
       if($whereTo === "konfigurasi")
         this.menuKonfigurasi = $bool;
-      if($whereTo === "tp")
-        this.menuTp = $bool;
       if($whereTo === "nilai")
         this.menuNilai = $bool;
       if($whereTo === "setpraktikan")
@@ -569,20 +489,6 @@ export default {
         this.menuRanking = $bool;
       if($whereTo === "allLaporan")
         this.menuAllLaporan = $bool;
-      if($whereTo === "jawaban")
-        this.menuJawaban = $bool;
-    },
-
-    openMoreMenu: function($id){
-
-      $(".moreMenu-"+$id).removeClass("opacity-0");
-      $(".moreMenu-"+$id).addClass("opacity-100");
-    },
-
-    closeMoreMenu: function($id){
-
-      $(".moreMenu-"+$id).addClass("opacity-0");
-      $(".moreMenu-"+$id).removeClass("opacity-100");
     },
 
     travel: function($whereTo){
@@ -594,126 +500,31 @@ export default {
       this.currentPage = false;
       setTimeout(
         function() {
-          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=plotting&position='+globe.$refs.menu.scrollTop);
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=jawaban&position='+globe.$refs.menu.scrollTop);
         }, 501); 
     },
 
-    deleteJadwalJaga: function(){
-
+    setActive: function($modul){
       const globe = this;
-
-      if(this.formJaga.asisten_id === null || this.formJaga.kelas_id === null){
-        globe.$toasted.global.showError({
-          message: "Pilih asisten & kelas terlebih dahulu"
-        });
-      }
-
-      this.$axios.post('/deleteJadwalJaga', this.formJaga).then(response => {
-
-        if(response.data.message === "success") {
-
-          globe.$toasted.global.showSuccess({
-            message: "Jadwal Jaga berhasil dihapus"
-          });
-
-          var i;
-          for(i=0; i<globe.listAllJaga.length; i++){
-            if(globe.listAllJaga[i].asisten_id === this.formJaga.asisten_id &&
-                globe.listAllJaga[i].kelas_id === this.formJaga.kelas_id){
-              break;
-            }
+      console.log($modul);
+        this.$axios.post('/activateJawaban', $modul).then(response => {
+          if(response.data.message === "success" && $modul.isUnlocked === true) {
+            globe.$toasted.global.showSuccess({
+              message: "Jawaban berhasil diaktifkan"
+            });
+          } else if(response.data.message === "success" && $modul.isUnlocked === false) {
+            globe.$toasted.global.showSuccess({
+              message: "Jawaban berhasil dinon-aktifkan"
+            });
           }
-          globe.listAllJaga.splice(i, 1);
-        } else {
-          globe.$toasted.global.showError({
-            message: response.data.message
-          });
-        }
-      }).catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          if(error.response.data.errors != null){
-            if(error.response.data.errors.hari != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.hari[0]
-              });
-            if(error.response.data.errors.shift != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.shift[0]
-              });
-            if(error.response.data.errors.asisten_id != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.asisten_id[0]
-              });
+          else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
           }
-        }
-      });
+        })
     },
-
-    createJadwalJaga: function(){
-
-      const globe = this;
-      this.$axios.post('/createJadwalJaga', this.formJaga).then(response => {
-
-        if(response.data.message === "success") {
-
-          $("#jagaForm")[0].reset();
-          globe.$toasted.global.showSuccess({
-            message: "Jadwal Jaga berhasil ditambahkan"
-          });
-
-          var kode;
-          globe.allAsisten.forEach(element => {
-            if(element.id === globe.formJaga.asisten_id)
-              kode = element.kode;
-          });
-
-          var kelas, hari, shift;
-          globe.allKelas.forEach(element => {
-            if(element.id === globe.formJaga.kelas_id){
-              kelas = element.kelas;
-              hari = element.hari;
-              shift = element.shift;
-            }
-          })
-
-          globe.listAllJaga.push({
-            id: response.data.id,
-            kelas_id: globe.formJaga.kelas_id,
-            asisten_id: globe.formJaga.asisten_id,
-            kode: kode,
-            kelas: kelas,
-            hari: hari,
-            shift: shift,
-          })
-        } else {
-          globe.$toasted.global.showError({
-            message: response.data.message
-          });
-        }
-      }).catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          if(error.response.data.errors != null){
-            if(error.response.data.errors.hari != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.hari[0]
-              });
-            if(error.response.data.errors.shift != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.shift[0]
-              });
-            if(error.response.data.errors.asisten_id != null)
-              globe.$toasted.global.showError({
-                message: error.response.data.errors.asisten_id[0]
-              });
-          }
-        }
-      });
-    },
-
+   
     signOut: function(){
 
       const globe = this;

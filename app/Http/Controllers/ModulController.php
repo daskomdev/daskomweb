@@ -45,6 +45,7 @@ class ModulController extends Controller
             'deskripsi' => 'required|string',
             'isi'       => 'required|string',
             'isEnglish' => 'required',
+            'isUnlocked'  => 'required',
         ]);
 
         Modul::create([
@@ -52,6 +53,7 @@ class ModulController extends Controller
             'deskripsi' => $request->deskripsi,
             'isi'       => $request->isi,
             'isEnglish' => $request->isEnglish,
+            'isUnlocked'  => $request->isUnlocked,
         ]);
 
         $id = Modul::where('judul', $request->judul)->first()->id;
@@ -128,4 +130,23 @@ class ModulController extends Controller
 
         return '{"message": "success"}';
     }
+
+    public function updateJawabanConfiguration(Request $request){
+        $request->validate([
+            'id'            => 'required',
+            'idINT'         => 'required',
+            'isUnlocked'    => 'required|bool',
+        ]);  
+
+        $modul = Modul::where('id', $request->id)->first();
+        $modul->isUnlocked = $request->isUnlocked;
+        $modul->save();
+
+        $modul = Modul::where('id', $request->idINT)->first();
+        $modul->isUnlocked = $request->isUnlocked;
+        $modul->save();
+
+        return '{"message": "success"}';
+    }
+    
 }

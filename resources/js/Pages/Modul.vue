@@ -192,6 +192,21 @@
           </div>
         </div> 
 
+        <div v-if="jawabanPriviledge.includes(currentUser.role_id) || jawabanPriviledge == 'all'">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuJawaban },
+                      { 'bg-yellow-500 text-white': changePage && menuJawaban }]"
+              v-on:click='travel("jawaban")'>
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-tasks">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Jawaban
+            </span>
+          </div>
+        </div> 
+
         <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPelanggaran },
@@ -429,7 +444,7 @@
                       v-on:click="editModul(modul, true)">
                     <img class="w-full h-full rounded-lg p-3 bg-yellow-400 fas fa-pen">
                   </span>
-                  <span class="w-full h-full hidden cursor-pointer hover:p-1 p-0 flex animation-enable-short"
+                  <span class="w-full h-full hidden cursor-pointer hover:p-1 p-0 animation-enable-short"
                       :class="[{ 'opacity-100 pointer-events-auto': !moreOpened },
                               { 'opacity-0 pointer-events-none': moreOpened },
                               'editClose-'+modul.id]"
@@ -454,7 +469,7 @@
                       v-on:click="showMore(modul.id, true)">
                     <img class="w-full h-full rounded-lg p-3 bg-yellow-400 fas fa-caret-down">
                   </span>
-                  <span class="w-full hidden h-full cursor-pointer hover:p-1 p-0 flex animation-enable-short"
+                  <span class="w-full hidden h-full cursor-pointer hover:p-1 p-0 animation-enable-short"
                       :class="'moreClose-'+modul.id"
                       v-on:click="showMore(modul.id, false)">
                     <img class="w-full h-full rounded-lg p-3 bg-yellow-400 fas fa-caret-up">
@@ -500,6 +515,7 @@ export default {
       pelanggaranPriviledge: [1,2,4,5,6,18],
       RankingPriviledge: [1,2,4,5,8,16],
       allLaporanPriviledge: [1,2,4,5,6],
+      jawabanPriviledge: [1,2,7,11,15],
       soalPriviledge: "all",
 
       pageActive: true,
@@ -538,6 +554,7 @@ export default {
         deskripsi: '',
         isi: '',
         isEnglish: false,
+        isUnlocked: true,
       },
     }
   },
@@ -564,7 +581,8 @@ export default {
         this.comingFrom === 'polling' ||
         this.comingFrom === 'setpraktikan'||
         this.comingFrom === 'rating' ||
-        this.comingFrom === 'allLaporan'){
+        this.comingFrom === 'allLaporan' ||
+        this.comingFrom === 'jawaban'){
 
       setTimeout(
         function() {
@@ -607,6 +625,8 @@ export default {
         this.menuRanking = $bool;
       if($whereTo === "allLaporan")
         this.menuAllLaporan = $bool;
+      if($whereTo === "jawaban")
+        this.menuJawaban = $bool;
     },
 
     travel: function($whereTo){
@@ -833,6 +853,7 @@ export default {
             deskripsi: globe.formModul.deskripsi,
             isi: globe.formModul.isi,
             isEnglish: globe.formModul.isEnglish,
+            isUnlocked: globe.formModul.isUnlocked,
           })
         } else {
           globe.$toasted.global.showError({

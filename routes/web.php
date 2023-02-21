@@ -84,6 +84,10 @@ Route::get('/praktikan', function () {
     $isRunmod = Configuration::find(1)->runmod_activation;
     $pollingComplete = Polling::where('praktikan_id', $user->id)->exists();
     $allPolling = Jenis_Polling::all();
+    $allModul = Modul::orderBy('isEnglish','asc')->get();
+    $allJurnal = DB::table('soal__jurnals')
+            ->join('moduls', 'soal__jurnals.modul_id', '=', 'moduls.id')
+            ->select('soal__jurnals.*', 'moduls.judul')->get();
     return Inertia::render('Praktikan', [
         'comingFrom' => $comingFrom,
         'currentUser' => $user,
@@ -92,6 +96,9 @@ Route::get('/praktikan', function () {
         'isRunmod' => $isRunmod,
         'pollingComplete' => $pollingComplete,
         'allPolling' => $allPolling,
+
+        'allModul' => $allModul,
+        'allJurnal' => $allJurnal,
     ]);
 })->name('praktikan')->middleware('loggedIn:praktikan');
 
@@ -200,10 +207,11 @@ Route::get('/plotting', function () {
 Route::get('/praktikum', function () {
     $user = Auth::guard('asisten')->user();
     $userRole = Role::where('id', $user->role_id)->first();
-    $allKelas = Kelas::all();
-    $allModul = Modul::orderBy('isEnglish','asc')->get();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
+    
+    $allKelas = Kelas::all();
+    $allModul = Modul::orderBy('isEnglish','asc')->get();
     $isRunmod = Configuration::find(1)->runmod_activation;
     return Inertia::render('Praktikum', [
         'comingFrom' => $comingFrom,
@@ -221,6 +229,7 @@ Route::get('/konfigurasi', function () {
     $userRole = Role::where('id', $user->role_id)->first();
     $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
     $position = request('position') === null ? 0:request('position');
+    
     $currentConfig = Configuration::find(1); // Always get the first configuration
     $konfigurasiPrivilege = array(1,2,4,18,7);
     if(in_array($userRole->id,$konfigurasiPrivilege,true)){
@@ -233,6 +242,29 @@ Route::get('/konfigurasi', function () {
         ]);
     }else return redirect('/');
 })->name('konfigurasi')->middleware('loggedIn:asisten');
+
+Route::get('/jawaban', function () {
+    $user = Auth::guard('asisten')->user();
+    $userRole = Role::where('id', $user->role_id)->first();
+    $comingFrom = request('comingFrom') === null ? 'none':request('comingFrom');
+    $position = request('position') === null ? 0:request('position');
+    
+    $allModul = Modul::where('isEnglish', 0)
+        ->where('id', '<', '20')
+        ->orderBy('id','asc')
+        ->get();
+        
+    $jawabanPrivilege = array(1,2,7,11,15);
+    if(in_array($userRole->id,$jawabanPrivilege,true)){
+        return Inertia::render('Jawaban', [
+            'comingFrom'    => $comingFrom,
+            'currentUser'   => $user,
+            'position'      => $position,
+            'userRole'      => $userRole->role,
+            'allModul'      => $allModul,
+        ]);
+    }else return redirect('/');
+})->name('jawaban')->middleware('loggedIn:asisten');
 
 Route::get('/pelanggaran', function () {
     $user = Auth::guard('asisten')->user();
@@ -564,12 +596,16 @@ Route::post('/inputNilai', 'NilaiController@store')->name('inputNilai')->middlew
 Route::post('/getCurrentNilai/{praktikan_id}/{modul_id}', 'NilaiController@show')->name('getCurrentNilai')->middleware('loggedIn:asisten');
 
 Route::post('/getAllNilai/{praktikan_id}', 'NilaiController@showAll')->name('getAllNilai')->middleware('loggedIn:praktikan');
+Route::post('/praktikanGetJurnal/{praktikan_id}/{modul_id}', 'PraktikanLihatJawabanController')->name('praktikanGetJurnal')->middleware('loggedIn:praktikan');
 
 Route::post('/setThisPraktikan/{praktikan_nim}/{asisten_id}/{modul_id}', 'NilaiController@edit')->name('setThisPraktikan')->middleware('loggedIn:asisten');
 Route::post('/changePraktikanPass/{praktikan_nim}/{new_pass}', 'PraktikanController@edit')->name('changePraktikanPass')->middleware('loggedIn:asisten');
 
 Route::post('/checkPolling', 'ConfigurationController@isPollingEnabled')->name('checkPolling')->middleware('loggedIn:praktikan');
 Route::post('/savePolling', 'PollingController@store')->name('savePolling')->middleware('loggedIn:praktikan');
+
+Route::post('/activateJawaban', 'ModulController@updateJawabanConfiguration')->name('activateJawaban')->middleware('loggedIn:asisten');
+
 /////////////////////////////////////////////FILE UPLOAD////////////////////////////////////////////
 Route::get('/upload','UploadController@upload')->middleware('loggedIn:asisten');
 Route::post('/upload/proses','UploadController@proses_upload')->middleware('loggedIn:asisten');
