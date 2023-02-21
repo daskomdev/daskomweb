@@ -192,6 +192,21 @@
           </div>
         </div> 
 
+        <div v-if="jawabanPriviledge.includes(currentUser.role_id) || jawabanPriviledge == 'all'">
+            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuJawaban },
+                        { 'bg-yellow-500 text-white': changePage && menuJawaban }]"
+                v-on:click='travel("jawaban")'>
+              <div class="w-7/12 my-2 flex">
+                <div class="w-4/6"/>
+                <img class="select-none m-auto w-2/6 h-auto fas fa-tasks">
+              </div>
+              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+                Jawaban
+              </span>
+            </div>
+          </div>
+
         <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPelanggaran },
@@ -487,6 +502,7 @@
       pelanggaranPriviledge: [1,2,4,5,6,18],
       RankingPriviledge: [1,2,4,5,8,16],
       allLaporanPriviledge: [1,2,4,5,6],
+      jawabanPriviledge: [1,2,7,11,15],
       soalPriviledge: "all",
 
       pageActive: true,
@@ -514,6 +530,7 @@
       menuPelanggaran: false,
       menuRanking: false,
       menuAllLaporan: false,
+      menuJawaban: false,
 
       hari: ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "TOT"],
 
@@ -553,7 +570,8 @@
         this.comingFrom === 'pelanggaran'||
         this.comingFrom === 'setpraktikan'||
         this.comingFrom === 'rating' ||
-        this.comingFrom === 'allLaporan'){
+        this.comingFrom === 'allLaporan' ||
+        this.comingFrom === 'jawaban'){
 
       setTimeout(
         function() {
@@ -607,6 +625,8 @@
         this.menuRanking = $bool;
       if($whereTo === "allLaporan")
         this.menuAllLaporan = $bool;
+      if($whereTo === "jawaban")
+        this.menuJawaban = $bool;
     },
 
     openPopup: function(){

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKelasTable extends Migration
+class AddTotalGroupToKelasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateKelasTable extends Migration
      */
     public function up()
     {
-        Schema::create('kelas', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('kelas', 10);
-            $table->string('hari');
-            $table->integer('shift');
-            $table->timestamps();
+        Schema::table('kelas', function (Blueprint $table) {
+            $table->integer('totalGroup')->default(0);
         });
     }
 
@@ -29,6 +25,8 @@ class CreateKelasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kelas');
+        Schema::table('kelas', function (Blueprint $table) {
+            $table->dropColumn('totalGroup');
+        });
     }
 }

@@ -95,52 +95,52 @@ class NilaiController extends Controller
             ->where('jawaban__fitbs.modul_id', $modul_id)
             ->leftJoin('soal__fitbs', 'jawaban__fitbs.soal_id', '=', 'soal__fitbs.id')
             ->get();
-        
+            
         foreach ($jawabans as $jawaban => $value)
             array_push($allJawabanJurnal, $value);  
-        
+            
         $jawabans = Jawaban_Jurnal::where('praktikan_id', $praktikan_id)
             ->where('jawaban__jurnals.modul_id', $modul_id)
             ->leftJoin('soal__jurnals', 'jawaban__jurnals.soal_id', '=', 'soal__jurnals.id')
             ->get();
-        
+            
         foreach ($jawabans as $jawaban => $value)
             array_push($allJawabanJurnal, $value);  
-        
+            
         $jawabans = Jawaban_Mandiri::where('praktikan_id', $praktikan_id)
             ->where('jawaban__mandiris.modul_id', $modul_id)
             ->leftJoin('soal__mandiris', 'jawaban__mandiris.soal_id', '=', 'soal__mandiris.id')
             ->get();
-        
+            
         foreach ($jawabans as $jawaban => $value)
             array_push($allJawabanJurnal, $value);
-
+    
         $allJawabanJurnal = $this->my_array_unique($allJawabanJurnal);
-
+    
         if(Jawaban_Tp::where('praktikan_id', $praktikan_id)
             ->where('modul_id', $modul_id)
             ->exists()) {
-        
+            
             $allJawabanTp = [];
             $jawabans = Jawaban_Tp::where('praktikan_id', $praktikan_id)
                 ->where('jawaban__tps.modul_id', $modul_id)
                 ->leftJoin('soal__tps', 'jawaban__tps.soal_id', '=', 'soal__tps.id')
                 ->get();
-            
+                
             foreach ($jawabans as $jawaban => $value)
                 array_push($allJawabanTp, $value);
-
+    
             $allJawabanTp = $this->my_array_unique($allJawabanTp);
-
+    
         } else {
-            $allJawabanTp = "nope";
+                $allJawabanTp = "nope";
         }
-
+    
         return response()->json([
             'message' => 'success',
             'allJawabanTp' => $allJawabanTp,
             'allJawabanJurnal' => $allJawabanJurnal,
-        ], 200);
+        ], 200);   
     }
 
     /**

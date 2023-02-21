@@ -176,8 +176,8 @@
               Konfigurasi
             </span>
           </div>
-        </div> 
-
+        </div>
+        
         <div v-if="tpPriviledge.includes(currentUser.role_id) || tpPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
               :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuTp },
@@ -194,24 +194,24 @@
         </div> 
 
         <div v-if="jawabanPriviledge.includes(currentUser.role_id) || jawabanPriviledge == 'all'">
-            <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
-                :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuJawaban },
-                        { 'bg-yellow-500 text-white': changePage && menuJawaban }]"
-                v-on:click='travel("jawaban")'>
-              <div class="w-7/12 my-2 flex">
-                <div class="w-4/6"/>
-                <img class="select-none m-auto w-2/6 h-auto fas fa-tasks">
-              </div>
-              <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
-                Jawaban
-              </span>
-            </div>
-          </div>
-
-        <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
           <div class="w-full p-4 h-24 flex select-none animation-enable"
               :class="[{ 'bg-yellow-500 text-white': !changePage },
                       { 'bg-yellow-400 text-black': changePage }]">
+            <div class="w-7/12 my-2 flex">
+              <div class="w-4/6"/>
+              <img class="select-none m-auto w-2/6 h-auto fas fa-tasks">
+            </div>
+            <span class="ml-6 font-merri-bold font-medium w-full text-start self-center text-xl">
+              Jawaban
+            </span>
+          </div>
+        </div>
+        
+        <div v-if="pelanggaranPriviledge.includes(currentUser.role_id) || pelanggaranPriviledge == 'all'">
+          <div class="w-full p-4 h-24 flex select-none cursor-pointer hover:text-white animation-enable"
+              :class="[{ 'bg-yellow-400 hover:bg-yellow-600': !changePage || !menuPelanggaran },
+                      { 'bg-yellow-500 text-white': changePage && menuPelanggaran }]"
+              v-on:click='travel("pelanggaran")'>
             <div class="w-7/12 my-2 flex">
               <div class="w-4/6"/>
               <img class="select-none m-auto w-2/6 h-auto fas fa-radiation-alt">
@@ -235,7 +235,7 @@
               Ranking Praktikan
             </span>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
 
@@ -289,31 +289,45 @@
       </div>
     </div>
 
-    <div class="absolute h-full w-120full animation-enable"
+    <!-- Jawaban's Contents -->
+    <div class="absolute left-0 h-full w-120full flex flex-col m-auto animation-enable"
         :class="[{ 'left-minFull': !currentPage },
-                { 'left-0': currentPage }]">
-      <div class="w-full h-full pt-1 pb-5 flex-row" v-bar>
-        <div class="mt-5">
-          <transition-group name="laporan-list" tag="div">
-            <div v-for="(asisten, index) in allAsisten" v-bind:key="asisten.id" 
-                class="animation-enable w-full h-auto flex py-1">
-              <div class="w-auto h-auto m-auto">
-                <span class="w-1/2 h-full font-overpass text-xl text-yellow-300">
-                  {{ index+1 }}. {{ asisten.nama }} ({{ asisten.kode }})
-                </span>
-                <span class="w-1/2 h-full"
-                    :class="[{ 'font-monda-bold text-red-400' : asisten.nilaiUnexists > 0 },     
-                            { 'font-monda text-green-300' : asisten.nilaiUnexists <= 0 }]">
-                  , Total belum input nilai: <span class="font-bold">{{ asisten.nilaiUnexists }}
-                    <span v-if="asisten.nilaiUnexists > 0" class="text-red-500">(ALERT)</span>
-                  </span>
-                </span>
+                    { 'left-0': currentPage }]">
+      <div class="w-3/5 h-5/6 m-auto flex flex-col">
+          <div class="w-full h-1/6 font-overpass-mono-bold text-2xl">
+            <div class="flex font-overpass-mono-bold text-3xl text-gray-200 mr-12">
+              <div class="w-5/6 flex justify-center mr-40">
+                MODUL
+              </div>
+              <div class="w-1/6 flex justify-center">
+                LOCK/UNLOCK
               </div>
             </div>
-          </transition-group>
-        </div>
+          </div>
+          <div class="overflow-y-auto divide-y-2 divide-gray-400">
+              <div v-for="modul in all_modul" v-bind:key="modul.id"
+                  class="flex flex-col font-overpass-mono-bold text-2xl py-4 px-5"
+                  :class="[{ 'text-yellow-200': !modul.isUnlocked },
+                           { 'text-yellow-500': modul.isUnlocked }]">
+                 <div class="flex">
+                   <div class="w-5/6 pt-1">{{ modul.judul }}</div>
+                   <div class="w-1/6 flex justify-center mr-8">
+                     <toggle-button
+                         v-on:change="setActive(modul)" 
+                         v-model="modul.isUnlocked"
+                         :value="modul.isUnlocked"
+                         :sync="true"
+                         :labels="true"
+                         :width="100"
+                         :height="40"
+                         :font-size="15"/>
+                   </div>
+                 </div>
+             </div>
+          </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -324,7 +338,8 @@ export default {
     'currentUser',
     'position',
     'userRole',
-    'allAsisten',
+    'allTP',
+    'allModul',
   ],
 
   data() {
@@ -339,13 +354,17 @@ export default {
       allLaporanPriviledge: [1,2,4,5,6],
       jawabanPriviledge: [1,2,7,11,15],
       soalPriviledge: "all",
+      tryChange: false,
+
+      all_modul : [],
 
       pageActive: true,
       isMenuShown: false,
       changePage: false,
       currentPage: false,
+      
+      processing: false,
 
-      menuKonfigurasi: false,
       menuPraktikum: false,
       menuSoal: false,
       menuListTp: false,
@@ -355,12 +374,12 @@ export default {
       menuPlotting: false,
       menuModul: false,
       menuProfil: false,
-      menuTp: false,
+      menuKonfigurasi: false,
       menuNilai: false,
       menuSetPraktikan: false,
+      menuPelanggaran: false,
       menuRanking: false,
       menuAllLaporan: false,
-      menuJawaban: false,
     }
   },
 
@@ -380,20 +399,60 @@ export default {
         this.comingFrom === 'kelas' ||
         this.comingFrom === 'polling' ||
         this.comingFrom === 'tp' ||
+        this.comingFrom === 'konfigurasi' ||
         this.comingFrom === 'listTp' ||
         this.comingFrom === 'history'||
         this.comingFrom === 'nilai'||
-        this.comingFrom === 'konfigurasi'||
+        this.comingFrom === 'pelanggaran'||
         this.comingFrom === 'setpraktikan'||
         this.comingFrom === 'rating' ||
-        this.comingFrom === 'allLaporan' ||
-        this.comingFrom === 'jawaban'){
+        this.comingFrom === 'allLaporan'){
 
       setTimeout(
         function() {
           globe.currentPage = true;
         }, 10); 
     }
+
+    globe.all_modul = globe.allModul.filter(function(modul){
+      modul.isUnlocked === 1 ? modul.isUnlocked = true : modul.isUnlocked = false;
+      switch (modul.id) {
+        case 1:
+          modul.idINT = 6;
+          break;
+        case 2:
+          modul.idINT = 7;
+          break;
+        case 3:
+          modul.idINT = 8;
+          break;
+        case 4:
+          modul.idINT = 9;
+          break;
+        case 5:
+          modul.idINT = 10;
+          break;
+        case 11:
+          modul.idINT = 16;
+          break;
+        case 12:
+          modul.idINT = 17;
+          break;
+        case 13:
+          modul.idINT = 18;
+          break;
+        case 14:
+          modul.idINT = 19;
+          break;
+        case 15:
+          modul.idINT = 20;
+          break;
+        default:
+          modul.idINT = null;
+          break;
+      }
+      return modul;
+    });
   },
 
   methods: {
@@ -418,20 +477,18 @@ export default {
         this.menuPlotting = $bool;
       if($whereTo === "asisten")
         this.menuProfil = $bool;
-      if($whereTo === "tp")
-        this.menuTp = $bool;
+      if($whereTo === "konfigurasi")
+        this.menuKonfigurasi = $bool;
       if($whereTo === "nilai")
         this.menuNilai = $bool;
       if($whereTo === "setpraktikan")
         this.menuSetPraktikan = $bool;
-      if($whereTo === "konfigurasi")
-        this.menuKonfigurasi = $bool;
+      if($whereTo === "pelanggaran")
+        this.menuPelanggaran = $bool;
       if($whereTo === "rating")
         this.menuRanking = $bool;
       if($whereTo === "allLaporan")
         this.menuAllLaporan = $bool;
-      if($whereTo === "jawaban")
-        this.menuJawaban = $bool;
     },
 
     travel: function($whereTo){
@@ -443,10 +500,31 @@ export default {
       this.currentPage = false;
       setTimeout(
         function() {
-          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=pelanggaran&position='+globe.$refs.menu.scrollTop);
+          globe.$inertia.replace('/'+ $whereTo +'?comingFrom=jawaban&position='+globe.$refs.menu.scrollTop);
         }, 501); 
     },
 
+    setActive: function($modul){
+      const globe = this;
+      console.log($modul);
+        this.$axios.post('/activateJawaban', $modul).then(response => {
+          if(response.data.message === "success" && $modul.isUnlocked === true) {
+            globe.$toasted.global.showSuccess({
+              message: "Jawaban berhasil diaktifkan"
+            });
+          } else if(response.data.message === "success" && $modul.isUnlocked === false) {
+            globe.$toasted.global.showSuccess({
+              message: "Jawaban berhasil dinon-aktifkan"
+            });
+          }
+          else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        })
+    },
+   
     signOut: function(){
 
       const globe = this;
