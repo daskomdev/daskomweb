@@ -46,7 +46,8 @@ import { faExclamationCircle,
         faLock,
         faUnlock,
         faUnlockAlt,
-        faTasks} from '@fortawesome/free-solid-svg-icons';
+        faTasks,
+        faSort} from '@fortawesome/free-solid-svg-icons';
 import { faLine,
         faInstagram, 
         faYoutube} from '@fortawesome/free-brands-svg-icons';
@@ -104,6 +105,7 @@ library.add(faLock);
 library.add(faUnlock);
 library.add(faUnlockAlt);
 library.add(faTasks);
+library.add(faSort);
 dom.watch(); 
 
 Vue.use(VueAnime)

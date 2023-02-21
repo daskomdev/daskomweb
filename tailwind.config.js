@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   important: true,
   theme: {
@@ -42,6 +44,7 @@ module.exports = {
         auto: 'auto',
         '1/2': '50%',
         '1/4': '25%',
+        '-15%' : '-15%',
         'minFull': '-100%',
         'min20rem': '-20rem',
         'min18rem': '-18rem',
@@ -53,6 +56,7 @@ module.exports = {
 
       borderWidth: {
         '6': '6px',
+        '16': '16px',
       },
 
       margin: {
@@ -108,12 +112,57 @@ module.exports = {
 
       opacity: {
         '97': '0.97'
+      },
+
+      boxShadow: {
+        '3xl': '0 35px 55px -15px rgba(0, 0, 0, 0.5)',
+        'inner-xl': 'inset 0 4px 8px 0 rgba(0, 0, 0, 0.3)',
+      },
+
+      keyframes: {
+        bouncex: {
+          '0%, 100%': { 
+            transform: 'translateX(-25%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+          },
+          '50%': { 
+            transform: 'translateX(0)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
+          },
+        },
+      },
+
+      animation: {
+        'bounce-x': 'bouncex 1s infinite'
+      },
+
+      zIndex: {
+        '-10': '-10'
       }
     }
   },
   variants: {
     borderWidth: ['responsive', 'hover', 'focus'],
     padding: ['responsive', 'hover', 'focus'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'odd','even'],
+    textColor: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'odd', 'even'],
+    zIndex: ['responsive', 'hover', 'focus'],
+    scale: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    boxShadow: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
   },
-  plugins: [require('tailwind-scrollbar-hide')],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+    
+    plugin(function({ addUtilities }) {
+      const newUtilities = {
+        '.inset-center': {
+          bottom: '50%',
+          left: '50%',
+          transform: 'translate(-50%, 50%)',
+        },
+      }
+
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    })
+  ]
 }

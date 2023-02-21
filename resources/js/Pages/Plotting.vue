@@ -296,47 +296,50 @@
         @mouseover="isMenuShown = false;">
 
       <div class="w-full h-full px-8 py-4">
-        <div class="w-full h-full" v-bar>
+        <div class="w-full h-auto flex items-center justify-between mb-3 mt-2 px-4 font-overpass-bold text-gray-200 text-lg">
+          <span class="flex items-center cursor-default">
+            <span>
+              <img class="fas fa-sort">
+              SORT BY : 
+            </span>
+            <span v-on:click="sortByShift" class="text-center ml-3 py-1 px-2 rounded-lg cursor-pointer animation-enable-short"
+                  :class="[{'bg-yellow-600 text-gray-900' : sortedByShift === true}]">SHIFT</span>
+            <span v-on:click="sortByKelas" class="text-center ml-3 py-1 px-2 rounded-lg cursor-pointer animation-enable-short"
+                  :class="[{'bg-yellow-600 text-gray-900' : sortedByKelas === true}]">KELAS</span>
+          </span>
+          
+          <span @click="openPopup" 
+                class="text-center py-1 px-2 rounded-lg animation-enable-short cursor-default"
+                :class="[{'cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-800' : this.listAllJaga.length > 0},
+                         {'bg-red-800' : this.listAllJaga.length === 0}]">
+            <img class="fas fa-trash">
+              RESET ALL
+          </span>
+        </div>
+        <div class="w-full h-16full" v-bar>
           <div>
             <transition-group
                 class="flex-wrap flex w-full h-auto" 
                 name="plotting-list" tag="div">
-              <div v-for="plotting in listAllJaga" v-bind:key="plotting.id" 
-                  class="animation-enable relative w-1/3 h-24 flex py-2 px-4 bg"
-                  @mouseover="openMoreMenu(plotting.id)" @mouseleave="closeMoreMenu(plotting.id)">
-                <div class="w-full h-full flex">
-                  <div class="w-2/5 h-full">
-                    <div class="w-full h-full bg-gray-300 items-center flex rounded-l-large">
-                      <div class="w-auto h-auto font-overpass-bold text-5xl pt-2 text-green-600 text-center m-auto">
-                        {{ plotting.kode }}
+             <div v-for="kelas in sortedAllKelas" v-bind:key="kelas.id"
+                      class="flex flex-col w-1/4 py-3 px-4 text-xl text-gray-900">
+                <div class="rounded-lg overflow-hidden shadow-3xl">
+                    <div v-on:click="formJaga.kelas_id = kelas.id; plottingMenuShown = true; formHovered = true" 
+                        class="flex justify-center bg-yellow-700 font-overpass-bold cursor-pointer transform hover:scale-105 hover:z-10 active:bg-yellow-600 active:scale-100 animation-enable-short">
+                      {{kelas.kelas}}
+                    </div>
+                    <div class="flex justify-center bg-yellow-500 font-overpass-bold">
+                      {{kelas.hari}}-{{kelas.shift}}
+                    </div>
+                    <div class="flex flex-wrap">
+                      <div v-for="plotting in listAllJaga.filter( function(item){return (item.kelas === kelas.kelas);} )" v-bind:key="plotting.id"
+                            v-on:click="plotChoosen(plotting.asisten_id, plotting.kelas_id)"
+                            class="flex justify-center flex-grow w-1/2 cursor-pointer bg-gray-200 font-overpass text-gray-900 transform hover:scale-105 hover:z-10 active:bg-gray-500 active:scale-100 animation-enable-short"
+                            :class="[{' bg-pink-500' : (plotting.asisten_id === formJaga.asisten_id && plotting.kelas_id === formJaga.kelas_id) || (plotting.asisten_id === formJaga.asisten_id && formJaga.kelas_id === '')},
+                                     {'nth-bg-gray-600 nth-text-gray-100' : plotting.asisten_id !== formJaga.asisten_id || plotting.kelas_id !== formJaga.kelas_id && formJaga.kelas_id !== ''}]">
+                            {{plotting.kode}}
                       </div>
                     </div>
-                  </div>
-                  <div class="w-3/5 h-full">
-                    <div class="w-full h-full bg-gray-400 items-center flex rounded-r-large">
-                      <div class="w-auto h-auto font-overpass-bold text-3xl text-green-600 text-center m-auto">
-                        {{ plotting.kelas }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full h-full absolute flex">
-                  <div class="w-full h-full pb-4 pr-8 flex">
-                    <div class="w-full h-full animation-enable-short cursor-pointer opacity-0 flex"
-                        :class="'moreMenu-'+plotting.id"
-                        v-on:click="formJaga = plotting">
-                      <div class="w-3/4 h-full flex rounded-l-large bg-yellow-400">
-                        <div class="w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto">
-                          {{ plotting.hari }}
-                        </div>
-                      </div>
-                      <div class="w-1/4 h-full flex rounded-r-large bg-yellow-500">
-                        <div class="w-auto h-auto font-overpass-bold text-3xl text-black-600 text-center m-auto">
-                          {{ plotting.shift }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </transition-group>
@@ -345,7 +348,7 @@
       </div>
 
       <!-- Plotting Form -->
-      <div class="absolute m-8 bottom-0 w-1/2 h-48 flex animation-enable"
+      <div class="absolute m-8 bottom-0 w-1/5 h-48 flex animation-enable"
           :class="[{ 'left-0': currentPage && plottingMenuShown },
                   { 'left-minFull': !currentPage || !plottingMenuShown },]">
         <div class="w-16full h-full flex bg-gray-400 rounded-l-lg animation-enable-short"
@@ -362,7 +365,8 @@
                 </div>
                 <div class="w-full h-2/3">
                   <select v-model="formJaga.asisten_id" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                        class="block font-monda-bold text-xl  w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                    <option value="">---</option>
                     <option v-for="asisten in allAsisten" v-bind:key="asisten.id" :value="asisten.id">{{ asisten.kode }}</option>
                   </select>
                 </div>
@@ -377,7 +381,8 @@
                 </div>
                 <div class="w-full h-2/3">
                   <select v-model="formJaga.kelas_id" 
-                        class="block font-monda-bold text-xl appearance-none w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                        class="block font-monda-bold text-xl w-full h-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="grid-state">
+                    <option value="">---</option>
                     <option v-for="kelas in allKelas" v-bind:key="kelas.id" :value="kelas.id">{{ kelas.kelas }}</option>
                   </select>
                 </div>
@@ -406,10 +411,10 @@
         </div>
       </div>
 
-      <div class="w-1/2 absolute right-0 bottom-0 my-8 pl-8 h-48 animation-enable flex pointer-events-none"
+      <div class="w-4/5 absolute right-0 bottom-0 my-8 pl-8 h-48 animation-enable flex pointer-events-none"
           :class="[{ 'opacity-100': formHovered || buttonHovered || !plottingMenuShown },
                   { 'opacity-25': !formHovered && !buttonHovered && plottingMenuShown },
-                  { 'w-1/2': plottingMenuShown },
+                  { 'w-4/5': plottingMenuShown },
                   { 'w-full': !plottingMenuShown }]">
         <div class="w-16 h-full flex">
           <div class="w-12 h-12 p-0 hover:p-1 mr-auto my-auto animation-enable-short pointer-events-auto"
@@ -423,9 +428,26 @@
             <span class="w-full h-full cursor-pointer text-white"
                 :class="[{ 'visible': !plottingMenuShown },
                         { 'hidden': plottingMenuShown }]">
-              <img class="w-full h-full fas fa-caret-right"/>
+              <img class="w-full h-full fas fa-caret-right animate-bounce-x shadow-3xl"/>
             </span>
           </div>
+        </div>
+      </div>
+
+      <!-- POPUP LAYOUT -->
+      <div class="popup w-full h-full absolute bg-black animation-enable"
+            :class="[{'opacity-0' : !popupShown},
+                     {'opacity-75' : popupShown}]"></div>
+      <div class="popup absolute w-1/3 h-1/3 flex flex-col justify-center text-center animation-enable-short bg-yellow-600 border-gray-300 border-16 font-overpass-bold text-xl rounded-xl shadow-inner-xl"
+            :class="[{'bottom-1/2 left-1/2 opacity-0 transform scale-0' : !popupShown},
+                     {'inset-center opacity-100 transform scale-100' : popupShown}]">
+        <div class="absolute right-1/2 -top-15% transform translate-x-1/2 px-5 py-2 text-2xl font-black bg-yellow-600 border-2 border-gray-900 border-solid shadow-2xl">
+          RESET
+        </div>
+        <div>APA KAMU YAKIN INGIN RESET SEMUA PLOTTINGAN?</div>
+        <div class="flex justify-evenly mt-8">
+          <div @click="resetJadwal" class="cursor-pointer p-2 bg-green-600 rounded-lg shadow-md hover:bg-green-700 active:bg-green-800 animation-enable-short">BENER KOK!</div>
+          <div @click="closePopup" class="cursor-pointer p-2 bg-red-600  rounded-lg shadow-md hover:bg-red-700 active:bg-red-800 animation-enable-short">HAMPIR AJA :')</div>
         </div>
       </div>
     </div>
@@ -433,26 +455,42 @@
 </template>
 
 <style>
-.plotting-list-enter, .plotting-list-leave-to{
-  opacity: 0;
-  transform: translateY(100%);
-}
-.plotting-list-leave-active {
-  position: absolute;
-}
+  .plotting-list-enter, .plotting-list-leave-to{
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  .plotting-list-leave-active {
+    position: absolute;
+  }
+  .nth-bg-gray-600:nth-child(4n-0), .nth-bg-gray-600:nth-child(4n-1){
+    --bg-opacity: 1 !important;
+    background-color: #718096 !important;
+    background-color: rgba(113, 128, 150, var(--bg-opacity)) !important;
+  }
+  .nth-text-gray-100:nth-child(4n-0), .nth-text-gray-100:nth-child(4n-1){
+    --text-opacity: 1 !important;
+    color: #f7fafc !important;
+    color: rgba(247, 250, 252, var(--text-opacity)) !important;
+  }
+
+  .nth-bg-gray-600:nth-child(4n-0):active, .nth-bg-gray-600:nth-child(4n-1):active{
+    --bg-opacity: 1 !important;
+    background-color: #a0aec0 !important;
+    background-color: rgba(160, 174, 192, var(--bg-opacity)) !important;
+  }
 </style>
 
 <script>
-export default {
-  props: [
-    'comingFrom',
-    'currentUser',
-    'position',
-    'userRole',
-    'allJaga',
-    'allKelas',
-    'allAsisten',
-  ],
+  export default {
+    props: [
+      'comingFrom',
+      'currentUser',
+      'position',
+      'userRole',
+      'allJaga',
+      'allKelas',
+      'allAsisten',
+    ],
 
   data() {
     return {
@@ -474,7 +512,8 @@ export default {
 
       formHovered: false,
       buttonHovered: false,
-      plottingMenuShown: true,
+      plottingMenuShown: false,
+      popupShown: false,
 
       menuProfil: false,
       menuPraktikum: false,
@@ -493,7 +532,13 @@ export default {
       menuAllLaporan: false,
       menuJawaban: false,
 
+      hari: ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "TOT"],
+
       listAllJaga: this.allJaga === null ? [] : this.allJaga,
+
+      sortedByKelas : false,
+      sortedByShift : true,
+      sortedAllKelas: [],
 
       formJaga: {
         id: '',
@@ -532,7 +577,18 @@ export default {
         function() {
           globe.currentPage = true;
         }, 10); 
-    }
+    };
+
+    for (let index = 0; index < this.hari.length; index++) {
+      var tempSortedKelas = [];
+      tempSortedKelas = this.allKelas.filter(function (item) {
+        return item.hari === globe.hari[index];
+      }).sort( function(a, b){ return a.shift - b.shift } );
+
+      this.sortedAllKelas = this.sortedAllKelas.concat(tempSortedKelas);
+    };
+
+    $(".popup").addClass("-z-10");
   },
 
   methods: {
@@ -573,16 +629,24 @@ export default {
         this.menuJawaban = $bool;
     },
 
-    openMoreMenu: function($id){
+    openPopup: function(){
 
-      $(".moreMenu-"+$id).removeClass("opacity-0");
-      $(".moreMenu-"+$id).addClass("opacity-100");
+      if (this.listAllJaga.length > 0) {
+        this.popupShown = true;
+        setTimeout(
+          function() {
+            $(".popup").removeClass("-z-10");
+          }, 100);   
+      }
     },
 
-    closeMoreMenu: function($id){
-
-      $(".moreMenu-"+$id).addClass("opacity-0");
-      $(".moreMenu-"+$id).removeClass("opacity-100");
+    closePopup: function(){
+      
+      this.popupShown = false;
+      setTimeout(
+        function() {
+          $(".popup").addClass("-z-10");
+        }, 500); 
     },
 
     travel: function($whereTo){
@@ -596,6 +660,81 @@ export default {
         function() {
           globe.$inertia.replace('/'+ $whereTo +'?comingFrom=plotting&position='+globe.$refs.menu.scrollTop);
         }, 501); 
+    },
+
+    plotChoosen: function ($asisten_id, $kelas_id) {
+      if (this.formJaga.asisten_id !== $asisten_id) {
+        this.formJaga.asisten_id = $asisten_id;
+        this.formJaga.kelas_id = $kelas_id;
+        this.plottingMenuShown = true;
+        this.formHovered = true;
+      } 
+      else {
+        this.formJaga.asisten_id = '';
+        this.formJaga.asisten_id = '';
+        this.plottingMenuShown = false;
+        this.formHovered = false;  
+      }
+    },
+
+    sortByKelas: function () {
+      if (!this.sortedByKelas) {
+        this.sortedAllKelas = [];
+        this.sortedAllKelas = this.allKelas.sort(function(a, b){
+                                let x = a.kelas.toLowerCase();
+                                let y = b.kelas.toLowerCase();
+                                if (x < y) {return -1;}
+                                if (x > y) {return 1;}
+                                return 0;
+                              });
+        this.sortedByKelas = true;
+        this.sortedByShift = false;
+      }
+    },
+
+    sortByShift: function () {
+
+      const globe = this;
+
+      if (!this.sortedByShift) {
+        this.sortedAllKelas = [];
+        for (let index = 0; index < this.hari.length; index++) {
+          var tempSortedKelas = [];
+          tempSortedKelas = this.allKelas.filter(function (item) {
+            return item.hari === globe.hari[index];
+          }).sort( function(a, b){ return a.shift - b.shift } );
+  
+          this.sortedAllKelas = this.sortedAllKelas.concat(tempSortedKelas);
+        };
+  
+        this.sortedByKelas = false;
+        this.sortedByShift = true;
+      }
+    },
+
+    resetJadwal: function(){
+      const globe = this;
+      this.$axios.post('/resetJadwalJaga').then(response => {
+        
+        if(response.data.message === "success") {
+          
+          globe.$toasted.global.showSuccess({
+            message: "Jadwal Jaga berhasil reset"
+          });
+
+          globe.listAllJaga = [];
+          globe.closePopup();
+          
+          this.formJaga.asisten_id = '';
+          this.formJaga.kelas_id = '';
+          this.plottingMenuShown = false;
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      })
+
     },
 
     deleteJadwalJaga: function(){
@@ -624,6 +763,10 @@ export default {
             }
           }
           globe.listAllJaga.splice(i, 1);
+          
+          this.formJaga.asisten_id = '';
+          this.formJaga.kelas_id = '';
+          this.plottingMenuShown = false;
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
@@ -686,7 +829,13 @@ export default {
             kelas: kelas,
             hari: hari,
             shift: shift,
-          })
+          });
+
+          setTimeout(
+            function() {
+              globe.formJaga.asisten_id = '';
+            }, 500
+          ); 
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
