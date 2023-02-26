@@ -532,7 +532,7 @@
       menuAllLaporan: false,
       menuJawaban: false,
 
-      hari: ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "TOT"],
+      hari: ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU", "TOT"],
 
       listAllJaga: this.allJaga === null ? [] : this.allJaga,
 
