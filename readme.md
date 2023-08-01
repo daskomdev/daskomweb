@@ -32,3 +32,4 @@ Berikut link nya :
 - [Iga Narendra Pramawijaya [AND]](https://iritasee.github.io)
 - [Adhi Muhammad Fahmi [AMF]](https://adhimf.my.id/)
 - [Soediponegoro [DIP]](https://soedipo.github.io/)
+- [Vincentius Adisurya Fransisco Antu [CEN]](git)
