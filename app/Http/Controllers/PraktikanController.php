@@ -46,7 +46,7 @@ class PraktikanController extends Controller
     {
         $request->validate([
             'nama'          => 'required|unique:praktikans|unique:asistens|string',
-            'nim'           => 'required|unique:praktikans|size:10|string',
+            'nim'           => 'required|unique:praktikans|max:12|string',
             'password'      => 'required|min:6|string',
             'kelas_id'      => 'required|integer',
             'alamat'        => 'required|min:10|string',

@@ -20,7 +20,7 @@ class PraktikanLoginController extends Controller
 
         // Validate the form data
         $this->validate($request, [
-            'nim'      => 'required|size:10|string',
+            'nim'      => 'required|max:12|string',
             'password'  => 'required|min:6|string',
         ]);
         
