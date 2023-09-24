@@ -481,9 +481,7 @@ export default {
       formLoginPraktikan: {
         nim: '',
         password: '',
-      },
-
-      hostname: "http://localhost:8000"
+      }
     };
   },
 
