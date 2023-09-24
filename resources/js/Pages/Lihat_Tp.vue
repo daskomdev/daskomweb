@@ -54,7 +54,7 @@
             <div class="w-full h-3/4">
               <input v-model="praktikanNim"
                     class="font-overpass-mono-bold text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
-                    id="Kelas" type="text" placeholder="1102174055">
+                    id="Kelas" type="text" placeholder="101022130600">
             </div>
           </div>
           <div class="w-full h-1/4 flex-row py-2 px-5">

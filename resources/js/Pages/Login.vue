@@ -30,7 +30,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="formLoginPraktikan.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="1102174055" maxlength="10">
+              <input v-model="formLoginPraktikan.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="inline-full-name" type="text" placeholder="101022130600" maxlength="12">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -134,7 +134,7 @@
               </label>
             </div>
             <div class="w-2/3">
-              <input v-model="formPraktikan.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nim" type="text" placeholder="1102112011" maxlength="10">
+              <input v-model="formPraktikan.nim" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="Nim" type="text" placeholder="101022130600" maxlength="12">
             </div>
           </div>
           <div class="flex items-center mb-6">
@@ -481,9 +481,7 @@ export default {
       formLoginPraktikan: {
         nim: '',
         password: '',
-      },
-
-      hostname: "http://localhost:3000"
+      }
     };
   },
 
