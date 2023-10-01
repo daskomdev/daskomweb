@@ -108,7 +108,7 @@
                 <img class="fas fa-at w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                daskomlab@telkomuniversity.ac.id
+                daskom@labs.telkomuniversity.ac.id
               </div>
             </div>
           </div>
