@@ -35,7 +35,7 @@
                 <img class="fab fa-line w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                @875lgds
+                @875lgdsi
               </div>
             </div>
 
@@ -58,7 +58,7 @@
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Muhammad Naufal Ihsanul Hakim [ NIH ]
+              Zahira Aulia Husniah [ JHS ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -66,7 +66,7 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                08111348173  
+                081289312727  
               </div>
             </div>
             <div class="pl-4 font-overpass-mono text-xl flex h-8 mt-4">
@@ -74,12 +74,12 @@
                 <img class="fab fa-line w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                ihsanul_6
+                gajahkuning
               </div>
             </div>
 
             <div class="font-monda-bold text-2xl mt-8">
-              Muhammad Rizqi Syah Ramadhan [ SYA ]
+              Ghufron Andriansyah [ GAA ]
             </div>
 
             <div class="pl-4 mt-2 font-overpass-mono text-xl flex h-8">
@@ -87,7 +87,7 @@
                 <img class="fas fa-phone w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                081316336682
+                081231717659
               </div>
             </div>
             <div class="pl-4 font-overpass-mono text-xl flex h-8 mt-4">
@@ -95,7 +95,7 @@
                 <img class="fab fa-line w-full h-full">
               </span>
               <div class="my-auto pl-4">
-                rizqisyah_
+                andriansyahh_29
               </div>
             </div>
 
