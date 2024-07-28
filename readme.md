@@ -33,5 +33,5 @@ Berikut link nya :
 - [Adhi Muhammad Fahmi [AMF]](https://adhimf.my.id/)
 - [Soediponegoro [DIP]](https://soedipo.github.io/)
 - [Vincentius Adisurya Fransisco Antu [CEN]](https://vincentiusantu.github.io/)
-- [Aliza Nurfitrian Meizahra  [ALL]](https://porto-web-two.vercel.app/)
+- [Aliza Nurfitrian Meizahra  [ALL]](https://myphorto.vercel.app/)
 
